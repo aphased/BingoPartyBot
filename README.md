@@ -12,6 +12,11 @@ can then be provided via e.g. a dedicated server.
 TODO: fill in missing documentation
 
 
+## Credits & thanks
+
+Trypo wrote the inital port to a bot system using mineflayer. Massive thanks for kickstarting this formely barely-an-idea of a project!
+
+
 ## License
 
 BingoPartyBot is open-sourced software licensed under the [MIT License](https://opensource.org/licenses/MIT).
