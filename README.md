@@ -59,14 +59,14 @@ I do want to add though, at minimum:
 
 If you are a **user** of the BingoParty bot system, you do not need to install
 anything (same as with the previous version based on ChatTriggers),
-see [the table here](https://github.com/aphased/BingoPartyTools?tab=readme-ov-file#all-available-commands) on how to use.
+see [the table here](https://github.com/aphased/BingoPartyCommands?tab=readme-ov-file#all-available-commands) on how to use.
 
 If you want to **run** this system yourself, or would like to experiment with
 the code, you can:
 - `git clone https://github.com/aphased/BingoPartyBot`
 - Fill in credentials for authenticating a Minecraft to-be-bot account in a
 `.env` file according to the template structure
-- Adapt the entry with property `rank: botAccountOwner` to your main account's
+- Adapt the entry with property `permissionRank: botAccountOwner` to your main account's
 Minecraft IGN in `playerNames.json`
 - Run `./BingoPartyBot/run-bot` (for Unix, on Windows do
 `cd C:\full\path\to\folder\BingoPartyBot && node index.mjs`, which will _not_
