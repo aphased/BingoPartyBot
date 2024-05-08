@@ -1,0 +1,45 @@
+#!/bin/sh
+
+main() {
+    while true
+    do
+        #java -Xmx16G -Xms4G -jar server.jar -nogui
+
+        # Old: start bot process and pass potential arguments on to it
+        node index.mjs "$@"
+
+        # new: use Screen?
+        # dependency_check
+        # screen -d -RR bpb node index.mjs
+
+        echo "To shutdown, ctrl+c before the coutdown ends!"
+        echo "Restarting in:"
+        for i in 5 4 3 2 1
+        do
+            echo "$i..."
+            sleep 1
+        done
+        echo "Restarting now!"
+    done
+}
+
+dependency_check()
+{
+    if [ "$(command -v screen > /dev/null)" -ne 0 ] #|| [ $(command -v tool2  > /dev/null) -ne 0 ]
+    then
+        echo "Sorry, this restart script requires:"
+        echo "screen - for enabling persistent sessions started via remote"
+        #echo "tool2 - for future use cases"
+        exit;
+    fi
+}
+
+err() {
+    echo "[$(date +'%Y-%m-%d %H:%M:%S') ERR]: $*" >&2
+}
+
+
+# adapt as needed if project isn't started or located in home/current directory
+cd BingoPartyBot || err "Bot directory not found"
+
+main "$@"

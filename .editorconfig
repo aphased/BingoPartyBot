@@ -1,0 +1,25 @@
+# EditorConfig configuration for BingoPartyBot
+# https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+# Set some general default values
+charset = utf-8
+trim_trailing_whitespace = true
+max_line_length = 80
+
+# 2 space indentation for the JavaScript files
+[*.*js]
+indent_size = 2
+indent_style = space
+
+# 4 space for JSON
+[*.json]
+indent_size = 4
+indent_style = space

@@ -1,0 +1,13 @@
+# Ignore everything containing secrets (including hidden files)…
+*.env
+.*
+
+# … and explicitly mention exemptions, to avoid leaks.
+!.gitignore
+!.editorconfig
+
+# Also don't upload all dependencies (like 300 MB lol)
+node_modules/
+
+# WIP file that doesn't have anything to do with the main bot
+modules/additionalFeatures.mjs
