@@ -141,4 +141,7 @@ export default class BingoPartyBot {
  */
 function removeListener() {
   process.stdin.removeListener('data', onDataStdinHandler);
+  // see https://stackoverflow.com/a/59222789 and
+  // https://github.com/nodejs/node-v0.x-archive/issues/17204:
+  process.stdin.pause();
 }
