@@ -48,7 +48,7 @@ I do want to add though, at minimum:
 
 - Addition & removal of IGNs to the allowlist via an in-game command
 (e.g. something like `/msg BingoParty !p add splasher:exact_IGN`,
-`/msg BingoParty !p add alias:current_IGN new_exact_IGN_1 new_exact_IGN_2`) for Bingo Brewers admins
+`/msg BingoParty !p add alias:current_IGN new_exact_IGN_1 new_exact_IGN_2`, `/msg BingoParty !p removeSplasher primary_IGN`) for Bingo Brewers staff/admins
 - Automated git commits & pushes for changes to the data (`playerNames.json`, `banned.json`)
 - Automated boot & shutdown on-server at Bingo event start & end dates
 - Potentially (?) a ban system with Discord integration, or at the very minimum, time-based
