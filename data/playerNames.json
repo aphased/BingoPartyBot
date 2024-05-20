@@ -70,6 +70,13 @@
         },
         {
             "names": [
+                "EnsyL"
+            ],
+            "permissionRank": "hob",
+            "hypixelRank": "MVP++"
+        },
+        {
+            "names": [
                 "h8re",
                 "4chr",
                 "CloverHelmet",
@@ -536,6 +543,7 @@
         "Aoik",
         "ForagerRedstone",
         "demonhunter990",
+        "EnsyL",
         "h8re",
         "godwyyn",
         "skyerzz",
@@ -561,6 +569,8 @@
         "JakeyBub",
         "Magnus6109",
         "MisterCheezeCake",
-        "Dxtty"
+        "Dxtty",
+        "StrappedScarf74",
+        "Tabaluggar"
     ]
 }
