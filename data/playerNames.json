@@ -169,7 +169,7 @@
         {
             "names": [
                 "aphased",
-                "RNGecko"
+                "bphased"
             ],
             "permissionRank": "botAccountOwner",
             "hypixelRank": "[MVP+]"
@@ -359,7 +359,8 @@
         },
         {
             "names": [
-                "Emaia"
+                "Emaia",
+                "searchingsaturns"
             ],
             "permissionRank": "splasher",
             "hypixelRank": "[MVP++]"
@@ -556,7 +557,7 @@
         "kleinkolibri711",
         "DasBaumLegende",
         "aphased",
-        "RNGecko",
+        "bphased",
         "BingoParty",
         "ay212",
         "Domx2e",
