@@ -35,10 +35,13 @@
             "names": [
                 "p0iS",
                 "p0iS_",
-                "mikosz106"
+                "mikosz106",
+                "_p0iS",
+                "p0iSv",
+                "pois_"
             ],
             "permissionRank": "staff",
-            "hypixelRank": "[MVP+]"
+            "hypixelRank": "[MVP]"
         },
         {
             "names": [
@@ -169,7 +172,12 @@
         {
             "names": [
                 "aphased",
-                "bphased"
+                "bphased",
+                "cphased",
+                "dphased",
+                "ephased",
+                "fphased",
+                "gphased"
             ],
             "permissionRank": "botAccountOwner",
             "hypixelRank": "[MVP+]"
@@ -185,7 +193,13 @@
             "names": [
                 "BossFlea",
                 "mushedglowytonic",
-                "JoeyMcPizza"
+                "JoeyMcPizza",
+                "CombatXPboost",
+                "MiningXPboost",
+                "ForagingXPboost",
+                "FarmingXPboost",
+                "FishingXPboost",
+                "AlchemyXPboost"
             ],
             "permissionRank": "splasher",
             "hypixelRank": "[MVP+]"
