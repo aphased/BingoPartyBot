@@ -402,6 +402,10 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     // this doesn't work for people who have receiving direct messages from anyone disabled:
     waitAndOutputCommand(`boop ${(receivingPlayerName||rankRemovedSenderName)}`, defaultTimeout/2);
     break;
+  case "ka":
+    // fallthrough for additional alias
+  case "ko":
+    // fallthrough for additional alias
   case "kickafk":
     // fallthrough for additional alias
   case "kickoffline":
