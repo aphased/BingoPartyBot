@@ -24,6 +24,18 @@
         "!odin",
         "!boop",
         "!dt",
-        "!roll"
+        "!roll",
+        "!odin",
+        ".time",
+        "'help",
+        "'calc",
+        "'ping",
+        "'tps",
+        "'fps",
+        "'cat",
+        "'fox",
+        ".dice",
+        ".ping",
+        ".cf"
     ]
 }
