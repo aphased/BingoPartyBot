@@ -1,4 +1,4 @@
-import { logDebug, log, err } from './utils.mjs';
+import { log, logDebug, err } from './utils.mjs';
 import { getHypixelRankByName } from "./utils.mjs";
 
 import { executeHypixelPartyCommand, commandsWithOptionalIGN } from './sharedCoreFunctionality.mjs';

@@ -1,4 +1,4 @@
-import { logDebug, log, err, removeRank } from './utils.mjs';
+import { log, logDebug, err, removeRank } from "./utils.mjs";
 
 export { hasPrefix, isWhisper, isPartyMessage, hasPermissions };
 export { isAccountOwner, isSamePlayer, isPartyInvite, isInSameRankCategory};

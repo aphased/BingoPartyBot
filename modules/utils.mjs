@@ -2,7 +2,7 @@ import chalk from "chalk";
 
 import { debugOutputEnabled } from "../index.mjs";
 
-export { logDebug, log, err, parseStdinArgs };
+export { log, logDebug, err, parseStdinArgs };
 export { removeFormatting, removeRank };
 export { printAllowlist, getNameByPermissionRank, getHypixelRankByName };
 // export { containsInNestedArray };

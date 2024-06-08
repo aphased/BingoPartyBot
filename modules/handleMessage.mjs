@@ -1,4 +1,4 @@
-import { logDebug, log, err } from './utils.mjs';
+import { log, logDebug, err } from './utils.mjs';
 import { hasPermissions, isWhisper, hasPrefix, isPartyInvite, isPartyMessage } from './boolChecks.mjs';
 import { runPartyCommand } from './handleCommand.mjs';
 import { partyBot } from '../index.mjs';

@@ -14,12 +14,13 @@ charset = utf-8
 trim_trailing_whitespace = true
 max_line_length = 80
 
-# 2 space indentation for the JavaScript files
-[*.*js]
-indent_size = 2
-indent_style = space
-
 # 4 space for JSON
 [*.json]
 indent_size = 4
 indent_style = space
+
+# 2 space indentation for the JavaScript files, but not JSON
+[*.*js]
+indent_size = 2
+indent_style = space
+
