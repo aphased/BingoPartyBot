@@ -1,16 +1,22 @@
 #!/bin/sh
 
+# use in conjunction with something like this:
+# alias restartbpb='screen -d -RR bpb $HOME/BingoPartyBot/run-bot'
+# (/usr/bin/screen)
+
+
 main() {
     while true
     do
         #java -Xmx16G -Xms4G -jar server.jar -nogui
 
         # Old: start bot process and pass potential arguments on to it
-        node index.mjs "$@"
+        node --trace-warnings --experimental-json-modules index.mjs "$@"
 
         # new: use Screen?
         # dependency_check
         # screen -d -RR bpb node index.mjs
+        # => No, that is done outside of this script for now
 
         echo "To shutdown, ctrl+c before the coutdown ends!"
         echo "Restarting in:"

@@ -5,15 +5,17 @@
   "name": "bingoparty-mineflayer",
   "version": "1.0.0",
   "description": "https://github.com/aphased/BingoPartyBot",
-  "main": "index.js",
+  "main": "index.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.2",
     "chalk": "^5.3.0",
     "dotenv": "^16.4.5",
-    "mineflayer": "^4.0.0"
+    "mineflayer": "^4.0.0",
+    "strip-ansi": "^7.1.0"
   }
 }

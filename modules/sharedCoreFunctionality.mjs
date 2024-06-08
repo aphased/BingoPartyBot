@@ -1,4 +1,4 @@
-import { logDebug, log, err, getHypixelRankByName } from './utils.mjs';
+import { log, logDebug, err /*, getHypixelRankByName*/ } from './utils.mjs';
 import { partyBot } from "../index.mjs";
 import { hasPermissions, isSamePlayer, isAccountOwner } from './boolChecks.mjs';
 import { removeRank, printAllowlist } from "./utils.mjs";
@@ -627,6 +627,22 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
       outputCommand(`p poll From ${formattedSenderName}: ${pollMessage}`);
     }
     break;
+  case "g":
+    // fallthrough for additional alias
+  case "gd":
+    // fallthrough for additional alias
+  case "guide":
+    // requires Discord integration/webhook connection
+    // which is missing in the CT version
+    if (usesChatTriggers) break;
+
+    // TODO: get latest message from channel #bingo-guides in BingoParty server
+    // (once per program launch), store it as some string, then retrieve and
+    // send to party chat…
+    // somewhere at the start of this file: let bingoGuideLink = "";
+    // if (!bingoGuideLink) { discord webhook fetching stuff; bingoGuideLink = result; }
+    // outputCommand(`pc Guide: ${bingoGuideLink}`);
+    break;
   case "help":
     if (!checkSetting("BingoPartyFeatures", "!p help", command))
       break;
@@ -638,8 +654,21 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     outputCommand(helpMessages[helpOutputIndex % helpMessages.length]);
     helpOutputIndex++;
     break;
+  case "add":
+    /* Discord administrator-only functionality */
+    // TODO: implement add (splashers) using manageData.mjs functions
+    /*
+    `/msg BingoParty !p add splasher:exact_IGN`
+    `/msg BingoParty !p add alias:any_current_stored_IGN new_exact_IGN_1 new_exact_IGN_2`
+    */
+    break;
+  case "removeSplasher":
+    /* Discord administrator-only functionality */
+    // TODO: implement removeSplasher using manageData.mjs functions
+    /* `/msg BingoParty !p removeSplasher primary_IGN` */
+    break;
   case "cmd":
-    /* Administrator-only "undocumented" (when trying to use) command:
+    /* Bot administrator-only "undocumented" (when trying to use) command:
     will directly execute _whatever_ is received. Due to this being de facto
     equivalent to having direct (even if chat-only) access to the account, I
     will only let myself have this permission, since BingoParty is, in fact, my
