@@ -145,7 +145,7 @@ export default class BingoPartyBot {
     console.log(logMessage);
 
     // TODO: optimize this list for unique strings once it's been finalized
-    const bridgeMessageRegex = /(Party > |From|To|You cannot say the same message twice!|Connected to|Bot kicked!|Bot disconnected.|You have joined|The party is now|The party is no longer|has been removed from the party.|has promoted|has demoted|is now a Party Moderator|The party was transferred|disbanded|Party Members|Party Leader|Party Moderators|You have been kicked from the party by|You are not in a party right now.|You are not currently in a party.|Created a public party! Players can join with \/party join|Party is capped at)/;
+    const bridgeMessageRegex = /(Party > |From|To|You cannot say the same message twice!|Connected to|Bot kicked!|Bot disconnected.|You have joined|The party is now|The party is no longer|has been removed from the party.|has promoted|has demoted|is now a Party Moderator|The party was transferred|disbanded|Party Members|Party Leader|Party Moderators|You have been kicked from the party by|You are not in a party right now.|You are not currently in a party.|Created a public party! Players can join with \/party join|Party is capped at|Party Poll|Invalid usage!|created a poll! Answer it below by clicking on an option|Question:|The poll)/;
     // message still includes ANSI formatting here
     if (bridgeMessageRegex.test(stripAnsi(messageString))) {
       /* don't send to Discord:
