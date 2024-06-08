@@ -2,3 +2,4 @@ ACCOUNT_AUTH_TYPE=microsoft
 MINECRAFT_EMAIL=putyour@email.here
 PARTY_BOT_PREFIX=prefix here, e.g. !p
 WEBHOOK_URL_BRIDGE=https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN
+WEBHOOK_URL_PLAYER_EVENTS=https://discord.com/api/webhooks/YOUR_WEBHOOK_ID2/YOUR_WEBHOOK_TOKEN2

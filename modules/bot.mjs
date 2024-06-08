@@ -144,10 +144,9 @@ export default class BingoPartyBot {
     let logMessage = chalk.ansi256(28)(date, "[MSG] ") + messageString;
     console.log(logMessage);
 
-    // TODO: optimize this list for unique strings once it's been finalized
-    const bridgeMessageRegex = /(Party > |From|To|You cannot say the same message twice!|Connected to|Bot kicked!|Bot disconnected.|You have joined|The party is now|The party is no longer|has been removed from the party.|has promoted|has demoted|is now a Party Moderator|The party was transferred|disbanded|Party Members|Party Leader|Party Moderators|You have been kicked from the party by|You are not in a party right now.|You are not currently in a party.|Created a public party! Players can join with \/party join|Party is capped at|Party Poll|Invalid usage!|created a poll! Answer it below by clicking on an option|Question:|The poll)/;
     // message still includes ANSI formatting here
-    if (bridgeMessageRegex.test(stripAnsi(messageString))) {
+    const rawTextMessage = stripAnsi(messageString);
+    if (this.#bridgeMessageRegex.test(rawTextMessage)) {
       /* don't send to Discord:
         - empty lines and "------…" lines from `/pl`, `/g online` etc.
         - "You were spawned in Limbo"
@@ -156,7 +155,15 @@ export default class BingoPartyBot {
         - or other message types like that
       … might have to change this from positive list to just blocking some types
       */
-      this.sendBridge(messageString);
+      this.sendBridge(messageString, this.#bridgeWebhookURL, this.#messageQueueBridge);
+    } else if (this.#partyMemberEventRegex.test(rawTextMessage)) {
+      // Regex ordering/using else if is important here: we don't want copy-
+      // pasted to chat, repeated join/leave/kick etc. messages to show up as a 
+      // join/leave/etc. event, so matching "Party > " has to take priority
+      
+      // use different webhook for p join/leave/went offline/kick messages
+      // (and different Discord channel)
+      this.sendBridge(messageString, this.#playerEventWebhookURL, this.#messageQueuePlayerEvents);
     }
 
     // Delegate the actual bot/core functionality to other modules for (hopefully) clarity:
@@ -180,19 +187,31 @@ export default class BingoPartyBot {
   // BingoPartyBot.sendBridge(), everything else as private functions.
 
   // URL format is Discord's; also see file dot_env_template
-  #webhookURL = process.env.WEBHOOK_URL_BRIDGE; // const
-  #messageQueue = []; // const
+  #bridgeWebhookURL = process.env.WEBHOOK_URL_BRIDGE; // const
+  #playerEventWebhookURL = process.env.WEBHOOK_URL_PLAYER_EVENTS; // const
+  #messageQueueBridge = []; // const
+  #messageQueuePlayerEvents = []; // const
   #isProcessing = false; // let
+
+  // const
+  // TODO: optimize this list for unique strings once it's been finalized
+  // TODO: move has promoted|has demoted|is now a Party Moderator into separate,
+  // third category to keep track of current moderator list?
+  #bridgeMessageRegex = /(Party > |From|To|You cannot say the same message twice!|Connected to|Bot kicked!|Bot disconnected.|You have joined|The party is now|The party is no longer|has promoted|has demoted|is now a Party Moderator|The party was transferred|disbanded|You are not allowed to disband this party.|Party Members|Party Leader|Party Moderators|You have been kicked from the party by|You are not in a party right now.|You are not currently in a party.|Created a public party! Players can join with \/party join|Party is capped at|Party Poll|Invalid usage!|created a poll! Answer it below by clicking on an option|Question:|The poll|You cannot invite that player since they're not online.|You are not allowed to invite players.|enabled All Invite|to the party! They have 60 seconds to accept.|is already in the party.)/;
+  #partyMemberEventRegex = /(left the party.|joined the party.|disconnected, they have 5 minutes to rejoin before they are removed from the party.|has been removed from the party.)/;
+  
 
   /**
    * Wrapper function to use for interacting with bridge/Discord message sending.
    * @param {string} messageContent String to be sent to a Discord channel,
    * including ANSI codes for colorful text.
+   * @param {string} webhookURL  URL to use for the Discord webhook
+   * @param {string} messageQueue  Array to store/queue messages in
    * @returns {void} TODO: return boolean based on some add-to-queue or even 
    * sending success?
    */
-  sendBridge(messageContent) {
-    if (!this.#webhookURL) {
+  sendBridge(messageContent, webhookURL, messageQueue) {
+    if (!webhookURL) {
       // (JS 101: the string is either empty, undefined,
       // or null; an empty string is also falsy)
       // => assume no bridge/webhook is configured
@@ -202,23 +221,31 @@ export default class BingoPartyBot {
 
     // "Don't send all messages individually, at once" implementation
     // so as to not immediately hit Discord's rate limit
-    this.#addMessageToQueue(messageContent);
+    this.#addMessageToQueue(messageContent, webhookURL, messageQueue);
   }
 
-  #addMessageToQueue(message) {
-    this.#messageQueue.push(message);
-    this.#processQueue();
+  #addMessageToQueue(message, webhookURL, messageQueue) {
+    // this.#messageQueue.push(message);
+    messageQueue.push(message);
+    this.#processQueue(webhookURL, messageQueue);
   }
 
 
-  async #processQueue() {
+  async #processQueue(webhookURL, messageQueue) {
+    // TODO: if we commit to the rather very ugly solution of maintaining
+    // separate message queues per channel/webhook type, there also needs to be a
+    // separate lock…
+    // This is not a high-speed finance application, but it's still a bug/bad 
+    // implementation and probably unnecessary performance hit.
     if (this.#isProcessing) return;
 
     this.#isProcessing = true;
 
-    while (this.#messageQueue.length > 0) {
+    // while (this.#messageQueue.length > 0) {
+    while (messageQueue.length > 0) {
       // Take up to 5 messages to form one "embed"
-      const chunk = this.#messageQueue.splice(0, 5);
+      // const chunk = this.#messageQueue.splice(0, 5);
+      const chunk = messageQueue.splice(0, 5);
 
       let messageContent = "```ansi\n";
       chunk.forEach((msg) => {
@@ -231,7 +258,7 @@ export default class BingoPartyBot {
       };
 
       try {
-        await axios.post(this.#webhookURL, payload);
+        await axios.post(webhookURL, payload);
       } catch (error) {
         console.error('Error sending message:', error);
         // If rate limited by Discord, requeue the messages and wait
