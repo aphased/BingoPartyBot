@@ -639,6 +639,10 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     // TODO: get latest message from channel #bingo-guides in BingoParty server
     // (once per program launch), store it as some string, then retrieve and
     // send to party chat…
+    // MAYBE: check real month and convert to English word, if guide contains
+    // string which is still the last month (or earlier), initiate update? 
+    // (e.g. it is july 1st, "most recent" linked/stored guide is still
+    //  https://hypixel.net/threads/bingo-guide-for-june-2024.5674472/#t etc.)
     // somewhere at the start of this file: let bingoGuideLink = "";
     // if (!bingoGuideLink) { discord webhook fetching stuff; bingoGuideLink = result; }
     // outputCommand(`pc Guide: ${bingoGuideLink}`);

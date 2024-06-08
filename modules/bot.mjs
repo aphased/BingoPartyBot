@@ -152,6 +152,7 @@ export default class BingoPartyBot {
         - empty lines and "------…" lines from `/pl`, `/g online` etc.
         - "You were spawned in Limbo"
         - "has joined the lobby!"
+        - "You have {n} unclaimed leveling rewards!"
         - or other message types like that
       … might have to change this from positive list to just blocking some types
       */
