@@ -152,6 +152,7 @@ export default class BingoPartyBot {
         - "You were spawned in Limbo"
         - "has joined the lobby!"
         - "You have {n} unclaimed leveling rewards!"
+        - "You tipped {n} players in {m} different games!"
         - or other message types like that
       … might have to change this from positive list to just blocking some types
       */
@@ -163,6 +164,11 @@ export default class BingoPartyBot {
       
       // use different webhook for p join/leave/went offline/kick messages
       // (and different Discord channel)
+      this.sendBridge(messageString, this.#playerEventWebhookURL, this.#messageQueuePlayerEvents);
+    } else if (this.#partyMemberKickedRegex.test(rawTextMessage)) {
+      // send to both as a way to implement BossFlea's request/suggestion of
+      // seeing at least the kicks in #bridge in addition to #player-join-leave
+      this.sendBridge(messageString, this.#bridgeWebhookURL, this.#messageQueueBridge);
       this.sendBridge(messageString, this.#playerEventWebhookURL, this.#messageQueuePlayerEvents);
     }
 
@@ -198,7 +204,8 @@ export default class BingoPartyBot {
   // TODO: move has promoted|has demoted|is now a Party Moderator into separate,
   // third category to keep track of current moderator list?
   #bridgeMessageRegex = /(Party > |From|To|You cannot say the same message twice!|Connected to|Bot kicked!|Bot disconnected.|You have joined|The party is now|The party is no longer|has promoted|has demoted|is now a Party Moderator|The party was transferred|disbanded|You are not allowed to disband this party.|Party Members|Party Leader|Party Moderators|You have been kicked from the party by|You are not in a party right now.|You are not currently in a party.|Created a public party! Players can join with \/party join|Party is capped at|Party Poll|Invalid usage!|created a poll! Answer it below by clicking on an option|Question:|The poll|You cannot invite that player since they're not online.|You are not allowed to invite players.|enabled All Invite|to the party! They have 60 seconds to accept.|is already in the party.)/;
-  #partyMemberEventRegex = /(left the party.|joined the party.|disconnected, they have 5 minutes to rejoin before they are removed from the party.|has been removed from the party.)/;
+  #partyMemberEventRegex = /(left the party.|joined the party.|disconnected, they have 5 minutes to rejoin before they are removed from the party.)/;
+  #partyMemberKickedRegex = /(has been removed from the party.)/;
   
 
   /**
