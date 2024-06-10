@@ -199,7 +199,7 @@ function handlePartyInvite(parsedMsgObj) {
   logDebug("bot: '" + partyBot.name + "'");
   logDebug("command: '" + command + "'");
   // there is no harm in accepting an invite while already currently being
-  // leader of a party, so to simplify, we don't check for that
+  // leader of a (public) party, so to simplify, we don't check for that
   partyBot.runCommand(command);
   return;
 }

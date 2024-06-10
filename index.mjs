@@ -89,3 +89,4 @@ const onDataStdinHandler = data => {
 
 // attach handler to console standard input
 process.stdin.on('data', onDataStdinHandler);
+
