@@ -61,7 +61,7 @@ function parseAndExecuteMessage(message) {
       handlePartyMessage(playerName, msgContent);
       break;
     default:
-      // do nothing
+      // do nothing (returned undefined)
       // spammy:
       // logDebug("Message is neither whisper (dm) nor a party message or invite");
       break;
@@ -96,13 +96,14 @@ function extractMessage(chatMessage) {
 /**
  *
  * @param {*} parsedMsgObj
- * @returns String of message type – either `whisper`, `partyInvite`, `partyMessage`, or `unknown`
+ * @returns String of message type – either "whisper", "partyInvite",
+ * "partyMessage", or `unknown`
  */
 function determineMessageType(parsedMsgObj) {
   if (isWhisper(parsedMsgObj)) return "whisper";
   else if (isPartyInvite(parsedMsgObj).isPartyInvite) return "partyInvite";
   else if (isPartyMessage(parsedMsgObj)) return "partyMessage";
-  else return "unknown";
+  else return undefined;
 }
 
 
@@ -114,7 +115,7 @@ function determineMessageType(parsedMsgObj) {
 *           playerName: string,
 *           msgContent: string}} Player data as well as message content.
 */
-function parseMessage(msg, type) {
+function parseMessage(msg) {
   const rankRegex = /\[([A-Za-z]).*\]/;
   const colonIndex = (msg == null) ? -1 : msg.indexOf(':');
 
@@ -129,13 +130,13 @@ function parseMessage(msg, type) {
   const rank = rankMatch ? rankMatch[0] : '';
 
   // Get only username, determine message type (e.g. direct or party message) for Regex
-  let messageChannelPrefix; // = channelPrefixes[type];
+  let messageChannelPrefix;
   if (isWhisper(msg)) messageChannelPrefix = "From ";
   else if (isPartyMessage(msg)) messageChannelPrefix = "Party > ";
 
   const playerName = fromMsg.replace(rankRegex, '').trim().replace(new RegExp('^' + messageChannelPrefix), '').trim();
 
-  if (determineMessageType(msg) != "unknown") {
+  if (determineMessageType(msg) != undefined) {
     // TODO: remove temporary solution (this determineMessageType() call) which
     // prevents log spamminess – after the debug "verbosity" levels have been added
     logDebug("rank, senderName, msgContent: '" + rank + "', '" + playerName + "', '" + msgContent + "'");
@@ -150,8 +151,6 @@ function parseMessage(msg, type) {
 function handleWhisper(rank, senderName, msgContent) {
   logDebug("Message is whisper");
 
-  // also TODO: rename senderName to senderName ?!?!
-
   if (!hasPrefix(msgContent, partyBot.b_prefix)) {
     if (msgContent.includes("help")) { 
       // be lenient, e.g. `!help` instead of `!p help`
@@ -162,10 +161,12 @@ function handleWhisper(rank, senderName, msgContent) {
     }
     return;
   }
+
   logDebug("Message has prefix");
   // This is basically what equals an `if isSplasher(sender)`
   const permissionsCheck = hasPermissions(senderName, allowlist);
   if (!permissionsCheck[0]) return;
+
   const args = msgContent.replace(partyBot.b_prefix, '').trim().split(" ")
   const data = {
     playerName: senderName,
@@ -176,11 +177,11 @@ function handleWhisper(rank, senderName, msgContent) {
     primaryName: permissionsCheck[1]
   }
   const [command, ...cmdArgs] = args;
-  logDebug("data.senderName, primaryName, command, cmdArgs:")
+  logDebug("data.senderName, primaryName, command, cmdArgs:");
   logDebug("'" + data.senderName + "', '" + data.primaryName + "', '" + command + "', '" + cmdArgs + "'");
+
   log("Executing command: '" + command + "' with args: '" + cmdArgs + "'");
   runPartyCommand(data, command, cmdArgs);
-  return;
 }
 
 
@@ -205,12 +206,6 @@ function handlePartyInvite(parsedMsgObj) {
 
 
 function handlePartyMessage(senderName, msgContent) {
-  // TMP! maybe rework this – we only need msgContent & playerName here
-  //const { rank, playerName, msgContent } = parsePartyMessage(parsedMsgObj);
-
-  //if (!autoKickWords.contains(msgContent.trim().split(" "))) {
-  //if (!msgContent.trim().split(" ").contains())
-
   if (!autoKickWords.some(value => msgContent.trim().split(" ").includes(value))) {
     logDebug("No auto-kickable phrase detected");
     return;
@@ -218,10 +213,10 @@ function handlePartyMessage(senderName, msgContent) {
   logDebug(autoKickWords);
   // default, immediate punishment for spammers: kick from party;
   // blocking can/has to be decided and ran manually
-  const command = "party kick " + playerName;
+  const command = "party kick " + senderName;
   // Party leader (the bot account) can't kick p leader (ex. misused !p say)
-  if (playerName != partyHostNameWithoutRank) {
-    log(`Kicked ${playerName} because of autoKickWords rule`);
+  if (senderName != partyHostNameWithoutRank) {
+    log(`Kicked ${senderName} because of autoKickWords rule`);
     partyBot.runCommand(command);
   } else {
     log("Someone, presumably splasher, used an auto-kick word");
