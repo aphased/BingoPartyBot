@@ -11,7 +11,8 @@ main() {
         # TODO: execute an `npm install` here, at/before every launch??
 
         # Start bot process and pass potential arguments on to it
-        node --trace-warnings --experimental-json-modules index.mjs "$@"
+        # node --trace-warnings --experimental-json-modules index.mjs "$@"
+        node --trace-warnings --experimental-json-modules . "$@"
 
         echo "To shutdown, ctrl+c before the coutdown ends!"
         echo "Restarting in:"

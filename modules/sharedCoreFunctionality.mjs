@@ -1,10 +1,11 @@
-import { log, logDebug, err /*, getHypixelRankByName*/ } from './utils.mjs';
+import { log, logDebug, err, getNameByPermissionRank } from './utils.mjs';
 import { partyBot } from "../index.mjs";
 import { hasPermissions, isSamePlayer, isAccountOwner } from './boolChecks.mjs';
 import { removeRank, printAllowlist } from "./utils.mjs";
 import { partyHostAccountOwners, partyHostNameWithoutRank } from './manageData.mjs';
 
 import { allowlist, bingoBrewersRules } from './manageData.mjs';
+import { getBingoGuideLink, setBingoGuideLink } from './discordBot.mjs';
 
 // The common "interface" to provide to both the CT module and the Mineflayer bot-specific logic
 export { executeHypixelPartyCommand, commandsWithOptionalIGN, replyUsage };
@@ -15,6 +16,11 @@ export { executeHypixelPartyCommand, commandsWithOptionalIGN, replyUsage };
  * always set to false if module is ran as a Mineflayer bot.
  */
 const usesChatTriggers = false;
+
+
+// Used for preventing duplicate, repeated output
+const THIRTY_SECONDS = 30 * 1000;
+let lastActionTimeGuidePosted = 0;
 
 
 /**
@@ -632,20 +638,41 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "gd":
     // fallthrough for additional alias
   case "guide":
-    // requires Discord integration/webhook connection
-    // which is missing in the CT version
-    if (usesChatTriggers) break;
+    // requires Discord integration/webhook connection, which is always
+    // missing in the CT version
+    if (usesChatTriggers) {
+      break;
+    }
 
-    // TODO: get latest message from channel #bingo-guides in BingoParty server
-    // (once per program launch), store it as some string, then retrieve and
-    // send to party chat…
-    // MAYBE: check real month and convert to English word, if guide contains
-    // string which is still the last month (or earlier), initiate update? 
-    // (e.g. it is july 1st, "most recent" linked/stored guide is still
-    //  https://hypixel.net/threads/bingo-guide-for-june-2024.5674472/#t etc.)
-    // somewhere at the start of this file: let bingoGuideLink = "";
-    // if (!bingoGuideLink) { discord webhook fetching stuff; bingoGuideLink = result; }
-    // outputCommand(`pc Guide: ${bingoGuideLink}`);
+
+    const guideLink = getBingoGuideLink();
+
+    if (!guideLink) {
+      // "contact aphased"
+      outputCommand(`r No guide available - contact ${getNameByPermissionRank("botAccountOwner", allowlist)}`)
+    } else {
+        const currentTime = Date.now();
+        if (currentTime - lastActionTimeGuidePosted >= THIRTY_SECONDS) {
+          // wait a little to help readers process what's going on (this might be
+          // removed)
+          waitAndOutputCommand(`pc Guide: ${guideLink}`, 1500);
+          lastActionTimeGuidePosted = currentTime;
+        } else {
+          logDebug("Not posting guide again. (<30s passed since last share message)");
+        }
+    }
+    break;
+  case "sg":
+    // fallthrough for additional alias
+  case "setguide":
+    /* Bot administrator-only command: Manually set the link to the Bingo guide,
+    i.e. the response to be output on `!p guide` (forum link to Indigo's post) */
+    if (!isAccountOwner(rankRemovedSenderName, partyHostAccountOwners)) {
+      replyUsage(rankRemovedSenderName);
+      break;
+    }
+    setBingoGuideLink(commandArgument);
+    log(`Set guide link to: '${commandArgument}'`);
     break;
   case "help":
     if (!checkSetting("BingoPartyFeatures", "!p help", command))

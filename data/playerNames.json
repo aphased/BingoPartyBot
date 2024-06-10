@@ -536,6 +536,13 @@
         "Reccie"
       ],
       "permissionRank": "splasher"
+    },
+    {
+      "hypixelRank": "[MVP+]",
+      "names": [
+        "Lord_Kxnterkill"
+      ],
+      "permissionRank": "splasher"
     }
   ],
   "playerNamesSimple": [
@@ -620,6 +627,7 @@
     "StrappedScarf74",
     "Tabaluggar",
     "oSilja",
-    "Reccie"
+    "Reccie",
+    "Lord_Kxnterkill"
   ]
 }

@@ -18,6 +18,7 @@ are only accessible to and only work for a predefined group of users
 - TODO: Hot reloading of player (allowed permissions/banned) data (and perhaps code modules/specific functions or party commands? Probably not needed anymore)
 - Admin-only “special access“ commands & usage
 - Auto-restart upon program crashes
+- Discord integration for reading the party chat, writing to it (WIP), and monitoring who joins/leaves/is kicked from the party or goes offline
 
 
 ## Code & module structure
