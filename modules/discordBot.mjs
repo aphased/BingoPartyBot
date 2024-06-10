@@ -1,3 +1,4 @@
+"use strict";
 import { log, logDebug, err } from './utils.mjs';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -16,29 +17,24 @@ let botIsFunctional = false;
 
 const client = new Client({
 	intents: [
-    // necessary to read messages
+		// Necessary to read messages
 		GatewayIntentBits.Guilds,
 		GatewayIntentBits.GuildMessages,
 		GatewayIntentBits.MessageContent,
-		// necessary for updating (… idea for the future) party member count as
-		// channel name: GatewayIntentBits.ChannelUpdate (..?)
+		// Necessary for updating  party member count as channel name:
+		// (… idea for the future)
+		// GatewayIntentBits.ChannelUpdate (..?)
 	],
 });
 
-// When the client is ready, run this code (only once).
 client.once(Events.ClientReady, readyClient => {
-	log(`Ready! Logged in as ${readyClient.user.tag}`);
-  botIsFunctional = true;
+	log(`Discord bot ready! Logged in as ${readyClient.user.tag}`);
+	botIsFunctional = true;
+	// Retrieve potentially newest link once on every program startup
+	fetchLatestGuideMessage();
 });
 
-// Log in to Discord with client's token
-// logDebug("discordBotToken: '"+ discordBotToken + "'");
 client.login(discordBotToken);
-
-
-// Retrieve once on every startup
-client.once('ready', fetchLatestGuideMessage);
-
 
 
 /**
@@ -65,89 +61,110 @@ function getBingoGuideLink() {
 		} else {
 			// TODO: verify that this does work as intended... write a test maybe?
 			// changes the module variable, meaning we don't need to store and assign
-			fetchLatestGuideMessage(); 
+			fetchLatestGuideMessage();
 			return linkToBingoGuide;
 		}
 	}
 
-  logDebug("linkToBingoGuide already defined as '" + linkToBingoGuide + "'");
+	logDebug("linkToBingoGuide already defined as '" + linkToBingoGuide + "'");
 
 	if (!isGuideLinkUpToDate(linkToBingoGuide)) {
 		fetchLatestGuideMessage();
 	}
-	
-  return linkToBingoGuide;
+
+	return linkToBingoGuide;
 }
 
 
 function isGuideLinkUpToDate(guideLink) {
-	// old "implementation notes":
-	// TODO: add checks & re-fetching logic if link is outdated (i.e. from one or
-	// more months prior, e.g. if bot has been up continuously for a long time)
-	// return true;
-
-  const currentDate = new Date();
-  const currentYear = currentDate.getFullYear();
+	const currentDate = new Date();
+	const currentYear = currentDate.getFullYear();
 	// Note: January is 0, December is 11
-  const currentMonth = currentDate.getMonth(); 
+	const currentMonth = currentDate.getMonth();
 
-  const url = guideLink;
+	const url = guideLink;
 
-  // Extract year and month from the URL, https://regex101.com/r/4x8O6n/1
-  const urlParts = url.match(/bingo-guide-for-(\w+)-(\d{4})/);
-  if (!urlParts) {
-      err("URL pattern does not match.");
-      return;
-  }
+	// Extract year and month from the URL, https://regex101.com/r/4x8O6n/1
+	const urlParts = url.match(/bingo-guide-for-(\w+)-(\d{4})/);
+	if (!urlParts) {
+		err("Current Bingo guide check: URL pattern does not match.");
+		return;
+	}
 
-  const urlMonthName = urlParts[1].toLowerCase();
-  const urlYear = parseInt(urlParts[2], 10);
+	const urlMonthName = urlParts[1].toLowerCase();
+	const urlYear = parseInt(urlParts[2], 10);
 
-  // Convert month name to index
-  const monthNames = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
-  const urlMonthIndex = monthNames.indexOf(urlMonthName);
+	// Convert month name to index
+	const monthNames = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+	const urlMonthIndex = monthNames.indexOf(urlMonthName);
 
-  if (urlMonthIndex === -1) {
-      console.error('Invalid month in URL.');
-      return;
-  }
+	if (urlMonthIndex === -1) {
+		err("Current Bingo guide check: Invalid month in URL.");
+		return;
+	}
 
-  // Check if we need to update
-  if (currentYear > urlYear || (currentYear === urlYear && currentMonth > urlMonthIndex)) {
-      log("Updating to latest guide...");
-      fetchLatestGuideMessage();
-  } else {
-      logDebug("The guide is up to date.");
-  }
+	// Check if we need to update
+	if (currentYear > urlYear || (currentYear === urlYear && currentMonth > urlMonthIndex)) {
+		log("Updating to latest guide...");
+		fetchLatestGuideMessage();
+	} else {
+		logDebug("The guide is up to date.");
+	}
 }
 
 
 async function fetchLatestGuideMessage() {
-	
-  log("Ready to fetch guide link from Discord!");
-	const channelId = BINGO_GUIDE_CHANNEL_ID; // 'YOUR_CHANNEL_ID';
-  
-  // Fetch channel
-  const channel = await client.channels.fetch(channelId);
+	logDebug("Ready to fetch guide link from Discord!");
+	const channelId = BINGO_GUIDE_CHANNEL_ID;
 
-  if (channel.isTextBased && "messages" in channel) {
-    // Fetch channel's latest message
-    const messages = await channel.messages.fetch({ limit: 1 });
-    const latestMessage = messages.first();
-    
-    if (latestMessage) {
-      log(`Latest message in ${channel.name}:`);
-      log(`${latestMessage.author.tag}: ${latestMessage.content}`);
-			linkToBingoGuide = latestMessage.content;
-    } else {
-      log(`No messages found in ${channel.name}`);
-    }
-  } else {
-    log(`The channel ${channelId} is not a text-based channel.`);
-  }
+	// Fetch channel
+	const channel = await client.channels.fetch(channelId);
 
-  // TODO: Optionally, we could close the bot after fetching the message 
+	if (!channel.isTextBased || !("messages" in channel)) {
+		logDebug(`The channel ${channelId} is not a text-based channel.`);
+	}
+
+	// Fetch channel's latest message
+	let messages = await channel.messages.fetch({ limit: 1 });
+	const latestMessage = messages.first();
+
+	if (!latestMessage) {
+		logDebug(`No messages found in ${channel.name}`);
+		// TODO: insert a Discord ping @aphased here, perhaps?
+	}
+
+	logDebug(`Latest message in ${channel.name}:`);
+	logDebug(`${latestMessage.author.tag}: ${latestMessage.content}`);
+
+	// Check if there have been other non-link posts in #announcements recently,
+	// and try to determine a guide link from prior messages if yes
+	if (latestMessage.content.startsWith("https://hypixel.net/threads/")) {
+		linkToBingoGuide = latestMessage.content;
+		return;
+	}
+
+	// Alternative case:
+	// Fetch the last 5 (todo random guess?) messages in search of a link
+	messages = await channel.messages.fetch({ limit: 5 });
+
+	let linkFound = false;
+	// Loop through them to find a potential match
+	for (const message of messages.values()) {
+		if (message.content.startsWith("https://hypixel.net/threads/")) {
+			linkToBingoGuide = message.content;
+			logDebug(`Found guide link in message by ${message.author.tag}: ${message.content}`);
+			linkFound = true;
+			break;
+		}
+	}
+
+	if (!linkFound) {
+		// Caller (i.e. in `!p guide` handling at top level) has to deal with that
+		linkToBingoGuide = "";
+	}
+
+	// TODO: Optionally, we could close the bot after fetching the message 
 	// – does this make sense?
-  // client.destroy();
+	// client.destroy();
 }
 
