@@ -8,6 +8,7 @@
 main() {
     while true
     do
+        git pull
         # TODO: execute an `npm install` here for keeping dependencies current,
         # at/before every launch??
 

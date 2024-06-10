@@ -1,12 +1,17 @@
 import chalk from "chalk";
+import dotenv from 'dotenv';
+dotenv.config();
+import stripAnsi from "strip-ansi";
 
-import { debugOutputEnabled } from "../index.mjs";
+import { debugOutputEnabled, partyBot } from "../index.mjs";
 
 export { log, logDebug, err, parseStdinArgs };
 export { removeFormatting, removeRank };
 export { printAllowlist, getNameByPermissionRank, getHypixelRankByName };
 // export { containsInNestedArray };
 
+const fullLogsWebhookURL = process.env.WEBHOOK_URL_FULL_LOGS;
+const fullLogsMessageQueue = [];
 
 function logDebug(message) {
   if (debugOutputEnabled[0]) multiPurposeLog("DBG", message);
@@ -20,6 +25,11 @@ function multiPurposeLog(purpose, message) {
   // yyyy-mm-dd hh:mm:ss [PRP] msg
   const output = `${date} [${purpose}] ${message}`;
   (purpose === "ERR") ? console.error(chalk.red(output)) : console.log(output);
+
+  // I might remove this again, but for now: 
+  // Send all stdout messages to Discord as well
+  partyBot.sendBridge((purpose === "ERR") ? chalk.red(output) : output, fullLogsWebhookURL, fullLogsMessageQueue);
+  // TODO: a stdout logging system/solution that does not violate https://12factor.net/logs
 }
 
 // TODO: properly adapt for use with mineflayer as a bot rather than as CT module! if (usesCT) via exported variable from sharedCoreFunctionality.mjs maybe?
