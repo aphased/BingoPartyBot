@@ -51,14 +51,14 @@ function parseAndExecuteMessage(message) {
 
   switch (determineMessageType(parsedMsgObj)) {
     case "whisper":
-      handleWhisper(rank, playerName, msgContent, parsedMsgObj);
+      handleWhisper(rank, playerName, msgContent);
       break;
     case "partyInvite":
-      handlePartyInvite(rank, playerName, msgContent, parsedMsgObj);
+      handlePartyInvite(parsedMsgObj);
       break;
     case "partyMessage":
       // for autoKickWords functionality
-      handlePartyMessage(rank, playerName, msgContent, parsedMsgObj);
+      handlePartyMessage(playerName, msgContent);
       break;
     default:
       // do nothing
@@ -147,43 +147,44 @@ function parseMessage(msg, type) {
 }
 
 
-function handleWhisper(rank, playerName, msgContent, parsedMsgObj) {
+function handleWhisper(rank, senderName, msgContent) {
   logDebug("Message is whisper");
 
-  // also TODO: rename playerName to senderName ?!?!
-  // const { rank, playerName, msgContent } = parseWhisper(parsedMsgObj);
-
-
+  // also TODO: rename senderName to senderName ?!?!
 
   if (!hasPrefix(msgContent, partyBot.b_prefix)) {
-    if (msgContent.includes("help")) { // e.g. `!help` instead of `!p help`
-      replyUsage(playerName);
+    if (msgContent.includes("help")) { 
+      // be lenient, e.g. `!help` instead of `!p help`
+      replyUsage(senderName);
+    } else if (msgContent.includes("Boop!")) {
+      // Party-invite back anyone who boops the bot account
+      partyBot.runCommand(`p ${senderName}`);
     }
     return;
   }
   logDebug("Message has prefix");
   // This is basically what equals an `if isSplasher(sender)`
-  const permissionsCheck = hasPermissions(playerName, allowlist);
+  const permissionsCheck = hasPermissions(senderName, allowlist);
   if (!permissionsCheck[0]) return;
   const args = msgContent.replace(partyBot.b_prefix, '').trim().split(" ")
   const data = {
-    playerName: playerName,
-    formattedPlayerName: `${rank} ${playerName}`,
+    playerName: senderName,
+    formattedPlayerName: `${rank} ${senderName}`,
     rank: rank,
     message: msgContent,
     b_prefix: partyBot.b_prefix,
     primaryName: permissionsCheck[1]
   }
   const [command, ...cmdArgs] = args;
-  logDebug("data.playerName, primaryName, command, cmdArgs:")
-  logDebug("'" + data.playerName + "', '" + data.primaryName + "', '" + command + "', '" + cmdArgs + "'");
+  logDebug("data.senderName, primaryName, command, cmdArgs:")
+  logDebug("'" + data.senderName + "', '" + data.primaryName + "', '" + command + "', '" + cmdArgs + "'");
   log("Executing command: '" + command + "' with args: '" + cmdArgs + "'");
   runPartyCommand(data, command, cmdArgs);
   return;
 }
 
 
-function handlePartyInvite(rank, playerName, msgContent, parsedMsgObj) {
+function handlePartyInvite(parsedMsgObj) {
   // TODO: optimize this and the other isPartyInvite call, (by splitting the function up) somehow?
   const result = isPartyInvite(parsedMsgObj);
   // different player name & format than given from parseWhisper() above:
@@ -203,7 +204,7 @@ function handlePartyInvite(rank, playerName, msgContent, parsedMsgObj) {
 }
 
 
-function handlePartyMessage(rank, playerName, msgContent, parsedMsgObj) {
+function handlePartyMessage(senderName, msgContent) {
   // TMP! maybe rework this – we only need msgContent & playerName here
   //const { rank, playerName, msgContent } = parsePartyMessage(parsedMsgObj);
 
