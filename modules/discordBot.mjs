@@ -57,6 +57,7 @@ function getBingoGuideLink() {
 	if (!linkToBingoGuide) {
 		if (!botIsFunctional) {
 			err("Discord bot not functional");
+			// return "Bingo.";
 			return "";
 		} else {
 			// TODO: verify that this does work as intended... write a test maybe?

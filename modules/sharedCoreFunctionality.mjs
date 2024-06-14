@@ -438,7 +438,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     if (receivingPlayerName === "") {
       break;
     }
-    outputCommand("ignore add " + receivingPlayerName);
+    outputCommand("block add " + receivingPlayerName);
     waitAndOutputCommand("p remove " + receivingPlayerName, defaultTimeout+500);
     waitAndOutputCommand("pc " + receivingPlayerName + " was removed from the party and blocked from rejoining by " + formattedSenderName + ".", defaultTimeout);
     break;
@@ -447,8 +447,8 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "unblock":
     if (!checkSetting("BingoPartyFeatures", "Party unblock", command))
       break;
-    outputCommand("ignore remove " + receivingPlayerName);
-    waitAndOutputCommand("r Removed " + receivingPlayerName + " from ignore list.");
+    outputCommand("block remove " + receivingPlayerName);
+    waitAndOutputCommand("r Removed " + receivingPlayerName + " from block list.");
     break;
   case "open":
     // fallthrough for additional aliases
