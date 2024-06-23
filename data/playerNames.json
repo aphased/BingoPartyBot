@@ -543,6 +543,13 @@
         "Lord_Kxnterkill"
       ],
       "permissionRank": "splasher"
+    },
+    {
+      "hypixelRank": "[MVP++]",
+      "names": [
+        "tuilps"
+      ],
+      "permissionRank": "splasher"
     }
   ],
   "playerNamesSimple": [
@@ -628,6 +635,7 @@
     "Tabaluggar",
     "oSilja",
     "Reccie",
-    "Lord_Kxnterkill"
+    "Lord_Kxnterkill",
+    "tuilps"
   ]
 }
