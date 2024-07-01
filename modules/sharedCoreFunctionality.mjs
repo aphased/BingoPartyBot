@@ -438,6 +438,12 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     if (receivingPlayerName === "") {
       break;
     }
+    // TODO: 2024-07-01 temporary? fix: Hypixel broke using the block (formerly ignore) feature
+    // while the player is in Limbo (block add/remove/even list…).
+    // Solution, for now: move to lobby for every block/unblock action
+    // (and as noted by BossFlea: don't insist send back to Limbo by sending "§" afterwards)
+    outputCommand("l");
+    
     outputCommand("block add " + receivingPlayerName);
     waitAndOutputCommand("p remove " + receivingPlayerName, defaultTimeout+500);
     waitAndOutputCommand("pc " + receivingPlayerName + " was removed from the party and blocked from rejoining by " + formattedSenderName + ".", defaultTimeout);
@@ -447,6 +453,10 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "unblock":
     if (!checkSetting("BingoPartyFeatures", "Party unblock", command))
       break;
+
+    // See comment under case "block": send to lobby as temp fix
+    outputCommand("l");
+    
     outputCommand("block remove " + receivingPlayerName);
     waitAndOutputCommand("r Removed " + receivingPlayerName + " from block list.");
     break;

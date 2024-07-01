@@ -78,6 +78,10 @@ const onDataStdinHandler = data => {
     logDebug("Console received \"-\" command");
     // TODO: finish writing handleOption(command) or similar here?
     parseStdinArgs(command);
+  } else if (command.startsWith("§") || command.startsWith("!limbo") || command.startsWith("!p limbo")) {
+    // TODO: Formally add this command... (emergency fix 2024-07-01)
+    // Send bot to Limbo
+    partyBot.sendToLimbo();
   } else {
     // Explicitly discard messages starting with any other char or signals
     // so as to make potential future changes easier.
