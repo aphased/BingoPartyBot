@@ -442,10 +442,10 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     // while the player is in Limbo (block add/remove/even list…).
     // Solution, for now: move to lobby for every block/unblock action
     // (and as noted by BossFlea: don't insist send back to Limbo by sending "§" afterwards)
-    waitAndOutputCommand("l", defaultTimeout+500);
-
+    outputCommand("l");
     
-    outputCommand("block add " + receivingPlayerName);
+    waitAndOutputCommand("block add " + receivingPlayerName, defaultTimeout+500);
+
     waitAndOutputCommand("p remove " + receivingPlayerName, 500);
     waitAndOutputCommand("pc " + receivingPlayerName + " was removed from the party and blocked from rejoining by " + formattedSenderName + ".", defaultTimeout);
     break;
@@ -456,9 +456,9 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
       break;
 
     // See comment under case "block": send to lobby as temp fix
-    waitAndOutputCommand("l", defaultTimeout+500);
+    outputCommand("l");
     
-    outputCommand("block remove " + receivingPlayerName);
+    waitAndOutputCommand("block remove " + receivingPlayerName, defaultTimeout+500);
     waitAndOutputCommand("r Removed " + receivingPlayerName + " from block list.");
     break;
   case "open":
