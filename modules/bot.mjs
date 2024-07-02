@@ -5,7 +5,7 @@ import stripAnsi from "strip-ansi";
 
 import { log, logDebug, err } from "./utils.mjs";
 import { parseAndExecuteMessage } from "./handleMessage.mjs";
-import { onDataStdinHandler } from "../index.mjs";
+import { bridgingToDiscordEnabled, onDataStdinHandler } from "../index.mjs";
 
 // left in from Trypo (?):
 // import { json } from "stream/consumers";
@@ -226,7 +226,7 @@ export default class BingoPartyBot {
   // TODO: optimize this list for unique strings once it's been finalized
   // TODO: move has promoted|has demoted|is now a Party Moderator into separate,
   // third category to keep track of current moderator list?
-  #bridgeMessageRegex = /(Party > |From|To|You cannot say the same message twice!|Connected to|Bot kicked!|Bot disconnected.|You have joined|The party is now|The party is no longer|has promoted|has demoted|is now a Party Moderator|The party was transferred|disbanded|You are not allowed to disband this party.|Party Members|Party Leader|Party Moderators|You have been kicked from the party by|You are not in a party right now.|You are not currently in a party.|That player is not online!|Created a public party! Players can join with \/party join|Party is capped at|Party Poll|Invalid usage!|created a poll! Answer it below by clicking on an option|Question:|The poll|You cannot invite that player since they're not online.|You are not allowed to invite players.|enabled All Invite|to the party! They have 60 seconds to accept.|is already in the party.)/;
+  #bridgeMessageRegex = /(Party > |From|To|You cannot say the same message twice!|Connected to|Bot kicked!|Bot disconnected.|You have joined|The party is now|The party is no longer|has promoted|has demoted|is now a Party Moderator|The party was transferred|disbanded|You are not allowed to disband this party.|Party Members|Party Leader|Party Moderators|You have been kicked from the party by|You are not in a party right now.|You are not currently in a party.|That player is not online!|Created a public party! Players can join with \/party join|Party is capped at|Party Poll|Invalid usage!|created a poll! Answer it below by clicking on an option|Question:|The poll|You cannot invite that player since they're not online.|You are not allowed to invite players.|enabled All Invite|to the party! They have 60 seconds to accept.|is already in the party.|You'll be partying with:)/;
   #partyMemberEventRegex = /(left the party.|joined the party.|disconnected, they have 5 minutes to rejoin before they are removed from the party.|was removed from your party because they disconn)/;
   #partyMemberKickedRegex = /(has been removed from the party.)/;
   
@@ -241,6 +241,10 @@ export default class BingoPartyBot {
    * sending success?
    */
   sendBridge(messageContent, webhookURL, messageQueue) {
+    if (!bridgingToDiscordEnabled[0]) {
+      return;
+    }
+    
     if (!webhookURL) {
       // (JS 101: the string is either empty, undefined,
       // or null; an empty string is also falsy)

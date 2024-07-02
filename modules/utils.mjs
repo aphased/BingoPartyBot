@@ -3,12 +3,13 @@ import dotenv from 'dotenv';
 dotenv.config();
 import stripAnsi from "strip-ansi";
 
-import { debugOutputEnabled, partyBot } from "../index.mjs";
+import { debugOutputEnabled, bridgingToDiscordEnabled, partyBot } from "../index.mjs";
 
 export { log, logDebug, err, parseStdinArgs };
 export { removeFormatting, removeRank };
 export { printAllowlist, getNameByPermissionRank, getHypixelRankByName };
 // export { containsInNestedArray };
+export { StringSet };
 
 const fullLogsWebhookURL = process.env.WEBHOOK_URL_FULL_LOGS;
 const fullLogsMessageQueue = [];
@@ -178,6 +179,15 @@ function parseStdinArgs(...argsToCheck) {
             // toggle the debug output flag
             debugOutputEnabled[0] = !debugOutputEnabled[0];
             log(`Output debugging flag set to '${debugOutputEnabled[0]}'`);
+            break;
+          case "-b":
+            // fallthrough for alias
+          case "--bridge":
+            // fallthrough for alias
+          case "--discord-bridge":
+            // toggle sending (receiving? in the future…) messages with Discord
+            bridgingToDiscordEnabled[0] = !bridgingToDiscordEnabled[0];
+            log(`Sending messages to Discord flag set to '${bridgingToDiscordEnabled[0]}'`);
             break;
           case "-r":
             // fallthrough for alias
