@@ -231,3 +231,37 @@ function parseStdinArgs(...argsToCheck) {
   */
 
 }
+
+// Helper class for operations on temporarily disabled commands in sharedCoreFunctionality.mjs
+class StringSet {
+  constructor() {
+    this.set = new Set();
+  }
+  
+  add(str) {
+    if (typeof str === 'string') {
+      this.set.add(str);
+    } else {
+      err("Only strings can be added");
+    }
+  }
+
+  remove(str) {
+    if (this.set.has(str)) {
+      this.set.delete(str);
+      return true;
+    } else {
+      return false; // Not found
+    }
+  }
+
+  has(str) {
+    return this.set.has(str);
+  }
+
+  // Get all strings as array for debugging/other purposes
+  getAllEntries() {
+    return Array.from(this.set);
+  }
+}
+
