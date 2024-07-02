@@ -162,7 +162,7 @@ function playerHasPermissions(formattedPlayerName) {
  * formatting, Hypixel rank, and in any combination of upper-/lower-casing)
  * @returns {boolean}
  */
-function isAdmin(formattedPlayerName, partyHostAccountOwners) {
+function isAdmin(formattedPlayerName) {
   // TODO: remove and/or combine old implementations (ChatTriggers &
   // Mineflayer versions compatibility)
   if (usesChatTriggers) {
@@ -191,7 +191,8 @@ function isStaff(formattedPlayerName) {
     return false;
   } else {
     // Mineflayer Bot implementation:
-    return isDiscordAdmin(removeRank(formattedPlayerName));
+    // (the distinction is needed due to only having one permission rank stored in the JSON)
+    return (isDiscordAdmin(removeRank(formattedPlayerName)) || isAdmin(formattedPlayerName));
   }
 }
 
@@ -427,7 +428,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     waitAndOutputCommand("r What exactly are your plans, " + rankRemovedSenderName + "? :raisedEyebrow:", defaultTimeout);
     break;
   case "transfer":
-    if (!checkSetting("BingoPartyFeatures", "Party transfer", transfer))
+    if (!checkSetting("BingoPartyFeatures", "Party transfer", "transfer"))
       break;
     if (receivingPlayerName === "") {
       // receiving account has to be explicitly listed
@@ -439,7 +440,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "unmute":
     // fallthrough for additional alias
   case "mute":
-    if (!checkSetting("BingoPartyFeatures", "Party mute", mute))
+    if (!checkSetting("BingoPartyFeatures", "Party mute", "mute"))
       break;
     outputCommand("p mute");
     waitAndOutputCommand("pc Party mute was used by " + formattedSenderName + ".", defaultTimeout);
@@ -449,7 +450,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "promo":
     // fallthroughs for additional alias
   case "promote":
-    if (!checkSetting("BingoPartyFeatures", "Party promote", promote))
+    if (!checkSetting("BingoPartyFeatures", "Party promote", "promote"))
       break;
     if (receivingPlayerName === "") {
       // no name supplied, thus default to promoting command sender instead
@@ -472,14 +473,14 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "kickafk":
     // fallthrough for additional alias
   case "kickoffline":
-    if (!checkSetting("BingoPartyFeatures", "Party kickoffline", kickoffline))
+    if (!checkSetting("BingoPartyFeatures", "Party kickoffline", "kickoffline"))
       break;
     outputCommand("p kickoffline");
     break;
   case "remove":
     // fallthrough for additional alias
   case "kick":
-    if (!checkSetting("BingoPartyFeatures", "Party kick", kick))
+    if (!checkSetting("BingoPartyFeatures", "Party kick", "kick"))
       break;
     if (receivingPlayerName === "") {
       break;
@@ -490,7 +491,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "ban":
     // fallthrough for additional alias
   case "block":
-    if (!checkSetting("BingoPartyFeatures", "Party block", block))
+    if (!checkSetting("BingoPartyFeatures", "Party block", "block"))
       break;
     if (receivingPlayerName === "") {
       break;
@@ -509,7 +510,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "unban":
     // fallthrough for additional alias
   case "unblock":
-    if (!checkSetting("BingoPartyFeatures", "Party unblock", unblock))
+    if (!checkSetting("BingoPartyFeatures", "Party unblock", "unblock"))
       break;
 
     // See comment under case "block": send to lobby as temp fix
@@ -521,7 +522,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "close":
     // Not quite sure yet when this would be useful, but alas, probably
     // can't hurt to have it…
-    if (!isAdmin(rankRemovedSenderName, partyHostAccountOwners)) {
+    if (!isAdmin(rankRemovedSenderName)) {
       replyUsage(rankRemovedSenderName);
       break;
     }
@@ -534,7 +535,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     // fallthrough for additional aliases
   case "stream":
     logDebug("case stream reached!");
-    if (!checkSetting("BingoPartyFeatures", "Party open (stream size)", stream))
+    if (!checkSetting("BingoPartyFeatures", "Party open (stream size)", "stream"))
       break;
     // Hypixel's lowest for a public party is a maximum of two members, but
     // that does not really make sense for the bingo party. Adapt as needed.
@@ -559,7 +560,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "inv":
     // fallthrough for additional alias
   case "invite":
-    if (!checkSetting("BingoPartyFeatures", "Party invite", invite))
+    if (!checkSetting("BingoPartyFeatures", "Party invite", "invite"))
       break;
     if (receivingPlayerName === "") {
       // no name supplied, thus invite command sender instead
@@ -570,7 +571,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     waitAndOutputCommand("pc " + formattedSenderName + " invited " + receivingPlayerName + " to the party.", defaultTimeout);
     break;
   case "allinvite":
-    if (!checkSetting("BingoPartyFeatures", "Party allinvite", allinvite))
+    if (!checkSetting("BingoPartyFeatures", "Party allinvite", "allinvite"))
       break;
     outputCommand("p setting allinvite");
     waitAndOutputCommand("pc " + formattedSenderName + " toggled allinvite setting.", defaultTimeout);
@@ -578,7 +579,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "speak":
     // fallthrough for additional alias
   case "say":
-    if (!checkSetting("BingoPartyFeatures", "Party speak", say))
+    if (!checkSetting("BingoPartyFeatures", "Party speak", "say"))
       break;
     //outputCommand("pc " + formattedSenderName + ": " + messageToBroadcast);
     // special case of !p rep: repeat (output) the message, but just once
@@ -588,7 +589,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "rep":
     // fallthrough for additional alias
   case "repeat":
-    if (!checkSetting("BingoPartyFeatures", "Party repeat", repeat))
+    if (!checkSetting("BingoPartyFeatures", "Party repeat", "repeat"))
       break;
     // TODO: check if implemented according to notes
     // let repetitionCount = receivingPlayerName;
@@ -604,7 +605,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "customrep":
     // fallthrough for additional alias
   case "customrepeat":
-    if (!checkSetting("BingoPartyFeatures", "Party customrepeat", customrepeat))
+    if (!checkSetting("BingoPartyFeatures", "Party customrepeat", "customrepeat"))
       break;
     // TODO: finish implementing // check if correctly implemented
     // TODO: Use repeatInPartyChat(messageToBroadcast, customCountVar, customWaitDurVar) here…
@@ -616,7 +617,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "flea":
     // fallthrough for additional alias
   case "bf":
-    if (!checkSetting("BingoPartyFeatures", "Party BossFlea announcement", bf))
+    if (!checkSetting("BingoPartyFeatures", "Party BossFlea announcement", "bf"))
       break;
     /*
     BossFlea-style splash announcement contained in one command ("!p bf HUB 16")
@@ -654,7 +655,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "lsallowed":
     /* Admin-only command.
     Output will currently only be visible on the server console. */
-    if (!isAdmin(rankRemovedSenderName, partyHostAccountOwners)) {
+    if (!isAdmin(rankRemovedSenderName)) {
       replyUsage(rankRemovedSenderName);
       break;
     }
@@ -662,7 +663,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     break;
   case "rule":
     //logDebug("entered case \"rule\"");
-    if (!checkSetting("BingoPartyFeatures", "Party rule", rule))
+    if (!checkSetting("BingoPartyFeatures", "Party rule", "rule"))
       break;
     let ruleNumber = commandArgument || "1";
     // Convert map keys into array to check against
@@ -677,7 +678,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     waitAndOutputCommand("pc Rule #" + ruleNumber + ": " + bingoBrewersRules[ruleNumber], defaultTimeout);
     break;
   case "poll":
-    if (!checkSetting("BingoPartyFeatures", "Party poll", poll))
+    if (!checkSetting("BingoPartyFeatures", "Party poll", "poll"))
       break;
     // Format of messages: From [MVP+] p0iS: !p poll long q/y/n/optional/opt/opt
     const pollMessage = messageToBroadcast;
@@ -722,7 +723,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
       break;
     }
 
-    if (!checkSetting("BingoPartyFeatures", "Party Bingo guide link", guide))
+    if (!checkSetting("BingoPartyFeatures", "Party Bingo guide link", "guide"))
       break;
 
     const guideLink = getBingoGuideLink();
@@ -745,9 +746,10 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "sg":
     // fallthrough for additional alias
   case "setguide":
-    /* Bot administrator-only command: Manually set the link to the Bingo guide,
-    i.e. the response to be output on `!p guide` (forum link to Indigo's post) */
-    if (!isAdmin(rankRemovedSenderName, partyHostAccountOwners)) {
+    /* Bot administrator- and Discord staff-only command: Manually set the link
+    to the Bingo guide, i.e. the response to be output on `!p guide`
+    (Hypixel forums link to Indigo's post) */
+    if (!isStaff(rankRemovedSenderName)) {
       replyUsage(rankRemovedSenderName);
       break;
     }
@@ -755,7 +757,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     log(`Set guide link to: '${commandArgument}'`);
     break;
   case "help":
-    if (!checkSetting("BingoPartyFeatures", "!p help", help))
+    if (!checkSetting("BingoPartyFeatures", "!p help", "help"))
       break;
     /* The use of a couple different messages with essentially the same content
     is to prevent Hypixel's blocking of repeatedly sending the same in direct
@@ -801,7 +803,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     equivalent to having direct (even if chat-only) access to the account, I
     will only let myself have this permission, since BingoParty is, in fact, my
     account. */
-    if (!isAdmin(rankRemovedSenderName, partyHostAccountOwners)) {
+    if (!isAdmin(rankRemovedSenderName)) {
       replyUsage(rankRemovedSenderName);
       break;
     }
@@ -818,7 +820,8 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     // (aka the one that's not a fallthrough, aka see documentation at
     // https://github.com/aphased/BingoPartyCommands)
     // TODO: a mechanism like this that'd work for the ChatTriggers version's settings, too?
-    if (!isAdmin(rankRemovedSenderName, partyHostAccountOwners)) {
+    if (!isAdmin(rankRemovedSenderName)) {
+      replyUsage(rankRemovedSenderName);
       break;
     }
 
@@ -827,7 +830,8 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     break;
   case "enable":
     // Description see previous command/case above.
-    if (!isAdmin(rankRemovedSenderName, partyHostAccountOwners)) {
+    if (!isAdmin(rankRemovedSenderName)) {
+      replyUsage(rankRemovedSenderName);
       break;
     }
 
@@ -843,7 +847,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "printdisabled":
     // fallthrough for additional alias
   case "printDisabled":
-    if (!isAdmin(rankRemovedSenderName, partyHostAccountOwners)) {
+    if (!isAdmin(rankRemovedSenderName)) {
       replyUsage(rankRemovedSenderName);
       break;
     }
