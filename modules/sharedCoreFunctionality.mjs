@@ -461,6 +461,14 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     waitAndOutputCommand("block remove " + receivingPlayerName, defaultTimeout+500);
     waitAndOutputCommand("r Removed " + receivingPlayerName + " from block list.");
     break;
+  case "close":
+    // Not quite sure yet when this would be useful, but alas, probably can't 
+    // hurt to have it…
+    // TODO: add the "stream close" command here to documentation
+    // (and maybe make it admin-only..?)
+    outputCommand("stream close");
+    waitAndOutputCommand("pc Party was closed by " + formattedSenderName + ".", defaultTimeout);
+    break;
   case "open":
     // fallthrough for additional aliases
   case "public":
@@ -559,7 +567,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     */
     repeatSenderInPartyChat(true, "4 4 " + messageToBroadcast, formattedSenderName);
     const WAIT_TIME_UNTIL_LAST_WARNING = (16+20)*10**3;
-    waitAndOutputCommand(messageToBroadcast, WAIT_TIME_UNTIL_LAST_WARNING);
+    waitAndOutputCommand(`pc ${messageToBroadcast}`, WAIT_TIME_UNTIL_LAST_WARNING);
     break;
   case "pl":
     // fallthrough for additional alias
