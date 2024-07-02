@@ -704,6 +704,12 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     outputCommand(helpMessages[helpOutputIndex % helpMessages.length]);
     helpOutputIndex++;
     break;
+  case "sendlimbo":
+    // fallthrough for additional alias
+  case "limbo":
+    partyBot.sendToLimbo();
+    // waitAndOutputCommand("r Sent bot to limbo.")
+    break;
   case "add":
     /* Discord administrator-only functionality */
     // TODO: implement add (splashers) using manageData.mjs functions

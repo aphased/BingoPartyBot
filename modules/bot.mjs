@@ -23,6 +23,8 @@ export default class BingoPartyBot {
   botArgs = {
     host: 'mc.hypixel.net',
     version: '1.16.4', // seems to fix issues w/ chat length (long !p poll…s)
+    // TODO: Bump game version in use – from a quick attempt to runs the bot
+    // on Minecraft 1.20, for the time being, it did not seem to work w/o issues?
     username: process.env.MINECRAFT_EMAIL,
     auth: process.env.ACCOUNT_AUTH_TYPE
   };

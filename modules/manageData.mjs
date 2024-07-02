@@ -64,13 +64,54 @@ function removeSplasher(primaryName) {
 }
 
 /**
+ * (TODO: implement this)
+ * Refreshes either the permissions rank, the detected hypixel rank, both, or 
+ * none (if null arguments are provided) of a given splasher.
+ * 
+ * Returns the given player's primary stored name, the new permission and Hypixel
+ * server ranks, or the previous values if null was given as the new value.
+ * The only time the primaryName is returned as null is if the given primary 
+ * name cannot be found, i.e. it is not already present among the stored data
+ * (since addSplasher should be explicitly used for this functionality).
  *
  * @param {*} primaryName
  * @param {*} newPermissionRank
  * @param {*} newHypixelRank
+ * @returns {[
+  primaryName,
+  permissionRank,
+  hypixelRank
+ ]}
  */
 function refreshSplasherData(primaryName, newPermissionRank, newHypixelRank) {
+  let result = [null, null, null];
 
+  // TODO: check if primaryName can be found in data, return if not…
+  const primaryNameFound = allowlist.find(item => item.names[0] === primaryName);
+
+  if (primaryNameFound == null) {
+    // No possible result
+    return result;
+  }
+
+  if (newPermissionRank == null) {
+    // TODO: retrieve and add to result
+    result[1] = null; // make this the existing value retrieved instead of null
+  } else {
+    // TODO assign new value to data & store
+    result[1] = newPermissionRank;
+    // store operations…
+  }
+
+  if (newHypixelRank == null) {
+    // TODO: retrieve and add to result
+    result[2] = null; // make this the existing value retrieved instead of null
+  } else {
+    result[2] = newHypixelRank;
+    // TODO: store into data file…
+  }
+
+  return result;
 }
 
 /**
