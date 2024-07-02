@@ -179,7 +179,7 @@ function isAdmin(formattedPlayerName, partyHostAccountOwners) {
  * formatting, Hypixel rank, and in any combination of upper-/lower-casing)
  * @returns {boolean}
  */
-function isDiscordAdmin(formattedPlayerName, partyHostAccountOwners) {
+function isStaff(formattedPlayerName, partyHostAccountOwners) {
   // TODO: remove and/or combine old implementations (ChatTriggers &
   // Mineflayer versions compatibility)
   if (usesChatTriggers) {
@@ -188,7 +188,7 @@ function isDiscordAdmin(formattedPlayerName, partyHostAccountOwners) {
     return false;
   } else {
     // Mineflayer Bot implementation:
-    return isAccountOwner(removeRank(formattedPlayerName), partyHostAccountOwners);
+    return isDiscordAdmin(removeRank(formattedPlayerName));
   }
 }
 
@@ -763,7 +763,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     break;
   case "add":
     /* Discord administrator-only functionality */
-    if (!isDiscordAdmin(rankRemovedSenderName, partyHostAccountOwners)) {
+    if (!isStaff(rankRemovedSenderName, partyHostAccountOwners)) {
       replyUsage(rankRemovedSenderName);
       break;
     }
@@ -775,7 +775,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     break;
   case "removeSplasher":
     /* Discord administrator-only functionality */
-    if (!isDiscordAdmin(rankRemovedSenderName, partyHostAccountOwners)) {
+    if (!isStaff(rankRemovedSenderName, partyHostAccountOwners)) {
       replyUsage(rankRemovedSenderName);
       break;
     }
