@@ -15,11 +15,13 @@ const bingoBrewersRules = rulesData;
 
 // TODO: come up with a fitting scheme for blocked players (probably something like name, duration, reason, banStart/bannedAt date…) and import from banned.json to here
 
+
 export { allowlist, bingoBrewersRules };
-export { partyHostNameWithoutRank, partyHostAccountOwners }
-// TODO:
-export { addSplasher, removeSplasher, refreshSplasherData }
-export { banPlayer, refreshBannedPlayers, updateBanDuration }
+export { partyHostNameWithoutRank, partyHostAccountOwners };
+export { isAccountOwner, isDiscordAdmin };
+// TODO: all of the following implementations
+export { addSplasher, removeSplasher, refreshSplasherData };
+export { banPlayer, refreshBannedPlayers, updateBanDuration };
 // export { bannedPlayers }
 
 
@@ -30,13 +32,34 @@ export { banPlayer, refreshBannedPlayers, updateBanDuration }
 const partyHostNameWithoutRank = allowlist.find(item => item.permissionRank === "botAccount")?.names[0] || "BingoParty";
 
 /**
- * IGNs which are allowed _full_ access over the bot account, e.g. BingoParty.
- * Fallback has to be set/updated manually.
+ * List of all bot account owners coming from the JSON data
+ *
+ * These are IGNs which are allowed _full_ access over the bot account, 
+ * e.g. BingoParty. Fallback has to be set/updated manually.
  * Insert the fallback as needed if this code is ran on an account
  * other than BingoParty, i.e. one not owned by me (aphased).
 */
 const partyHostAccountOwners = allowlist.find(item => item.permissionRank === "botAccountOwner")?.names || ["aphased", "RNGecko", "BingoParty"];
 
+
+/**
+ *
+ * @param {string} ign The in-game name to check
+ * @returns {boolean}
+ */
+function isAccountOwner(ign) {
+  ign = removeRank(ign).toLowerCase();
+  return partyHostAccountOwners.map(entry => entry.toLowerCase()).includes(ign);
+}
+
+/**
+ *
+ * @param {string} ign The in-game name to check
+ */
+function isDiscordAdmin(ign) {
+  ign = removeRank(ign).toLowerCase();
+  return allowlist.find(entry => entry.permissionRank === "admin" || entry.permissionRank === "staff")?.names.map(name => name.toLowerCase()).includes(ign);
+}
 
 /**
  * Adds a new set of names for _one_ person at a time to be added to the
@@ -87,7 +110,7 @@ function refreshSplasherData(primaryName, newPermissionRank, newHypixelRank) {
   let result = [null, null, null];
 
   // TODO: check if primaryName can be found in data, return if not…
-  const primaryNameFound = allowlist.find(item => item.names[0] === primaryName);
+  const primaryNameFound = allowlist.find(entry => entry.names[0] === primaryName);
 
   if (primaryNameFound == null) {
     // No possible result

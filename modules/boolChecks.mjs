@@ -1,7 +1,7 @@
 import { log, logDebug, err, removeRank } from "./utils.mjs";
 
 export { hasPrefix, isWhisper, isPartyMessage, hasPermissions };
-export { isAccountOwner, isSamePlayer, isPartyInvite, isInSameRankCategory};
+export { isSamePlayer, isPartyInvite, isInSameRankCategory};
 
 /**
  * Checks if player message starts with a prefix
@@ -86,17 +86,6 @@ function hasPermissions(senderName, allowlist){
   return [found, primaryName];
 }
 
-/**
- *
- * @param {*} ign The in-game name to check
- * @param {*} partyHostAccountOwners List of all bot account owners from
- * JSON data
- * @returns {boolean}
- */
-function isAccountOwner(ign, partyHostAccountOwners) {
-  ign = removeRank(ign).toLowerCase();
-  return partyHostAccountOwners.map(item => item.toLowerCase()).includes(ign);
-}
 
 /**
  * Less convoluted variant of permission check. Checks if two IGNs in the

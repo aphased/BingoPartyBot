@@ -59,7 +59,8 @@ function containsInNestedArray(arr, str) {
 
 
 /**
- * For debugging purposes.
+ * Prints allowlist as an easily readable string to console stdout
+ * for debugging purposes.
  * @param {JSON} allowlist
  */
 function printAllowlist(allowlist) {
@@ -67,7 +68,7 @@ function printAllowlist(allowlist) {
   allowlist.forEach(function(player) {
     log("Player Names: " + player.names.join(", "));
     log("Rank (Permissions): " + player.permissionRank);
-    // log("Rank (Hypixel):     " + player.hypixelRank);
+    log("Rank (Hypixel):     " + player.hypixelRank);
     log("--------------");
   });
 }

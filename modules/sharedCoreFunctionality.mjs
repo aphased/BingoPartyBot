@@ -1,13 +1,23 @@
-import { log, logDebug, err, getNameByPermissionRank } from './utils.mjs';
-import { partyBot } from "../index.mjs";
-import { hasPermissions, isSamePlayer, isAccountOwner } from './boolChecks.mjs';
-import { removeRank, printAllowlist } from "./utils.mjs";
-import { partyHostAccountOwners, partyHostNameWithoutRank } from './manageData.mjs';
+import { log, logDebug, err } from './utils.mjs';
+import { getNameByPermissionRank, removeRank, printAllowlist } from "./utils.mjs";
 
+// Bot object for use in the Mineflayer version:
+import { partyBot } from "../index.mjs";
+
+// Permission checks. Basic check has to happen in all versions,
+// advanced (admin) functionality is not used in the ChatTriggers version:
+import { hasPermissions, isSamePlayer } from './boolChecks.mjs';
+import { isAccountOwner, isDiscordAdmin } from './manageData.mjs';
+
+// Variable data (or managing it):
+import { partyHostAccountOwners, partyHostNameWithoutRank } from './manageData.mjs';
 import { allowlist, bingoBrewersRules } from './manageData.mjs';
 import { getBingoGuideLink, setBingoGuideLink } from './discordBot.mjs';
 
-// The common "interface" to provide to both the CT module and the Mineflayer bot-specific logic
+/*
+The common "interface" to provide to both the CT module and the Mineflayer bot-specific logic,
+as the aim is being able to have both versions run on the same core functionality. 
+*/
 export { executeHypixelPartyCommand, commandsWithOptionalIGN, replyUsage };
 
 
@@ -16,6 +26,37 @@ export { executeHypixelPartyCommand, commandsWithOptionalIGN, replyUsage };
  * always set to false if module is ran as a Mineflayer bot.
  */
 const usesChatTriggers = false;
+
+
+/*
+ * The following lists facilitate some checks at the beginning of functions
+ * executeHypixelPartyCommand() and runPartyCommand(), respectively.
+ *
+ * Permanent TODO: keep these updated in case new commands and/or aliases are
+ * added in either category.
+ */
+
+/**
+ * Commands with negative effect on receivers, some groups of users are
+ * exempt from being affected by these (splashers/whitelisted players).
+ */
+const negativeCommands = ["kick", "remove", "ban", "block"];
+/** Commands which require more than one arg. */
+const commandsRequiringFullMessage = ["speak", "say", "repeat", "rep", "customrepeat", "crepeat", "customrep", "crep", "flea", "bf", "poll", "cmd"];
+/** Commands which should work on the sender if passed without argument (their own IGN). */
+const commandsWithOptionalIGN = ["inv", "invite", "pro", "prom", "promo", "promote", "boopme"];
+
+
+/**
+ * These alternating output messages (for when the same `!p help` command is
+ * sent multiple times in a short time) exist for circumventing – at least
+ * partially – Hypixel's "You cannot say the same message twice!"
+ */
+const helpMessages = ["r For a list of available commands see github dot \
+  com/aphased/BingoPartyCommands",
+  "r GitHub: aphased/BingoPartyCommands for all commands",
+  "r All commands are shown on GitHub: aphased/BingoPartyCommands"];
+let helpOutputIndex = 0;
 
 
 // Used for preventing duplicate, repeated output
@@ -105,41 +146,51 @@ function playerHasPermissions(formattedPlayerName) {
     // return containsInNestedArray(allowlist, unformattedPlayerName);
   } else {
     // Mineflayer Bot implementation:
-    const [found, primaryPlayerName] = hasPermissions(formattedPlayerName, allowlist);
+    const [found, primaryPlayerName] = hasPermissions(removeRank(formattedPlayerName), allowlist);
     return found;
   }
 }
 
-
-/*
- * The following lists facilitate some checks at the beginning of functions
- * executeHypixelPartyCommand() and runPartyCommand(), respectively.
- *
- * Permanent TODO: keep these updated in case new commands and/or aliases are
- * added in either category.
+/**
+ * Same as playerHasPermissions(), but for checking admin privileges (implementation-independent,
+ * as in that it works for both the full bot and in-game CT module versions).
+ * @param {String} formattedPlayerName  Account name of player to be checked
+ * against allowlist as admin – can be but does not have to be including Minecraft
+ * formatting, Hypixel rank, and in any combination of upper-/lower-casing)
+ * @returns {boolean}
  */
+function isAdmin(formattedPlayerName, partyHostAccountOwners) {
+  // TODO: remove and/or combine old implementations (ChatTriggers &
+  // Mineflayer versions compatibility)
+  if (usesChatTriggers) {
+    // Old, but currently still in use (CT) implementation:
+    const unformattedPlayerName = removeRank(formattedPlayerName).toLowerCase();
+    return allowlist.includes(unformattedPlayerName);
+  } else {
+    // Mineflayer Bot implementation:
+    return isAccountOwner(removeRank(formattedPlayerName), partyHostAccountOwners);
+  }
+}
 
 /**
- * Commands with negative effect on receivers, some groups of users are
- * exempt from being affected by these (splashers/whitelisted players).
+ * Same as isAdmin(), but for checking Bingo Brewers' discord server admin or helper privileges.
+ * @param {String} formattedPlayerName  Account name of player to be checked
+ * against allowlist as admin – can be but does not have to be including Minecraft
+ * formatting, Hypixel rank, and in any combination of upper-/lower-casing)
+ * @returns {boolean}
  */
-const negativeCommands = ["kick", "remove", "ban", "block"];
-/** Commands which require more than one arg. */
-const commandsRequiringFullMessage = ["speak", "say", "repeat", "rep", "customrepeat", "crepeat", "customrep", "crep", "flea", "bf", "poll", "cmd"];
-/** Commands which should work on the sender if passed without argument (their own IGN). */
-const commandsWithOptionalIGN = ["inv", "invite", "pro", "prom", "promo", "promote", "boopme"];
-
-
-/**
- * These alternating output messages (for when the same `!p help` command is
- * sent multiple times in a short time) exist for circumventing – at least
- * partially – Hypixel's "You cannot say the same message twice!"
- */
-const helpMessages = ["r For a list of available commands see github dot \
-  com/aphased/BingoPartyCommands",
-  "r GitHub: aphased/BingoPartyCommands for all commands",
-  "r All commands are shown on GitHub: aphased/BingoPartyCommands"];
-let helpOutputIndex = 0;
+function isDiscordAdmin(formattedPlayerName, partyHostAccountOwners) {
+  // TODO: remove and/or combine old implementations (ChatTriggers &
+  // Mineflayer versions compatibility)
+  if (usesChatTriggers) {
+    // CT implementation is not made for administrating/changing data, only
+    // as a stop-gap replacement to run in case of issues:
+    return false;
+  } else {
+    // Mineflayer Bot implementation:
+    return isAccountOwner(removeRank(formattedPlayerName), partyHostAccountOwners);
+  }
+}
 
 
 
@@ -175,8 +226,8 @@ function replyUsage(sender) {
 // function replyHelp() { }
 
 
-const MAX_REP_COUNT = 7
-const MAX_PAUSE_DUR = 9
+const MAX_REP_COUNT = 7;
+const MAX_PAUSE_DUR = 9;
 /**
  * For repeatedly outputting the same command sender's message in party chat,
  * used in e.g. `!p rep` as well as `!p customrepeat`.
@@ -595,7 +646,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "lsallowed":
     /* Admin-only command.
     Output will currently only be visible on the server console. */
-    if (!isAccountOwner(rankRemovedSenderName, partyHostAccountOwners)) {
+    if (!isAdmin(rankRemovedSenderName, partyHostAccountOwners)) {
       replyUsage(rankRemovedSenderName);
       break;
     }
@@ -686,7 +737,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "setguide":
     /* Bot administrator-only command: Manually set the link to the Bingo guide,
     i.e. the response to be output on `!p guide` (forum link to Indigo's post) */
-    if (!isAccountOwner(rankRemovedSenderName, partyHostAccountOwners)) {
+    if (!isAdmin(rankRemovedSenderName, partyHostAccountOwners)) {
       replyUsage(rankRemovedSenderName);
       break;
     }
@@ -712,6 +763,10 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     break;
   case "add":
     /* Discord administrator-only functionality */
+    if (!isDiscordAdmin(rankRemovedSenderName, partyHostAccountOwners)) {
+      replyUsage(rankRemovedSenderName);
+      break;
+    }
     // TODO: implement add (splashers) using manageData.mjs functions
     /*
     `/msg BingoParty !p add splasher:exact_IGN`
@@ -720,6 +775,10 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     break;
   case "removeSplasher":
     /* Discord administrator-only functionality */
+    if (!isDiscordAdmin(rankRemovedSenderName, partyHostAccountOwners)) {
+      replyUsage(rankRemovedSenderName);
+      break;
+    }
     // TODO: implement removeSplasher using manageData.mjs functions
     /* `/msg BingoParty !p removeSplasher primary_IGN` */
     break;
@@ -729,7 +788,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     equivalent to having direct (even if chat-only) access to the account, I
     will only let myself have this permission, since BingoParty is, in fact, my
     account. */
-    if (!isAccountOwner(rankRemovedSenderName, partyHostAccountOwners)) {
+    if (!isAdmin(rankRemovedSenderName, partyHostAccountOwners)) {
       replyUsage(rankRemovedSenderName);
       break;
     }
