@@ -171,7 +171,7 @@ function isAdmin(formattedPlayerName) {
     return allowlist.includes(unformattedPlayerName);
   } else {
     // Mineflayer Bot implementation:
-    return isAccountOwner(removeRank(formattedPlayerName), partyHostAccountOwners);
+    return isAccountOwner(removeRank(formattedPlayerName));
   }
 }
 
