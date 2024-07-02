@@ -1,3 +1,5 @@
+import { removeRank } from "./utils.mjs";
+
 import playerData from "../data/playerNames.json" with { type: "json" };
 const allowlist = playerData.playerNames;
 
