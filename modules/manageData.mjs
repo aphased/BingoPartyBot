@@ -41,7 +41,7 @@ const partyHostNameWithoutRank = allowlist.find(item => item.permissionRank === 
  * Insert the fallback as needed if this code is ran on an account
  * other than BingoParty, i.e. one not owned by me (aphased).
 */
-const partyHostAccountOwners = allowlist.find(item => item.permissionRank === "botAccountOwner")?.names || ["aphased", "RNGecko", "BingoParty"];
+const partyHostAccountOwners = allowlist.find(item => item.permissionRank === "botAccountOwner")?.names || ["aphased", "bphased", "BingoParty"];
 
 
 /**
@@ -115,7 +115,7 @@ function refreshSplasherData(primaryName, newPermissionRank, newHypixelRank) {
   const primaryNameFound = allowlist.find(entry => entry.names[0] === primaryName);
 
   if (primaryNameFound == null) {
-    // No possible result
+    // No result possible
     return result;
   }
 
@@ -125,7 +125,7 @@ function refreshSplasherData(primaryName, newPermissionRank, newHypixelRank) {
   } else {
     // TODO assign new value to data & store
     result[1] = newPermissionRank;
-    // store operations…
+    // store async operations…
   }
 
   if (newHypixelRank == null) {
@@ -133,11 +133,52 @@ function refreshSplasherData(primaryName, newPermissionRank, newHypixelRank) {
     result[2] = null; // make this the existing value retrieved instead of null
   } else {
     result[2] = newHypixelRank;
-    // TODO: store into data file…
+    // TODO: async store into data file…
   }
 
   return result;
 }
+
+/* 
+ * TODO write documentation what params this takes (if any more than rank+ign)
+ * @returns {void}
+ */
+function compareAndSaveHypixelRanks() {
+  // The storedRank fetched from data is either outdated or still unchanged 
+  // (meaning equal to the current one just retrieved from in-game),
+  // but never the "more current" one.
+
+  const storedRank = "something";
+  const currentRankAndName = "something potentially else (formattedSenderName)"; 
+
+  if (currentRankAndName[0] != "[") {
+    // Player doesn't have a Hypixel rank ("non"),
+    // all other checks are unnecessary
+    return;
+  }
+
+  const currentWords = currentRankAndName.split(" ");
+  const currentRank = currentWords[0];
+
+  if (storedRank === currentRank) {
+    // Nothing needs to be saved or refreshed, data is still current
+    return;
+  }
+
+  const primaryName = currentWords[1];
+
+  saveChanges(primaryName, currentRank);
+}
+
+
+/**
+ * Writes changes to the player name data to disk
+ * Does not guarantee anything wrt transaction completion, lol.
+ */
+async function saveChanges() {
+  
+}
+
 
 /**
  *

@@ -627,7 +627,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     */
     repeatSenderInPartyChat(true, "4 4 " + messageToBroadcast, formattedSenderName);
     const WAIT_TIME_UNTIL_LAST_WARNING = (16+20)*10**3;
-    waitAndOutputCommand(`pc ${messageToBroadcast}`, WAIT_TIME_UNTIL_LAST_WARNING);
+    waitAndOutputCommand(`pc ${formattedSenderName}: ${messageToBroadcast}`, WAIT_TIME_UNTIL_LAST_WARNING);
     break;
   case "pl":
     // fallthrough for additional alias
