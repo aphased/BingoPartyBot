@@ -1,4 +1,6 @@
 import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 import { removeRank } from "./utils.mjs";
 
@@ -94,14 +96,18 @@ function removeSplasher(primaryName) {
 
 
 // Helper functions to read/write data from/to disk
-const path_to_playerName_data = "/Users/lm/workspace/BingoPartyBot/data/playerNames.json";
-// const path_to_playerName_data = "../data/playerNames.json";
+// const dataFilePath = path.join(__dirname, 'someFolder', 'someFile.txt'); // __dirname doesn't work in ES module..? Hack for now:
+const __filename = fileURLToPath(import.meta.url); 
+const __dirname = path.dirname(__filename);
+
+const dataFilePath = path.join(__dirname, '../data', 'playerNames.json');
+
 function readData() {
-  const data = fs.readFileSync(path_to_playerName_data);
+  const data = fs.readFileSync(dataFilePath);
   return JSON.parse(data);
 }
 function writeData(data) {
-  fs.writeFileSync(path_to_playerName_data, JSON.stringify(data, null, 2));
+  fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
 }
 
 /**
