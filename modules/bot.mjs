@@ -85,7 +85,20 @@ export default class BingoPartyBot {
    * Sends bot to limbo by posting section sign (illegal mc character)
    */
   sendToLimbo(){
-    this.bot.chat("§");
+    // The classic send-to-limbo approach was removed by Hypixel
+    // sometime early 2024-07:
+    // this.bot.chat("§");
+
+    // The next best alternative: just spam commands and hope for the best?
+    // Nope – oofy 2024-07-14: "sending multiple commands in the same
+    // tick gets people banned" - removed again for the time being
+    // for (let i = 0; i < 10; i++) {
+    //   this.runCommand("l");
+    //   this.runCommand("bingo")
+    // }
+
+    // TODO: find a reliable way to implement sendToLimbo()
+
   }
 
   /**
