@@ -92,12 +92,14 @@ export default class BingoPartyBot {
     // The next best alternative: just spam commands and hope for the best?
     // Nope – oofy 2024-07-14: "sending multiple commands in the same
     // tick gets people banned" - removed again for the time being
-    // for (let i = 0; i < 10; i++) {
-    //   this.runCommand("l");
-    //   this.runCommand("bingo")
-    // }
+    for (let i = 0; i < 10; i++) {
+      // this.runCommand("snow");
+      // Even better, oofy's discovery (hilarious):
+      this.runCommand("thiscommandliterallydoesnothing");
+    }
 
-    // TODO: find a reliable way to implement sendToLimbo()
+    // TODO: find a reliable, permanent way to implement sendToLimbo() that is
+    // definitively at a risk of zero for getting banned by Hypixel
 
   }
 

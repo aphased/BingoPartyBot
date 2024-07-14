@@ -775,6 +775,12 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     if (usesChatTriggers) {
       break;
     }
+    // 2024-07-14 because of Hypixel removing "§" as a way to enter Limbo:
+    // Making this command require higher-than-regular permissions,
+    //  maybe temporarily, maybe permanent…
+    if (!isStaff(rankRemovedSenderName)) {
+      break;
+    }
     partyBot.sendToLimbo();
     // waitAndOutputCommand("r Sent bot to limbo.")
     break;
