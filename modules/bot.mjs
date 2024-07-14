@@ -125,6 +125,8 @@ export default class BingoPartyBot {
     log(onKickedMessage);
     this.sendBridge(onKickedMessage);
     this.#removeListener();
+    // For kicks because of proxy reboots ("{"extra":[{"color":"red","text":"This proxy is being rebooted. Please join back under "},{"color":"aqua","text":"mc.hypixel.net"},{"color":"red","text":"!"}],"text":""}"):
+    this.bot.end(); // TODO: does this finally work as intended?
   }
 
   onceSpawn() {

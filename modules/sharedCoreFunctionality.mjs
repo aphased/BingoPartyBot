@@ -168,7 +168,9 @@ function isAdmin(formattedPlayerName) {
   if (usesChatTriggers) {
     // Old, but currently still in use (CT) implementation:
     const unformattedPlayerName = removeRank(formattedPlayerName).toLowerCase();
-    return allowlist.includes(unformattedPlayerName);
+    // return allowlist.includes(unformattedPlayerName);
+    // return partyHostAccountOwners.includes(unformattedPlayerName);
+    return ["aphased", "bphased", "BingoParty"].includes(unformattedPlayerName);
   } else {
     // Mineflayer Bot implementation:
     return isAccountOwner(removeRank(formattedPlayerName));
