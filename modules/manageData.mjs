@@ -124,40 +124,8 @@ function writeData(data) {
   hypixelRank
  ]}
  */
-// function refreshSplasherData(primaryName, newPermissionRank, newHypixelRank) {
-//   let result = [null, null, null];
-
-//   // TODO: check if primaryName can be found in data, return if not…
-//   const primaryNameFound = allowlist.find(entry => entry.names[0] === primaryName);
-
-//   if (primaryNameFound == null) {
-//     // No result possible
-//     return result;
-//   }
-
-//   if (newPermissionRank == null) {
-//     // TODO: retrieve and add to result
-//     result[1] = null; // make this the existing value retrieved instead of null
-//   } else {
-//     // TODO assign new value to data & store
-//     result[1] = newPermissionRank;
-//     // store async operations…
-//   }
-
-//   if (newHypixelRank == null) {
-//     // TODO: retrieve and add to result
-//     result[2] = null; // make this the existing value retrieved instead of null
-//   } else {
-//     result[2] = newHypixelRank;
-//     // TODO: async store into data file…
-//   }
-
-//   return result;
-// }
-
-
 function refreshSplasherData(primaryName, newPermissionRank, newHypixelRank) {
-  // Read the current data from the file
+  // Read current data from the file
   const allowlistFromDisk = readData();
   const result = [null, null, null];
 
@@ -169,7 +137,6 @@ function refreshSplasherData(primaryName, newPermissionRank, newHypixelRank) {
       return result;
   }
 
-  // Register the primaryName in the result
   result[0] = primaryName;
 
   // Handle permission rank update

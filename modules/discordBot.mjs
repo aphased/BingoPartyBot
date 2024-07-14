@@ -52,6 +52,9 @@ function setBingoGuideLink(newGuideLink) {
  * URL scheme (containing `bingo-guide-for-{month}-{year}`),
  * including fetching an update if it is outdated based on the current month/year
  * vs. the values found within the URL.
+ * @returns{string}  The URL to the current month's Bingo guide, assuming it has
+ * been posted. If there is no current URL, or the connection to Discord couldn't
+ * be established, an empty string is returned.
  */
 function getBingoGuideLink() {
 	if (!linkToBingoGuide) {
@@ -62,6 +65,7 @@ function getBingoGuideLink() {
 		} else {
 			// TODO: verify that this does work as intended... write a test maybe?
 			// changes the module variable, meaning we don't need to store and assign
+			log("No link to guide stored, fetching now...")
 			fetchLatestGuideMessage();
 			return linkToBingoGuide;
 		}
@@ -70,6 +74,7 @@ function getBingoGuideLink() {
 	logDebug("linkToBingoGuide already defined as '" + linkToBingoGuide + "'");
 
 	if (!isGuideLinkUpToDate(linkToBingoGuide)) {
+		log("Updating to latest guide link...");
 		fetchLatestGuideMessage();
 	}
 
@@ -89,7 +94,7 @@ function isGuideLinkUpToDate(guideLink) {
 	const urlParts = url.match(/bingo-guide-for-(\w+)-(\d{4})/);
 	if (!urlParts) {
 		err("Current Bingo guide check: URL pattern does not match.");
-		return;
+		return false;
 	}
 
 	const urlMonthName = urlParts[1].toLowerCase();
@@ -101,15 +106,17 @@ function isGuideLinkUpToDate(guideLink) {
 
 	if (urlMonthIndex === -1) {
 		err("Current Bingo guide check: Invalid month in URL.");
-		return;
+		return false;
 	}
 
 	// Check if we need to update
 	if (currentYear > urlYear || (currentYear === urlYear && currentMonth > urlMonthIndex)) {
-		log("Updating to latest guide...");
-		fetchLatestGuideMessage();
+		// Have to update, link is not up to date
+		// fetchLatestGuideMessage(); // (fetching now done by caller of this function for clearer control flow)
+		return false;
 	} else {
 		logDebug("The guide is up to date.");
+		return true;
 	}
 }
 
