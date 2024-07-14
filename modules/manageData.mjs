@@ -1,6 +1,9 @@
+import fs from 'fs';
+
 import { removeRank } from "./utils.mjs";
 
-import playerData from "../data/playerNames.json" with { type: "json" };
+// import playerData from "../data/playerNames.json" with { type: "json" };
+import playerData from "../data/playerNames-unchanged-old.json" with { type: "json" };
 const allowlist = playerData.playerNames;
 
 // currently allowlist player entry scheme:
@@ -88,6 +91,19 @@ function removeSplasher(primaryName) {
 
 }
 
+
+
+// Helper functions to read/write data from/to disk
+const path_to_playerName_data = "/Users/lm/workspace/BingoPartyBot/data/playerNames.json";
+// const path_to_playerName_data = "../data/playerNames.json";
+function readData() {
+  const data = fs.readFileSync(path_to_playerName_data);
+  return JSON.parse(data);
+}
+function writeData(data) {
+  fs.writeFileSync(path_to_playerName_data, JSON.stringify(data, null, 2));
+}
+
 /**
  * (TODO: implement this)
  * Refreshes either the permissions rank, the detected hypixel rank, both, or 
@@ -108,36 +124,95 @@ function removeSplasher(primaryName) {
   hypixelRank
  ]}
  */
+// function refreshSplasherData(primaryName, newPermissionRank, newHypixelRank) {
+//   let result = [null, null, null];
+
+//   // TODO: check if primaryName can be found in data, return if not…
+//   const primaryNameFound = allowlist.find(entry => entry.names[0] === primaryName);
+
+//   if (primaryNameFound == null) {
+//     // No result possible
+//     return result;
+//   }
+
+//   if (newPermissionRank == null) {
+//     // TODO: retrieve and add to result
+//     result[1] = null; // make this the existing value retrieved instead of null
+//   } else {
+//     // TODO assign new value to data & store
+//     result[1] = newPermissionRank;
+//     // store async operations…
+//   }
+
+//   if (newHypixelRank == null) {
+//     // TODO: retrieve and add to result
+//     result[2] = null; // make this the existing value retrieved instead of null
+//   } else {
+//     result[2] = newHypixelRank;
+//     // TODO: async store into data file…
+//   }
+
+//   return result;
+// }
+
+
 function refreshSplasherData(primaryName, newPermissionRank, newHypixelRank) {
-  let result = [null, null, null];
+  // Read the current data from the file
+  const allowlistFromDisk = readData();
+  const result = [null, null, null];
 
-  // TODO: check if primaryName can be found in data, return if not…
-  const primaryNameFound = allowlist.find(entry => entry.names[0] === primaryName);
+  // Find entry with the given primaryName
+  // const entry = allowlistFromDisk.playerNames.find(item => item.names[0] === primaryName);
+  const entry = allowlistFromDisk.find(item => item.names[0] === primaryName);
 
-  if (primaryNameFound == null) {
-    // No result possible
-    return result;
+  if (!entry) {
+      return result;
   }
 
+  // Register the primaryName in the result
+  result[0] = primaryName;
+
+  // Handle permission rank update
   if (newPermissionRank == null) {
-    // TODO: retrieve and add to result
-    result[1] = null; // make this the existing value retrieved instead of null
+      // Retrieve and add existing permission rank to the result
+      result[1] = entry.permissionRank;
   } else {
-    // TODO assign new value to data & store
-    result[1] = newPermissionRank;
-    // store async operations…
+      // Update permission rank and add the new value to the result
+      entry.permissionRank = newPermissionRank;
+      result[1] = newPermissionRank;
   }
 
+  // Handle Hypixel rank update
   if (newHypixelRank == null) {
-    // TODO: retrieve and add to result
-    result[2] = null; // make this the existing value retrieved instead of null
+      // Retrieve and add existing Hypixel rank to the result
+      result[2] = entry.hypixelRank;
   } else {
-    result[2] = newHypixelRank;
-    // TODO: async store into data file…
+      // Update Hypixel rank and add the new value to the result
+      entry.hypixelRank = newHypixelRank;
+      result[2] = newHypixelRank;
   }
 
+  // Save the updated data back to the file
+  // TODO: only write if it differs (i.e., new values)
+  // TODO: perform the write asynchronously…?!
+  writeData(allowlistFromDisk);
+
+  // Return result as [primaryName, permissionRank, hypixelRank]
   return result;
 }
+
+
+
+
+const newRanks = refreshSplasherData("testNamePrimaryValue", "ex-splasher", "[VIP++++]");
+console.log(newRanks); // Output should reflect the updated ranks or existing ones if new ones are null
+
+
+
+
+
+
+
 
 /* 
  * TODO write documentation what params this takes (if any more than rank+ign)
