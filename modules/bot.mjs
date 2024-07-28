@@ -89,18 +89,18 @@ export default class BingoPartyBot {
     // sometime early 2024-07:
     // this.bot.chat("§");
 
-    // The next best alternative: just spam commands and hope for the best?
+    // The next best immediately-working alternative: just spam any commands and hope for the best?
     // Nope – oofy 2024-07-14: "sending multiple commands in the same
     // tick gets people banned" - removed again for the time being
-    for (let i = 0; i < 10; i++) {
+    // for (let i = 0; i < 10; i++) {
       // this.runCommand("snow");
       // Even better, oofy's discovery (hilarious):
-      this.runCommand("thiscommandliterallydoesnothing");
-    }
+      // this.runCommand("thiscommandliterallydoesnothing");
+    // }
 
-    // TODO: find a reliable, permanent way to implement sendToLimbo() that is
-    // definitively at a risk of zero for getting banned by Hypixel
-
+    // Shortly after, Hypixel introduced `/limbo` as an official server-provided command - awesome!
+    // This should be about as reliable and risk-free as it gets… and we'll have to see about permanent.
+    this.runCommand("limbo");
   }
 
   /**
