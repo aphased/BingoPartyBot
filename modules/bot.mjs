@@ -47,26 +47,6 @@ export default class BingoPartyBot {
       this.onceSpawn();
     });
 
-    // Never mind, better? temporary? solution: see !p ban command now (sharedCoreFunctionality file)
-    // this.bot.on('spawn', () => {
-    //   // TODO: 2024-07-01 emergency fix:
-    //   // Hypixel have removed the ability to block (formerly ignore) 
-    //   // add/remove/list/anything while the player positioned in Limbo.
-
-    //   // BossFlea recommendation: wait 5 seconds, only then request location
-    //   setTimeout(() => {
-    //     this.runCommand("locraw");
-    //   }, 5000);
-
-    //   // figure out location…
-    
-    //   if (inLimbo) {
-    //     this.runCommand("l");
-    //     // AFK there instead of in Limbo
-    //     this.runCommand("play sb");
-    //   }
-    // });
-
     this.bot.on('end', () => {
       this.onEnd();
     });
@@ -82,7 +62,7 @@ export default class BingoPartyBot {
   }
 
   /**
-   * Sends bot to limbo area
+   * Sends bot to Hypixel limbo area, intended for afk-ing
    */
   sendToLimbo(){
     // The classic send-to-limbo approach was removed by Hypixel
