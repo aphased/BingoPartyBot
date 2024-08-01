@@ -4,9 +4,10 @@ import { fileURLToPath } from 'url';
 
 import { removeRank } from "./utils.mjs";
 
-// import playerData from "../data/playerNames.json" with { type: "json" };
-import playerData from "../data/playerNames-unchanged-old.json" with { type: "json" };
-const allowlist = playerData.playerNames;
+import playerData from "../data/playerNames.json" with { type: "json" };
+const allowlist = playerData;
+// import playerData from "../data/playerNames-unchanged-old.json" with { type: "json" };
+// const allowlist = playerData.playerNames;
 
 // currently allowlist player entry scheme:
 /*
