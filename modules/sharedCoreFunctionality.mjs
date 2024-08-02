@@ -66,6 +66,9 @@ let helpOutputIndex = 0;
 const THIRTY_SECONDS = 30 * 1000;
 let lastActionTimeGuidePosted = 0;
 
+// Used in ban/unban operations 
+const SEND_BACK_TO_LIMBO_AFTER = 7*10**3;
+
 
 /**
  * This function masks the true implementation of how messages/commands are
@@ -408,7 +411,8 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   Furthermore of note: ooffyy said 2024-01-07 that queueing commands was
   apparently (?) disallowed by Hypixel, so we apply the wait individually every
   time instead of just using queue-like push/wait+send/pop operations */
-  /** Standard timeout to wait for in between outputting messages, in milliseconds. */
+  
+  /** The standard timeout to wait for in between outputting messages, in milliseconds. */
   let defaultTimeout = 2190 + Math.floor(Math.random() * 41) - 20;
 
   /**
@@ -433,7 +437,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     if (!checkSetting("BingoPartyFeatures", "Party transfer", "transfer"))
       break;
     if (receivingPlayerName === "") {
-      // receiving account has to be explicitly listed
+      // receiving account has to be explicitly listed for this command
       break;
     }
     outputCommand("pc Party was transferred to " + receivingPlayerName + " by " + formattedSenderName + ".");
@@ -490,9 +494,9 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     outputCommand("pc " + receivingPlayerName + " was kicked from the party by " + formattedSenderName + ".");
     waitAndOutputCommand("p remove " + receivingPlayerName, defaultTimeout);
     break;
-  case "ban":
-    // fallthrough for additional alias
   case "block":
+    // fallthrough for additional alias
+  case "ban":
     if (!checkSetting("BingoPartyFeatures", "Party block", "block"))
       break;
     if (receivingPlayerName === "") {
@@ -500,7 +504,7 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
     }
     // TODO: 2024-07-01 temporary? fix: Hypixel broke using the block (formerly ignore) feature
     // while the player is in Limbo (block add/remove/even list…).
-    // Solution, for now: move to lobby for every block/unblock action
+    // Solution, for now (might become permanent): move to lobby for every block/unblock action
     // (and as noted by BossFlea: don't insist send back to Limbo by sending "§" afterwards)
     outputCommand("l");
     
@@ -508,18 +512,24 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
 
     waitAndOutputCommand("p remove " + receivingPlayerName, 500);
     waitAndOutputCommand("pc " + receivingPlayerName + " was removed from the party and blocked from rejoining by " + formattedSenderName + ".", defaultTimeout);
+
+    // Send back to limbo area after a brief waiting period
+    waitAndOutputCommand("limbo", SEND_BACK_TO_LIMBO_AFTER);
     break;
-  case "unban":
-    // fallthrough for additional alias
   case "unblock":
+    // fallthrough for additional alias
+  case "unban":
     if (!checkSetting("BingoPartyFeatures", "Party unblock", "unblock"))
       break;
 
-    // See comment under case "block": send to lobby as temp fix
+    // See equivalent explaining comment under case "ban": send to lobby as "temp" fix
     outputCommand("l");
     
     waitAndOutputCommand("block remove " + receivingPlayerName, defaultTimeout+500);
     waitAndOutputCommand("r Removed " + receivingPlayerName + " from block list.");
+    
+    // Send back to limbo area after a brief waiting period
+    waitAndOutputCommand("limbo", SEND_BACK_TO_LIMBO_AFTER);
     break;
   case "close":
     // Not quite sure yet when this would be useful, but alas, probably
