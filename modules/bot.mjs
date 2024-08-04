@@ -7,10 +7,6 @@ import { log, logDebug, err } from "./utils.mjs";
 import { parseAndExecuteMessage } from "./handleMessage.mjs";
 import { bridgingToDiscordEnabled, onDataStdinHandler } from "../index.mjs";
 
-// left in from Trypo (?):
-// import { json } from "stream/consumers";
-// import { parse } from "path";
-
 import { allowlist, bingoBrewersRules } from './manageData.mjs';
 
 
