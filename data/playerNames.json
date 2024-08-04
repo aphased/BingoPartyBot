@@ -74,7 +74,7 @@
     "permissionRank": "hob"
   },
   {
-    "hypixelRank": "MVP++",
+    "hypixelRank": "[MVP++]",
     "names": [
       "EnsyL"
     ],
@@ -305,7 +305,7 @@
     "names": [
       "NotOgfishyboi"
     ],
-    "permissionRank": "splasher"
+    "permissionRank": "formerSplasher"
   },
   {
     "hypixelRank": "[MVP+]",
@@ -438,7 +438,7 @@
       "marfylikebedwars",
       "mafrylikebedwars"
     ],
-    "permissionRank": "retiredSplasher"
+    "permissionRank": "formerSplasher"
   },
   {
     "hypixelRank": "[MVP+]",
@@ -594,6 +594,6 @@
       "testNamePrimaryValue",
       "testNameSecondaryValue"
     ],
-    "permissionRank": "ex-splasher"
+    "permissionRank": "formerSplasher"
   }
 ]
