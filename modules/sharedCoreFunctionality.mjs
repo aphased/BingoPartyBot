@@ -497,9 +497,13 @@ function executeHypixelPartyCommand(formattedSenderName, command, commandArgumen
   case "block":
     // fallthrough for additional alias
   case "ban":
-    if (!checkSetting("BingoPartyFeatures", "Party block", "block"))
+    if (!checkSetting("BingoPartyFeatures", "Party ban", "ban"))
       break;
     if (receivingPlayerName === "") {
+      break;
+    }
+    if (isSamePlayer(rankRemovedSenderName, receivingPlayerName, allowlist)) {
+      log("Skipping ban of same person");
       break;
     }
     // TODO: 2024-07-01 temporary? fix: Hypixel broke using the block (formerly ignore) feature
