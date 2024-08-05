@@ -269,6 +269,10 @@ class StringSet {
     }
   }
 
+  removeAllEntries() {
+    return this.set.clear();
+  }
+
   has(str) {
     return this.set.has(str);
   }

@@ -973,7 +973,6 @@ function executeHypixelPartyCommand(
         replyUsage(rankRemovedSenderName);
         break;
       }
-
       tempDisabledCommands.add(commandArgument);
       log(`${rankRemovedSenderName} disabled '${commandArgument}'`);
       break;
@@ -983,9 +982,16 @@ function executeHypixelPartyCommand(
         replyUsage(rankRemovedSenderName);
         break;
       }
-
       tempDisabledCommands.remove(commandArgument);
       log(`${rankRemovedSenderName} enabled '${commandArgument}'`);
+      break;
+    case "enableall":
+      if (!isAdmin(rankRemovedSenderName)) {
+        replyUsage(rankRemovedSenderName);
+        break;
+      }
+      tempDisabledCommands.removeAllEntries();
+      log(`${rankRemovedSenderName} re-enabled all commands'`);
       break;
     case "lstoggled":
     // fallthrough for additional alias
