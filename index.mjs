@@ -1,24 +1,31 @@
 "use strict";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
-import Bot from './modules/bot.mjs';
-import { logDebug, parseStdinArgs, getNameByPermissionRank, getHypixelRankByName } from './modules/utils.mjs';
-import { parseAndExecuteMessage } from './modules/handleMessage.mjs';
-import { allowlist } from './modules/manageData.mjs';
-
+import Bot from "./modules/bot.mjs";
+import {
+  logDebug,
+  parseStdinArgs,
+  getNameByPermissionRank,
+  getHypixelRankByName,
+} from "./modules/utils.mjs";
+import { parseAndExecuteMessage } from "./modules/handleMessage.mjs";
+import { allowlist } from "./modules/manageData.mjs";
 
 /* The main action being made in this file which represents the core
 functionality is providing/exporting the bot object. Most everything else
 is optional, i.e. done for improvements to the bot system. */
-export { partyBot, debugOutputEnabled, bridgingToDiscordEnabled, onDataStdinHandler };
-
+export {
+  partyBot,
+  debugOutputEnabled,
+  bridgingToDiscordEnabled,
+  onDataStdinHandler,
+};
 
 /**
  * Instance of the Bot to be used in handleCommand.mjs.
  */
 const partyBot = new Bot("BingoPartyBot");
-
 
 /**
  * Controls whether debug logging is shown. Implemented/used/altered (if an
@@ -47,7 +54,6 @@ const debugOutputEnabled = [false];
  */
 const bridgingToDiscordEnabled = [true];
 
-
 /**
  * Enables entering raw commands/other input in-game via the console stdin,
  * with interpreting all "!" commands equivalent to having
@@ -58,20 +64,26 @@ const bridgingToDiscordEnabled = [true];
  * disconnected so that the program can swiftly exit and, presumably, restart.
  * (TODO: this part did not work yet reliably, somehow!?)
  */
-const onDataStdinHandler = data => {
+const onDataStdinHandler = (data) => {
   const command = data.toString().trim();
   logDebug("onDataStdinHandler: '" + command + "'");
   // only allow messages beginning with "!" or "/"
   if (command.startsWith("/")) {
     // interpret as direct Minecraft/Hypixel slash command
-    logDebug("Console received \"/\" command");
+    logDebug('Console received "/" command');
     partyBot.bot.chat(command);
   } else if (command.startsWith("!")) {
     // interpret as BingoParty (bot) command
-    const formattedSenderName = getNameByPermissionRank("botAccountOwner", allowlist);
-    const senderHypixelRank = getHypixelRankByName(formattedSenderName, allowlist);
+    const formattedSenderName = getNameByPermissionRank(
+      "botAccountOwner",
+      allowlist,
+    );
+    const senderHypixelRank = getHypixelRankByName(
+      formattedSenderName,
+      allowlist,
+    );
     const fullMessage = `From ${senderHypixelRank} ${formattedSenderName}: ${command}`;
-    logDebug("Console received \"!\" command");
+    logDebug('Console received "!" command');
     logDebug("fullMessage: '" + fullMessage + "'");
     // simulate a regular "real" command sent via in-game direct message from
     // the bot account owner's account, e.g. [MVP+] aphased: !p speak Something
@@ -80,10 +92,10 @@ const onDataStdinHandler = data => {
     // treat input from stdin as options for the running code base:
     // reloading data, changing variables (e.g. debug level shown), etc.
 
-    logDebug("Console received \"-\" command");
+    logDebug('Console received "-" command');
     // TODO: finish writing handleOption(command) or similar here?
     parseStdinArgs(command);
-  } else if (command.startsWith("§") || command.startsWith("!limbo")) {
+  } else if (command.startsWith("§") || command.startsWith("!limbo")) {
     // Send bot to Hypixel Limbo - same as !p limbo
     partyBot.sendToLimbo();
   } else {
@@ -96,5 +108,4 @@ const onDataStdinHandler = data => {
 };
 
 // attach handler to console standard input
-process.stdin.on('data', onDataStdinHandler);
-
+process.stdin.on("data", onDataStdinHandler);

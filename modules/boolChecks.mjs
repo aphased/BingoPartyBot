@@ -1,7 +1,7 @@
 import { log, logDebug, err, removeRank } from "./utils.mjs";
 
 export { hasPrefix, isWhisper, isPartyMessage, hasPermissions };
-export { isSamePlayer, isPartyInvite, isInSameRankCategory};
+export { isSamePlayer, isPartyInvite, isInSameRankCategory };
 
 /**
  * Checks if player message starts with a prefix
@@ -9,8 +9,8 @@ export { isSamePlayer, isPartyInvite, isInSameRankCategory};
  * @param {string} b_prefix Bot prefix.
  * @returns {boolean}
  */
-function hasPrefix(msg, b_prefix){
-    return msg.startsWith(b_prefix);
+function hasPrefix(msg, b_prefix) {
+  return msg.startsWith(b_prefix);
 }
 
 /**
@@ -18,7 +18,7 @@ function hasPrefix(msg, b_prefix){
  * @param {string} msg Player message.
  * @returns {boolean}
  */
-function isWhisper(msg){
+function isWhisper(msg) {
   //logDebug("isWhisper's msg: '" + msg + "'");
   return msg.trim().startsWith("From ");
 }
@@ -42,7 +42,7 @@ function isPartyMessage(msg) {
  * @returns {[boolean, string]} found, primaryName
  * (TODO: fix return type not showing in jsdoc here)
  */
-function hasPermissions(senderName, allowlist){
+function hasPermissions(senderName, allowlist) {
   // previous implementation: array of IGNs
   //return whitelist.includes(player.toLowerCase());
   log("Checking allowlist data...");
@@ -68,9 +68,17 @@ function hasPermissions(senderName, allowlist){
       //logDebug(names[j]);
       tmpName = names[0];
       if (names[j].toLowerCase() === senderName) {
-        logDebug("Found permitted IGN (names[j]): '" + names[j] + "' (+ .toLowerCase()");
+        logDebug(
+          "Found permitted IGN (names[j]): '" +
+            names[j] +
+            "' (+ .toLowerCase()",
+        );
         logDebug("Primary name in use (names[0]): '" + names[0] + "'");
-        logDebug("Primary name in use (allowlist[i].names[0]): '" + allowlist[i].names[0] + "'");
+        logDebug(
+          "Primary name in use (allowlist[i].names[0]): '" +
+            allowlist[i].names[0] +
+            "'",
+        );
         logDebug("Primary name in use (tmpName/names[0]): '" + tmpName + "'");
         primaryName = names[0]; //OLD (maybe)
         primaryName = allowlist[i].names[0];
@@ -82,10 +90,11 @@ function hasPermissions(senderName, allowlist){
       }
     }
   }
-  logDebug("returning [found, primaryName]: '" + found + "', '" + primaryName + "'");
+  logDebug(
+    "returning [found, primaryName]: '" + found + "', '" + primaryName + "'",
+  );
   return [found, primaryName];
 }
-
 
 /**
  * Less convoluted variant of permission check. Checks if two IGNs in the
@@ -102,7 +111,6 @@ function isSamePlayer(name1, name2, allowlist) {
   logDebug("allowlist's first entry:");
   logDebug(allowlist[0].names);
 
-
   //for (const player of allowlist.playerNames) {…
   //let dataLength = allowlist.playerNames.length;
   /*
@@ -116,7 +124,6 @@ function isSamePlayer(name1, name2, allowlist) {
   return false;
   */
 
-
   name1 = name1.toLowerCase();
   name2 = name2.toLowerCase();
 
@@ -129,11 +136,11 @@ function isSamePlayer(name1, name2, allowlist) {
   iterations are known to be very short. String comparisons have to be
   "normalized" (performed in all lowercase) so users can send the name in
   whichever capitalization. */
-  allowlist.some(function(player) {
+  allowlist.some(function (player) {
     // rather spammy: logDebug("player.names: '" + player.names + "'");
     // TODO: (someday…) the larger the data grows, the worse this hack becomes:
     // _all_ names are .toLowerCase()'d _every_ call of this function
-    const playerNamesTemp = player.names.map(name => name.toLowerCase());
+    const playerNamesTemp = player.names.map((name) => name.toLowerCase());
     if (playerNamesTemp.includes(name1) && playerNamesTemp.includes(name2)) {
       logDebug("isSamePlayer result:true");
       logDebug("player.names: '" + player.names + "'");
@@ -151,7 +158,7 @@ function isSamePlayer(name1, name2, allowlist) {
  * admin against splasher, or moderator against member, or similar later… */
 function isInSameRankCategory(name1, name2, allowlist) {
   let rank1, rank2;
-  allowlist.forEach(player => {
+  allowlist.forEach((player) => {
     if (player.names.includes(name1)) {
       rank1 = player.permissionRank;
     } else if (player.names.includes(name2)) {
@@ -177,7 +184,9 @@ function isPartyInvite(msg) {
   ${formattedSenderName} has invited you to join ${their, anotherIGN's} party!
   You have 60 seconds to accept. Click here to join!
   ----------------------------------------------------- */
-  const startIndex = msg.indexOf("-----------------------------------------------------\n");
+  const startIndex = msg.indexOf(
+    "-----------------------------------------------------\n",
+  );
   const endIndex = msg.indexOf(" has invited you to join ");
 
   if (startIndex !== -1 && endIndex !== -1) {
@@ -190,12 +199,12 @@ function isPartyInvite(msg) {
     logDebug("isPartyInvite: inviterName='" + inviterName + "' (final)");
     return {
       isPartyInvite: true,
-      senderName: inviterName
+      senderName: inviterName,
     };
   } else {
     return {
       isPartyInvite: false,
-      senderName: ""
+      senderName: "",
     };
   }
 }

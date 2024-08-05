@@ -1,9 +1,13 @@
 import chalk from "chalk";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 import stripAnsi from "strip-ansi";
 
-import { debugOutputEnabled, bridgingToDiscordEnabled, partyBot } from "../index.mjs";
+import {
+  debugOutputEnabled,
+  bridgingToDiscordEnabled,
+  partyBot,
+} from "../index.mjs";
 
 export { log, logDebug, err, parseStdinArgs };
 export { removeFormatting, removeRank };
@@ -17,19 +21,27 @@ const fullLogsMessageQueue = [];
 function logDebug(message) {
   if (debugOutputEnabled[0]) multiPurposeLog("DBG", message);
 }
-function log(message) { multiPurposeLog("LOG", message); }
-function err(message) { multiPurposeLog("ERR", message); }
+function log(message) {
+  multiPurposeLog("LOG", message);
+}
+function err(message) {
+  multiPurposeLog("ERR", message);
+}
 
 // not exported/exposed to other modules for the time being
 function multiPurposeLog(purpose, message) {
-  const date = new Date().toISOString().replace(/T|Z/g, ' ').slice(0, -5);
+  const date = new Date().toISOString().replace(/T|Z/g, " ").slice(0, -5);
   // yyyy-mm-dd hh:mm:ss [PRP] msg
   const output = `${date} [${purpose}] ${message}`;
-  (purpose === "ERR") ? console.error(chalk.red(output)) : console.log(output);
+  purpose === "ERR" ? console.error(chalk.red(output)) : console.log(output);
 
-  // I might remove this again, but for now: 
+  // I might remove this again, but for now:
   // Send all stdout messages to Discord as well
-  partyBot.sendBridge((purpose === "ERR") ? chalk.red(output) : output, fullLogsWebhookURL, fullLogsMessageQueue);
+  partyBot.sendBridge(
+    purpose === "ERR" ? chalk.red(output) : output,
+    fullLogsWebhookURL,
+    fullLogsMessageQueue,
+  );
   // TODO: a stdout logging system/solution that does not violate https://12factor.net/logs
 }
 
@@ -47,17 +59,15 @@ function removeRank(name) {
   return name.replace(/\[.+]/g, "").trim();
 }
 
-
 function containsInNestedArray(arr, str) {
-  return arr.some(item => {
-    if(Array.isArray(item)) {
+  return arr.some((item) => {
+    if (Array.isArray(item)) {
       return item.includes(str);
     } else {
       return item === str;
     }
   });
 }
-
 
 /**
  * Prints allowlist as an easily readable string to console stdout
@@ -66,7 +76,7 @@ function containsInNestedArray(arr, str) {
  */
 function printAllowlist(allowlist) {
   log("--------------");
-  allowlist.forEach(function(player) {
+  allowlist.forEach(function (player) {
     log("Player Names: " + player.names.join(", "));
     log("Rank (Permissions): " + player.permissionRank);
     log("Rank (Hypixel):     " + player.hypixelRank);
@@ -120,7 +130,6 @@ function getHypixelRankByName(name, allowlist) {
   return "Name not found";
 }
 
-
 /**
  * TODO: update this JSDoc?
  *
@@ -159,68 +168,74 @@ function parseStdinArgs(...argsToCheck) {
 
   // Loop through arguments and process them
   // Remove elements checked so as to not have O(n**2) every time
-  while(argsToCheck.length > 0 ) {
+  while (argsToCheck.length > 0) {
     /* do stuff… */
     const arg = argsToCheck[0];
 
-      // Check if the argument is a flag
-      if (arg.indexOf('-') === 0) { // := .startsWith('-')
-        switch(arg) {
-          case "-t":
-            // fallthrough for alias
-          case "--test":
-            log("Parsed no-op option 'test' (-t/--test) successfully!");
-            break;
-          case "-d":
-            // fallthrough for alias
-          case "--debug":
-            // fallthrough for alias
-          case "--debug-level":
-            // toggle the debug output flag
-            debugOutputEnabled[0] = !debugOutputEnabled[0];
-            log(`Output debugging flag set to '${debugOutputEnabled[0]}'`);
-            break;
-          case "-b":
-            // fallthrough for alias
-          case "--bridge":
-            // fallthrough for alias
-          case "--discord-bridge":
-            // toggle sending (receiving? in the future…) messages with Discord
-            bridgingToDiscordEnabled[0] = !bridgingToDiscordEnabled[0];
-            log(`Sending messages to Discord flag set to '${bridgingToDiscordEnabled[0]}'`);
-            break;
-          case "-r":
-            // fallthrough for alias
-          case "--reload":
-            // fallthrough for alias
-          case "--reload-data":
-            // Process the flag
-            /* TODO: add data reloading feature (for not having to do a full restart after the json files have been written to; needs appropriate interfacing functions in manageData.mjs first) */
-            break;
-          case "-h":
-            // fallthrough for alias
-          case "--help":
-            console.log('Usage: node app.js [options]');
-            console.log('Options:');
-            console.log('-h, --help                   Display help message');
-            console.log('-d, --debug, --debug-level   Set debug output verbosity');
-            console.log('-r, --reload, --reload-data  Reload JSON data (allowlist, banlist, rules)');
-            break;
-          // Add more options here
-          default:
-            log(`Unknown option: ${arg}`);
-            break;
-        }
-      } else {
-          // Process the argument value
-          // TODO: the debug-level option should be able to receive an int value
-          log(`Argument value: ${arg}`);
+    // Check if the argument is a flag
+    if (arg.indexOf("-") === 0) {
+      // := .startsWith('-')
+      switch (arg) {
+        case "-t":
+        // fallthrough for alias
+        case "--test":
+          log("Parsed no-op option 'test' (-t/--test) successfully!");
+          break;
+        case "-d":
+        // fallthrough for alias
+        case "--debug":
+        // fallthrough for alias
+        case "--debug-level":
+          // toggle the debug output flag
+          debugOutputEnabled[0] = !debugOutputEnabled[0];
+          log(`Output debugging flag set to '${debugOutputEnabled[0]}'`);
+          break;
+        case "-b":
+        // fallthrough for alias
+        case "--bridge":
+        // fallthrough for alias
+        case "--discord-bridge":
+          // toggle sending (receiving? in the future…) messages with Discord
+          bridgingToDiscordEnabled[0] = !bridgingToDiscordEnabled[0];
+          log(
+            `Sending messages to Discord flag set to '${bridgingToDiscordEnabled[0]}'`,
+          );
+          break;
+        case "-r":
+        // fallthrough for alias
+        case "--reload":
+        // fallthrough for alias
+        case "--reload-data":
+          // Process the flag
+          /* TODO: add data reloading feature (for not having to do a full restart after the json files have been written to; needs appropriate interfacing functions in manageData.mjs first) */
+          break;
+        case "-h":
+        // fallthrough for alias
+        case "--help":
+          console.log("Usage: node app.js [options]");
+          console.log("Options:");
+          console.log("-h, --help                   Display help message");
+          console.log(
+            "-d, --debug, --debug-level   Set debug output verbosity",
+          );
+          console.log(
+            "-r, --reload, --reload-data  Reload JSON data (allowlist, banlist, rules)",
+          );
+          break;
+        // Add more options here
+        default:
+          log(`Unknown option: ${arg}`);
+          break;
       }
+    } else {
+      // Process the argument value
+      // TODO: the debug-level option should be able to receive an int value
+      log(`Argument value: ${arg}`);
+    }
 
     //argsToCheck.splice(0,1);
     argsToCheck.shift();
   }
-
 
   // TODO: old?
   /*
@@ -229,7 +244,6 @@ function parseStdinArgs(...argsToCheck) {
       // do stuff…
   }
   */
-
 }
 
 // Helper class for operations on temporarily disabled commands in sharedCoreFunctionality.mjs
@@ -237,9 +251,9 @@ class StringSet {
   constructor() {
     this.set = new Set();
   }
-  
+
   add(str) {
-    if (typeof str === 'string') {
+    if (typeof str === "string") {
       this.set.add(str);
     } else {
       err("Only strings can be added");
@@ -264,4 +278,3 @@ class StringSet {
     return Array.from(this.set);
   }
 }
-

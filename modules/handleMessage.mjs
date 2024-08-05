@@ -1,16 +1,20 @@
-import { log, logDebug, err } from './utils.mjs';
-import { hasPermissions, isWhisper, hasPrefix, isPartyInvite, isPartyMessage } from './boolChecks.mjs';
-import { runPartyCommand } from './handleCommand.mjs';
-import { partyBot } from '../index.mjs';
-import { replyUsage } from './sharedCoreFunctionality.mjs';
-import { allowlist, partyHostNameWithoutRank } from './manageData.mjs';
-
+import { log, logDebug, err } from "./utils.mjs";
+import {
+  hasPermissions,
+  isWhisper,
+  hasPrefix,
+  isPartyInvite,
+  isPartyMessage,
+} from "./boolChecks.mjs";
+import { runPartyCommand } from "./handleCommand.mjs";
+import { partyBot } from "../index.mjs";
+import { replyUsage } from "./sharedCoreFunctionality.mjs";
+import { allowlist, partyHostNameWithoutRank } from "./manageData.mjs";
 
 import kickableData from "../data/autoKickWords.json" with { type: "json" };
 const autoKickWords = kickableData.autoKickWords;
 // TODO: if this system ever causes any big unforeseen issues, just insert/use this instead:
 // const autoKickWords = ["sakldhjldsahjabfsfhkfahkjasfhj-thiswillneverbematched"];
-
 
 export { parseAndExecuteMessage };
 
@@ -21,7 +25,7 @@ export { parseAndExecuteMessage };
 function parseAndExecuteMessage(message) {
   let parsedMsgObj = extractMessage(message);
 
-  if (parsedMsgObj == '') {
+  if (parsedMsgObj == "") {
     /* Without this check, there'd be a crash upon entering "/pl" via console
     stdin due to the blank lines in the output (list of party members), meaning
     the root cause here is me reusing the function meant for Mineflayer text
@@ -29,7 +33,7 @@ function parseAndExecuteMessage(message) {
     i.e. ones that were not even originating in-game. Thus the non type-strict
     comparison is correct. */
     // Replace empty lines with a single space to make life easier
-    parsedMsgObj = ' ';
+    parsedMsgObj = " ";
   }
 
   //logDebug("parsedMsgObj: '" + parsedMsgObj + "'");
@@ -41,13 +45,11 @@ function parseAndExecuteMessage(message) {
   already – as nearly all messages in this listener will _not_ be a command nor
   invite (by an allowed person no less) */
 
-
   // too spammy & most often not even needed yet for general debugging
   //logDebug("At parseAndExecuteMessage(), message is not yet checked to be a whisper, with the following:");
   //logDebug("rank: '" + rank + "'");
   //logDebug("playerName: '" + playerName + "'");
   //logDebug("msgContent: '" + msgContent + "'");
-
 
   switch (determineMessageType(parsedMsgObj)) {
     case "whisper":
@@ -68,22 +70,20 @@ function parseAndExecuteMessage(message) {
   }
 }
 
-
-
 /**
  * Extracts message from a humongous ChatMessage Object (why hypixel)
  * @param {ChatMessage} chatMessage
  * @returns {string} Message but as string.
  */
 function extractMessage(chatMessage) {
-  let message = (chatMessage.text || chatMessage) || '';
+  let message = chatMessage.text || chatMessage || "";
   // extremely spammy:
   //logDebug("extractMessage's chatMessage: '" + chatMessage + "'");
   //logDebug("extractMessage's message: '" + message + "'");
 
   if (Array.isArray(chatMessage.extra)) {
     for (const extraMessage of chatMessage.extra) {
-      if (extraMessage && typeof extraMessage === 'object') {
+      if (extraMessage && typeof extraMessage === "object") {
         message += extractMessage(extraMessage);
       }
     }
@@ -91,7 +91,6 @@ function extractMessage(chatMessage) {
 
   return message;
 }
-
 
 /**
  *
@@ -106,53 +105,61 @@ function determineMessageType(parsedMsgObj) {
   else return undefined;
 }
 
-
 /**
  * Parses messages into sender and message content parts, where messages may be
  * sent directly or to party chat (prefixes `From `, `Party > `, etc.)
  * @param {string} msg
  * @returns {{rank: string,
-*           playerName: string,
-*           msgContent: string}} Player data as well as message content.
-*/
+ *           playerName: string,
+ *           msgContent: string}} Player data as well as message content.
+ */
 function parseMessage(msg) {
   const rankRegex = /\[([A-Za-z]).*\]/;
-  const colonIndex = (msg == null) ? -1 : msg.indexOf(':');
+  const colonIndex = msg == null ? -1 : msg.indexOf(":");
 
   // Get content from start to first instance of a colon.
-  const fromMsg = (colonIndex !== -1) ? msg.slice(0, colonIndex).trim() : msg;
+  const fromMsg = colonIndex !== -1 ? msg.slice(0, colonIndex).trim() : msg;
   // Get message content.
-  const msgContent = (colonIndex !== -1) ? msg.slice(colonIndex + 1).trim() : '';
+  const msgContent = colonIndex !== -1 ? msg.slice(colonIndex + 1).trim() : "";
 
   // Apply regular expression to find if the user has a rank.
   const rankMatch = fromMsg.match(rankRegex);
   // If user has rank, take first index, otherwise no rank.
-  const rank = rankMatch ? rankMatch[0] : '';
+  const rank = rankMatch ? rankMatch[0] : "";
 
   // Get only username, determine message type (e.g. direct or party message) for Regex
   let messageChannelPrefix;
   if (isWhisper(msg)) messageChannelPrefix = "From ";
   else if (isPartyMessage(msg)) messageChannelPrefix = "Party > ";
 
-  const playerName = fromMsg.replace(rankRegex, '').trim().replace(new RegExp('^' + messageChannelPrefix), '').trim();
+  const playerName = fromMsg
+    .replace(rankRegex, "")
+    .trim()
+    .replace(new RegExp("^" + messageChannelPrefix), "")
+    .trim();
 
   if (determineMessageType(msg) != undefined) {
     // TODO: remove temporary solution (this determineMessageType() call) which
     // prevents log spamminess – after the debug "verbosity" levels have been added
-    logDebug("rank, senderName, msgContent: '" + rank + "', '" + playerName + "', '" + msgContent + "'");
+    logDebug(
+      "rank, senderName, msgContent: '" +
+        rank +
+        "', '" +
+        playerName +
+        "', '" +
+        msgContent +
+        "'",
+    );
   }
 
-  return {rank,
-          playerName,
-          msgContent}
+  return { rank, playerName, msgContent };
 }
-
 
 function handleWhisper(rank, senderName, msgContent) {
   logDebug("Message is whisper");
 
   if (!hasPrefix(msgContent, partyBot.b_prefix)) {
-    if (msgContent.includes("help")) { 
+    if (msgContent.includes("help")) {
       // be lenient, e.g. `!help` instead of `!p help`
       replyUsage(senderName);
     } else if (msgContent.includes("Boop!")) {
@@ -167,23 +174,32 @@ function handleWhisper(rank, senderName, msgContent) {
   const permissionsCheck = hasPermissions(senderName, allowlist);
   if (!permissionsCheck[0]) return;
 
-  const args = msgContent.replace(partyBot.b_prefix, '').trim().split(" ")
+  const args = msgContent.replace(partyBot.b_prefix, "").trim().split(" ");
   const data = {
     playerName: senderName,
     formattedPlayerName: `${rank} ${senderName}`,
     rank: rank,
     message: msgContent,
     b_prefix: partyBot.b_prefix,
-    primaryName: permissionsCheck[1]
-  }
+    primaryName: permissionsCheck[1],
+  };
   const [command, ...cmdArgs] = args;
   logDebug("data.senderName, primaryName, command, cmdArgs:");
-  logDebug("'" + data.senderName + "', '" + data.primaryName + "', '" + command + "', '" + cmdArgs + "'");
+  logDebug(
+    "'" +
+      data.senderName +
+      "', '" +
+      data.primaryName +
+      "', '" +
+      command +
+      "', '" +
+      cmdArgs +
+      "'",
+  );
 
   log("Executing command: '" + command + "' with args: '" + cmdArgs + "'");
   runPartyCommand(data, command, cmdArgs);
 }
-
 
 function handlePartyInvite(parsedMsgObj) {
   // TODO: optimize this and the other isPartyInvite call, (by splitting the function up) somehow?
@@ -204,9 +220,10 @@ function handlePartyInvite(parsedMsgObj) {
   return;
 }
 
-
 function handlePartyMessage(senderName, msgContent) {
-  if (!autoKickWords.some(value => msgContent.trim().split(" ").includes(value))) {
+  if (
+    !autoKickWords.some((value) => msgContent.trim().split(" ").includes(value))
+  ) {
     logDebug("No auto-kickable phrase detected");
     return;
   }
@@ -222,4 +239,3 @@ function handlePartyMessage(senderName, msgContent) {
     log("Someone, presumably splasher, used an auto-kick word");
   }
 }
-

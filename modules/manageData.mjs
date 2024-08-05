@@ -1,6 +1,6 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
 import { removeRank } from "./utils.mjs";
 
@@ -26,7 +26,6 @@ const bingoBrewersRules = rulesData;
 
 // TODO: come up with a fitting scheme for blocked players (probably something like name, duration, reason, banStart/bannedAt date…) and import from banned.json to here
 
-
 export { allowlist, bingoBrewersRules };
 export { partyHostNameWithoutRank };
 export { isAccountOwner, isDiscordAdmin };
@@ -36,23 +35,25 @@ export { reloadAllowedPlayerData };
 export { banPlayer, refreshBannedPlayers, updateBanDuration };
 // export { bannedPlayers }
 
-
 /**
  * In-game bot account name used for nicer-looking output formatting.
  * Fallback has to be set/updated manually.
-*/
-const partyHostNameWithoutRank = allowlist.find(item => item.permissionRank === "botAccount")?.names[0] || "BingoParty";
+ */
+const partyHostNameWithoutRank =
+  allowlist.find((item) => item.permissionRank === "botAccount")?.names[0] ||
+  "BingoParty";
 
 /**
  * List of all bot account owners coming from the JSON data
  *
- * These are IGNs which are allowed _full_ access over the bot account, 
+ * These are IGNs which are allowed _full_ access over the bot account,
  * e.g. BingoParty. Fallback has to be set/updated manually.
  * Insert the fallback as needed if this code is ran on an account
  * other than BingoParty, i.e. one not owned by me (aphased).
-*/
-const partyHostAccountOwners = allowlist.find(item => item.permissionRank === "botAccountOwner")?.names || ["aphased", "bphased", "BingoParty"];
-
+ */
+const partyHostAccountOwners = allowlist.find(
+  (item) => item.permissionRank === "botAccountOwner",
+)?.names || ["aphased", "bphased", "BingoParty"];
 
 /**
  *
@@ -61,7 +62,9 @@ const partyHostAccountOwners = allowlist.find(item => item.permissionRank === "b
  */
 function isAccountOwner(ign) {
   ign = removeRank(ign).toLowerCase();
-  return partyHostAccountOwners.map(entry => entry.toLowerCase()).includes(ign);
+  return partyHostAccountOwners
+    .map((entry) => entry.toLowerCase())
+    .includes(ign);
 }
 
 /**
@@ -70,7 +73,13 @@ function isAccountOwner(ign) {
  */
 function isDiscordAdmin(ign) {
   ign = removeRank(ign).toLowerCase();
-  return allowlist.find(entry => entry.permissionRank === "admin" || entry.permissionRank === "staff")?.names.map(name => name.toLowerCase()).includes(ign);
+  return allowlist
+    .find(
+      (entry) =>
+        entry.permissionRank === "admin" || entry.permissionRank === "staff",
+    )
+    ?.names.map((name) => name.toLowerCase())
+    .includes(ign);
 }
 
 /**
@@ -83,9 +92,7 @@ function isDiscordAdmin(ign) {
  * @param  {...string} name Full IGN optionally including Hypixel rank, just
  * one in-game name, or multiple, if player has alt accounts in use
  */
-function addSplasher(...name) {
-
-}
+function addSplasher(...name) {}
 
 /**
  * Sets permissionRank from `splasher` to `formerSplasher`, removing the
@@ -94,18 +101,14 @@ function addSplasher(...name) {
  * (TODO: implement this)
  * @param {string} primaryName
  */
-function removeSplasher(primaryName) {
-
-}
-
-
+function removeSplasher(primaryName) {}
 
 // Helper functions to read/write data from/to disk
 // const dataFilePath = path.join(__dirname, 'someFolder', 'someFile.txt'); // __dirname doesn't work in ES module..? Hack for now:
-const __filename = fileURLToPath(import.meta.url); 
+const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const dataFilePath = path.join(__dirname, '../data', 'playerNames.json');
+const dataFilePath = path.join(__dirname, "../data", "playerNames.json");
 
 function readData() {
   const data = fs.readFileSync(dataFilePath);
@@ -142,32 +145,32 @@ function refreshSplasherData(primaryName, newPermissionRank, newHypixelRank) {
 
   // Find entry with the given primaryName
   // const entry = allowlistFromDisk.playerNames.find(item => item.names[0] === primaryName);
-  const entry = allowlistFromDisk.find(item => item.names[0] === primaryName);
+  const entry = allowlistFromDisk.find((item) => item.names[0] === primaryName);
 
   if (!entry) {
-      return result;
+    return result;
   }
 
   result[0] = primaryName;
 
   // Handle permission rank update
   if (newPermissionRank == null) {
-      // Retrieve and add existing permission rank to the result
-      result[1] = entry.permissionRank;
+    // Retrieve and add existing permission rank to the result
+    result[1] = entry.permissionRank;
   } else {
-      // Update permission rank and add the new value to the result
-      entry.permissionRank = newPermissionRank;
-      result[1] = newPermissionRank;
+    // Update permission rank and add the new value to the result
+    entry.permissionRank = newPermissionRank;
+    result[1] = newPermissionRank;
   }
 
   // Handle Hypixel rank update
   if (newHypixelRank == null) {
-      // Retrieve and add existing Hypixel rank to the result
-      result[2] = entry.hypixelRank;
+    // Retrieve and add existing Hypixel rank to the result
+    result[2] = entry.hypixelRank;
   } else {
-      // Update Hypixel rank and add the new value to the result
-      entry.hypixelRank = newHypixelRank;
-      result[2] = newHypixelRank;
+    // Update Hypixel rank and add the new value to the result
+    entry.hypixelRank = newHypixelRank;
+    result[2] = newHypixelRank;
   }
 
   // Save the updated data back to the file
@@ -178,7 +181,6 @@ function refreshSplasherData(primaryName, newPermissionRank, newHypixelRank) {
   // Return result as [primaryName, permissionRank, hypixelRank]
   return result;
 }
-
 
 /**
  * (TODO: implement this)
@@ -192,29 +194,24 @@ function reloadAllowedPlayerData() {
   return;
 }
 
-
-
-const newRanks = refreshSplasherData("testNamePrimaryValue", "formerSplasher", "[VIP++++]");
+const newRanks = refreshSplasherData(
+  "testNamePrimaryValue",
+  "formerSplasher",
+  "[VIP++++]",
+);
 console.log(newRanks); // Output should reflect the updated ranks or existing ones if new ones are null
 
-
-
-
-
-
-
-
-/* 
+/*
  * TODO write documentation what params this takes (if any more than rank+ign)
  * @returns {void}
  */
 function compareAndSaveHypixelRanks() {
-  // The storedRank fetched from data is either outdated or still unchanged 
+  // The storedRank fetched from data is either outdated or still unchanged
   // (meaning equal to the current one just retrieved from in-game),
   // but never the "more current" one.
 
   const storedRank = "something";
-  const currentRankAndName = "something potentially else (formattedSenderName)"; 
+  const currentRankAndName = "something potentially else (formattedSenderName)";
 
   if (currentRankAndName[0] != "[") {
     // Player doesn't have a Hypixel rank ("non"),
@@ -235,15 +232,11 @@ function compareAndSaveHypixelRanks() {
   saveChanges(primaryName, currentRank);
 }
 
-
 /**
  * Writes changes to the player name data to disk
  * Does not guarantee anything wrt transaction completion, lol.
  */
-async function saveChanges() {
-  
-}
-
+async function saveChanges() {}
 
 /**
  *
@@ -277,10 +270,8 @@ function banPlayer(name, duration, reason) {
  * *periodically := hourly? (and once at startup → add one call to index.js!)
  */
 function refreshBannedPlayers() {
-
   // does _not_ return an e.g. array of ban-expired-igns which still need to be
   // unbanned in-game, since that is also happening within this function.
-
 }
 
 /**
@@ -291,7 +282,4 @@ function refreshBannedPlayers() {
  * @param {string} playerName
  * @param {int} newDuration
  */
-function updateBanDuration(playerName, newDuration) {
-
-}
-
+function updateBanDuration(playerName, newDuration) {}
