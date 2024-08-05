@@ -249,9 +249,10 @@ function banPlayer(name, duration, reason) {
     // TODO:
     // Don't make it so that function _caller_ has to convert all durations
     // => examples:
-    // - "6d" into just 6
+    // - "6d" and "6day(s)" and "6 day(s)" etc. into just 6
     // - "inf" (infinite/permanent ban) to e.g. Number.MAX_SAFE_INTEGER
     // - "6h" into 0.25 (days)
+    // - "1w" and "1wk" and "1 week" into 7 (days)
   }
 
   if (duration <= 0) {
