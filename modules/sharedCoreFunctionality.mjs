@@ -10,7 +10,7 @@ import { hasPermissions, isSamePlayer } from './boolChecks.mjs';
 import { isAccountOwner, isDiscordAdmin } from './manageData.mjs';
 
 // Variable data (or managing it):
-import { partyHostAccountOwners, partyHostNameWithoutRank } from './manageData.mjs';
+import { partyHostNameWithoutRank } from './manageData.mjs';
 import { allowlist, bingoBrewersRules } from './manageData.mjs';
 import { getBingoGuideLink, setBingoGuideLink } from './discordBot.mjs';
 

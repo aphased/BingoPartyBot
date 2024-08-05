@@ -14,7 +14,7 @@ main() {
 
         # Start bot process and pass potential arguments on to it
         # node --experimental-json-modules . "$@"
-        node --trace-warnings --experimental-json-modules . "$@"
+        node --trace-warnings . "$@"
 
         echo "To shutdown, ctrl+c before the coutdown ends!"
         echo "Restarting in:"

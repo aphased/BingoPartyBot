@@ -6,15 +6,18 @@ import { removeRank } from "./utils.mjs";
 
 import playerData from "../data/playerNames.json" with { type: "json" };
 const allowlist = playerData;
+
+// Old data format with the simple listing of names included:
 // import playerData from "../data/playerNames-unchanged-old.json" with { type: "json" };
 // const allowlist = playerData.playerNames;
 
-// currently allowlist player entry scheme:
+// currently used allowlist player entry scheme:
 /*
 {
   "names": [], // guaranteed at least the entry for main name used at names[0]
-  "permissionRank": string, // one of {admin,splasher,botAccount(Owner),hob,famous,trusted} – TODO: does a "formerSplasher" rank make sense to add?
-  ?"hypixelRank": string // Hypixel rank of the player's main account name
+  "permissionRank": string, // one of {admin,splasher,botAccount(Owner),hob,famous,trusted}
+          – TODO: does a "formerSplasher"/"exSplasher" rank make sense to add?
+  "hypixelRank": string // Hypixel rank of the player's main account name
 }
 */
 
@@ -25,10 +28,11 @@ const bingoBrewersRules = rulesData;
 
 
 export { allowlist, bingoBrewersRules };
-export { partyHostNameWithoutRank, partyHostAccountOwners };
+export { partyHostNameWithoutRank };
 export { isAccountOwner, isDiscordAdmin };
 // TODO: all of the following implementations
 export { addSplasher, removeSplasher, refreshSplasherData };
+export { reloadAllowedPlayerData };
 export { banPlayer, refreshBannedPlayers, updateBanDuration };
 // export { bannedPlayers }
 
@@ -176,9 +180,21 @@ function refreshSplasherData(primaryName, newPermissionRank, newHypixelRank) {
 }
 
 
+/**
+ * (TODO: implement this)
+ * Reloads allowlist from the JSON file, saving all current changes
+ * (in-memory, but potentially unwritten to disk (?)), should they exist,
+ * beforehand.
+ */
+// TODO: add !p commands for this (!p reload, !p refresh, !p updateAllowed, !p rl?)
+function reloadAllowedPlayerData() {
+  allowlist = readData();
+  return;
+}
 
 
-const newRanks = refreshSplasherData("testNamePrimaryValue", "ex-splasher", "[VIP++++]");
+
+const newRanks = refreshSplasherData("testNamePrimaryValue", "formerSplasher", "[VIP++++]");
 console.log(newRanks); // Output should reflect the updated ranks or existing ones if new ones are null
 
 
