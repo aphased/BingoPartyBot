@@ -857,6 +857,19 @@ function executeHypixelPartyCommand(
         outputCommand(`p poll From ${formattedSenderName}: ${pollMessage}`);
       }
       break;
+    case "publicguide":
+      // falls through to the main "!p guide" command, with the option to
+      // disable it separately from the main "internal" (splasher-only) one
+      // – name as defined per convention in handleMessage.mjs
+      if (
+        !checkSetting(
+          "BingoPartyFeatures",
+          "Party Bingo guide link (requestable by anyone)",
+          "publicguide",
+        )
+      ) {
+        break;
+      }
     case "g":
     // fallthrough for additional alias
     case "gd":
@@ -870,8 +883,9 @@ function executeHypixelPartyCommand(
 
       if (
         !checkSetting("BingoPartyFeatures", "Party Bingo guide link", "guide")
-      )
+      ) {
         break;
+      }
 
       const guideLink = getBingoGuideLink();
 
@@ -882,6 +896,8 @@ function executeHypixelPartyCommand(
         );
       } else {
         const currentTime = Date.now();
+        // make this command (or its output, respectively) non-spammable by
+        // adding a cooldown:
         if (currentTime - lastActionTimeGuidePosted >= THIRTY_SECONDS) {
           // wait a little to help readers process what's going on (this might be
           // removed)

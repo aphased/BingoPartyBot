@@ -59,7 +59,7 @@ function parseAndExecuteMessage(message) {
       handlePartyInvite(parsedMsgObj);
       break;
     case "partyMessage":
-      // for autoKickWords functionality
+      // for autoKickWords functionality & "public" `!guide` command
       handlePartyMessage(playerName, msgContent);
       break;
     default:
@@ -221,21 +221,33 @@ function handlePartyInvite(parsedMsgObj) {
 }
 
 function handlePartyMessage(senderName, msgContent) {
-  if (
-    !autoKickWords.some((value) => msgContent.trim().split(" ").includes(value))
-  ) {
-    logDebug("No auto-kickable phrase detected");
-    return;
-  }
-  logDebug(autoKickWords);
-  // default, immediate punishment for spammers: kick from party;
-  // blocking can/has to be decided and ran manually
-  const command = "party kick " + senderName;
-  // Party leader (the bot account) can't kick p leader (ex. misused !p say)
-  if (senderName != partyHostNameWithoutRank) {
-    log(`Kicked ${senderName} because of autoKickWords rule`);
-    partyBot.runCommand(command);
+  if (autoKickWords.some((value) => msgContent.trim().startsWith(value))) {
+    logDebug(autoKickWords);
+    // default, immediate punishment for spammers: kick from party;
+    // blocking can/has to be decided and ran manually
+    const command = "party kick " + senderName;
+    // Party leader (the bot account) can't kick p leader (ex. misused !p say)
+    if (senderName != partyHostNameWithoutRank) {
+      log(`Kicked ${senderName} because of autoKickWords rule`);
+      partyBot.runCommand(command);
+    } else {
+      log("Someone, presumably splasher, used an auto-kick word");
+    }
   } else {
-    log("Someone, presumably splasher, used an auto-kick word");
+    logDebug("No auto-kickable phrase detected");
+    // return;
+
+    // Listen for /pc !guide
+    if (msgContent.startsWith("!guide")) {
+      const fullMessage = `From [MVP++] ${partyHostNameWithoutRank}: !p publicguide`;
+      logDebug('Received party chat "!" command');
+      logDebug("fullMessage being sent: '" + fullMessage + "'");
+      // simulate a regular "real" command sent via in-game party chat message
+      // in order to access the regular command's logic
+      /* TODO: make this have a separate, longer cooldown than the
+      splasher-internal `!p guide` command… Perhaps by simply copying the
+      cooldown logic over and permanently duplicating it in this file? */
+      parseAndExecuteMessage(fullMessage);
+    }
   }
 }

@@ -84,7 +84,7 @@ const onDataStdinHandler = (data) => {
     );
     const fullMessage = `From ${senderHypixelRank} ${formattedSenderName}: ${command}`;
     logDebug('Console received "!" command');
-    logDebug("fullMessage: '" + fullMessage + "'");
+    logDebug("fullMessage being sent: '" + fullMessage + "'");
     // simulate a regular "real" command sent via in-game direct message from
     // the bot account owner's account, e.g. [MVP+] aphased: !p speak Something
     parseAndExecuteMessage(fullMessage);
