@@ -260,12 +260,42 @@ class StringSet {
     }
   }
 
+  addMultiple(arr) {
+    if (Array.isArray(arr)) {
+      arr.forEach((item) => {
+        if (typeof item === "string") {
+          this.add(item);
+        } else {
+          logDebug(`Skipping non-string value: ${item}`);
+        }
+      });
+    } else {
+      throw new Error("Argument must be an array");
+    }
+  }
+
   remove(str) {
     if (this.set.has(str)) {
       this.set.delete(str);
       return true;
     } else {
       return false; // Not found
+    }
+  }
+
+  removeMultiple(arr) {
+    if (Array.isArray(arr)) {
+      arr.forEach((item) => {
+        if (typeof item === "string") {
+          if (!this.remove(item)) {
+            logDebug(`Item not found in set: ${item}`);
+          }
+        } else {
+          logDebug(`Skipping non-string value: ${item}`);
+        }
+      });
+    } else {
+      throw new Error("Argument must be an array");
     }
   }
 

@@ -58,6 +58,8 @@ const commandsRequiringFullMessage = [
   "flea",
   "bf",
   "poll",
+  "disable",
+  "enable",
   "cmd",
 ];
 /** Commands which should work on the sender if passed without argument (their own IGN). */
@@ -69,6 +71,34 @@ const commandsWithOptionalIGN = [
   "promo",
   "promote",
   "boopme",
+];
+
+/** Command names which are toggled off in `!p disableall` */
+const allCommandsToBeDisabled = [
+  "disband",
+  "transfer",
+  "mute",
+  "promote",
+  "boopme",
+  "invite",
+  // "allinvite",
+  "stream",
+  // "close",
+  "kick",
+  "ban",
+  // "unban",
+  "say",
+  "repeat",
+  "customrepeat",
+  "bf",
+  "size", // TODO: not even implemented yet…
+  "rule",
+  "guide",
+  "setguide",
+  "poll",
+  "help",
+  "limbo",
+  // rest of them, like lstoggled, add, removeSplasher etc. are admin-only commands anyway
 ];
 
 /**
@@ -605,7 +635,7 @@ function executeHypixelPartyCommand(
       if (!checkSetting("BingoPartyFeatures", "Party unblock", "unblock"))
         break;
 
-      // See equivalent explaining comment under case "ban": send to lobby as "temp" fix
+      // See equivalent explaining comment under case ban: send to lobby as "temp" fix
       outputCommand("l");
 
       waitAndOutputCommand(
@@ -782,6 +812,13 @@ function executeHypixelPartyCommand(
       // list" output?)
       break;
     case "lsbanned":
+      // TODO: defined as an admin-only command for the time being;
+      // … might wanna change this?
+      if (!isAdmin(rankRemovedSenderName)) {
+        replyUsage(rankRemovedSenderName);
+        break;
+      }
+
       // TODO: For use as a bot account, to automate/help in managing users added
       // to the account's ignore list ("blocked"/"banned").
       // If I don't write this feature anymore (see manageData.mjs), the party
@@ -792,6 +829,8 @@ function executeHypixelPartyCommand(
     // fallthrough for additional alias
     case "printAllowlist":
     // fallthrough for additional alias
+    // TODO: why does this – and only this – command alias not work?!
+    // (discovered 2024-08-10; printallowed and lsallowed work perfectly fine…)
     case "lsallowed":
       /* Admin-only command.
     Output will currently only be visible on the server console. */
@@ -802,7 +841,7 @@ function executeHypixelPartyCommand(
       printAllowlist(allowlist);
       break;
     case "rule":
-      //logDebug("entered case \"rule\"");
+      //logDebug("entered case 'rule'");
       if (!checkSetting("BingoPartyFeatures", "Party rule", "rule")) break;
       let ruleNumber = commandArgument || "1";
       // Convert map keys into array to check against
@@ -941,6 +980,11 @@ function executeHypixelPartyCommand(
       }
       partyBot.sendToLimbo();
       break;
+    case "addSplasher":
+    // fallthrough for additional alias
+    // TODO: just like add and removeSplasher, this one is not yet
+    // added to the documentation at aphased/BingoPartyCommands
+    // as the command is not yet functional.
     case "add":
       /* Discord administrator-only functionality */
       if (!isStaff(rankRemovedSenderName)) {
@@ -968,6 +1012,8 @@ function executeHypixelPartyCommand(
     equivalent to having direct (even if chat-only) access to the account, I
     will only let myself have this permission, since BingoParty is, in fact, my
     account. */
+      will only let myself have this permission, since BingoParty is, in fact,
+      my account. */
       if (!isAdmin(rankRemovedSenderName)) {
         replyUsage(rankRemovedSenderName);
         break;
@@ -977,6 +1023,8 @@ function executeHypixelPartyCommand(
     `pc hello everybody`
     `setstatus online`
     `msg IGN <message>` */
+      `setstatus online`
+      `msg IGN <message>` */
       outputCommand(messageToBroadcast);
       break;
     case "disable":
@@ -989,17 +1037,42 @@ function executeHypixelPartyCommand(
         replyUsage(rankRemovedSenderName);
         break;
       }
-      tempDisabledCommands.add(commandArgument);
-      log(`${rankRemovedSenderName} disabled '${commandArgument}'`);
+      // Exit early if not a single command is provided:
+      if (commandArgument === "") break;
+
+      // Several at once, e.g. !p disable promote transfer:
+      const commandsToDisable = messageToBroadcast.split(" ");
+      tempDisabledCommands.addMultiple(commandsToDisable);
+      log(
+        `${rankRemovedSenderName} disabled '${commandsToDisable.toString()}'`,
+      );
       break;
-    case "enable":
-      // Description see previous command/case above.
+    case "disableall":
+      /* TODO: add to BingoPartyCommands repo documentation…? */
+      // Disables all non-admin (splasher) regular commands.
       if (!isAdmin(rankRemovedSenderName)) {
         replyUsage(rankRemovedSenderName);
         break;
       }
-      tempDisabledCommands.remove(commandArgument);
-      log(`${rankRemovedSenderName} enabled '${commandArgument}'`);
+
+      // re-using logic from !p disable directly above, which can also disable
+      // multiple commands at once
+      tempDisabledCommands.addMultiple(allCommandsToBeDisabled);
+      log(
+        `${rankRemovedSenderName} disabled '${allCommandsToBeDisabled.toString()}'`,
+      );
+      break;
+    case "enable":
+      // Description see corresponding command/case(s) disable, disableall above.
+      if (!isAdmin(rankRemovedSenderName)) {
+        replyUsage(rankRemovedSenderName);
+        break;
+      }
+      if (commandArgument === "") break;
+
+      const commandsToEnable = messageToBroadcast.split(" ");
+      tempDisabledCommands.removeMultiple(commandsToEnable);
+      log(`${rankRemovedSenderName} enabled '${commandsToEnable.toString()}'`);
       break;
     case "enableall":
       if (!isAdmin(rankRemovedSenderName)) {
@@ -1007,7 +1080,7 @@ function executeHypixelPartyCommand(
         break;
       }
       tempDisabledCommands.removeAllEntries();
-      log(`${rankRemovedSenderName} re-enabled all commands'`);
+      log(`${rankRemovedSenderName} re-enabled all commands`);
       break;
     case "lstoggled":
     // fallthrough for additional alias
@@ -1022,7 +1095,7 @@ function executeHypixelPartyCommand(
         replyUsage(rankRemovedSenderName);
         break;
       }
-      log(`All entries: '${tempDisabledCommands.getAllEntries()}'`);
+      log(`All entries: '${tempDisabledCommands.getAllEntries().toString()}'`);
       break;
     default:
       /* The default case represents any non-valid command, thus we point towards
