@@ -14,8 +14,8 @@ import { allowlist, partyHostNameWithoutRank } from "./manageData.mjs";
 import kickableData from "../data/autoKickWords.json" with { type: "json" };
 const autoKickWords = kickableData.autoKickWords;
 
-// Regex for party messages and whispers
-const messageRegex = /^(?:Party >|From) ?(?:(\[.*\]) )?(\w{1,16}): (.*?)(?:§.*)?$/;
+// Regex for party messages and whispers https://regex101.com/r/SXPAJF/1
+const messageRegex = /^(?:Party >|From) ?(?:(\[.*\]) )?(\w{1,16}): (.*?)(?:§.*)?$/s;
 
 // TODO: if this system ever causes any big unforeseen issues, just insert/use this instead:
 // const autoKickWords = ["sakldhjldsahjabfsfhkfahkjasfhj-thiswillneverbematched"];
@@ -90,6 +90,7 @@ function extractMessage(chatMessage) {
     for (const extraMessage of chatMessage.extra) {
       if (extraMessage && typeof extraMessage === "object") {
         message += extractMessage(extraMessage);
+        console.log(extractMessage(extraMessage))
       }
     }
   }
