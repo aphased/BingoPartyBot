@@ -13,6 +13,10 @@ import { allowlist, partyHostNameWithoutRank } from "./manageData.mjs";
 
 import kickableData from "../data/autoKickWords.json" with { type: "json" };
 const autoKickWords = kickableData.autoKickWords;
+
+// Regex for party messages and whispers
+const messageRegex = /^(?:Party >|From) ?(?:(\[.*\]) )?(\w{1,16}): (.*?)(?:§.*)?$/;
+
 // TODO: if this system ever causes any big unforeseen issues, just insert/use this instead:
 // const autoKickWords = ["sakldhjldsahjabfsfhkfahkjasfhj-thiswillneverbematched"];
 
@@ -74,6 +78,7 @@ function parseAndExecuteMessage(message) {
  * Extracts message from a humongous ChatMessage Object (why hypixel)
  * @param {ChatMessage} chatMessage
  * @returns {string} Message but as string.
+ * TODO: Stop this function from adding the colored message
  */
 function extractMessage(chatMessage) {
   let message = chatMessage.text || chatMessage || "";
@@ -114,29 +119,13 @@ function determineMessageType(parsedMsgObj) {
  *           msgContent: string}} Player data as well as message content.
  */
 function parseMessage(msg) {
-  const rankRegex = /\[([A-Za-z]).*\]/;
-  const colonIndex = msg == null ? -1 : msg.indexOf(":");
+  
+  const match = msg.match(messageRegex);
+  // If regex not matched, return nothing
+  if (!match) return [ null, null, null ];
+  // Sets all the other stuff
+  const [, rank = "", playerName, msgContent] = match;
 
-  // Get content from start to first instance of a colon.
-  const fromMsg = colonIndex !== -1 ? msg.slice(0, colonIndex).trim() : msg;
-  // Get message content.
-  const msgContent = colonIndex !== -1 ? msg.slice(colonIndex + 1).trim() : "";
-
-  // Apply regular expression to find if the user has a rank.
-  const rankMatch = fromMsg.match(rankRegex);
-  // If user has rank, take first index, otherwise no rank.
-  const rank = rankMatch ? rankMatch[0] : "";
-
-  // Get only username, determine message type (e.g. direct or party message) for Regex
-  let messageChannelPrefix;
-  if (isWhisper(msg)) messageChannelPrefix = "From ";
-  else if (isPartyMessage(msg)) messageChannelPrefix = "Party > ";
-
-  const playerName = fromMsg
-    .replace(rankRegex, "")
-    .trim()
-    .replace(new RegExp("^" + messageChannelPrefix), "")
-    .trim();
 
   if (determineMessageType(msg) != undefined) {
     // TODO: remove temporary solution (this determineMessageType() call) which
