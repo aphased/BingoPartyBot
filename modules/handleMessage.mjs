@@ -90,7 +90,6 @@ function extractMessage(chatMessage) {
     for (const extraMessage of chatMessage.extra) {
       if (extraMessage && typeof extraMessage === "object") {
         message += extractMessage(extraMessage);
-        console.log(extractMessage(extraMessage))
       }
     }
   }
