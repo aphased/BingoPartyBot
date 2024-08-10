@@ -350,7 +350,7 @@ export default class BingoPartyBot {
 }
 
 /* See #removeListener() for a previous attempt at doing this. */
-process.on("uncaughtException", (err) => {
-  err("Uncaught Exception", err);
+process.on("uncaughtException", (error) => {
+  err("Uncaught Exception", error);
   process.exit(1);
 });
