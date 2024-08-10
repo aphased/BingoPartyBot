@@ -1008,10 +1008,8 @@ function executeHypixelPartyCommand(
       break;
     case "cmd":
       /* Bot administrator-only "undocumented" (when trying to use) command:
-    will directly execute _whatever_ is received. Due to this being de facto
-    equivalent to having direct (even if chat-only) access to the account, I
-    will only let myself have this permission, since BingoParty is, in fact, my
-    account. */
+      will directly execute _whatever_ is received. Due to this being de facto
+      equivalent to having direct (even if chat-only) access to the account, I
       will only let myself have this permission, since BingoParty is, in fact,
       my account. */
       if (!isAdmin(rankRemovedSenderName)) {
@@ -1019,10 +1017,8 @@ function executeHypixelPartyCommand(
         break;
       }
       /* This has to include the exact message, the same as it would be "typed"
-    by a player, _minus_ the preceding slash. Examples:
-    `pc hello everybody`
-    `setstatus online`
-    `msg IGN <message>` */
+      by a player, _minus_ the preceding slash. Examples:
+      `pc hello everybody`
       `setstatus online`
       `msg IGN <message>` */
       outputCommand(messageToBroadcast);
