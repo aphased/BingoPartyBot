@@ -11,8 +11,8 @@ which can then be provided via e.g. a dedicated server.
 
 - All of [BingoPartyTools](https://github.com/aphased/BingoPartyTools?tab=readme-ov-file#all-available-commands
 )’
-functionality on the user-facing side (see [this separate **Readme for how to use**](https://github.com/aphased/BingoPartyCommands) if
-you are a splasher/have party moderation permissions), including commands which
+functionality on the user-facing side (see [this separate **Readme for how to use**](https://github.com/aphased/BingoPartyCommands)
+if you are a splasher/have party moderation permissions), including commands which
 are only accessible to and only work for a predefined group of users
 - WIP/TODO: Persistent ban system with support for temporary time-based blocking
 - TODO: Hot reloading of player (allowed permissions/banned) data (and perhaps code modules/specific functions or party commands? Probably not needed anymore)

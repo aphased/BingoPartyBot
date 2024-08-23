@@ -8,7 +8,10 @@ import {
 } from "./boolChecks.mjs";
 import { runPartyCommand } from "./handleCommand.mjs";
 import { partyBot } from "../index.mjs";
-import { replyUsage } from "./sharedCoreFunctionality.mjs";
+import {
+  replyUsage,
+  tempDisabledCommands,
+} from "./sharedCoreFunctionality.mjs";
 import { allowlist, partyHostNameWithoutRank } from "./manageData.mjs";
 
 import kickableData from "../data/autoKickWords.json" with { type: "json" };
@@ -163,8 +166,11 @@ function handleWhisper(rank, senderName, msgContent) {
       // be lenient, e.g. `!help` instead of `!p help`
       replyUsage(senderName);
     } else if (msgContent.includes("Boop!")) {
-      // Party-invite back anyone who boops the bot account
-      partyBot.runCommand(`p ${senderName}`);
+      // Party-invite back anyone who boops the bot account,
+      // if the setting is enabled
+      if (!tempDisabledCommands.has("invite")) {
+        partyBot.runCommand(`p ${senderName}`);
+      }
     }
     return;
   }

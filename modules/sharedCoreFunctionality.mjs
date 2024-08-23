@@ -22,7 +22,12 @@ import { getBingoGuideLink, setBingoGuideLink } from "./discordBot.mjs";
 The common "interface" to provide to both the CT module and the Mineflayer bot-specific logic,
 as the aim is being able to have both versions run on the same core functionality. 
 */
-export { executeHypixelPartyCommand, commandsWithOptionalIGN, replyUsage };
+export {
+  executeHypixelPartyCommand,
+  commandsWithOptionalIGN,
+  replyUsage,
+  tempDisabledCommands,
+};
 
 /**
  * Flag for the "environment" in which this part of the code is ran –
