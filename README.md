@@ -103,11 +103,15 @@ I do want to add though, at minimum:
   (e.g. something like `/msg BingoParty !p add splasher:exact_IGN`,
   `/msg BingoParty !p add alias:current_IGN new_exact_IGN_1 new_exact_IGN_2`,
   `/msg BingoParty !p removeSplasher primary_IGN`) for Bingo Brewers staff/admins
+  - Partially automate this process by regularly checking all encountered IGNs'
+    associated account UUIDs to see if any name changes have been made, and
+    adapt data entries accordingly
 - Automated git commits & pushes for changes to the data
   (`playerNames.json`, `banned.json`)
 - Automated boot & shutdown on-server at Bingo event start & end dates
 - Potentially (?) a ban system with Discord integration, or at the very minimum,
-  time-based **temporary bans** with optionally given ban reasons stored.
+  time-based **temporary bans** with optionally given ban reasons & expirations
+  stored across relaunches.
 
 
 ## Credits & thanks
