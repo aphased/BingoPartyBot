@@ -42,6 +42,10 @@ export default class BingoPartyBot {
       this.onceSpawn();
     });
 
+    this.bot.on("spawn", () => {
+      this.onSpawn();
+    });
+
     this.bot.on("end", () => {
       this.onEnd();
     });
@@ -352,8 +356,10 @@ export default class BingoPartyBot {
   };
 }
 
+// TODO: fix process ending issues/not always relaunching properly,
+// once and for all
 /* See #removeListener() for a previous attempt at doing this. */
-process.on("uncaughtException", (error) => {
+/* process.on("uncaughtException", (error) => {
   err("Uncaught Exception", error);
   process.exit(1);
-});
+}); */

@@ -3,8 +3,9 @@ import { log, logDebug, err } from "./utils.mjs";
 import dotenv from "dotenv";
 dotenv.config();
 import { Client, Events, GatewayIntentBits } from "discord.js";
+import { bridgingToDiscordEnabled } from "../index.mjs";
 
-export { getBingoGuideLink, setBingoGuideLink };
+export { initDiscordBot, getBingoGuideLink, setBingoGuideLink };
 
 let linkToBingoGuide;
 const BINGO_GUIDE_CHANNEL_ID = "1247115694231781376";
@@ -12,6 +13,17 @@ const BINGO_GUIDE_CHANNEL_ID = "1247115694231781376";
 // const bingoGuideWebhookURL = process.env.WEBHOOK_URL_GUIDE;
 const discordBotToken = process.env.DISCORD_BOT_TOKEN;
 let botIsFunctional = false;
+
+function initDiscordBot() {
+  if (discordBotToken) {
+    client.login(discordBotToken);
+    // botIsFunctional status is updated only once bot is ready,
+    // see client.once() below
+  } else {
+    log("No Discord bot token set! Not logging in...");
+    bridgingToDiscordEnabled[0] = false;
+  }
+}
 
 const client = new Client({
   intents: [
@@ -31,8 +43,6 @@ client.once(Events.ClientReady, (readyClient) => {
   // Retrieve potentially newest link once on every program startup
   fetchLatestGuideMessage();
 });
-
-client.login(discordBotToken);
 
 /**
  * @param {string} newGuideLink  The updated link for manual overrides (in case
@@ -133,6 +143,11 @@ function isGuideLinkUpToDate(guideLink) {
 }
 
 async function fetchLatestGuideMessage() {
+  if (!botIsFunctional) {
+    logDebug("Bot not functional, not fetching latest guide message...");
+    return;
+  }
+
   logDebug("Ready to fetch guide link from Discord!");
   const channelId = BINGO_GUIDE_CHANNEL_ID;
 

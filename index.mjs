@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import Bot from "./modules/bot.mjs";
+import { initDiscordBot } from "./modules/discordBot.mjs";
 import {
   logDebug,
   parseStdinArgs,
@@ -34,9 +35,10 @@ const partyBot = new Bot("BingoPartyBot");
  * beforehand on startup.
  *
  * The value is contained within an array to hack around the fact imported
- * variables are principally treated as const (..? I think? Why JS).
+ * variables are principally treated as const (..? I think? Why JS. I'm
+ * assuming this uncontrolled parallel variable sharing also is **so** far
+ * off from best practice, too).
  */
-const debugOutputEnabled = [false];
 // TODO ideas
 // (TODO: something like this: parse once on startup)
 // const options = ["-d", "--debug", "--debug-level"];
@@ -48,11 +50,17 @@ const debugOutputEnabled = [false];
 // TODO: no, better, make it a command-line option for node?!
 // -d /  --debug-level 0/1/2, defaulting to zero if left out, but
 // defaulting to 1 if just -d is provided without argument!
+const debugOutputEnabled = [false];
 
 /**
  * The same as debugOutputEnabled above, but for sending "bridge" messages to the Discord server.
  */
 const bridgingToDiscordEnabled = [true];
+
+/**
+ * Launch Discord integration features.
+ */
+initDiscordBot();
 
 /**
  * Enables entering raw commands/other input in-game via the console stdin,
