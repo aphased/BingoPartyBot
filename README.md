@@ -45,6 +45,7 @@ the ChatTriggers and Mineflayer code)
 ## Roadmap
 
 The project is mostly feature-complete and (mostly) bug-free.
+The project is fairly feature-complete and (mostly) bug-free.
 I do want to add though, at minimum:
 
 - Addition & removal of IGNs to the allowlist via an in-game command
