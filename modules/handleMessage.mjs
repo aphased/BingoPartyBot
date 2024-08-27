@@ -16,12 +16,12 @@ import { allowlist, partyHostNameWithoutRank } from "./manageData.mjs";
 
 import kickableData from "../data/autoKickWords.json" with { type: "json" };
 const autoKickWords = kickableData.autoKickWords;
-
-// Regex for party messages and whispers https://regex101.com/r/SXPAJF/2
-const messageRegex = /^(?:Party >|From) ?(?:(\[.*?\]) )?(\w{1,16}): (.*?)(?:§.*)?$/s;
-
 // TODO: if this system ever causes any big unforeseen issues, just insert/use this instead:
 // const autoKickWords = ["sakldhjldsahjabfsfhkfahkjasfhj-thiswillneverbematched"];
+
+// Regex for party messages and whispers https://regex101.com/r/SXPAJF/2
+const messageRegex =
+  /^(?:Party >|From) ?(?:(\[.*?\]) )?(\w{1,16}): (.*?)(?:§.*)?$/s;
 
 export { parseAndExecuteMessage };
 
@@ -122,13 +122,11 @@ function determineMessageType(parsedMsgObj) {
  *           msgContent: string}} Player data as well as message content.
  */
 function parseMessage(msg) {
-  
   const match = msg.match(messageRegex);
   // If regex not matched, return nothing
-  if (!match) return [ null, null, null ];
+  if (!match) return [null, null, null];
   // Sets all the other stuff
   const [, rank = "", playerName, msgContent] = match;
-
 
   if (determineMessageType(msg) != undefined) {
     // TODO: remove temporary solution (this determineMessageType() call) which
@@ -197,6 +195,10 @@ function handleWhisper(rank, senderName, msgContent) {
 }
 
 function handlePartyInvite(parsedMsgObj) {
+  // check for "setting" invite feature being disabled
+  if (tempDisabledCommands.has("invite")) {
+    return;
+  }
   // TODO: optimize this and the other isPartyInvite call, (by splitting the function up) somehow?
   const result = isPartyInvite(parsedMsgObj);
   // different player name & format than given from parseWhisper() above:
