@@ -134,6 +134,13 @@ export default class BingoPartyBot {
     // // `You are not in a party right now.`
   }
 
+  /* Idea from BossFlea, thanks! */
+  onSpawn() {
+    // TODO: parse command output of /locraw, and send to limbo if current
+    // location is not a Hypixel lobby or limbo area?
+    // this.sendToLimbo();
+  }
+
   onEnd() {
     const onEndMessage = chalk.ansi256(196)("Bot disconnected.");
     log(onEndMessage);
