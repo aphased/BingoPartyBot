@@ -30,7 +30,7 @@ export { parseAndExecuteMessage };
  * @param {ChatMessage} message
  */
 function parseAndExecuteMessage(message) {
-  let parsedMsgObj = extractMessage(message);
+  let parsedMsgObj = message.toString();
 
   if (parsedMsgObj == "") {
     /* Without this check, there'd be a crash upon entering "/pl" via console
@@ -75,29 +75,6 @@ function parseAndExecuteMessage(message) {
       // logDebug("Message is neither whisper (dm) nor a party message or invite");
       break;
   }
-}
-
-/**
- * Extracts message from a humongous ChatMessage Object (why hypixel)
- * @param {ChatMessage} chatMessage
- * @returns {string} Message but as string.
- * TODO: Stop this function from adding the colored message
- */
-function extractMessage(chatMessage) {
-  let message = chatMessage.text || chatMessage || "";
-  // extremely spammy:
-  //logDebug("extractMessage's chatMessage: '" + chatMessage + "'");
-  //logDebug("extractMessage's message: '" + message + "'");
-
-  if (Array.isArray(chatMessage.extra)) {
-    for (const extraMessage of chatMessage.extra) {
-      if (extraMessage && typeof extraMessage === "object") {
-        message += extractMessage(extraMessage);
-      }
-    }
-  }
-
-  return message;
 }
 
 /**
