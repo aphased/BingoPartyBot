@@ -84,11 +84,11 @@ const allCommandsToBeDisabled = [
   "transfer",
   "mute",
   "promote",
-  "boopme",
+  // "boopme",
   "invite",
-  // "allinvite",
+  "allinvite",
   "stream",
-  // "close",
+  "close",
   "kick",
   "ban",
   // "unban",
@@ -285,7 +285,11 @@ function checkSetting(settingCategory, setting, command) {
     // manually per program run (aka on each launch), for ex. `!p disable featureName`.
     logDebug("Checking setting...");
     // If the command name is present/found in the list, it is currently disabled => invert result
-    return !tempDisabledCommands.has(command);
+    const commandSettingEnabled = !tempDisabledCommands.has(command);
+    if (!commandSettingEnabled) {
+      log("Not executing command - setting toggled off");
+    }
+    return commandSettingEnabled;
   }
 }
 
@@ -564,6 +568,8 @@ function executeHypixelPartyCommand(
       //logDebug("after promote cmd");
       break;
     case "boopme":
+      if (!checkSetting("BingoPartyFeatures", "Party promote", "promote"))
+        break;
       // this doesn't work for people who have receiving direct messages from anyone disabled:
       waitAndOutputCommand(
         `boop ${receivingPlayerName || rankRemovedSenderName}`,
