@@ -84,6 +84,7 @@ const allCommandsToBeDisabled = [
   "transfer",
   "mute",
   "promote",
+  // still allowed by default (can be toggled manually), for the time being:
   // "test",
   "invite",
   "allinvite",
@@ -91,7 +92,7 @@ const allCommandsToBeDisabled = [
   "close",
   "kick",
   "ban",
-  // "unban",
+  "unban", // TODO: might need to allow this? not sure…
   "say",
   "repeat",
   "customrepeat",
