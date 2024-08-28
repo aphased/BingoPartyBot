@@ -75,7 +75,7 @@ const commandsWithOptionalIGN = [
   "prom",
   "promo",
   "promote",
-  "boopme",
+  // "boopme", // not needed anymore with new /r implementation
 ];
 
 /** Command names which are toggled off in `!p disableall` */
@@ -84,7 +84,7 @@ const allCommandsToBeDisabled = [
   "transfer",
   "mute",
   "promote",
-  // "boopme",
+  // "test",
   "invite",
   "allinvite",
   "stream",
@@ -551,28 +551,26 @@ function executeHypixelPartyCommand(
     case "promote":
       if (!checkSetting("BingoPartyFeatures", "Party promote", "promote"))
         break;
-      if (receivingPlayerName === "") {
-        // no name supplied, thus default to promoting command sender instead
-        receivingPlayerName = rankRemovedSenderName;
-      }
       //logDebug("before promote msg");
+      // if no name is supplied, default to promoting the command's sender instead
       outputCommand(
-        "pc " +
-          receivingPlayerName +
-          " was promoted by " +
-          formattedSenderName +
-          ".",
+        `pc ${receivingPlayerName || rankRemovedSenderName} was promoted by ${formattedSenderName}.`,
       );
       //logDebug("after promote msg; before promote cmd");
       waitAndOutputCommand("p promote " + receivingPlayerName, defaultTimeout);
       //logDebug("after promote cmd");
       break;
-    case "boopme":
-      if (!checkSetting("BingoPartyFeatures", "Party promote", "promote"))
+    case "testcommand":
+    // fallthrough for additional alias
+    case "testpermissions":
+    // fallthrough for additional alias
+    case "testperms":
+    // fallthrough for additional alias
+    case "test":
+      if (!checkSetting("BingoPartyFeatures", "Party commands test", "test"))
         break;
-      // this doesn't work for people who have receiving direct messages from anyone disabled:
       waitAndOutputCommand(
-        `boop ${receivingPlayerName || rankRemovedSenderName}`,
+        "r Success! You have party permissions",
         defaultTimeout / 2,
       );
       break;
