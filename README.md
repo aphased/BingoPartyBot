@@ -54,7 +54,10 @@ If you want to **run** this system yourself, or would like to experiment with
 the code, you can:
 - Install [NodeJS](https://nodejs.org/en/download/prebuilt-installer/current),
   which is the runtime used for the bot
-- `git clone https://github.com/aphased/BingoPartyBot`
+- (optionally) Install the [Prettier](https://prettier.io/docs/en/install#set-up-your-editor)
+  formatter if you're going to modify the code and plan on merging the changes
+  back into the main project
+- Then, `git clone https://github.com/aphased/BingoPartyBot`
 - Fill in credentials for authenticating the Minecraft to-be-bot account in a
   new `.env` file according to the template structure
     - The minimal file contents are as follows:
