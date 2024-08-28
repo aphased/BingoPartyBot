@@ -551,14 +551,11 @@ function executeHypixelPartyCommand(
     case "promote":
       if (!checkSetting("BingoPartyFeatures", "Party promote", "promote"))
         break;
-      //logDebug("before promote msg");
       // if no name is supplied, default to promoting the command's sender instead
       outputCommand(
         `pc ${receivingPlayerName || rankRemovedSenderName} was promoted by ${formattedSenderName}.`,
       );
-      //logDebug("after promote msg; before promote cmd");
       waitAndOutputCommand("p promote " + receivingPlayerName, defaultTimeout);
-      //logDebug("after promote cmd");
       break;
     case "testcommand":
     // fallthrough for additional alias
@@ -850,7 +847,6 @@ function executeHypixelPartyCommand(
       printAllowlist(allowlist);
       break;
     case "rule":
-      //logDebug("entered case 'rule'");
       if (!checkSetting("BingoPartyFeatures", "Party rule", "rule")) break;
       let ruleNumber = commandArgument || "1";
       // Convert map keys into array to check against
@@ -858,10 +854,8 @@ function executeHypixelPartyCommand(
 
       if (!RuleNames.includes(ruleNumber)) {
         // default to rule 1
-        //logDebug("within if (given rule not existing");
         ruleNumber = "1";
       }
-      //logDebug("ruleNumber after if !included: '" + ruleNumber + "'");
       outputCommand("pc --- Bingo Brewers rules ---");
       waitAndOutputCommand(
         "pc Rule #" + ruleNumber + ": " + bingoBrewersRules[ruleNumber],
