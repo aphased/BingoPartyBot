@@ -164,6 +164,7 @@ async function fetchLatestGuideMessage() {
   if (!latestMessage) {
     logDebug(`No messages found in ${channel.name}`);
     // TODO: insert a Discord ping @aphased here, perhaps?
+    return;
   }
 
   logDebug(`Latest message in ${channel.name}:`);
