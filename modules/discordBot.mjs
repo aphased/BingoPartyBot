@@ -8,9 +8,6 @@ import { bridgingToDiscordEnabled } from "../index.mjs";
 export { initDiscordBot, getBingoGuideLink, setBingoGuideLink };
 
 let linkToBingoGuide;
-const BINGO_GUIDE_CHANNEL_ID = "1247115694231781376";
-// Fetching messages unfortunately not possible simply with webhook alone:
-// const bingoGuideWebhookURL = process.env.WEBHOOK_URL_GUIDE;
 const discordBotToken = process.env.DISCORD_BOT_TOKEN;
 let botIsFunctional = false;
 
@@ -149,7 +146,9 @@ async function fetchLatestGuideMessage() {
   }
 
   logDebug("Ready to fetch guide link from Discord!");
-  const channelId = BINGO_GUIDE_CHANNEL_ID;
+  const channelId = process.env.BINGO_GUIDE_CHANNEL_ID;
+  // Fetching messages unfortunately not possible simply with webhook alone:
+  // const bingoGuideWebhookURL = process.env.WEBHOOK_URL_GUIDE;
 
   // Fetch channel
   const channel = await client.channels.fetch(channelId);
