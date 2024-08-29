@@ -32,7 +32,7 @@ const autoKickWords = kickableData.autoKickWords;
 
 // TODO: come up with a fitting scheme for blocked players (probably something like name, duration, reason, banStart/bannedAt date…) and import from banned.json to here
 
-export { allowlist, bingoBrewersRules };
+export { allowlist, bingoBrewersRules, autoKickWords };
 export { partyHostNameWithoutRank };
 export { isAccountOwner, isDiscordAdmin };
 // TODO: all of the following implementations
