@@ -30,7 +30,7 @@ export { parseAndExecuteMessage };
  * @param {ChatMessage} message
  */
 function parseAndExecuteMessage(message) {
-  let parsedMsgObj = extractMessage(message);
+  let parsedMsgObj = message.toString();
 
   if (parsedMsgObj == "") {
     /* Without this check, there'd be a crash upon entering "/pl" via console
@@ -75,29 +75,6 @@ function parseAndExecuteMessage(message) {
       // logDebug("Message is neither whisper (dm) nor a party message or invite");
       break;
   }
-}
-
-/**
- * Extracts message from a humongous ChatMessage Object (why hypixel)
- * @param {ChatMessage} chatMessage
- * @returns {string} Message but as string.
- * TODO: Stop this function from adding the colored message
- */
-function extractMessage(chatMessage) {
-  let message = chatMessage.text || chatMessage || "";
-  // extremely spammy:
-  //logDebug("extractMessage's chatMessage: '" + chatMessage + "'");
-  //logDebug("extractMessage's message: '" + message + "'");
-
-  if (Array.isArray(chatMessage.extra)) {
-    for (const extraMessage of chatMessage.extra) {
-      if (extraMessage && typeof extraMessage === "object") {
-        message += extractMessage(extraMessage);
-      }
-    }
-  }
-
-  return message;
 }
 
 /**
@@ -235,34 +212,8 @@ function handlePartyMessage(senderName, msgContent) {
     // return;
 
     // Listen for /pc !guide
-    /*
-    TODO: figure out the reason(s) for... this mess?
-    2024-08-09 22:20:01 [MSG] Party > [MVP+] aphased: !guide
-    2024-08-09 22:20:01 [DBG] rank, senderName, msgContent: '[MVP+]', 'aphased', '!guide§9Party §8> §b[MVP§9+§b] aphased§f: !guide'
-    2024-08-09 22:20:01 [DBG] No auto-kickable phrase detected
-    2024-08-09 22:20:01 [DBG] msgContent: "!guide§9Party"
-    2024-08-09 22:20:01 [DBG] msgContent length: "13"
-    2024-08-09 22:20:01 [DBG] Received party chat "!" command
-    … normal/as expected from here:
-    2024-08-09 22:20:01 [DBG] fullMessage being sent: 'From [MVP++] BingoParty: !p publicguide'
-    2024-08-09 22:20:01 [DBG] rank, senderName, msgContent: '[MVP++]', 'BingoParty', '!p publicguide'
-    …
-    also compare with:
-    2024-08-09 22:26:48 [MSG] Party > [MVP+] aphased: !guideandlongermessage
-    2024-08-09 22:26:48 [DBG] rank, senderName, msgContent: '[MVP+]', 'aphased', '!guideandlongermessage§9Party §8> §b[MVP§9+§b] aphased§f: !guideandlongermessage'
-    2024-08-09 22:26:48 [DBG] No auto-kickable phrase detected
-    2024-08-09 22:26:48 [DBG] msgContent: "!guideandlongermessage§9Party"
-    2024-08-09 22:26:48 [DBG] msgContent length: "29"
-    2024-08-09 22:26:48 [DBG] Received party chat "!" command
-    2024-08-09 22:26:48 [DBG] fullMessage being sent: 'From [MVP++] BingoParty: !p publicguide'
-    2024-08-09 22:26:48 [DBG] rank, senderName, msgContent: '[MVP++]', 'BingoParty', '!p publicguide'
-    */
-    if (
-      msgContent.startsWith("!guide") &&
-      // msgContent.split(" ")[0].length == 6
-      // equals to 13 because… I don't know (yet)?? See above.
-      msgContent.split(" ")[0].length == 13
-    ) {
+
+    if (msgContent == "!guide") {
       logDebug(`msgContent: "${msgContent.split(" ")[0]}"`);
       logDebug(`msgContent length: "${msgContent.split(" ")[0].length}"`);
       const fullMessage = `From [MVP++] ${partyHostNameWithoutRank}: !p publicguide`;
