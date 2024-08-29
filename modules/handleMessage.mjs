@@ -12,12 +12,11 @@ import {
   replyUsage,
   tempDisabledCommands,
 } from "./sharedCoreFunctionality.mjs";
-import { allowlist, partyHostNameWithoutRank } from "./manageData.mjs";
-
-import kickableData from "../data/autoKickWords.json" with { type: "json" };
-const autoKickWords = kickableData.autoKickWords;
-// TODO: if this system ever causes any big unforeseen issues, just insert/use this instead:
-// const autoKickWords = ["sakldhjldsahjabfsfhkfahkjasfhj-thiswillneverbematched"];
+import {
+  allowlist,
+  partyHostNameWithoutRank,
+  autoKickWords,
+} from "./manageData.mjs";
 
 // Regex for party messages and whispers https://regex101.com/r/SXPAJF/2
 const messageRegex =
@@ -209,10 +208,8 @@ function handlePartyMessage(senderName, msgContent) {
     }
   } else {
     logDebug("No auto-kickable phrase detected");
-    // return;
 
-    // Listen for /pc !guide
-
+    // Listen for /pc !guide (`!p publicguide`)
     if (msgContent == "!guide") {
       logDebug(`msgContent: "${msgContent.split(" ")[0]}"`);
       logDebug(`msgContent length: "${msgContent.split(" ")[0].length}"`);
@@ -223,7 +220,7 @@ function handlePartyMessage(senderName, msgContent) {
       // in order to access the regular command's logic
       /* TODO: make this have a separate, longer cooldown than the
       splasher-internal `!p guide` command… Perhaps by simply copying the
-      cooldown logic over and permanently duplicating it in this file? */
+      cooldown logic and duplicating it using a second cd time variable? */
       parseAndExecuteMessage(fullMessage);
     }
   }

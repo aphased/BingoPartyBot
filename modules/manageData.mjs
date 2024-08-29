@@ -24,6 +24,12 @@ const allowlist = playerData;
 import rulesData from "../data/bingoBrewersRules.json" with { type: "json" };
 const bingoBrewersRules = rulesData;
 
+import kickableData from "../data/autoKickWords.json" with { type: "json" };
+const autoKickWords = kickableData.autoKickWords;
+// TODO: if this system ever causes any big unforeseen issues, just insert/use
+// this instead of the above:
+// const autoKickWords = ["sakldhjldsahjabfsfhkfahkjasfhj-thiswillneverbematched"];
+
 // TODO: come up with a fitting scheme for blocked players (probably something like name, duration, reason, banStart/bannedAt date…) and import from banned.json to here
 
 export { allowlist, bingoBrewersRules };
