@@ -66,6 +66,8 @@ the code, you can:
     MINECRAFT_EMAIL=your@mc-account.email
     PARTY_BOT_PREFIX=!p
     ```
+    - Copy the "simple" `.env` template file and fill it out with your values
+    if you would like to skip setting up Discord integration in the beginning
 - (optionally) Adapt the entry with property `permissionRank: botAccountOwner`
   to your main account's Minecraft IGN in `data/playerNames.json` to gain full admin
   privileges and access to [all commands](https://github.com/aphased/BingoPartyCommands?tab=readme-ov-file#admin-commands)

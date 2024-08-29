@@ -1,5 +1,6 @@
 # Ignore everything containing secrets (including hidden files)…
 *.env
+*backup.env*
 .*
 
 # … and explicitly mention exemptions, to avoid leaks.
