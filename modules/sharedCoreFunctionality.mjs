@@ -933,6 +933,12 @@ function executeHypixelPartyCommand(
       const guideLink = getBingoGuideLink();
 
       if (!guideLink) {
+        logDebug("No guide link available");
+        // don't output info/help message if it's the `!p publicguide` command,
+        // identified by checking whether the simulated "sender" is the bot account
+        if (rankRemovedSenderName !== partyHostNameWithoutRank) {
+          break;
+        }
         // "contact aphased"
         outputCommand(
           `r No guide available - contact ${getNameByPermissionRank("botAccountOwner", allowlist)}`,
