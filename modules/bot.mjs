@@ -24,9 +24,13 @@ export default class BingoPartyBot {
     auth: process.env.ACCOUNT_AUTH_TYPE,
   };
 
+  /**
+   * @param {string} name - The in-game name of the party host without Hypixel
+   * rank, with fallback to e.g. "BingoParty" if not provided
+   */
   constructor(name) {
     this.bot = mineflayer.createBot(this.botArgs);
-    this.name = name || "BingoPartyBot";
+    this.ingameName = name || "BingoParty";
 
     // Attach listeners, moved the implementations out for clarity/overview:
 

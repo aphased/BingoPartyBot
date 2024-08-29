@@ -11,7 +11,7 @@ import {
   getHypixelRankByName,
 } from "./modules/utils.mjs";
 import { parseAndExecuteMessage } from "./modules/handleMessage.mjs";
-import { allowlist } from "./modules/manageData.mjs";
+import { allowlist, partyHostNameWithoutRank } from "./modules/manageData.mjs";
 
 /* The main action being made in this file which represents the core
 functionality is providing/exporting the bot object. Most everything else
@@ -26,7 +26,7 @@ export {
 /**
  * Instance of the Bot to be used in handleCommand.mjs.
  */
-const partyBot = new Bot("BingoPartyBot");
+const partyBot = new Bot(partyHostNameWithoutRank);
 
 /**
  * Controls whether debug logging is shown. Implemented/used/altered (if an
