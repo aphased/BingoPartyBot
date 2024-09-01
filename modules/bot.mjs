@@ -233,6 +233,7 @@ export default class BingoPartyBot {
 
   // Discord/Webhook stuff starts here, to be interfaced with using
   // BingoPartyBot.sendBridge(), everything else as private functions.
+  // TODO: move this to/merge with discordBot.mjs… or increase readability in some other way?
 
   // URL format is Discord's; also see file dot_env_template
   #bridgeWebhookURL = process.env.WEBHOOK_URL_BRIDGE; // const
@@ -252,7 +253,11 @@ export default class BingoPartyBot {
     /(Party > |^From.*$|^To.*$|You cannot say the same message twice!|Connected to|Bot kicked!|Bot disconnected.|You have joined|The party is now|The party is no longer|has promoted|has demoted|is now a Party Moderator|The party was transferred|disbanded|You are not allowed to disband this party.|Party Members|Party Leader|Party Moderators|You have been kicked from the party by|You are not in a party right now.|You are not currently in a party.|That player is not online!|Created a public party! Players can join with \/party join|Party is capped at|Party Poll|Invalid usage!|created a poll! Answer it below by clicking on an option|Question:|The poll|You cannot invite that player since they're not online.|You are not allowed to invite players.|enabled All Invite|to the party! They have 60 seconds to accept.|is already in the party.|You'll be partying with:)/;
   #partyMemberEventRegex =
     /(left the party.|joined the party.|disconnected, they have 5 minutes to rejoin before they are removed from the party.|was removed from your party because they disconn)/;
-  #partyMemberKickedRegex = /(has been removed from the party.)/;
+  #partyMemberKickedRegex = /(has been removed from the party.)/; // TODO: (for all of these really) and add condition that it doesn't start with Party > …
+  // TODO:
+  // #partyModeratorRegex = …;
+  // #partyCountIncreaseRegex = …;
+  // #partyCountDecreaseRegex = …;
 
   /**
    * Wrapper function to use for interacting with bridge/Discord message sending.
