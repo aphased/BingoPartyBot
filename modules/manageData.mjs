@@ -15,7 +15,7 @@ function startUpdatingAllowlist() {
         assert: { type: "json" }
       });
       allowlist = configModule.default; // Access the default export of the JSON module
-      console.log("Allowlist updated:", allowlist);
+      // DEBUG: console.log("Allowlist updated:", allowlist);
     } catch (error) {
       console.error("Error updating allowlist:", error);
     }
