@@ -11,7 +11,9 @@ let allowlist = playerData;
 function startUpdatingAllowlist() {
   setInterval(async () => {
     try {
-      const configModule = await import(`../data/playerNames.json?cacheBust=${Date.now()}`);
+      const configModule = await import(`../data/playerNames.json?cacheBust=${Date.now()}`, {
+        assert: { type: "json" }
+      }) ;
       allowlist = configModule.allowlist;
       console.log("Allowlist updated:", allowlist);
     } catch (error) {
