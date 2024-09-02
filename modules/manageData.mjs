@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 
 import { removeRank } from "./utils.mjs";
 
-import playerData from "../data/playerNames.json" with { type: "json" };
+import playerData from "../data/playerNames.json" assert { type: "json" };
 let allowlist = playerData;
 
 // Function to periodically update the allowlist
@@ -13,8 +13,8 @@ function startUpdatingAllowlist() {
     try {
       const configModule = await import(`../data/playerNames.json?cacheBust=${Date.now()}`, {
         assert: { type: "json" }
-      }) ;
-      allowlist = configModule.allowlist;
+      });
+      allowlist = configModule.default; // Access the default export of the JSON module
       console.log("Allowlist updated:", allowlist);
     } catch (error) {
       console.error("Error updating allowlist:", error);
