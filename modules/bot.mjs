@@ -98,6 +98,8 @@ export default class BingoPartyBot {
     log(onceLoginMessage);
     this.sendBridge(onceLoginMessage);
 
+
+
     logDebug("Checking access to data imports:"); // basic checks
 
     if (allowlist.length <= 1) err("Allowlist empty!");

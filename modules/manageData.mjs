@@ -5,7 +5,25 @@ import { fileURLToPath } from "url";
 import { removeRank } from "./utils.mjs";
 
 import playerData from "../data/playerNames.json" with { type: "json" };
-const allowlist = playerData;
+let allowlist = playerData;
+
+// Function to periodically update the allowlist
+function startUpdatingAllowlist() {
+  setInterval(async () => {
+    try {
+      const configModule = await import(`../data/playerNames.json?cacheBust=${Date.now()}`);
+      allowlist = configModule.allowlist;
+      console.log("Allowlist updated:", allowlist);
+    } catch (error) {
+      console.error("Error updating allowlist:", error);
+    }
+  }, 10000); // 10 seconds
+}
+
+// Start the periodic update
+startUpdatingAllowlist();
+
+
 
 // Old data format with the simple listing of names included:
 // import playerData from "../data/playerNames-unchanged-old.json" with { type: "json" };
@@ -126,12 +144,12 @@ function writeData(data) {
 
 /**
  * (TODO: implement this)
- * Refreshes either the permissions rank, the detected hypixel rank, both, or 
+ * Refreshes either the permissions rank, the detected hypixel rank, both, or
  * none (if null arguments are provided) of a given splasher.
- * 
+ *
  * Returns the given player's primary stored name, the new permission and Hypixel
  * server ranks, or the previous values if null was given as the new value.
- * The only time the primaryName is returned as null is if the given primary 
+ * The only time the primaryName is returned as null is if the given primary
  * name cannot be found, i.e. it is not already present among the stored data
  * (since addSplasher should be explicitly used for this functionality).
  *
