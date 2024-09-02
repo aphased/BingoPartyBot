@@ -2,7 +2,7 @@
 import { log, logDebug, err } from "./utils.mjs";
 import dotenv from "dotenv";
 dotenv.config();
-import { Client, Events, GatewayIntentBits } from "discord.js";
+import { ActivityType, Client, Events, GatewayIntentBits, PresenceUpdateStatus } from "discord.js";
 import { bridgingToDiscordEnabled } from "../index.mjs";
 
 export { initDiscordBot, getBingoGuideLink, setBingoGuideLink };
@@ -37,9 +37,21 @@ const client = new Client({
 client.once(Events.ClientReady, (readyClient) => {
   log(`Discord bot ready! Logged in as ${readyClient.user.tag}`);
   botIsFunctional = true;
+  setInterval(() => {
+    handleActivity(); // Default activity, can take an updated message, and an updated type.
+  }, 30 * 1000)
   // Retrieve potentially newest link once on every program startup
   fetchLatestGuideMessage();
 });
+
+/**
+ *
+ * @param {import("discord.js").PresenceData} presence The presence object to set.
+ */
+function handleActivity(presence = { status: PresenceUpdateStatus.Online, activities: [{ name: "Bingo cards being completed!", type: ActivityType.Watching }] }) {
+  client.user.setPresence(presence)
+}
+
 
 /**
  * @param {string} newGuideLink  The updated link for manual overrides (in case
