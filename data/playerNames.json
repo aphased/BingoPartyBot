@@ -1,637 +1,129 @@
 [
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "HunterHiHunter",
-      "Hub14"
-    ],
-    "permissionRank": "admin"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "indigo_polecat",
-      "Indigo_Poledog"
-    ],
-    "permissionRank": "admin"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "SergeantSar",
-      "Baldgeant"
-    ],
-    "permissionRank": "admin"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Lcat_"
-    ],
-    "permissionRank": "staff"
-  },
-  {
-    "hypixelRank": "[MVP]",
-    "names": [
-      "p0iS",
-      "p0i5",
-      "_pois",
-      "pois_",
-      "p0iS_",
-      "_p0iS",
-      "poi5",
-      "p0iSv",
-      "mikosz106"
-    ],
-    "permissionRank": "staff"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "Dredlig"
-    ],
-    "permissionRank": "hob"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Aoik"
-    ],
-    "permissionRank": "hob"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "ForagerRedstone"
-    ],
-    "permissionRank": "hob"
-  },
-  {
-    "hypixelRank": "",
-    "names": [
-      "demonhunter990"
-    ],
-    "permissionRank": "hob"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "EnsyL"
-    ],
-    "permissionRank": "hob"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "h8re",
-      "4chr",
-      "CloverHelmet",
-      "h5re",
-      "h6re",
-      "h8de",
-      "h9re",
-      "IHATEGOOGLEDRIVE"
-    ],
-    "permissionRank": "hob"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "godwyyn",
-      "Godwynn"
-    ],
-    "permissionRank": "hob"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Venturelands"
-    ],
-    "permissionRank": "hob"
-  },
-  {
-    "hypixelRank": "[ADMIN]",
-    "names": [
-      "skyerzz"
-    ],
-    "permissionRank": "famous"
-  },
-  {
-    "hypixelRank": "[ADMIN]",
-    "names": [
-      "Citria"
-    ],
-    "permissionRank": "famous"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "BenC1ark"
-    ],
-    "permissionRank": "famous"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "AlexxOffi"
-    ],
-    "permissionRank": "famous"
-  },
-  {
-    "hypixelRank": "[YOUTUBE]",
-    "names": [
-      "Remittal"
-    ],
-    "permissionRank": "famous"
-  },
-  {
-    "hypixelRank": "[YOUTUBE]",
-    "names": [
-      "thirtyvirus"
-    ],
-    "permissionRank": "famous"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Crxmsxn"
-    ],
-    "permissionRank": "famous"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "Medua"
-    ],
-    "permissionRank": "famous"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "erikeriklol"
-    ],
-    "permissionRank": "trusted"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "kleinKolibri711"
-    ],
-    "permissionRank": "trusted"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "DasBaumLegende"
-    ],
-    "permissionRank": "trusted"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "aphased",
-      "bphased",
-      "cphased",
-      "dphased",
-      "ephased",
-      "fphased",
-      "gphased"
-    ],
-    "permissionRank": "botAccountOwner"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "BingoParty"
-    ],
-    "permissionRank": "botAccount"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "BossFlea",
-      "mushedglowytonic",
-      "JoeyMcPizza",
-      "CombatXPboost",
-      "MiningXPboost",
-      "ForagingXPboost",
-      "FarmingXPboost",
-      "FishingXPboost",
-      "AlchemyXPboost"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "KiLLz_StRoMzY",
-      "StRoMzzY"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "ooffyy",
-      "BingoSplasher"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "BatmanCrtns"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Netomnia",
-      "McLarenF1Team"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "WatoBato"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Calva"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "Neferis",
-      "furken"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[VIP]",
-    "names": [
-      "yCookies",
-      "leftmint",
-      "remainqs",
-      "SubAstro"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "987654321kaboom",
-      "4v4v4v4"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Katoulis"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "Tryp0MC",
-      "Timecharm"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "NotOgfishyboi"
-    ],
-    "permissionRank": "formerSplasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "ThatHungryGoat"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "foqh"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "End_Game_Player"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "GleoLP"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Beaudeclan"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "karicc",
-      "mikedpismybabe"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "PotjeZout",
-      "PotjePeper",
-      "PotjeVet"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[VIP]",
-    "names": [
-      "SmoothEgg"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[VIP+]",
-    "names": [
-      "ZerosTulip",
-      "DousedCharizard"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Spxi",
-      "NotASkyblockMain",
-      "sadboyspring"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "emaia",
-      "emAia",
-      "Emaia",
-      "searchingsaturns",
-      "emisploosh",
-      "dovebirds",
-      "uhalexia"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[VIP]",
-    "names": [
-      "Siggydlx"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "xRezdro"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "Spqceman",
-      "SpqcemanV2"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Blackileinchen"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Poisopoi",
-      "PoisoToo"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "marfylikebedwars",
-      "mafrylikebedwars",
-      "mafrylikecarrot"
-    ],
-    "permissionRank": "formerSplasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "ay212"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Domx2e"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "FreakyDj"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "ScathaPet"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "SakuriceTwitch"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Slowbrah808"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "sunnytian_awa"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "JakeyBub"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[VIP]",
-    "names": [
-      "Magnus6109"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "MisterCheezeCake"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "Dxtty"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[VIP]",
-    "names": [
-      "StrappedScarf74"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Tabaluggar",
-      "Arachneparty"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "oSilja"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Reccie"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Lord_Kxnterkill"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "tuilps"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "haity_po_kvar_"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Sahil02"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[VIP]",
-    "names": [
-      "JulianUwU"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "jbanate",
-      "Dementiacasper"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Fabien83560"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "unterrunden"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "Mininoob46"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Conutik"
-    ],
-    "permissionRank": "trusted"
-  },
-  {
-    "hypixelRank": "[VIP++++]",
-    "names": [
-      "testNamePrimaryValue",
-      "testNameSecondaryValue"
-    ],
-    "permissionRank": "formerSplasher"
-  }
+    {
+        "hypixelRank": "[MVP+]",
+        "accounts": [{
+            "name": "SergeantSar",
+            "uuid": "028a26412f034edea2c379d4013ab57a"
+        }, {
+            "name": "Baldgeant",
+            "uuid": "f35d59c2a9a24408897abaae074d1443"
+        }],
+        "permissionRank": "admin"
+    },
+    {
+        "hypixelRank": "[MVP]",
+        "accounts": [
+            {
+                "name": "p0iS",
+                "uuid": "d36c28e4157f407394c385123d8b42cf"
+            },
+            {
+                "name": "p0i5",
+                "uuid": "e6be837ea96c4799877b04bcde927b36"
+            }
+        ],
+        "permissionRank": "staff"
+    },
+    {
+        "hypixelRank": "[MVP+]",
+        "accounts": [
+            {
+                "name": "Venturelands",
+                "uuid": "f7ad419327b1418d804c679c3f164ea2"
+            }
+        ],
+        "permissionRank": "hob"
+    },
+    {
+        "hypixelRank": "[MVP++]",
+        "accounts": [
+            {
+                "name": "Medua",
+                "uuid": "92d940ad10e84d9da795adcf5fd6b0c6"
+            }
+        ],
+        "permissionRank": "famous"
+    },
+    {
+        "hypixelRank": "[MVP+]",
+        "accounts": [
+            {
+                "name": "DasBaumLegende",
+                "uuid": "7fc4b9f22fa646019e3c09e0999e8941"
+            }
+        ],
+        "permissionRank": "trusted"
+    },
+    {
+        "hypixelRank": "[MVP+]",
+        "accounts": [
+            {
+                "name": "aphased",
+                "uuid": "2b2c370c6dc04707931758c99101c6e6"
+            },
+            {
+                "name": "bphased",
+                "uuid": "bdc1fb663bb64b6fb61a472aa4c2625a"
+            }
+        ],
+        "permissionRank": "botAccountOwner"
+    },
+    {
+        "hypixelRank": "[MVP++]",
+        "accounts": [
+            {
+                "name": "BingoParty",
+                "uuid": "491eca1eefc14765914a4d9f31760351"
+            }
+        ],
+        "permissionRank": "botAccount"
+    },
+    {
+        "hypixelRank": "[MVP++]",
+        "accounts": [
+            {
+                "name": "987654321kaboom",
+                "uuid": "40529a844ff246ab8956c47d05053631"
+            },
+            {
+                "name": "4v4v4v4",
+                "uuid": "1b9b1a45aa3e42b39254022c57e76843"
+            }
+        ],
+        "permissionRank": "splasher"
+    },
+    {
+        "hypixelRank": "[MVP++]",
+        "accounts": [
+            {
+                "name": "Mininoob46",
+                "uuid": "376acfe9fe514e028b208f95532cb683"
+            }
+        ],
+        "permissionRank": "splasher"
+    },
+    {
+        "hypixelRank": "[MVP+]",
+        "accounts": [
+            {
+                "name": "Conutik",
+                "uuid": "7b7ef169ad974011822fef64fc54f87f"
+            }
+        ],
+        "permissionRank": "trusted"
+    },
+    {
+        "hypixelRank": "[VIP++++]",
+        "accounts": [
+            {
+                "name": "testNamePrimaryValue",
+                "uuid": "testNamePrimaryValue"
+            },
+            {
+                "name": "testNameSecondaryValue",
+                "uuid": "testNameSecondaryValue"
+            }
+        ],
+        "permissionRank": "formerSplasher"
+    }
 ]

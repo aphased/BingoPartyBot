@@ -8,6 +8,8 @@ import { parseAndExecuteMessage } from "./handleMessage.mjs";
 import { bridgingToDiscordEnabled, onDataStdinHandler } from "../index.mjs";
 
 import { allowlist, bingoBrewersRules } from "./manageData.mjs";
+import { UtilClass } from "../utils/Utils.mjs";
+import { Collection } from "discord.js";
 
 export default class BingoPartyBot {
   bot;
@@ -27,9 +29,15 @@ export default class BingoPartyBot {
   /**
    * @param {string} name - The in-game name of the party host without Hypixel
    * rank, with fallback to e.g. "BingoParty" if not provided
+   * @param {UtilClass} utils - The utils object, containing all utility functions
    */
-  constructor(name) {
+  constructor(name, utils) {
     this.bot = mineflayer.createBot(this.botArgs);
+    this.utils = utils;
+    (async () => {
+      /** @type {Collection} */
+      this.partyCommands = await loadPartyCommands();
+    })()
     this.ingameName = name || "BingoParty";
 
     // Attach listeners, moved the implementations out for clarity/overview:
@@ -165,6 +173,7 @@ export default class BingoPartyBot {
   /**
    * Core of the bot's functionality begins here, by attaching to the chat.
    */
+  // This is Conutik and I ain't touching this :D
   onMessage(message) {
     // pass custom ansi codes for enabling color formatting in Discord bridge;
     // leave out timestamp when sending message to Discord
@@ -219,7 +228,7 @@ export default class BingoPartyBot {
     }
 
     // Delegate the actual bot/core functionality to other modules for (hopefully) clarity:
-    parseAndExecuteMessage(message);
+    parseAndExecuteMessage(message, this.utils);
   }
 
   /**
@@ -373,11 +382,3 @@ export default class BingoPartyBot {
     "§r": "\u001b[0m",
   };
 }
-
-// TODO: fix process ending issues/not always relaunching properly,
-// once and for all
-/* See #removeListener() for a previous attempt at doing this. */
-/* process.on("uncaughtException", (error) => {
-  err("Uncaught Exception", error);
-  process.exit(1);
-}); */

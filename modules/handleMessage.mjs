@@ -1,28 +1,72 @@
-import { log, logDebug, err } from "./utils.mjs";
+import { partyBot } from "../index.mjs";
+import { MessageType } from "../utils/Interfaces.mjs";
+import Utils from "../utils/Utils.mjs";
+
 import {
   hasPermissions,
-  isWhisper,
   hasPrefix,
-  isPartyInvite,
-  isPartyMessage,
 } from "./boolChecks.mjs";
-import { runPartyCommand } from "./handleCommand.mjs";
-import { partyBot } from "../index.mjs";
-import {
-  replyUsage,
-  tempDisabledCommands,
-} from "./sharedCoreFunctionality.mjs";
-import {
-  allowlist,
-  partyHostNameWithoutRank,
-  autoKickWords,
-} from "./manageData.mjs";
 
 // Regex for party messages and whispers https://regex101.com/r/SXPAJF/2
-const messageRegex =
-  /^(?:Party >|From) ?(?:(\[.*?\]) )?(\w{1,16}): (.*?)(?:§.*)?$/s;
+
 
 export { parseAndExecuteMessage };
+
+/**
+ * Enables entering raw commands/other input in-game via the console stdin,
+ * with interpreting all "!" commands equivalent to having
+ * `From [MVP+] aphased: ` prepended (or whichever IGN is the first result in
+ * playerNames.json where the rank is "botAccountOwner").
+ *
+ * This listener is removed in `modules/bot.mjs` if the bot gets kicked/
+ * disconnected so that the program can swiftly exit and, presumably, restart.
+ * (TODO: this part did not work yet reliably, somehow!?)
+ */
+const onDataStdinHandler = (data) => {
+  const command = data.toString().trim();
+  logDebug("onDataStdinHandler: '" + command + "'");
+  // only allow messages beginning with "!" or "/"
+  if (command.startsWith("/")) {
+    // interpret as direct Minecraft/Hypixel slash command
+    logDebug('Console received "/" command');
+    partyBot.bot.chat(command);
+  } else if (command.startsWith("!")) {
+    // interpret as BingoParty (bot) command
+    const formattedSenderName = getNameByPermissionRank(
+      "botAccountOwner",
+      allowlist
+    );
+    const senderHypixelRank = getHypixelRankByName(
+      formattedSenderName,
+      allowlist
+    );
+    const fullMessage = `From ${senderHypixelRank} ${formattedSenderName}: ${command}`;
+    logDebug('Console received "!" command');
+    logDebug("fullMessage being sent: '" + fullMessage + "'");
+    // simulate a regular "real" command sent via in-game direct message from
+    // the bot account owner's account, e.g. [MVP+] aphased: !p speak Something
+    parseAndExecuteMessage(fullMessage);
+  } else if (command.startsWith("-")) {
+    // treat input from stdin as options for the running code base:
+    // reloading data, changing variables (e.g. debug level shown), etc.
+
+    logDebug('Console received "-" command');
+    // TODO: finish writing handleOption(command) or similar here?
+    parseStdinArgs(command);
+  } else if (command.startsWith("§") || command.startsWith("!limbo")) {
+    // Send bot to Hypixel Limbo - same as !p limbo
+    partyBot.sendToLimbo();
+  } else {
+    // Explicitly discard messages starting with any other char or signals
+    // so as to make potential future changes easier.
+    // This means sending just a regular chat message with prior e.g. `/chat p`
+    // active won't work, there always needs to be a clear e.g. `/pc` prepended.
+    return;
+  }
+};
+
+// attach handler to console standard input
+process.stdin.on("data", onDataStdinHandler);
 
 /**
  * Core of the bot listener, managing all incoming messages.
@@ -31,97 +75,68 @@ export { parseAndExecuteMessage };
 function parseAndExecuteMessage(message) {
   let parsedMsgObj = message.toString();
 
-  if (parsedMsgObj == "") {
-    /* Without this check, there'd be a crash upon entering "/pl" via console
-    stdin due to the blank lines in the output (list of party members), meaning
-    the root cause here is me reusing the function meant for Mineflayer text
-    "objects" (which are not a basic string) for the commands sent from stdin,
-    i.e. ones that were not even originating in-game. Thus the non type-strict
-    comparison is correct. */
-    // Replace empty lines with a single space to make life easier
-    parsedMsgObj = " ";
-  }
+  if(!parsedMsgObj) return;
 
-  //logDebug("parsedMsgObj: '" + parsedMsgObj + "'");
+  const { rank, playerName, msgContent } = Utils.parseMessage(parsedMsgObj);
 
-  const { rank, playerName, msgContent } = parseMessage(parsedMsgObj);
+  msgContent = Utils.stripColorCodes(msgContent);
+  playerName = Utils.stripColorCodes(playerName);
 
   /* Here we save the (more expensive) access to allowlist data by checking for
   permissions only within the respective cases below instead of every time now
   already – as nearly all messages in this listener will _not_ be a command nor
   invite (by an allowed person no less) */
 
-  // too spammy & most often not even needed yet for general debugging
-  //logDebug("At parseAndExecuteMessage(), message is not yet checked to be a whisper, with the following:");
-  //logDebug("rank: '" + rank + "'");
-  //logDebug("playerName: '" + playerName + "'");
-  //logDebug("msgContent: '" + msgContent + "'");
-
-  switch (determineMessageType(parsedMsgObj)) {
-    case "whisper":
+  switch (Utils.determineMessageType(parsedMsgObj)) {
+    case MessageType.Whisper:
       handleWhisper(rank, playerName, msgContent);
       break;
-    case "partyInvite":
+    case MessageType.PartyInvite:
       handlePartyInvite(parsedMsgObj);
       break;
-    case "partyMessage":
+    case MessageType.PartyMessage:
       // for autoKickWords functionality & "public" `!guide` command
       handlePartyMessage(playerName, msgContent);
       break;
     default:
-      // do nothing (returned undefined)
-      // spammy:
-      // logDebug("Message is neither whisper (dm) nor a party message or invite");
       break;
   }
 }
 
 /**
  *
- * @param {*} parsedMsgObj
- * @returns String of message type – either "whisper", "partyInvite",
- * "partyMessage", or `unknown`
+ * @param {String} rank
+ * @param {String} senderName
+ * @param {String} msgContent
  */
-function determineMessageType(parsedMsgObj) {
-  if (isWhisper(parsedMsgObj)) return "whisper";
-  else if (isPartyInvite(parsedMsgObj).isPartyInvite) return "partyInvite";
-  else if (isPartyMessage(parsedMsgObj)) return "partyMessage";
-  else return undefined;
-}
+function handleWhisper(rank, senderName, msgContent) {
+  let utils = partyBot.utils;
+  utils.debug.log("Message is whisper");
 
-/**
- * Parses messages into sender and message content parts, where messages may be
- * sent directly or to party chat (prefixes `From `, `Party > `, etc.)
- * @param {string} msg
- * @returns {{rank: string,
- *           playerName: string,
- *           msgContent: string}} Player data as well as message content.
- */
-function parseMessage(msg) {
-  const match = msg.match(messageRegex);
-  // If regex not matched, return nothing
-  if (!match) return [null, null, null];
-  // Sets all the other stuff
-  const [, rank = "", playerName, msgContent] = match;
-
-  if (determineMessageType(msg) != undefined) {
-    // TODO: remove temporary solution (this determineMessageType() call) which
-    // prevents log spamminess – after the debug "verbosity" levels have been added
-    logDebug(
-      "rank, senderName, msgContent: '" +
-        rank +
-        "', '" +
-        playerName +
-        "', '" +
-        msgContent +
-        "'",
-    );
+  if(!msgContent.startsWith(partyBot.b_prefix)) {
+    if(msgContent.includes("help")) {
+      // be lenient, e.g. `!help` instead of `!p help`
+      replyUsage(senderName);
+    } else if(msgContent.includes("Boop!")) {
+      // Party-invite back anyone who boops the bot account,
+      // if the setting is enabled
+      if(!tempDisabledCommands.has("invite")) {
+        partyBot.runCommand(`p ${senderName}`);
+      }
+    }
+    return;
   }
 
-  return { rank, playerName, msgContent };
+  utils.debug.log("Message has prefix");
+
+  const permissionsCheck = partyBot.utils.getPermissionsByUser({ name: senderName })
+  if(!permissionsCheck) return;
+
+  const args = msgContent.replace(partyBot.b_prefix, "").trim().split(" ");
+  partyBot.partyCommands.find((value, key) => key.toLowerCase() === args[0].toLowerCase())(partyBot, senderName, args.slice(1));
 }
 
-function handleWhisper(rank, senderName, msgContent) {
+function handleWhisperOld(rank, senderName, msgContent) {
   logDebug("Message is whisper");
 
   if (!hasPrefix(msgContent, partyBot.b_prefix)) {
