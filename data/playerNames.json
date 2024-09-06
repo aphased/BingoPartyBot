@@ -219,7 +219,7 @@
       "FishingXPboost",
       "AlchemyXPboost"
     ],
-    "permissionRank": "splasher"
+    "permissionRank": "staff"
   },
   {
     "hypixelRank": "[MVP++]",
@@ -235,7 +235,7 @@
       "ooffyy",
       "BingoSplasher"
     ],
-    "permissionRank": "splasher"
+    "permissionRank": "staff"
   },
   {
     "hypixelRank": "[MVP+]",
@@ -628,6 +628,20 @@
       "Conutik"
     ],
     "permissionRank": "trusted"
+  },
+  {
+    "hypixelRank": "[MVP+]",
+    "names": [
+      "WTFMAJOR"
+    ],
+    "permissionRank": "splasher"
+  },
+  {
+    "hypixelRank": "[MVP+]",
+    "names": [
+      "1RealFadi-TODO"
+    ],
+    "permissionRank": "splasher"
   },
   {
     "hypixelRank": "[VIP++++]",
