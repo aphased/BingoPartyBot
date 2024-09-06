@@ -637,9 +637,16 @@
     "permissionRank": "splasher"
   },
   {
-    "hypixelRank": "[MVP+]",
+    "hypixelRank": "[VIP]",
     "names": [
-      "1RealFadi-TODO"
+      "1RealFadi"
+    ],
+    "permissionRank": "splasher"
+  },
+  {
+    "hypixelRank": "[VIP]",
+    "names": [
+      "MuggleMagic"
     ],
     "permissionRank": "splasher"
   },
