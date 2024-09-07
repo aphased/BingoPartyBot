@@ -1,10 +1,16 @@
 import mineflayer from "mineflayer";
 import loadPartyCommands from "./handlers/PartyCommandHandler.mjs";
+import * as config from "../Config.mjs";
 
 class Bot {
-  constructor(options) {
-    this.options = options;
-    this.bot = mineflayer.createBot(this.options);
+  constructor() {
+    this.config = config.default;
+    this.bot = mineflayer.createBot({
+      host: "mc.hypixel.net",
+      username: this.config.mineflayerInfo.email,
+      version: "1.20.1",
+      auth: this.config.mineflayerInfo.authType,
+    });
 
     (async () => {
       /** @type {Collection} */
@@ -92,13 +98,6 @@ class Bot {
   }
 }
 
-const botOptions = {
-  host: "mc.hypixel.net",
-  username: "voidpringles@outlook.com",
-  version: "1.20.1",
-  auth: "microsoft",
-};
-
-const myBot = new Bot(botOptions);
+const myBot = new Bot();
 
 export default myBot;

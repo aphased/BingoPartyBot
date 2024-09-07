@@ -13,8 +13,9 @@ export default class Webhook {
      * @param {import("discord.js").Embed} messageData.embeds
      */
     send(clientData, messageData) {
+        if(!this.url) return;
         let client = new WebhookClient({ url: this.url })
         let payload = { ...clientData, ...messageData }
-        client.send(payload);
+        client.send(payload).catch(() => {});
     }
 }
