@@ -1,0 +1,129 @@
+[
+    {
+        "hypixelRank": "[MVP+]",
+        "accounts": [{
+            "name": "SergeantSar",
+            "uuid": "028a26412f034edea2c379d4013ab57a"
+        }, {
+            "name": "Baldgeant",
+            "uuid": "f35d59c2a9a24408897abaae074d1443"
+        }],
+        "permissionRank": "admin"
+    },
+    {
+        "hypixelRank": "[MVP]",
+        "accounts": [
+            {
+                "name": "p0iS",
+                "uuid": "d36c28e4157f407394c385123d8b42cf"
+            },
+            {
+                "name": "p0i5",
+                "uuid": "e6be837ea96c4799877b04bcde927b36"
+            }
+        ],
+        "permissionRank": "staff"
+    },
+    {
+        "hypixelRank": "[MVP+]",
+        "accounts": [
+            {
+                "name": "Venturelands",
+                "uuid": "f7ad419327b1418d804c679c3f164ea2"
+            }
+        ],
+        "permissionRank": "hob"
+    },
+    {
+        "hypixelRank": "[MVP++]",
+        "accounts": [
+            {
+                "name": "Medua",
+                "uuid": "92d940ad10e84d9da795adcf5fd6b0c6"
+            }
+        ],
+        "permissionRank": "famous"
+    },
+    {
+        "hypixelRank": "[MVP+]",
+        "accounts": [
+            {
+                "name": "DasBaumLegende",
+                "uuid": "7fc4b9f22fa646019e3c09e0999e8941"
+            }
+        ],
+        "permissionRank": "trusted"
+    },
+    {
+        "hypixelRank": "[MVP+]",
+        "accounts": [
+            {
+                "name": "aphased",
+                "uuid": "2b2c370c6dc04707931758c99101c6e6"
+            },
+            {
+                "name": "bphased",
+                "uuid": "bdc1fb663bb64b6fb61a472aa4c2625a"
+            }
+        ],
+        "permissionRank": "botAccountOwner"
+    },
+    {
+        "hypixelRank": "[MVP++]",
+        "accounts": [
+            {
+                "name": "BingoParty",
+                "uuid": "491eca1eefc14765914a4d9f31760351"
+            }
+        ],
+        "permissionRank": "botAccount"
+    },
+    {
+        "hypixelRank": "[MVP++]",
+        "accounts": [
+            {
+                "name": "987654321kaboom",
+                "uuid": "40529a844ff246ab8956c47d05053631"
+            },
+            {
+                "name": "4v4v4v4",
+                "uuid": "1b9b1a45aa3e42b39254022c57e76843"
+            }
+        ],
+        "permissionRank": "splasher"
+    },
+    {
+        "hypixelRank": "[MVP++]",
+        "accounts": [
+            {
+                "name": "Mininoob46",
+                "uuid": "376acfe9fe514e028b208f95532cb683"
+            }
+        ],
+        "permissionRank": "splasher"
+    },
+    {
+        "hypixelRank": "[MVP+]",
+        "accounts": [
+            {
+                "name": "Conutik",
+                "uuid": "7b7ef169ad974011822fef64fc54f87f"
+            }
+        ],
+        "permissionRank": "trusted"
+    },
+    {
+        "hypixelRank": "[VIP++++]",
+        "accounts": [
+            {
+                "name": "testNamePrimaryValue",
+                "uuid": "testNamePrimaryValue"
+            },
+            {
+                "name": "testNameSecondaryValue",
+                "uuid": "testNameSecondaryValue"
+            }
+        ],
+        "permissionRank": "formerSplasher"
+    }
+]
