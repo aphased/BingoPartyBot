@@ -10,7 +10,8 @@
 # Also don't upload all dependencies (like 300 MB lol)
 node_modules/
 
-# WIP file that doesn't have anything to do with the main bot
-modules/additionalFeatures.mjs
-
 old/*
+
+Config.mjs
+test.mjs
+playerNamesUpdated.json

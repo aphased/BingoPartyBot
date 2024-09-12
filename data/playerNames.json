@@ -1,677 +1,1019 @@
-[
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "HunterHiHunter",
-      "Hub14"
-    ],
-    "permissionRank": "admin"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "indigo_polecat",
-      "Indigo_Poledog"
-    ],
-    "permissionRank": "admin"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "SergeantSar",
-      "Baldgeant"
-    ],
-    "permissionRank": "admin"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Lcat_"
-    ],
-    "permissionRank": "staff"
-  },
-  {
-    "hypixelRank": "[MVP]",
-    "names": [
-      "p0iS",
-      "p0i5",
-      "_pois",
-      "pois_",
-      "p0iS_",
-      "_p0iS",
-      "poi5",
-      "p0iSv",
-      "mikosz106"
-    ],
-    "permissionRank": "staff"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "Dredlig"
-    ],
-    "permissionRank": "hob"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Aoik"
-    ],
-    "permissionRank": "hob"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "ForagerRedstone"
-    ],
-    "permissionRank": "hob"
-  },
-  {
-    "hypixelRank": "",
-    "names": [
-      "demonhunter990"
-    ],
-    "permissionRank": "hob"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "EnsyL"
-    ],
-    "permissionRank": "hob"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "h8re",
-      "4chr",
-      "CloverHelmet",
-      "h5re",
-      "h6re",
-      "h8de",
-      "h9re",
-      "IHATEGOOGLEDRIVE"
-    ],
-    "permissionRank": "hob"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "godwyyn",
-      "Godwynn"
-    ],
-    "permissionRank": "hob"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Venturelands"
-    ],
-    "permissionRank": "hob"
-  },
-  {
-    "hypixelRank": "[ADMIN]",
-    "names": [
-      "skyerzz"
-    ],
-    "permissionRank": "famous"
-  },
-  {
-    "hypixelRank": "[ADMIN]",
-    "names": [
-      "Citria"
-    ],
-    "permissionRank": "famous"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "BenC1ark"
-    ],
-    "permissionRank": "famous"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "AlexxOffi"
-    ],
-    "permissionRank": "famous"
-  },
-  {
-    "hypixelRank": "[YOUTUBE]",
-    "names": [
-      "Remittal"
-    ],
-    "permissionRank": "famous"
-  },
-  {
-    "hypixelRank": "[YOUTUBE]",
-    "names": [
-      "thirtyvirus"
-    ],
-    "permissionRank": "famous"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Crxmsxn"
-    ],
-    "permissionRank": "famous"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "Medua"
-    ],
-    "permissionRank": "famous"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "erikeriklol"
-    ],
-    "permissionRank": "trusted"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "kleinKolibri711"
-    ],
-    "permissionRank": "trusted"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "DasBaumLegende"
-    ],
-    "permissionRank": "trusted"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "aphased",
-      "bphased",
-      "cphased",
-      "dphased",
-      "ephased",
-      "fphased",
-      "gphased"
-    ],
-    "permissionRank": "botAccountOwner"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "BingoParty"
-    ],
-    "permissionRank": "botAccount"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "BossFlea",
-      "mushedglowytonic",
-      "JoeyMcPizza",
-      "CombatXPboost",
-      "MiningXPboost",
-      "ForagingXPboost",
-      "FarmingXPboost",
-      "FishingXPboost",
-      "AlchemyXPboost"
-    ],
-    "permissionRank": "staff"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "KiLLz_StRoMzY",
-      "StRoMzzY"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "ooffyy",
-      "BingoSplasher"
-    ],
-    "permissionRank": "staff"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "BatmanCrtns"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Netomnia",
-      "McLarenF1Team"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "WatoBato"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Calva"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "Neferis",
-      "furken"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[VIP]",
-    "names": [
-      "yCookies",
-      "leftmint",
-      "remainqs",
-      "SubAstro"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "987654321kaboom",
-      "4v4v4v4"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Katoulis"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "Tryp0MC",
-      "Timecharm"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "NotOgfishyboi"
-    ],
-    "permissionRank": "formerSplasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "ThatHungryGoat"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "foqh"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "End_Game_Player"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "GleoLP"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Beaudeclan"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "karicc",
-      "mikedpismybabe"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "PotjeZout",
-      "PotjePeper",
-      "PotjeVet"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[VIP]",
-    "names": [
-      "SmoothEgg"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[VIP+]",
-    "names": [
-      "ZerosTulip",
-      "DousedCharizard"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Spxi",
-      "NotASkyblockMain",
-      "sadboyspring"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "emaia",
-      "emAia",
-      "Emaia",
-      "searchingsaturns",
-      "emisploosh",
-      "dovebirds",
-      "uhalexia"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[VIP]",
-    "names": [
-      "Siggydlx"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "xRezdro"
-    ],
-    "permissionRank": "formerSplasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "Spqceman",
-      "SpqcemanV2"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Blackileinchen"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Poisopoi",
-      "PoisoToo"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "marfylikebedwars",
-      "mafrylikebedwars",
-      "mafrylikecarrot"
-    ],
-    "permissionRank": "formerSplasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "ay212"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Domx2e"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "FreakyDj"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "ScathaPet"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "SakuriceTwitch"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Slowbrah808"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "sunnytian_awa"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "JakeyBub"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[VIP]",
-    "names": [
-      "Magnus6109"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "MisterCheezeCake"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "Dxtty"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[VIP]",
-    "names": [
-      "StrappedScarf74"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Tabaluggar",
-      "Arachneparty"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "oSilja"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Reccie"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Lord_Kxnterkill"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "tuilps"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "haity_po_kvar_"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Sahil02"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[VIP]",
-    "names": [
-      "JulianUwU"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "jbanate",
-      "Dementiacasper"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Fabien83560"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "unterrunden"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP++]",
-    "names": [
-      "Mininoob46",
-      "HypeTheTime",
-      "Bingohub",
-      "Huskestuggu"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "Conutik"
-    ],
-    "permissionRank": "trusted"
-  },
-  {
-    "hypixelRank": "[MVP+]",
-    "names": [
-      "WTFMAJOR"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[VIP]",
-    "names": [
-      "1RealFadi"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[VIP]",
-    "names": [
-      "MuggleMagic"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[VIP]",
-    "names": [
-      "zLuna___",
-      "NightmareZero_"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "",
-    "names": [
-      "mentaiko06",
-      "scyox"
-    ],
-    "permissionRank": "splasher"
-  },
-  {
-    "hypixelRank": "[VIP++++]",
-    "names": [
-      "testNamePrimaryValue",
-      "testNameSecondaryValue"
-    ],
-    "permissionRank": "formerSplasher"
-  }
-]
+{
+    "data": [
+        {
+            "accounts": [
+                {
+                    "name": "HunterHiHunter",
+                    "uuid": "322eb7ef60a44956a707a22e9630bdb8"
+                },
+                {
+                    "name": "Hub14",
+                    "uuid": "67ebe27f41a04b86a49837ff5d53382d"
+                }
+            ],
+            "permissionRank": 3
+        },
+        {
+            "accounts": [
+                {
+                    "name": "indigo_polecat",
+                    "uuid": "e6ae8489ca504c72a48133b3bcb262d2"
+                },
+                {
+                    "name": "Indigo_Poledog",
+                    "uuid": "29fba804f9ee43b1b9f997e2849fa6df"
+                }
+            ],
+            "permissionRank": 3
+        },
+        {
+            "accounts": [
+                {
+                    "name": "SergeantSar",
+                    "uuid": "028a26412f034edea2c379d4013ab57a"
+                },
+                {
+                    "name": "Baldgeant",
+                    "uuid": "f35d59c2a9a24408897abaae074d1443"
+                }
+            ],
+            "permissionRank": 3
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Lcat_",
+                    "uuid": "09c8bf6e62f643b49ac3fa22f507c72e"
+                }
+            ],
+            "permissionRank": 3
+        },
+        {
+            "accounts": [
+                {
+                    "name": "p0iS",
+                    "uuid": "d36c28e4157f407394c385123d8b42cf"
+                },
+                {
+                    "name": "p0i5",
+                    "uuid": "e6be837ea96c4799877b04bcde927b36"
+                },
+                {
+                    "name": "_pois",
+                    "uuid": "ec9a7fb24a1d46b3b3f7f5a569cbd0d8"
+                },
+                {
+                    "name": "pois_",
+                    "uuid": "9c5c2ea7a3b7475ea4cae350eb4d382f"
+                },
+                {
+                    "name": "p0iS_",
+                    "uuid": "2e0dbf8d80f9492eb690c5cd5e891618"
+                },
+                {
+                    "name": "_p0iS",
+                    "uuid": "9c667fd026fd40169ef8afc002b5073d"
+                },
+                {
+                    "name": "poi5",
+                    "uuid": "7961f207afe4448a82246a7ca6f67568"
+                },
+                {
+                    "name": "p0iSv",
+                    "uuid": "7189908e2da14fd1847bd74e33804b2d"
+                },
+                {
+                    "name": "mikosz106",
+                    "uuid": "6bd56d7096884fc3b9b8eca329ae4063"
+                }
+            ],
+            "permissionRank": 3
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Dredlig",
+                    "uuid": "93679901c82e468199fc54b53bb11c84"
+                }
+            ],
+            "permissionRank": 1
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Aoik",
+                    "uuid": "47fbab6e5414414b9ee8926231e79968"
+                }
+            ],
+            "permissionRank": 1
+        },
+        {
+            "accounts": [
+                {
+                    "name": "ForagerRedstone",
+                    "uuid": "574e52e04f84489a92de09f68f024b2d"
+                }
+            ],
+            "permissionRank": 1
+        },
+        {
+            "accounts": [
+                {
+                    "name": "demonhunter990",
+                    "uuid": "ae0cb3dd55a9429da65a5ff863c42d98"
+                }
+            ],
+            "permissionRank": 1
+        },
+        {
+            "accounts": [
+                {
+                    "name": "EnsyL",
+                    "uuid": "e3b3568484be4131b3cc47fe35bc804f"
+                }
+            ],
+            "permissionRank": 1
+        },
+        {
+            "accounts": [
+                {
+                    "name": "h8re",
+                    "uuid": "347484f6abdb4e0a9415ecda3e1c4334"
+                },
+                {
+                    "name": "4chr",
+                    "uuid": "6d7b188eab7344cf9bad119da4159ff2"
+                },
+                {
+                    "name": "CloverHelmet",
+                    "uuid": "99493d24bd174b17a77b21e77fdcea86"
+                },
+                {
+                    "name": "h5re",
+                    "uuid": "6d93fd41cdc445188a1a07b1396f952a"
+                },
+                {
+                    "name": "h6re",
+                    "uuid": "a8b2b0fab0a74e5d96e7eee2e8ef549d"
+                },
+                {
+                    "name": "h8de",
+                    "uuid": null
+                },
+                {
+                    "name": "h9re",
+                    "uuid": "78eb6ec295cb4e5abc4844eb83e7d902"
+                },
+                {
+                    "name": "IHATEGOOGLEDRIVE",
+                    "uuid": null
+                }
+            ],
+            "permissionRank": 1
+        },
+        {
+            "accounts": [
+                {
+                    "name": "godwyyn",
+                    "uuid": "c1127c0f10cd489c9d0f27c2df3d76f1"
+                },
+                {
+                    "name": "Godwynn",
+                    "uuid": "bc0eebdb631d4bac9f0c3865901f3561"
+                }
+            ],
+            "permissionRank": 1
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Venturelands",
+                    "uuid": "f7ad419327b1418d804c679c3f164ea2"
+                }
+            ],
+            "permissionRank": 1
+        },
+        {
+            "accounts": [
+                {
+                    "name": "skyerzz",
+                    "uuid": "1460c760829b4a3c8db7ebf19d724113"
+                }
+            ],
+            "permissionRank": 1
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Citria",
+                    "uuid": "73f64a5ec87a48feab8c059acf4ba848"
+                }
+            ],
+            "permissionRank": 1
+        },
+        {
+            "accounts": [
+                {
+                    "name": "BenC1ark",
+                    "uuid": "2e4c706bb9904b2aa6ef86f8c09f0387"
+                }
+            ],
+            "permissionRank": 1
+        },
+        {
+            "accounts": [
+                {
+                    "name": "AlexxOffi",
+                    "uuid": "ff507b670e974b1ab31721a7cfbf9055"
+                }
+            ],
+            "permissionRank": 1
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Remittal",
+                    "uuid": "302f1186edfd4910a9c9720f0690b111"
+                }
+            ],
+            "permissionRank": 1
+        },
+        {
+            "accounts": [
+                {
+                    "name": "thirtyvirus",
+                    "uuid": "c3b9402747b1433d8b20cd54c7da3f5d"
+                }
+            ],
+            "permissionRank": 1
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Crxmsxn",
+                    "uuid": "d6ec5310e2a14ef4a4e17bebf9e7b4dd"
+                }
+            ],
+            "permissionRank": 1
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Medua",
+                    "uuid": "92d940ad10e84d9da795adcf5fd6b0c6"
+                }
+            ],
+            "permissionRank": 1
+        },
+        {
+            "accounts": [
+                {
+                    "name": "erikeriklol",
+                    "uuid": "54d6ca15dd974bb38699e71bf5545178"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "kleinKolibri711",
+                    "uuid": "1015a118ec124526b51a946142777ff9"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "DasBaumLegende",
+                    "uuid": "7fc4b9f22fa646019e3c09e0999e8941"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "aphased",
+                    "uuid": "2b2c370c6dc04707931758c99101c6e6"
+                },
+                {
+                    "name": "bphased",
+                    "uuid": "bdc1fb663bb64b6fb61a472aa4c2625a"
+                },
+                {
+                    "name": "cphased",
+                    "uuid": "6851e3e290f044059229b2f56f8be34d"
+                },
+                {
+                    "name": "dphased",
+                    "uuid": "d6728afa9f0b4b27800ff3c374715e9a"
+                },
+                {
+                    "name": "ephased",
+                    "uuid": null
+                },
+                {
+                    "name": "fphased",
+                    "uuid": "285782032c2842198b358a386ed60eaf"
+                },
+                {
+                    "name": "gphased",
+                    "uuid": null
+                }
+            ]
+        },
+        {
+            "accounts": [
+                {
+                    "name": "BingoParty",
+                    "uuid": "491eca1eefc14765914a4d9f31760351"
+                }
+            ]
+        },
+        {
+            "accounts": [
+                {
+                    "name": "BossFlea",
+                    "uuid": "09856db6f0214c659ed43a7b3a5f2ca1"
+                },
+                {
+                    "name": "mushedglowytonic",
+                    "uuid": "3109a3b33d4b4b9fb0f4f55a88321909"
+                },
+                {
+                    "name": "JoeyMcPizza",
+                    "uuid": "a5f838e2aab1462fa7f74c421ff6e510"
+                },
+                {
+                    "name": "CombatXPboost",
+                    "uuid": "1fca2c11da5e44c3852c0c5c339d683a"
+                },
+                {
+                    "name": "MiningXPboost",
+                    "uuid": "eb659bd0eefa4c5e9370397ee060572d"
+                },
+                {
+                    "name": "ForagingXPboost",
+                    "uuid": "1a2c93013d2a4510a7a880dafe540e5b"
+                },
+                {
+                    "name": "FarmingXPboost",
+                    "uuid": "4576df6dc9eb4b98af5f25f7cb3de047"
+                },
+                {
+                    "name": "FishingXPboost",
+                    "uuid": "03ee6828775b45258fc4338d6c19cfd5"
+                },
+                {
+                    "name": "AlchemyXPboost",
+                    "uuid": "4f4a555700a544a18d55d1b2fa47cac4"
+                }
+            ],
+            "permissionRank": 3
+        },
+        {
+            "accounts": [
+                {
+                    "name": "KiLLz_StRoMzY",
+                    "uuid": "6a0f06afede24fbaa409d11e37a1e72d"
+                },
+                {
+                    "name": "StRoMzzY",
+                    "uuid": "59cbc42ab8bc462d93765da98336c8f9"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "ooffyy",
+                    "uuid": "ca9b4a62a38b481d94653383ba0d371c"
+                },
+                {
+                    "name": "BingoSplasher",
+                    "uuid": "262f6f1c442f4ab2923d5598058b1479"
+                }
+            ],
+            "permissionRank": 3
+        },
+        {
+            "accounts": [
+                {
+                    "name": "BatmanCrtns",
+                    "uuid": "ecc12397039e4dbbb6d64f916bec42be"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Netomnia",
+                    "uuid": "6093cb4b159a4e289cd31b809dfa4698"
+                },
+                {
+                    "name": "McLarenF1Team",
+                    "uuid": "6b1a8bb88ffe45929708add2430ffaab"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "WatoBato",
+                    "uuid": "92148364138844e59093992dcf0dc08a"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Calva",
+                    "uuid": "fb70da498b7041bc9e1c4179aa5d5ba7"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Neferis",
+                    "uuid": "c307e20a1e7b48b3b1b21746cc09b8d1"
+                },
+                {
+                    "name": "furken",
+                    "uuid": null
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "yCookies",
+                    "uuid": null
+                },
+                {
+                    "name": "leftmint",
+                    "uuid": "149365c848314636961bf8956dee9604"
+                },
+                {
+                    "name": "remainqs",
+                    "uuid": "d742522fd28248b3a0f7d0370d279c9d"
+                },
+                {
+                    "name": "SubAstro",
+                    "uuid": "9f7cf82e1c4c490cb8337d26fe276efe"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "987654321kaboom",
+                    "uuid": "40529a844ff246ab8956c47d05053631"
+                },
+                {
+                    "name": "4v4v4v4",
+                    "uuid": "1b9b1a45aa3e42b39254022c57e76843"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Katoulis",
+                    "uuid": "49f014ac9e234324a0974c7aac29180e"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Tryp0MC",
+                    "uuid": "a5d70208fa2046ec910057ba653bbfa6"
+                },
+                {
+                    "name": "Timecharm",
+                    "uuid": "2f168b28d2674d728af38daa1e019dbc"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "NotOgfishyboi",
+                    "uuid": "6cab3a7bbd4045d583599aa67281e52a"
+                }
+            ]
+        },
+        {
+            "accounts": [
+                {
+                    "name": "ThatHungryGoat",
+                    "uuid": "5da4e3cfd3fe417b84c68d54b3422a26"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "foqh",
+                    "uuid": "7c6f6471da794823855a189c6958f6b2"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "End_Game_Player",
+                    "uuid": "c12b01480c294a86b5271bc5299d4702"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "GleoLP",
+                    "uuid": "a5c1a16ed64e498c8ccd0c1ce9bd37d8"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Beaudeclan",
+                    "uuid": "b6fcda269d16492cb8e884c9b456c400"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "karicc",
+                    "uuid": "4db794bbe8194f3d80d878a95227a6eb"
+                },
+                {
+                    "name": "mikedpismybabe",
+                    "uuid": "8a2235c7ed4d4fe6ad6afccf815c9e47"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "PotjeZout",
+                    "uuid": "938cb0c4fb84466b99db774e14953506"
+                },
+                {
+                    "name": "PotjePeper",
+                    "uuid": null
+                },
+                {
+                    "name": "PotjeVet",
+                    "uuid": "e4fee08d10c14636b9af9e50cd70c691"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "SmoothEgg",
+                    "uuid": "842ae764c0484eb395a9e6c363803f3e"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "ZerosTulip",
+                    "uuid": "dcf0437f120e45c799f8b6137d556d8b"
+                },
+                {
+                    "name": "DousedCharizard",
+                    "uuid": "85f1efe9c56441378c55dd7dceb4b403"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Spxi",
+                    "uuid": "8f8dcfea10fd4c39991110244540820c"
+                },
+                {
+                    "name": "NotASkyblockMain",
+                    "uuid": null
+                },
+                {
+                    "name": "sadboyspring",
+                    "uuid": "a80619a05c684dbaa265cfad7bcd8430"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "emaia",
+                    "uuid": "347dcf10e5394d3f95a880db0d878d65"
+                },
+                {
+                    "name": "emAia",
+                    "uuid": "347dcf10e5394d3f95a880db0d878d65"
+                },
+                {
+                    "name": "Emaia",
+                    "uuid": "347dcf10e5394d3f95a880db0d878d65"
+                },
+                {
+                    "name": "searchingsaturns",
+                    "uuid": null
+                },
+                {
+                    "name": "emisploosh",
+                    "uuid": null
+                },
+                {
+                    "name": "dovebirds",
+                    "uuid": "d7b9f4d85f784b51971c4142384aee44"
+                },
+                {
+                    "name": "uhalexia",
+                    "uuid": "92624a756f7246b082fc8009654085aa"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Siggydlx",
+                    "uuid": "ae9acba268234b6b87657805a3112769"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "xRezdro",
+                    "uuid": "0a1395c6569e4bfb935bd334585176fe"
+                }
+            ]
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Spqceman",
+                    "uuid": "84ed8f41b2534d4ea1d93715851b4223"
+                },
+                {
+                    "name": "SpqcemanV2",
+                    "uuid": "85c50720f15a4393b7994e488a34792e"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Blackileinchen",
+                    "uuid": "e22793416e3b491f8b3f8440a3a5e2fd"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Poisopoi",
+                    "uuid": "dd02ee3e4f6547b897a56a4980ac45d6"
+                },
+                {
+                    "name": "PoisoToo",
+                    "uuid": "2ad27919f1ab4872bd14a998287022c9"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "marfylikebedwars",
+                    "uuid": null
+                },
+                {
+                    "name": "mafrylikebedwars",
+                    "uuid": null
+                },
+                {
+                    "name": "mafrylikecarrot",
+                    "uuid": "46db2ca9257e465abb7280345c302360"
+                }
+            ]
+        },
+        {
+            "accounts": [
+                {
+                    "name": "ay212",
+                    "uuid": "a6190bd4d0b246adbc2428dc8218a61d"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Domx2e",
+                    "uuid": "d1b2d94264d84973822cb0c55d0cf1db"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "FreakyDj",
+                    "uuid": "2d5950526060497098d9a1a44a064a81"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "ScathaPet",
+                    "uuid": "79d045e02bce4dfea8bb9086e660ee57"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "SakuriceTwitch",
+                    "uuid": "cad2bce436ef40228db965e363526939"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Slowbrah808",
+                    "uuid": "927889214f6442649abea9d61e5da2fd"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "sunnytian_awa",
+                    "uuid": "9eb876b3bd6c4dcf96c290405dc46a4b"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "JakeyBub",
+                    "uuid": "581e8773bc8b44d38816edc8a03d6a19"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Magnus6109",
+                    "uuid": "8af891ccb2804b50986bd3294e504f55"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "MisterCheezeCake",
+                    "uuid": "6a24734e7d9f4abfbf9ec56bf5428f1b"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Dxtty",
+                    "uuid": null
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "StrappedScarf74",
+                    "uuid": "2ad6fad4e9a54ee4a74da7f6fcf5e18f"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Tabaluggar",
+                    "uuid": null
+                },
+                {
+                    "name": "Arachneparty",
+                    "uuid": "05755ca6ce1e4c2eb6574fc62bb77868"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "oSilja",
+                    "uuid": "4adfe963e64144518c9858d8200d8050"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Reccie",
+                    "uuid": "57e7b73332ab42708a73828d93a0bbfe"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Lord_Kxnterkill",
+                    "uuid": null
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "tuilps",
+                    "uuid": "9b2abffc43024490b70b670754bced75"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "haity_po_kvar_",
+                    "uuid": "dd910e5ec4aa430191854ba587ff7dc7"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Sahil02",
+                    "uuid": "bc661e1aa33541b4b0cd8b23d004f703"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "JulianUwU",
+                    "uuid": "53d1677061c7416f974b34845adbc75c"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "jbanate",
+                    "uuid": "420a9ad77e7d4718886cf85a4a822f29"
+                },
+                {
+                    "name": "Dementiacasper",
+                    "uuid": "7deb8ce555d84b268658fa5c2fa743cd"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Fabien83560",
+                    "uuid": "8a4819c8c92849e1b1522c3d2be0a88c"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "unterrunden",
+                    "uuid": "eb14ca9899334fe38e7e02eafde514fa"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Mininoob46",
+                    "uuid": null
+                },
+                {
+                    "name": "HypeTheTime",
+                    "uuid": "ba8fd82a6c9445858f49e871d9af7eba"
+                },
+                {
+                    "name": "Bingohub",
+                    "uuid": "18272330a1454faa8f623f6140147f16"
+                },
+                {
+                    "name": "Huskestuggu",
+                    "uuid": "69d1c5d66865408cbe2bb49ceaa718ed"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Conutik",
+                    "uuid": "7b7ef169ad974011822fef64fc54f87f"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "WTFMAJOR",
+                    "uuid": "489ef4889ec64c6cabff80e515da9373"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "1RealFadi",
+                    "uuid": "5ae286920fc349899a6d95eb8371e1fb"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "MuggleMagic",
+                    "uuid": "749a26efb6bc47c18ec7ed4edf1fe130"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "testNamePrimaryValue",
+                    "uuid": null
+                },
+                {
+                    "name": "testNameSecondaryValue",
+                    "uuid": null
+                }
+            ]
+        }
+    ]
+}
