@@ -3,8 +3,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import mineflayer from "mineflayer";
-import myBot from "./mineflayer/Bot.mjs";
-import { utils } from "./utils/Utils.mjs";
+import myBot from "./src/mineflayer/Bot.mjs";
+import { utils } from "./src/utils/Utils.mjs";
 import * as config from "./Config.mjs";
 import JSONdb from "simple-json-db";
 import path from "path";

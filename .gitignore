@@ -1,2 +1,17 @@
-node_modules
+# Ignore everything containing secrets (including hidden files)…
+*.env
+*backup.env*
+.*
+
+# … and explicitly mention exemptions, to avoid leaks.
+!.gitignore
+!.editorconfig
+
+# Also don't upload all dependencies (like 300 MB lol)
+node_modules/
+
+old/*
+
 Config.mjs
+test.mjs
+playerNamesUpdated.json

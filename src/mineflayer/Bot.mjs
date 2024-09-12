@@ -1,6 +1,6 @@
 import mineflayer from "mineflayer";
+import * as config from "../../Config.mjs";
 import loadPartyCommands from "./handlers/PartyCommandHandler.mjs";
-import * as config from "../Config.mjs";
 
 class Bot {
   constructor() {
@@ -49,7 +49,7 @@ class Bot {
     setInterval(async () => {
       try {
         const configModule = await import(
-          `../Config.mjs?cacheBust=${Date.now()}`
+          `../../Config.mjs?cacheBust=${Date.now()}`
         );
         this.config = configModule.default; // Access the default export of the JSON module
         // DEBUG: console.log("Allowlist updated:", allowlist);

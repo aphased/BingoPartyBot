@@ -29,7 +29,7 @@ class Utils {
   async getRulesList() {
     if (this.rulesList.length === 0)
       this.rulesList = await import(
-        `../data/bingoBrewersRules.json?cacheBust=${Date.now()}`,
+        `../../data/bingoBrewersRules.json?cacheBust=${Date.now()}`,
         { assert: { type: "json" } }
       );
     this.rulesList = this.rulesList.default;
@@ -40,7 +40,7 @@ class Utils {
     setInterval(async () => {
       try {
         const configModule = await import(
-          `../data/bingoBrewersRules.json?cacheBust=${Date.now()}`,
+          `../../data/bingoBrewersRules.json?cacheBust=${Date.now()}`,
           {
             assert: { type: "json" },
           }
@@ -56,7 +56,7 @@ class Utils {
   async getKickList() {
     if (this.kickList.length === 0)
       this.kickList = await import(
-        `../data/autoKickWords.json?cacheBust=${Date.now()}`,
+        `../../data/autoKickWords.json?cacheBust=${Date.now()}`,
         { assert: { type: "json" } }
       );
     this.kickList = this.kickList.default;
@@ -67,7 +67,7 @@ class Utils {
     setInterval(async () => {
       try {
         const configModule = await import(
-          `../data/autoKickWords.json?cacheBust=${Date.now()}`,
+          `../../data/autoKickWords.json?cacheBust=${Date.now()}`,
           {
             assert: { type: "json" },
           }
@@ -253,8 +253,8 @@ let utils = new Utils(
   true,
   // import("../data/playerNames.json", { assert: { type: "json" } }),
   null,
-  import("../data/autoKickWords.json", { assert: { type: "json" } }),
-  import("../data/bingoBrewersRules.json", { assert: { type: "json" } })
+  import("../../data/autoKickWords.json", { assert: { type: "json" } }),
+  import("../../data/bingoBrewersRules.json", { assert: { type: "json" } })
 );
 
 export { utils };
