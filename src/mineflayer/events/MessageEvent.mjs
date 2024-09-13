@@ -11,7 +11,7 @@ export default {
    */
   execute: async function (message, bot) {
     if (RegExp(/^From /g).test(message.toString())) {
-      let command = message.toString().split(": ")[1]; // !p promo (lets say)
+      let command = message.toString().split(": ").slice(1).join(": "); // !p promo (lets say)
       if(command.toLowerCase().startsWith("boop!")) return bot.bot.chat(`/p invite ${Utils.removeRank(message.toString().split(": ")[0].replace("From ", ""))}`);
       let args = command.split(" "); // Get the arugments of the command
       if(args[0].toLowerCase() !== bot.config.partyCommandPrefix.toLowerCase()) return;
