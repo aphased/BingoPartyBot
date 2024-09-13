@@ -82,7 +82,7 @@ class Utils {
   // Get uuid from username
   async getUUID(username) {
     let data = await axios.get(
-      `https://api.mojang.com/users/profiles/minecraft/${username}`
+      `https://api.mojang.com/users/profiles/minecraft/${username}`,
     );
     if (data.data.errorMessage) return null;
     return data.data.id;
@@ -91,14 +91,16 @@ class Utils {
   // Get username from uuid
   async getUsername(uuid) {
     let data = await axios.get(
-      `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`
+      `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`,
     );
     if (data.data.errorMessage) return null;
     return data.data.name;
   }
 
   getUsersByPermissionRank(rank) {
-    return this.playerNamesDatabase.get("data").filter((x) => x.permissionRank === rank);
+    return this.playerNamesDatabase
+      .get("data")
+      .filter((x) => x.permissionRank === rank);
   }
 
   /**
@@ -111,14 +113,16 @@ class Utils {
   getPermissionsByUser(options = {}) {
     if (options.uuid) options.uuid = options.uuid.toLowerCase();
     if (options.name) options.name = options.name.toLowerCase();
-    let processed = this.playerNamesDatabase.get("data").find((x) =>
-      x.accounts.some(
-        (y) =>
-          y.uuid.toLowerCase() == options.uuid ||
-          y.name.toLowerCase() == options.name
-      )
-    );
-    if(!processed) return null;
+    let processed = this.playerNamesDatabase
+      .get("data")
+      .find((x) =>
+        x.accounts.some(
+          (y) =>
+            y.uuid.toLowerCase() == options.uuid ||
+            y.name.toLowerCase() == options.name,
+        ),
+      );
+    if (!processed) return null;
     return processed.permissionRank;
   }
 
@@ -132,32 +136,28 @@ class Utils {
   getUserObject(options = {}) {
     if (options.uuid) options.uuid = options.uuid.toLowerCase();
     if (options.name) options.name = options.name.toLowerCase();
-    return this.playerNamesDatabase.get("data").find((x) =>
-      x.accounts.some(
-        (y) =>
-          y.uuid.toLowerCase() == options.uuid ||
-          y.name.toLowerCase() == options.name
-      )
-    );
+    return this.playerNamesDatabase
+      .get("data")
+      .find((x) =>
+        x.accounts.some(
+          (y) =>
+            y.uuid.toLowerCase() == options.uuid ||
+            y.name.toLowerCase() == options.name,
+        ),
+      );
   }
 }
 
 const logger = createLogger({
   level: "debug",
-  format: format.combine(
-    format.timestamp(),
-    format.json()
-  ),
+  format: format.combine(format.timestamp(), format.json()),
   transports: [
     new transports.Console({
-      format: format.combine(
-        format.colorize(),
-        format.simple()
-      ),
-      stderrLevels: ['error']
-    })
-  ]
-})
+      format: format.combine(format.colorize(), format.simple()),
+      stderrLevels: ["error"],
+    }),
+  ],
+});
 
 class Debug {
   constructor(debug = false) {
@@ -179,9 +179,9 @@ class Debug {
             (x) =>
               `Player UUIDs: ${x.accounts
                 .map((y) => `${y.name} (${y.uuid})`)
-                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`
+                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`,
           )
-          .join("\n")
+          .join("\n"),
       );
     if (options.printLength) console.log(allowList.length);
     if (options.printFirst) console.log(allowList[0]);
@@ -194,9 +194,9 @@ class Debug {
             (x) =>
               `Player UUIDs: ${x.accounts
                 .map((y) => `${y.name} (${y.uuid})`)
-                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`
+                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`,
           )
-          .join("\n")
+          .join("\n"),
       );
     if (options.printUser)
       console.log(
@@ -206,9 +206,9 @@ class Debug {
             (x) =>
               `Player UUIDs: ${x.accounts
                 .map((y) => `${y.name} (${y.uuid})`)
-                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`
+                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`,
           )
-          .join("\n")
+          .join("\n"),
       );
   }
 
@@ -228,26 +228,26 @@ const messageRegex =
   /^(?:Party >|From) ?(?:(\[.*?\]) )?(\w{1,16}): (.*?)(?:§.*)?$/s;
 
 export default {
-  removeRank: function(name) {
+  removeRank: function (name) {
     return name.replace(/\[.+]/g, "").trim();
   },
 
-  determineMessageType: function(parsedMsgObj) {
+  determineMessageType: function (parsedMsgObj) {
     if (isWhisper(parsedMsgObj)) return MessageType.Whisper;
-    else if (isPartyInvite(parsedMsgObj).isPartyInvite) return MessageType.PartyInvite;
+    else if (isPartyInvite(parsedMsgObj).isPartyInvite)
+      return MessageType.PartyInvite;
     else if (isPartyMessage(parsedMsgObj)) return MessageType.PartyMessage;
     else return MessageType.Other;
   },
 
-  stripColorCodes: function(str) {
+  stripColorCodes: function (str) {
     return str.replace(/§[0-9a-fk-or]/g, ""); //DuckDuckBang gave this
   },
 
-  capitalizeFirstLetter: function(string) {
+  capitalizeFirstLetter: function (string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-},
-
-}
+  },
+};
 
 let utils = new Utils(
   true,
