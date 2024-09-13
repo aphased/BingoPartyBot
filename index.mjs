@@ -26,6 +26,9 @@ process.stdin.on("data", dataInput);
 function dataInput(data) {
   data = data.toString().trim();
   if (data.startsWith("/")) myBot.bot.chat(data);
-  else if (data.startsWith(myBot.config.partyCommandPrefix)) myBot.onMessage(`From [CONSOLE] ${myBot.bot.username}: ${data}`);
+  else if (data.startsWith(myBot.config.partyCommandPrefix)) myBot.onMessage({
+    content: `From [CONSOLE] ${myBot.bot.username}: ${data}`,
+    self: true
+  });
   else if (data.startsWith("!dc")) return; // Add Discord bot stuff
 }

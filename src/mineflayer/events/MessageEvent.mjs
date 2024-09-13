@@ -10,6 +10,8 @@ export default {
    * @param {import("../Bot.mjs").default} bot
    */
   execute: async function (message, bot) {
+    if(bot.config.showMcChat && !message.self) console.log(message.toAnsi());
+    if(message.self == true) message = message.content;
     if (RegExp(/^From /g).test(message.toString())) {
       let command = message.toString().split(": ").slice(1).join(": "); // !p promo (lets say)
       if(command.toLowerCase().startsWith("boop!")) return bot.bot.chat(`/p invite ${Utils.removeRank(message.toString().split(": ")[0].replace("From ", ""))}`);
