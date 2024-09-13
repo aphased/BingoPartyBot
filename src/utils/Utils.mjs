@@ -114,8 +114,8 @@ class Utils {
     let processed = this.playerNamesDatabase.get("data").find((x) =>
       x.accounts.some(
         (y) =>
-          y.uuid.toLowerCase() == options.uuid ||
-          y.name.toLowerCase() == options.name
+          (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
+          (options.name && y.name.toLowerCase() == options.name)
       )
     );
     if(!processed) return null;
@@ -135,8 +135,8 @@ class Utils {
     return this.playerNamesDatabase.get("data").find((x) =>
       x.accounts.some(
         (y) =>
-          y.uuid.toLowerCase() == options.uuid ||
-          y.name.toLowerCase() == options.name
+          (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
+          (options.name && y.name.toLowerCase() == options.name)
       )
     );
   }
