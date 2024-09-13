@@ -111,6 +111,12 @@ class Utils {
    * @returns {Object|null}
    */
   getPermissionsByUser(options = {}) {
+    if (!options || (!options.uuid && !options.name)) {
+      throw new Error(
+        "Invalid options: 'uuid' or 'name' must be provided for permissions check.",
+      );
+    }
+
     if (options.uuid) options.uuid = options.uuid.toLowerCase();
     if (options.name) options.name = options.name.toLowerCase();
     let processed = this.playerNamesDatabase
@@ -118,8 +124,8 @@ class Utils {
       .find((x) =>
         x.accounts.some(
           (y) =>
-            y.uuid.toLowerCase() == options.uuid ||
-            y.name.toLowerCase() == options.name,
+            (y.uuid && y.uuid.toLowerCase() == options.uuid) ||
+            (y.name && y.name.toLowerCase() == options.name),
         ),
       );
     if (!processed) return null;
@@ -134,6 +140,12 @@ class Utils {
    * @returns {Object|null}
    */
   getUserObject(options = {}) {
+    if (!options || (!options.uuid && !options.name)) {
+      throw new Error(
+        "Invalid options: 'uuid' or 'name' must be provided to get user info.",
+      );
+    }
+
     if (options.uuid) options.uuid = options.uuid.toLowerCase();
     if (options.name) options.name = options.name.toLowerCase();
     return this.playerNamesDatabase
@@ -141,8 +153,8 @@ class Utils {
       .find((x) =>
         x.accounts.some(
           (y) =>
-            y.uuid.toLowerCase() == options.uuid ||
-            y.name.toLowerCase() == options.name,
+            (y.uuid && y.uuid.toLowerCase() == options.uuid) ||
+            (y.name && y.name.toLowerCase() == options.name),
         ),
       );
   }
@@ -253,8 +265,8 @@ let utils = new Utils(
   true,
   // import("../data/playerNames.json", { assert: { type: "json" } }),
   null,
-  import("../../data/autoKickWords.json", { assert: { type: "json" } }),
-  import("../../data/bingoBrewersRules.json", { assert: { type: "json" } })
+  import("../../data/autoKickWords.json", { with: { type: "json" } }),
+  import("../../data/bingoBrewersRules.json", { with: { type: "json" } }),
 );
 
 export { utils };
