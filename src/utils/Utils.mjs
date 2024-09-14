@@ -158,6 +158,66 @@ class Utils {
         ),
       );
   }
+
+  /**
+   * Returns a random alphanumeric string.
+   * Originally written by ooffyy.
+   * @param {Number} length
+   * @returns the random string
+   */
+  /* const */
+  #generateRandomString = (length) => {
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let result = "";
+
+    for (let i = 0; i < length; i++) {
+      let randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters.charAt(randomIndex);
+    }
+
+    return result;
+  };
+
+  /**
+   * Adds on a random string of characters to bypass if eligible.
+   * Originally written by ooffyy.
+   * @param {String} string string to append
+   * @returns formatted/unformatted string
+   */
+  addRandomString(string) {
+    // TODO: Potentially cap this to the maximum message length of like 256 and
+    // accept/allow a *veeeery* long message to not go through.
+    return (
+      string +
+      ` ${this.#generateRandomString(string.length * 0.33 < 6 ? 6 : string.length * 0.33)}`
+    );
+  }
+
+  /**
+   * Use this function anytime you want to send a message via Hypixel's `/r`.
+   * Currently, the recipient is unused anyway, so if they're unknown, pass an
+   * empty string (`""`).
+   * The `reply` function will add on a randomizing part at the end of the
+   * message string in order to enable repeated output/sending of the same
+   * direct message (womp womp Hypixel).
+   *
+   * Due to direct message privacy settings, this implementation currently
+   * exclusively uses the `/reply` mechanism in favor of `/msg` (=`/whisper`).
+   * Advantage is being able to reply to anybody, at the cost of potentially
+   * answering the wrong message to an incorrect recipient with quick
+   * back-to-back commands/messages received.
+   
+   * Thus, this use may change in the future, at which point including the
+   * recipient's info (i.e. IGN) will be necessary.
+   * @param {Bot} bot  Mineflayer bot sending the message out on Hypixel.
+   * @param {String} recipient  IGN to send a message to (currently not needed,
+   * but try to supply this value).
+   * @param {String} message  Message to send.
+   */
+  reply(bot, recipient, message) {
+    bot.chat(`/r ${this.addRandomString(message)}`);
+  }
 }
 
 const logger = createLogger({

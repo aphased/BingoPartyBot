@@ -26,6 +26,10 @@ class Bot {
     this.bot.addListener("message", this.onMessage.bind(this));
   }
 
+  chat(message) {
+    this.bot.chat(message);
+  }
+
   async reloadPartyCommands() {
     this.partyCommands = await loadPartyCommands();
     return true;
