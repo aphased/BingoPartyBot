@@ -10,4 +10,5 @@ export default {
         avatarUrl: ""
     },
     guideLink: "",
+    showMcChat: true
 }

@@ -119,16 +119,14 @@ class Utils {
 
     if (options.uuid) options.uuid = options.uuid.toLowerCase();
     if (options.name) options.name = options.name.toLowerCase();
-    let processed = this.playerNamesDatabase
-      .get("data")
-      .find((x) =>
-        x.accounts.some(
-          (y) =>
-            (y.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (y.name && y.name.toLowerCase() == options.name),
-        ),
-      );
-    if (!processed) return null;
+    let processed = this.playerNamesDatabase.get("data").find((x) =>
+      x.accounts.some(
+        (y) =>
+          (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
+          (options.name && y.name.toLowerCase() == options.name)
+      )
+    );
+    if(!processed) return null;
     return processed.permissionRank;
   }
 
@@ -148,15 +146,13 @@ class Utils {
 
     if (options.uuid) options.uuid = options.uuid.toLowerCase();
     if (options.name) options.name = options.name.toLowerCase();
-    return this.playerNamesDatabase
-      .get("data")
-      .find((x) =>
-        x.accounts.some(
-          (y) =>
-            (y.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (y.name && y.name.toLowerCase() == options.name),
-        ),
-      );
+    return this.playerNamesDatabase.get("data").find((x) =>
+      x.accounts.some(
+        (y) =>
+          (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
+          (options.name && y.name.toLowerCase() == options.name)
+      )
+    );
   }
 }
 
