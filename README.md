@@ -26,7 +26,9 @@ are only accessible to and only work for a predefined group of users
 For potential contributors… or myself, when I eventually come back to fix or
 extend something:
 
-- Start the bot (in my case on a Linux server) by executing
+- TODO: update this section
+
+<!-- - Start the bot (in my case on a Linux server) by executing
 `./BingoPartyBot/run-bot` in the shell, which will start Node
     - There is also a `.bat` file now for launching/testing the bot locally on Windows. It does not (yet) re-launch automatically on crash unlike the Unix script. 
 - In addition to initializing the bot, `index.mjs` enables command input
@@ -40,7 +42,7 @@ the ChatTriggers and Mineflayer code)
 - `boolChecks.mjs` and `utils.mjs` are modules with helper functionality
 - data is stored in the `data` directory: `playerNames.json`,
 `bingoBrewersRules.json`, and `autokickWords.json` (WIP on `banned.json`)
-- `manageData.mjs` to interact with said data (also partially WIP)
+- `manageData.mjs` to interact with said data (also partially WIP) -->
 
 
 ## How to run
