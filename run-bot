@@ -1,0 +1,40 @@
+#!/bin/sh
+
+# This will keep the bot restarting in a loop until stopped.
+
+# Use in conjunction with e.g. this defined in a shell outside of the script:
+# alias rsbpb='screen -d -RR bpb $HOME/BingoPartyBot/run-bot'
+# (Must have e.g. /usr/bin/screen installed, of course)
+
+main() {
+    while true
+    do
+        # git pull # disabled for the time being
+
+        # TODO: execute an `npm install` here for keeping dependencies current,
+        # at/before every launch?
+
+        # Start bot process and pass potential arguments on to it
+        # node --experimental-json-modules . "$@"
+        node --trace-warnings . "$@"
+
+        echo "To shutdown, ctrl+c before the coutdown ends!"
+        echo "Restarting in:"
+        for i in 5 4 3 2 1
+        do
+            echo "$i..."
+            sleep 1
+        done
+        echo "Restarting now!"
+    done
+}
+
+err() {
+    echo "[$(date +'%Y-%m-%d %H:%M:%S') ERR]: $*" >&2
+}
+
+# adapt as needed if project isn't started or located in home/current directory
+cd BingoPartyBot || err "Bot directory not found"
+
+main "$@"
+
