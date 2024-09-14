@@ -54,7 +54,7 @@ class Bot {
    * @param {String} message  Message to send.
    */
   reply(recipient, message) {
-    this.chat(`/r ${this.addRandomString(message)}`);
+    this.chat(`/r ${this.utils.addRandomString(message)}`);
   }
 
   async reloadPartyCommands() {
