@@ -82,7 +82,7 @@ class Utils {
   // Get uuid from username
   async getUUID(username) {
     let data = await axios.get(
-      `https://api.mojang.com/users/profiles/minecraft/${username}`
+      `https://api.mojang.com/users/profiles/minecraft/${username}`,
     );
     if (data.data.errorMessage) return null;
     return data.data.id;
@@ -91,7 +91,7 @@ class Utils {
   // Get username from uuid
   async getUsername(uuid) {
     let data = await axios.get(
-      `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`
+      `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`,
     );
     if (data.data.errorMessage) return null;
     return data.data.name;
@@ -111,6 +111,12 @@ class Utils {
    * @returns {Object|null}
    */
   getPermissionsByUser(options = {}) {
+    if (!options || (!options.uuid && !options.name)) {
+      throw new Error(
+        "Invalid options: 'uuid' or 'name' must be provided for permissions check.",
+      );
+    }
+
     if (options.uuid) options.uuid = options.uuid.toLowerCase();
     if (options.name) options.name = options.name.toLowerCase();
     let processed = this.playerNamesDatabase
@@ -134,6 +140,12 @@ class Utils {
    * @returns {Object|null}
    */
   getUserObject(options = {}) {
+    if (!options || (!options.uuid && !options.name)) {
+      throw new Error(
+        "Invalid options: 'uuid' or 'name' must be provided to get user info.",
+      );
+    }
+
     if (options.uuid) options.uuid = options.uuid.toLowerCase();
     if (options.name) options.name = options.name.toLowerCase();
     return this.playerNamesDatabase
@@ -234,9 +246,9 @@ class Debug {
             (x) =>
               `Player UUIDs: ${x.accounts
                 .map((y) => `${y.name} (${y.uuid})`)
-                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`
+                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`,
           )
-          .join("\n")
+          .join("\n"),
       );
     if (options.printLength) console.log(allowList.length);
     if (options.printFirst) console.log(allowList[0]);
@@ -249,9 +261,9 @@ class Debug {
             (x) =>
               `Player UUIDs: ${x.accounts
                 .map((y) => `${y.name} (${y.uuid})`)
-                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`
+                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`,
           )
-          .join("\n")
+          .join("\n"),
       );
     if (options.printUser)
       console.log(
@@ -261,9 +273,9 @@ class Debug {
             (x) =>
               `Player UUIDs: ${x.accounts
                 .map((y) => `${y.name} (${y.uuid})`)
-                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`
+                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`,
           )
-          .join("\n")
+          .join("\n"),
       );
   }
 
@@ -308,8 +320,8 @@ let utils = new Utils(
   true,
   // import("../data/playerNames.json", { assert: { type: "json" } }),
   null,
-  import("../../data/autoKickWords.json", { assert: { type: "json" } }),
-  import("../../data/bingoBrewersRules.json", { assert: { type: "json" } })
+  import("../../data/autoKickWords.json", { with: { type: "json" } }),
+  import("../../data/bingoBrewersRules.json", { with: { type: "json" } }),
 );
 
 export { utils };
