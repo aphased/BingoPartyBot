@@ -8,7 +8,9 @@ export default {
     /**
      * 
      * @param {import("../../Bot.mjs").default} bot 
-     * @param {String} sender 
+     * @param {Object} sender 
+     * @param {String} [sender.username] - Username of the sender
+     * @param {String} [sender.preferredName] - Preferred name of the sender
      * @param {Array<String>} args 
      */
     execute: async function (bot, sender, args) {

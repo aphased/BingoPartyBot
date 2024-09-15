@@ -24,6 +24,10 @@ export default {
           key.includes(commandName)
         );
         let sender = Utils.removeRank(message.toString().split(": ")[0].replace("From ", ""))
+        sender = {
+          username: sender,
+          preferredName: bot.utils.getPreferredUsername({ name: sender }),
+        }
         if(!command.permission) return command.execute(bot, sender, commandArgs);
         if(command.permission <= bot.utils.getPermissionsByUser({ name: sender })) return command.execute(bot, sender, commandArgs);
         else bot.bot.chat(`/w ${sender} You do not have permission to run this command!`);

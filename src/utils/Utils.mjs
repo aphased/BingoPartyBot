@@ -98,7 +98,9 @@ class Utils {
   }
 
   getUsersByPermissionRank(rank) {
-    return this.playerNamesDatabase.get("data").filter((x) => x.permissionRank === rank);
+    return this.playerNamesDatabase
+      .get("data")
+      .filter((x) => x.permissionRank === rank);
   }
 
   /**
@@ -111,14 +113,16 @@ class Utils {
   getPermissionsByUser(options = {}) {
     if (options.uuid) options.uuid = options.uuid.toLowerCase();
     if (options.name) options.name = options.name.toLowerCase();
-    let processed = this.playerNamesDatabase.get("data").find((x) =>
-      x.accounts.some(
-        (y) =>
-          (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
-          (options.name && y.name.toLowerCase() == options.name)
-      )
-    );
-    if(!processed) return null;
+    let processed = this.playerNamesDatabase
+      .get("data")
+      .find((x) =>
+        x.accounts.some(
+          (y) =>
+            (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
+            (options.name && y.name.toLowerCase() == options.name)
+        )
+      );
+    if (!processed) return null;
     return processed.permissionRank;
   }
 
@@ -132,32 +136,83 @@ class Utils {
   getUserObject(options = {}) {
     if (options.uuid) options.uuid = options.uuid.toLowerCase();
     if (options.name) options.name = options.name.toLowerCase();
-    return this.playerNamesDatabase.get("data").find((x) =>
-      x.accounts.some(
-        (y) =>
-          (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
-          (options.name && y.name.toLowerCase() == options.name)
-      )
-    );
+    return this.playerNamesDatabase
+      .get("data")
+      .find((x) =>
+        x.accounts.some(
+          (y) =>
+            (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
+            (options.name && y.name.toLowerCase() == options.name)
+        )
+      );
+  }
+
+  /**
+   * Use this to replace getHypixelRankByName
+   * @param {Object} options
+   * @param {string} [options.uuid]
+   * @param {string} [options.name]
+   * @returns {Object|null}
+   */
+  getPreferredUsername(options = {}) {
+    if (options.uuid) options.uuid = options.uuid.toLowerCase();
+    if (options.name) options.name = options.name.toLowerCase();
+    let data = this.playerNamesDatabase
+      .get("data")
+      .find((x) =>
+        x.accounts.some(
+          (y) =>
+            (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
+            (options.name && y.name.toLowerCase() == options.name)
+        )
+      );
+    if (!data) return null;
+    if (!data.preferredName) {
+      let getData = this.playerNamesDatabase.get("data");
+      getData[getData.indexOf(data)].preferredName = data.accounts[0].name;
+      this.playerNamesDatabase.set("data", getData);
+      return data.accounts[0].name;
+    }
+    return data.preferredName;
+  }
+
+  /**
+   * Use this to replace getHypixelRankByName
+   * @param {Object} options
+   * @param {string} [options.uuid]
+   * @param {string} [options.name]
+   * @param {string} [options.newName]
+   * @returns {Object|null}
+   */
+  setPreferredUsername(options = {}) {
+    if (options.uuid) options.uuid = options.uuid.toLowerCase();
+    if (options.name) options.name = options.name.toLowerCase();
+    let data = this.playerNamesDatabase
+      .get("data")
+      .find((x) =>
+        x.accounts.some(
+          (y) =>
+            (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
+            (options.name && y.name.toLowerCase() == options.name)
+        )
+      );
+    if (!data) return null;
+    let getData = this.playerNamesDatabase.get("data");
+    getData[getData.indexOf(data)].preferredName = options.newName;
+    this.playerNamesDatabase.set("data", getData);
   }
 }
 
 const logger = createLogger({
   level: "debug",
-  format: format.combine(
-    format.timestamp(),
-    format.json()
-  ),
+  format: format.combine(format.timestamp(), format.json()),
   transports: [
     new transports.Console({
-      format: format.combine(
-        format.colorize(),
-        format.simple()
-      ),
-      stderrLevels: ['error']
-    })
-  ]
-})
+      format: format.combine(format.colorize(), format.simple()),
+      stderrLevels: ["error"],
+    }),
+  ],
+});
 
 class Debug {
   constructor(debug = false) {
@@ -228,26 +283,26 @@ const messageRegex =
   /^(?:Party >|From) ?(?:(\[.*?\]) )?(\w{1,16}): (.*?)(?:§.*)?$/s;
 
 export default {
-  removeRank: function(name) {
+  removeRank: function (name) {
     return name.replace(/\[.+]/g, "").trim();
   },
 
-  determineMessageType: function(parsedMsgObj) {
+  determineMessageType: function (parsedMsgObj) {
     if (isWhisper(parsedMsgObj)) return MessageType.Whisper;
-    else if (isPartyInvite(parsedMsgObj).isPartyInvite) return MessageType.PartyInvite;
+    else if (isPartyInvite(parsedMsgObj).isPartyInvite)
+      return MessageType.PartyInvite;
     else if (isPartyMessage(parsedMsgObj)) return MessageType.PartyMessage;
     else return MessageType.Other;
   },
 
-  stripColorCodes: function(str) {
+  stripColorCodes: function (str) {
     return str.replace(/§[0-9a-fk-or]/g, ""); //DuckDuckBang gave this
   },
 
-  capitalizeFirstLetter: function(string) {
+  capitalizeFirstLetter: function (string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-},
-
-}
+  },
+};
 
 let utils = new Utils(
   true,

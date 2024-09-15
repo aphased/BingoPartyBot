@@ -974,7 +974,8 @@
                     "uuid": "7b7ef169ad974011822fef64fc54f87f"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "preferredName": "Conutik"
         },
         {
             "accounts": [
