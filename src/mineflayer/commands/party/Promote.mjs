@@ -15,9 +15,9 @@ export default {
 
         let player = args[0] || sender;
         // Code here
-        bot.bot.chat(`/pc ${sender} has promoted ${player} in the party.`);
+        bot.reply(`/pc ${sender} has promoted ${player} in the party.`);
         setTimeout(() => {
-            bot.bot.chat("/p promote " + player);
+            bot.reply("/p promote " + player);
             bot.webhook.send(
                 {
                     username: bot.config.webhook.name,

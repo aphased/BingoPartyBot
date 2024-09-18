@@ -41,22 +41,7 @@ class Bot {
 
   setConfig(config) {
     this.config = config;
-    this.refreshConfig();
-  }
-
-  // Used to refresh allowList every 10 seconds
-  refreshConfig() {
-    setInterval(async () => {
-      try {
-        const configModule = await import(
-          `../../Config.mjs?cacheBust=${Date.now()}`
-        );
-        this.config = configModule.default; // Access the default export of the JSON module
-        // DEBUG: console.log("Allowlist updated:", allowlist);
-      } catch (error) {
-        console.error("Error updating allowlist:", error);
-      }
-    }, 10000);
+    this.utils.setMonthGuide({ link: this.config.guideLink });
   }
 
   /*

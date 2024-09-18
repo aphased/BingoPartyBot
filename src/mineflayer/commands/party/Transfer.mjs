@@ -12,10 +12,10 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    if(!args[0]) return bot.bot.chat(`/w ${sender} Please provide a username to transfer the party to.`);
-    bot.bot.chat("/pc This party will be transferred to " + args[0]);
+    if(!args[0]) return bot.reply(`/w ${sender} Please provide a username to transfer the party to.`);
+    bot.reply("/pc This party will be transferred to " + args[0]);
     setTimeout(() => {
-      bot.bot.chat(`/p transfer ${args[0]}`);
+      bot.reply(`/p transfer ${args[0]}`);
       bot.webhook.send(
         {
           username: bot.config.webhook.name,

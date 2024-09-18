@@ -13,8 +13,8 @@ export default {
      * @param {Array<String>} args 
      */
     execute: async function (bot, sender, args) {
-        bot.bot.chat(args.join(" "));
-        bot.bot.chat(`/w ${sender} Executed command: ${args.join(" ")}`);
+        bot.reply(args.join(" "));
+        bot.reply(`/w ${sender} Executed command: ${args.join(" ")}`);
     }
   }
   

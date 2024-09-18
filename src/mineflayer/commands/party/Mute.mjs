@@ -13,9 +13,9 @@ export default {
      */
     execute: async function (bot, sender, args) {
         // Code here
-        bot.bot.chat(`/pc ${sender} has muted/unmuted the party.`);
+        bot.reply(`/pc ${sender} has muted/unmuted the party.`);
         setTimeout(() => {
-            bot.bot.chat(`/p mute`);
+            bot.reply(`/p mute`);
             bot.webhook.send(
                 {
                     username: bot.config.webhook.name,

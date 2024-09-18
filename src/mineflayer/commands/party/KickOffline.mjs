@@ -13,9 +13,9 @@ export default {
      */
     execute: async function (bot, sender, args) {
         // Code here
-        bot.bot.chat(`/pc ${sender} has kicked offline players.`);
+        bot.reply(`/pc ${sender} has kicked offline players.`);
         setTimeout(() => {
-            bot.bot.chat("/p kickoffline");
+            bot.reply("/p kickoffline");
             bot.webhook.send(
                 {
                     username: bot.config.webhook.name,

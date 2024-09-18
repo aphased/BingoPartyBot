@@ -13,9 +13,9 @@ export default {
      */
     execute: async function (bot, sender, args) {
         // Code here
-        bot.bot.chat("/pc This party will be disbanded in 10 seconds! Command ran by: " + sender);
+        bot.reply("/pc This party will be disbanded in 10 seconds! Command ran by: " + sender);
         setTimeout(() => {
-            bot.bot.chat("/p disband");
+            bot.reply("/p disband");
             bot.webhook.send(
                 {
                     username: bot.config.webhook.name,

@@ -12,9 +12,9 @@ export default {
      * @param {Array<String>} args 
      */
     execute: async function (bot, sender, args) {
-        bot.bot.chat(`/pc ${sender} has enabled all invite for the party.`);
+        bot.reply(`/pc ${sender} has enabled all invite for the party.`);
         setTimeout(() => {
-            bot.bot.chat(`/p allinvite`);
+            bot.reply(`/p allinvite`);
             bot.webhook.send(
                 {
                     username: bot.config.webhook.name,
