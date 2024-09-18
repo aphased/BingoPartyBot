@@ -213,6 +213,31 @@ class Utils {
     getData[getData.indexOf(data)].preferredName = options.newName;
     this.playerNamesDatabase.set("data", getData);
   }
+
+  /**
+   * 
+   * @param {Object} options 
+   * @param {string} [options.uuid]
+   * @param {string} [options.name]
+   * @param {string} [options.rank]
+   */
+  setUserRank(options = {}) {
+    if (options.uuid) options.uuid = options.uuid.toLowerCase();
+    if (options.name) options.name = options.name.toLowerCase();
+    let data = this.playerNamesDatabase
+      .get("data")
+      .find((x) =>
+        x.accounts.some(
+          (y) =>
+            (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
+            (options.name && y.name.toLowerCase() == options.name)
+        )
+      );
+    if (!data) return null;
+    let getData = this.playerNamesDatabase.get("data");
+    getData[getData.indexOf(data)].hypixelRank = options.rank;
+    this.playerNamesDatabase.set("data", getData);
+  }
 }
 
 const logger = createLogger({

@@ -24,6 +24,10 @@ export default {
           key.includes(commandName)
         );
         let sender = Utils.removeRank(message.toString().split(": ")[0].replace("From ", ""))
+        bot.utils.setUserRank({
+          name: sender,
+          rank: message.toString().split(": ")[0].replace("From ", "").match(/\[.+]/g)[0],
+        })
         sender = {
           username: sender,
           preferredName: bot.utils.getPreferredUsername({ name: sender }),
