@@ -17,6 +17,11 @@ class Utils {
     this.playerNamesDatabase = database;
   }
 
+  setGeneralDatabase(database) {
+    /** @type {JSONdb}  */
+    this.generalDatabase = database;
+  }
+
   /**
    *
    * @param {String} message
@@ -30,7 +35,7 @@ class Utils {
     if (this.rulesList.length === 0)
       this.rulesList = await import(
         `../../data/bingoBrewersRules.json?cacheBust=${Date.now()}`,
-        { assert: { type: "json" } }
+        { with: { type: "json" } }
       );
     this.rulesList = this.rulesList.default;
     return this.rulesList;
@@ -42,7 +47,7 @@ class Utils {
         const configModule = await import(
           `../../data/bingoBrewersRules.json?cacheBust=${Date.now()}`,
           {
-            assert: { type: "json" },
+            with: { type: "json" },
           }
         );
         this.rulesList = configModule.default; // Access the default export of the JSON module
@@ -57,7 +62,7 @@ class Utils {
     if (this.kickList.length === 0)
       this.kickList = await import(
         `../../data/autoKickWords.json?cacheBust=${Date.now()}`,
-        { assert: { type: "json" } }
+        { with: { type: "json" } }
       );
     this.kickList = this.kickList.default;
     return this.kickList;
@@ -69,7 +74,7 @@ class Utils {
         const configModule = await import(
           `../../data/autoKickWords.json?cacheBust=${Date.now()}`,
           {
-            assert: { type: "json" },
+            with: { type: "json" },
           }
         );
         this.kickList = configModule.default.autoKickWords; // Access the default export of the JSON module
@@ -238,6 +243,31 @@ class Utils {
     getData[getData.indexOf(data)].hypixelRank = options.rank;
     this.playerNamesDatabase.set("data", getData);
   }
+
+  /**
+   * 
+   * @param {Object} options 
+   * @param {string} [options.link]
+   * @param {string} [options.time]
+   */
+  setMonthGuide(options = {}) {
+    let data = this.generalDatabase.get("monthGuide");
+    if(!options.time) options.time = new Date().getMonth() + "/" + new Date().getFullYear();
+    if(!data) data = {};
+    data[options.time] = options.link;
+  }
+
+  /**
+   * 
+   * @param {Object} options 
+   * @param {string} [options.time]
+   * @returns {string}
+   */
+  getMonthGuide(options = {}) {
+    let data = this.generalDatabase.get("monthGuide");
+    if(!options.time) options.time = new Date().getMonth() + "/" + new Date().getFullYear();
+    return data[options.time];
+  }
 }
 
 const logger = createLogger({
@@ -343,7 +373,7 @@ export default {
 
 let utils = new Utils(
   true,
-  // import("../data/playerNames.json", { assert: { type: "json" } }),
+  // import("../data/playerNames.json", { with: { type: "json" } }),
   null,
   import("../../data/autoKickWords.json", { with: { type: "json" } }),
   import("../../data/bingoBrewersRules.json", { with: { type: "json" } }),

@@ -16,13 +16,13 @@ export default {
     execute: async function (bot, sender, args) {
         let user = args[0];
         let uuid = await bot.utils.getUUID(user);
-        if(!uuid) return bot.bot.chat(`/w ${sender} User not found!`);
+        if(!uuid) return bot.reply(`/w ${sender} User not found!`);
         let playerNames = bot.utils.playerNamesDatabase.get("data");
         let index = playerNames.findIndex(x => x.accounts.find(y => y.uuid === uuid));
-        if(index === -1) return bot.bot.chat(`/w ${sender} User does not exist!`);
+        if(index === -1) return bot.reply(`/w ${sender} User does not exist!`);
         playerNames.splice(index, 1);
         bot.utils.playerNamesDatabase.set("data", playerNames);
-        bot.bot.chat(`/w ${sender} Removed user ${user}`);
+        bot.reply(`/w ${sender} Removed user ${user}`);
     }
   }
   

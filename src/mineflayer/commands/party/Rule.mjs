@@ -15,10 +15,10 @@ export default {
         let ruleNum = args[0] || "1";
         let rule = bot.utils.rulesList[ruleNum];
         if(!rule) {
-            bot.bot.chat(`/w ${sender} Rule not found.`);
+            bot.reply(`/w ${sender} Rule not found.`);
             return;
         }
-        bot.bot.chat(`/pc Rule ${ruleNum}: ${rule}`);
+        bot.reply(`/pc Rule ${ruleNum}: ${rule}`);
     }
   }
   

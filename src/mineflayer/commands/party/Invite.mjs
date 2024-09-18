@@ -12,7 +12,7 @@ export default {
      */
     execute: async function (bot, sender, args) {
         let player = args[0] || sender;
-        bot.bot.chat(`/p invite ${player}`);
+        bot.reply(`/p invite ${player}`);
     }
   }
   

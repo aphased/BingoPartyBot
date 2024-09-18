@@ -19,7 +19,7 @@ export default {
         if(isNaN(duration)) duration = 2;
         for(let i = 0; i <= repetitions; i++) {
             setTimeout(() => {
-                bot.bot.chat(`/pc ${sender}: ${args.slice(2).join(" ")}`);
+                bot.reply(`/pc ${sender}: ${args.slice(2).join(" ")}`);
             }, duration);
         }
     }

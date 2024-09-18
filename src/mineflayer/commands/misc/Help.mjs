@@ -11,7 +11,7 @@ export default {
      * @param {Array<String>} args 
      */
     execute: async function (bot, sender, args) {
-        bot.bot.chat(`/w ${sender} Read the documentation at: https://github.com/aphased/BingoPartyCommands/`);
+        bot.reply(`/w ${sender} Read the documentation at: https://github.com/aphased/BingoPartyCommands/`);
     }
   }
   

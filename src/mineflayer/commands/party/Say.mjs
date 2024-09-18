@@ -13,10 +13,10 @@ export default {
      */
     execute: async function (bot, sender, args) {
         if(args.length < 1) {
-            bot.bot.chat(`/w ${sender} Please provide a message to send.`);
+            bot.reply(`/w ${sender} Please provide a message to send.`);
             return;
         }
-        bot.bot.chat(`/pc ${sender}: ${args.join(" ")}`);
+        bot.reply(`/pc ${sender}: ${args.join(" ")}`);
     }
   }
   

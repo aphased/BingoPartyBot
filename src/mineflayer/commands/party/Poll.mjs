@@ -13,7 +13,7 @@ export default {
      */
     execute: async function (bot, sender, args) {
         let poll = args.join(" ");
-        bot.bot.chat(`/p poll ${sender}: ${poll}`)
+        bot.reply(`/p poll ${sender}: ${poll}`)
     }
   }
   
