@@ -9,6 +9,7 @@ import * as config from "./Config.mjs";
 import JSONdb from "simple-json-db";
 import path from "path";
 import { fileURLToPath, pathToFileURL } from "url";
+import discordBot from "./src/discord/Discord.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,10 +17,32 @@ const __dirname = path.dirname(__filename);
 const playerNamesDatabase = new JSONdb(
   path.resolve(__dirname, "./data/playerNames.json")
 );
+/** @type {JSONdb} */
+const generalDatabase = new JSONdb(
+  path.resolve(__dirname, "./data/generalDatabase.json")
+);
 utils.setPlayerNameDatabase(playerNamesDatabase);
+utils.setGeneralDatabase(generalDatabase);
 
 myBot.setUtilClass(utils);
 myBot.setConfig(config.default);
+refreshConfig()
+
+// Used to refresh allowList every 10 seconds
+function refreshConfig() {
+  setInterval(async () => {
+    try {
+      const configModule = await import(
+        `./Config.mjs?cacheBust=${Date.now()}`
+      );
+      // config = configModule.default; // Access the default export of the JSON module
+      myBot.setConfig(configModule.default);
+      // DEBUG: console.log("Allowlist updated:", allowlist);
+    } catch (error) {
+      console.error("Error updating allowlist:", error);
+    }
+  }, 10000);
+}
 
 process.stdin.on("data", dataInput);
 
