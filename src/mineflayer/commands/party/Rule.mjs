@@ -18,6 +18,6 @@ export default {
       bot.reply(sender, "Rule not found.");
       return;
     }
-    bot.bot.chat(`/pc Rule ${ruleNum}: ${rule}`);
+    bot.chat(`/pc Rule ${ruleNum}: ${rule}`);
   },
 };

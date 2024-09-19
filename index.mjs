@@ -14,7 +14,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 /** @type {JSONdb} */
 const playerNamesDatabase = new JSONdb(
-  path.resolve(__dirname, "./data/playerNames.json")
+  path.resolve(__dirname, "./data/playerNames.json"),
 );
 utils.setPlayerNameDatabase(playerNamesDatabase);
 
@@ -25,10 +25,11 @@ process.stdin.on("data", dataInput);
 
 function dataInput(data) {
   data = data.toString().trim();
-  if (data.startsWith("/")) myBot.bot.chat(data);
-  else if (data.startsWith(myBot.config.partyCommandPrefix)) myBot.onMessage({
-    content: `From [CONSOLE] ${myBot.bot.username}: ${data}`,
-    self: true
-  });
+  if (data.startsWith("/")) myBot.chat(data);
+  else if (data.startsWith(myBot.config.partyCommandPrefix))
+    myBot.onMessage({
+      content: `From [CONSOLE] ${myBot.username}: ${data}`,
+      self: true,
+    });
   else if (data.startsWith("!dc")) return; // Add Discord bot stuff
 }

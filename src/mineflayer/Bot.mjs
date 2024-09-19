@@ -29,6 +29,11 @@ class Bot {
     this.bot.addListener("message", this.onMessage.bind(this));
   }
 
+  username = bot.username;
+
+  /**
+   * @param {String} message
+   */
   chat(message) {
     this.bot.chat(message);
   }
