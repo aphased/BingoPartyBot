@@ -23,8 +23,12 @@ export default {
       if (command.toLowerCase().startsWith("help"))
         // TODO: execute "normal" help command here so logic isn't duplicated
         // and doesn't have to be kept in sync manually?
+
+        // also TODO: we do not have the username here, yet! Either move some
+        // lines of code around so we do have it, or ignore for the time being
+        // since we /r anyways currently
         return bot.reply(
-          sender,
+          "",
           "Read the documentation at GitHub: aphased/BingoPartyCommands",
         );
       let args = command.split(" "); // Get the arugments of the command

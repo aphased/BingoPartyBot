@@ -18,12 +18,12 @@ export default {
     let rank = args[1];
     rank = Utils.capitalizeFirstLetter(rank);
     let uuid = await bot.utils.getUUID(user);
-    if (!uuid) return bot.reply(sender, "User not found!");
+    if (!uuid) return bot.reply(sender.username, "User not found!");
     let playerNames = bot.utils.playerNamesDatabase.get("data");
     if (playerNames.find((x) => x.accounts.find((y) => y.uuid === uuid)))
-      return bot.reply(sender, "User already exists!");
+      return bot.reply(sender.username, "User already exists!");
     let rankNum = Permissions[rank];
-    if (!rankNum) return bot.reply(sender, "Invalid rank!");
+    if (!rankNum) return bot.reply(sender.username, "Invalid rank!");
     playerNames.push({
       accounts: [
         {
@@ -34,6 +34,6 @@ export default {
       permissionRank: rankNum,
     });
     bot.utils.playerNamesDatabase.set("data", playerNames);
-    bot.reply(sender, `Added user ${user} with rank ${rank}`);
+    bot.reply(sender.username, `Added user ${user} with rank ${rank}`);
   },
 };

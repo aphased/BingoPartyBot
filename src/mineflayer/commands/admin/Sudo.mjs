@@ -14,6 +14,6 @@ export default {
    */
   execute: async function (bot, sender, args) {
     bot.chat(args.join(" "));
-    bot.reply(sender, `Executed command: ${args.join(" ")}`);
+    bot.reply(sender.username, `Executed command: ${args.join(" ")}`);
   },
 };

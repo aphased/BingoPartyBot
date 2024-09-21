@@ -15,7 +15,7 @@ export default {
     let ruleNum = args[0] || "1";
     let rule = bot.utils.rulesList[ruleNum];
     if (!rule) {
-      bot.reply(sender, "Rule not found.");
+      bot.reply(sender.username, "Rule not found.");
       return;
     }
     bot.chat(`/pc Rule ${ruleNum}: ${rule}`);

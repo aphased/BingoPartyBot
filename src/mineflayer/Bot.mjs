@@ -59,6 +59,8 @@ class Bot {
    * @param {String} message  Message to send.
    */
   reply(recipient, message) {
+    // alternative (currently unused):
+    // this.chat(`w ${sender} ${this.utils.addRandomString(message)}`);
     this.chat(`/r ${this.utils.addRandomString(message)}`);
   }
 
@@ -79,7 +81,6 @@ class Bot {
     this.config = config;
     this.utils.setMonthGuide({ link: this.config.guideLink });
   }
-
 
   /*
  * To add a new event, create a new file in the events folder and import it in the Bot class.

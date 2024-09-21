@@ -13,7 +13,8 @@ export default {
    */
   execute: async function (bot, sender, args) {
     let player = args[0];
-    if (!player) return bot.reply(sender, "Please provide a player to kick.");
+    if (!player)
+      return bot.reply(sender.username, "Please provide a player to kick.");
     bot.chat(
       `/pc ${sender} was kicked from the party by ${player} from the party.`,
     );

@@ -13,13 +13,17 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    if (args.length === 0) return bot.reply(sender, "Please provide a name!");
+    if (args.length === 0)
+      return bot.reply(sender.username, "Please provide a name!");
     if (args[0].length > 16)
       return bot.reply(
-        sender,
+        sender.username,
         "The name you provided is too long! (16 is the max)",
       );
     bot.utils.setPreferredUsername({ name: sender, preferredName: args[0] });
-    bot.reply(sender, `Your preferred name has been set to ${args[0]}`);
+    bot.reply(
+      sender.username,
+      `Your preferred name has been set to ${args[0]}`,
+    );
   },
 };

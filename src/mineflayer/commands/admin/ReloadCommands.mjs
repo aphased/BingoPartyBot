@@ -14,7 +14,7 @@ export default {
    */
   execute: async function (bot, sender, args) {
     await bot.reloadPartyCommands().then((x) => {
-      bot.reply(sender, "Reloaded commands!");
+      bot.reply(sender.username, "Reloaded commands!");
     });
   },
 };
