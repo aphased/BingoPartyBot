@@ -11,7 +11,7 @@ export default {
    * @param {import("../Bot.mjs").default} bot
    */
   execute: async function (bot) {
-    bot.utils.log("Logged in! `(" + bot.username + ")`", "Info");
+    bot.utils.log("Logged in! `(" + bot.bot.username + ")`", "Info");
     if (Object.keys(bot.utils.playerNamesDatabase.JSON()).length <= 0) {
       bot.utils.log("Player names database is empty! Fetching data...", "Warn");
       bot.utils.playerNamesDatabase.set("data", [
@@ -50,7 +50,7 @@ export default {
         username: bot.config.webhook.name,
       },
       {
-        content: "Logged in! `(" + bot.username + ")`",
+        content: "Logged in! `(" + bot.bot.username + ")`",
       },
     );
   },

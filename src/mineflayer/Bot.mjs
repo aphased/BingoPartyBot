@@ -28,7 +28,9 @@ class Bot {
     // this.bot.addListener("chat", this.onChat.bind(this));
     this.bot.addListener("message", this.onMessage.bind(this));
 
-    this.username = this.bot.username;
+    // TODO: this yielded "undefined"? Once this works, replace bot.bot.username
+    // occurrences with bot.username (for the "Logged in" type messages)
+    // this.username = this.bot.username;
   }
 
   /**
