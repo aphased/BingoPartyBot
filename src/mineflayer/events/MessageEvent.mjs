@@ -15,8 +15,14 @@ export default {
     if (RegExp(/^From /g).test(message.toString())) {
       let command = message.toString().split(": ").slice(1).join(": "); // !p promo (lets say)
       if (command.toLowerCase().startsWith("boop!"))
-        return bot.chat(
-          `/p invite ${Utils.removeRank(message.toString().split(": ")[0].replace("From ", ""))}`,
+        return bot.bot.chat(
+          `/p invite ${Utils.removeRank(
+            message.toString().split(": ")[0].replace("From ", "")
+          )}`
+        );
+      if (command.toLowerCase().startsWith("help"))
+        return bot.bot.chat(
+          `/w ${sender} Read the documentation at: https://github.com/aphased/BingoPartyCommands/`
         );
       let args = command.split(" "); // Get the arugments of the command
       if (args[0].toLowerCase() !== bot.config.partyCommandPrefix.toLowerCase())
@@ -25,10 +31,11 @@ export default {
       let commandArgs = args.slice(2); // Get the command arguments
       if (bot.partyCommands.find((value, key) => key.includes(commandName))) {
         let command = bot.partyCommands.find((value, key) =>
-          key.includes(commandName),
+          key.includes(commandName)
         );
+        if (command.disabled) return;
         let sender = Utils.removeRank(
-          message.toString().split(": ")[0].replace("From ", ""),
+          message.toString().split(": ")[0].replace("From ", "")
         );
         bot.utils.setUserRank({
           name: sender,
@@ -45,11 +52,14 @@ export default {
         if (!command.permission)
           return command.execute(bot, sender, commandArgs);
         if (
-          command.permission <= bot.utils.getPermissionsByUser({ name: sender })
+          command.permission <=
+          bot.utils.getPermissionsByUser({ name: sender.username })
         )
           return command.execute(bot, sender, commandArgs);
         else
-          bot.reply(sender, "You do not have permission to run this command!");
+          bot.bot.chat(
+            `/w ${sender.username} You do not have permission to run this command!`
+          );
       }
     }
   },
