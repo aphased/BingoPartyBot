@@ -19,22 +19,20 @@ const playerNamesDatabase = new JSONdb(
 );
 /** @type {JSONdb} */
 const generalDatabase = new JSONdb(
-  path.resolve(__dirname, "./data/generalDatabase.json")
+  path.resolve(__dirname, "./data/generalDatabase.json"),
 );
 utils.setPlayerNameDatabase(playerNamesDatabase);
 utils.setGeneralDatabase(generalDatabase);
 
 myBot.setUtilClass(utils);
 myBot.setConfig(config.default);
-refreshConfig()
+refreshConfig();
 
 // Used to refresh allowList every 10 seconds
 function refreshConfig() {
   setInterval(async () => {
     try {
-      const configModule = await import(
-        `./Config.mjs?cacheBust=${Date.now()}`
-      );
+      const configModule = await import(`./Config.mjs?cacheBust=${Date.now()}`);
       // config = configModule.default; // Access the default export of the JSON module
       myBot.setConfig(configModule.default);
       // DEBUG: console.log("Allowlist updated:", allowlist);
