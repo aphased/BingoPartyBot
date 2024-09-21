@@ -15,8 +15,8 @@ export default {
     // Code here…
     /* Some remarks:
        - If you have some sort of status update or confirmation to give back to
-         the sender, use bot.reply()
-       - Sending links that aren't found on the hypixel.net domain won't work,
+         the sender, use bot.reply(sender.username, msg)
+       - Sending links (https://…) that aren't found on the hypixel.net domain won't work,
          unfortunately, due to Hypixel's limitations on "advertising"
     */
   },
