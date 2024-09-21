@@ -13,9 +13,9 @@ export default {
    */
   execute: async function (bot, sender, args) {
     let amount = parseInt(args[0]) || 100;
-    bot.chat(`/pc Party size was set to ${amount} by ${sender}`);
+    bot.chat(`/pc Party size was set to ${amount} by ${sender}.`);
     setTimeout(() => {
-      bot.chat("/stream open " + amount);
+      bot.chat(`/stream open ${amount}`);
       bot.webhook.send(
         {
           username: bot.config.webhook.name,

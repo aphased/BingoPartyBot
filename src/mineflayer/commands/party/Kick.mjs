@@ -14,7 +14,9 @@ export default {
   execute: async function (bot, sender, args) {
     let player = args[0];
     if (!player) return bot.reply(sender, "Please provide a player to kick.");
-    bot.chat(`/pc ${sender} has kicked ${player} from the party.`);
+    bot.chat(
+      `/pc ${sender} was kicked from the party by ${player} from the party.`,
+    );
     setTimeout(() => {
       bot.chat(`/p kick ${player}`);
       bot.webhook.send(

@@ -13,5 +13,8 @@ export default {
   execute: async function (bot, sender, args) {
     let player = args[0] || sender;
     bot.chat(`/p invite ${player}`);
+    setTimeout(() => {
+      bot.chat(`/pc ${sender} invited ${player} to the party.`);
+    }, 1000);
   },
 };
