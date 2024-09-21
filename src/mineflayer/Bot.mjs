@@ -60,7 +60,7 @@ class Bot {
    */
   reply(recipient, message) {
     // alternative (currently unused):
-    // this.chat(`w ${sender} ${this.utils.addRandomString(message)}`);
+    // this.chat(`w ${recipient} ${this.utils.addRandomString(message)}`);
     this.chat(`/r ${this.utils.addRandomString(message)}`);
   }
 
