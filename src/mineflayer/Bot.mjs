@@ -27,9 +27,9 @@ class Bot {
     // this.bot.addListener("end", this.onEnd.bind(this));
     // this.bot.addListener("chat", this.onChat.bind(this));
     this.bot.addListener("message", this.onMessage.bind(this));
-  }
 
-  username = bot.username;
+    this.username = this.bot.username;
+  }
 
   /**
    * @param {String} message
