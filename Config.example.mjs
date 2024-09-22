@@ -5,7 +5,7 @@ export default {
     email: "EMAIL OF ACCOUNT HERE",
   },
   webhook: {
-    url: "WEBOOK API URL HERE",
+    url: "WEBHOOK API URL HERE",
     name: "BingoParty Bridge",
     avatarUrl: "",
   },
