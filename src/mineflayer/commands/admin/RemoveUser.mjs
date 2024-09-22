@@ -24,8 +24,10 @@ export default {
       x.accounts.find((y) => y.uuid === uuid),
     );
     if (index === -1) return bot.reply(sender.username, "User does not exist!");
-    if(type && type == "only") {
-      playerNames[index].accounts = playerNames[index].accounts.filter(x => x.uuid !== uuid);
+    if (type && type == "only") {
+      playerNames[index].accounts = playerNames[index].accounts.filter(
+        (x) => x.uuid !== uuid,
+      );
     } else {
       playerNames.splice(index, 1);
     }

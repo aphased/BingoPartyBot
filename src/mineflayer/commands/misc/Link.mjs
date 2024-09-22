@@ -11,15 +11,19 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    if(!args[0]) return bot.reply(sender.username, "Please provide a code to link your account");
+    if (!args[0])
+      return bot.reply(
+        sender.username,
+        "Please provide a code to link your account",
+      );
     let code = args[0];
     let status = bot.utils.link.getId(code);
-    if(!status) return bot.reply(sender.username, "Invalid code");
-    if(status.verified) return bot.reply(sender.username, "Code already used");
+    if (!status) return bot.reply(sender.username, "Invalid code");
+    if (status.verified) return bot.reply(sender.username, "Code already used");
     bot.utils.link.setId(code, {
-        verified: true,
-        username: sender.username
-    })
+      verified: true,
+      username: sender.username,
+    });
     bot.reply(sender.username, "Account linked successfully");
   },
 };

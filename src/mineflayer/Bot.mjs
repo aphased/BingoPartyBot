@@ -61,7 +61,8 @@ class Bot {
    * @param {String} message  Message to send.
    */
   reply(recipient, message) {
-    if(this.utils.debug) console.log(`Replying to ${recipient} with message: ${message}`);
+    if (this.utils.debug)
+      console.log(`Replying to ${recipient} with message: ${message}`);
     // alternative (currently unused):
     // this.chat(`w ${recipient} ${this.utils.addRandomString(message)}`);
     this.chat(`/r ${this.utils.addRandomString(message)}`);

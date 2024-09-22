@@ -63,11 +63,11 @@ export default {
           bot.utils.getPermissionsByUser({ name: sender.username })
         )
           return command.execute(bot, sender, commandArgs);
-        else bot.reply(
+        else
+          bot.reply(
             sender.username,
             "You do not have permission to run this command!",
           );
-          
       }
     }
   },
