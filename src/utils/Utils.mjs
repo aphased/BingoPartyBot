@@ -2,6 +2,7 @@ import axios from "axios";
 import { DebugOptions, MessageType } from "./Interfaces.mjs";
 import { createLogger, format, transports } from "winston";
 import JSONdb from "simple-json-db";
+import { Collection } from "discord.js";
 
 class Utils {
   constructor(debug = false, allowList = [], kickList = [], rulesList = []) {
@@ -10,6 +11,11 @@ class Utils {
     this.refreshKickList(); // Turn on kickList refreshing
     this.rulesList = rulesList; // Set rulesList
     this.refreshRulesList(); // Turn on rulesList refreshing
+    this.link = new Link(); // Set Link class
+  }
+
+  setDebug(debug) {
+    this.debug.debug = debug;
   }
 
   setPlayerNameDatabase(database) {
@@ -87,7 +93,7 @@ class Utils {
   // Get uuid from username
   async getUUID(username) {
     let data = await axios.get(
-      `https://api.mojang.com/users/profiles/minecraft/${username}`,
+      `https://api.mojang.com/users/profiles/minecraft/${username}`
     );
     if (data.data.errorMessage) return null;
     return data.data.id;
@@ -96,7 +102,7 @@ class Utils {
   // Get username from uuid
   async getUsername(uuid) {
     let data = await axios.get(
-      `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`,
+      `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`
     );
     if (data.data.errorMessage) return null;
     return data.data.name;
@@ -118,7 +124,7 @@ class Utils {
   getPermissionsByUser(options = {}) {
     if (!options || (!options.uuid && !options.name)) {
       throw new Error(
-        "Invalid options: 'uuid' or 'name' must be provided for permissions check.",
+        "Invalid options: 'uuid' or 'name' must be provided for permissions check."
       );
     }
 
@@ -130,8 +136,8 @@ class Utils {
         x.accounts.some(
           (y) =>
             (options.uuid && y.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name && y.name.toLowerCase() == options.name),
-        ),
+            (options.name && y.name && y.name.toLowerCase() == options.name)
+        )
       );
     if (!processed) return null;
     return processed.permissionRank;
@@ -147,7 +153,7 @@ class Utils {
   getUserObject(options = {}) {
     if (!options || (!options.uuid && !options.name)) {
       throw new Error(
-        "Invalid options: 'uuid' or 'name' must be provided to get user info.",
+        "Invalid options: 'uuid' or 'name' must be provided to get user info."
       );
     }
 
@@ -159,9 +165,63 @@ class Utils {
         x.accounts.some(
           (y) =>
             (options.uuid && y.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name && y.name.toLowerCase() == options.name),
-        ),
+            (options.name && y.name && y.name.toLowerCase() == options.name)
+        )
       );
+  }
+
+  /**
+   * Use this to replace getHypixelRankByName
+   * @param {Object} options
+   * @param {string} [options.uuid]
+   * @param {string} [options.name]
+   * @returns {Object|null}
+   */
+  getPreferredUsername(options = {}) {
+    if (options.uuid) options.uuid = options.uuid.toLowerCase();
+    if (options.name) options.name = options.name.toLowerCase();
+    let data = this.playerNamesDatabase
+      .get("data")
+      .find((x) =>
+        x.accounts.some(
+          (y) =>
+            (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
+            (options.name && y.name.toLowerCase() == options.name)
+        )
+      );
+    if (!data) return null;
+    if (!data.preferredName) {
+      let getData = this.playerNamesDatabase.get("data");
+      getData[getData.indexOf(data)].preferredName = data.accounts[0].name;
+      this.playerNamesDatabase.set("data", getData);
+      return data.accounts[0].name;
+    }
+    return data.preferredName;
+  }
+  /**
+   * Use this to replace getHypixelRankByName
+   * @param {Object} options
+   * @param {string} [options.uuid]
+   * @param {string} [options.name]
+   * @param {string} [options.newName]
+   * @returns {Object|null}
+   */
+  setPreferredUsername(options = {}) {
+    if (options.uuid) options.uuid = options.uuid.toLowerCase();
+    if (options.name) options.name = options.name.toLowerCase();
+    let data = this.playerNamesDatabase
+      .get("data")
+      .find((x) =>
+        x.accounts.some(
+          (y) =>
+            (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
+            (options.name && y.name.toLowerCase() == options.name)
+        )
+      );
+    if (!data) return null;
+    let getData = this.playerNamesDatabase.get("data");
+    getData[getData.indexOf(data)].preferredName = options.newName;
+    this.playerNamesDatabase.set("data", getData);
   }
 
   /**
@@ -171,7 +231,7 @@ class Utils {
    * @returns the random string
    */
   /* const */
-  #generateRandomString = (length) => {
+  generateRandomString = (length) => {
     const characters =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let result = "";
@@ -195,32 +255,86 @@ class Utils {
     // accept/allow a *veeeery* long message to not go through.
     return (
       string +
-      ` ${this.#generateRandomString(string.length * 0.33 < 6 ? 6 : string.length * 0.33)}`
+      ` ${this.generateRandomString(
+        string.length * 0.33 < 6 ? 6 : string.length * 0.33
+      )}`
     );
   }
 
   /**
-   * 
-   * @param {Object} options 
+   * Use this to replace getHypixelRankByName
+   * @param {Object} options
+   * @param {string} [options.uuid]
+   * @param {string} [options.name]
+   * @param {string} [options.discordId]
+   * @returns {Object|null}
+   */
+  setDiscord(options = {}) {
+    if (options.uuid) options.uuid = options.uuid.toLowerCase();
+    if (options.name) options.name = options.name.toLowerCase();
+    let data = this.playerNamesDatabase
+      .get("data")
+      .find((x) =>
+        x.accounts.some(
+          (y) =>
+            (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
+            (options.name && y.name.toLowerCase() == options.name)
+        )
+      );
+    let getData = this.playerNamesDatabase.get("data");
+    getData[getData.indexOf(data)].discord = options.discordId;
+    this.playerNamesDatabase.set("data", getData);
+  }
+
+  /**
+   *
+   * @param {Object} options
    * @param {string} [options.link]
    * @param {string} [options.time]
    */
   setMonthGuide(options = {}) {
     let data = this.generalDatabase.get("monthGuide");
-    if(!options.time) options.time = new Date().getMonth() + "/" + new Date().getFullYear();
-    if(!data) data = {};
+    if (!options.time)
+      options.time = new Date().getMonth() + "/" + new Date().getFullYear();
+    if (!data) data = {};
     data[options.time] = options.link;
   }
   /**
-   * 
-   * @param {Object} options 
+   *
+   * @param {Object} options
    * @param {string} [options.time]
    * @returns {string}
    */
   getMonthGuide(options = {}) {
     let data = this.generalDatabase.get("monthGuide");
-    if(!options.time) options.time = new Date().getMonth() + "/" + new Date().getFullYear();
+    if (!options.time)
+      options.time = new Date().getMonth() + "/" + new Date().getFullYear();
     return data[options.time];
+  }
+
+  /**
+   *
+   * @param {Object} options
+   * @param {string} [options.uuid]
+   * @param {string} [options.name]
+   * @param {string} [options.rank]
+   */
+  setUserRank(options = {}) {
+    if (options.uuid) options.uuid = options.uuid.toLowerCase();
+    if (options.name) options.name = options.name.toLowerCase();
+    let data = this.playerNamesDatabase
+      .get("data")
+      .find((x) =>
+        x.accounts.some(
+          (y) =>
+            (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
+            (options.name && y.name.toLowerCase() == options.name)
+        )
+      );
+    if (!data) return null;
+    let getData = this.playerNamesDatabase.get("data");
+    getData[getData.indexOf(data)].hypixelRank = options.rank;
+    this.playerNamesDatabase.set("data", getData);
   }
 }
 
@@ -255,9 +369,9 @@ class Debug {
             (x) =>
               `Player UUIDs: ${x.accounts
                 .map((y) => `${y.name} (${y.uuid})`)
-                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`,
+                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`
           )
-          .join("\n"),
+          .join("\n")
       );
     if (options.printLength) console.log(allowList.length);
     if (options.printFirst) console.log(allowList[0]);
@@ -270,9 +384,9 @@ class Debug {
             (x) =>
               `Player UUIDs: ${x.accounts
                 .map((y) => `${y.name} (${y.uuid})`)
-                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`,
+                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`
           )
-          .join("\n"),
+          .join("\n")
       );
     if (options.printUser)
       console.log(
@@ -282,9 +396,9 @@ class Debug {
             (x) =>
               `Player UUIDs: ${x.accounts
                 .map((y) => `${y.name} (${y.uuid})`)
-                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`,
+                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`
           )
-          .join("\n"),
+          .join("\n")
       );
   }
 
@@ -297,6 +411,33 @@ class Debug {
     if (this.debug) {
       logger.debug(message);
     }
+  }
+}
+
+class Link {
+  constructor() {
+    this.collection = new Collection();
+  }
+
+  addCode(id) {
+    let code = utils.generateRandomString(6);
+    this.collection.set(code, {
+      id: id,
+      verified: false
+    });
+    return code;
+  }
+
+  removeCode(code) {
+    this.collection.delete(code);
+  }
+
+  getId(code) {
+    return this.collection.get(code);
+  }
+
+  setId(code, data) {
+    this.collection.set(code, data);
   }
 }
 
@@ -330,7 +471,7 @@ let utils = new Utils(
   // import("../data/playerNames.json", { with: { type: "json" } }),
   null,
   import("../../data/autoKickWords.json", { with: { type: "json" } }),
-  import("../../data/bingoBrewersRules.json", { with: { type: "json" } }),
+  import("../../data/bingoBrewersRules.json", { with: { type: "json" } })
 );
 
 export { utils };

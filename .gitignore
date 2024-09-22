@@ -15,3 +15,4 @@ old/*
 Config.mjs
 test.mjs
 playerNamesUpdated.json
+data/playerNames.json

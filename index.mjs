@@ -2,30 +2,45 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import mineflayer from "mineflayer";
-import myBot from "./src/mineflayer/Bot.mjs";
 import { utils } from "./src/utils/Utils.mjs";
 import * as config from "./Config.mjs";
 import JSONdb from "simple-json-db";
 import path from "path";
 import { fileURLToPath, pathToFileURL } from "url";
-import discordBot from "./src/discord/Discord.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 /** @type {JSONdb} */
 const playerNamesDatabase = new JSONdb(
-  path.resolve(__dirname, "./data/playerNames.json"),
+  path.resolve(__dirname, "./data/playerNames.json")
 );
 /** @type {JSONdb} */
 const generalDatabase = new JSONdb(
-  path.resolve(__dirname, "./data/generalDatabase.json"),
+  path.resolve(__dirname, "./data/generalDatabase.json")
 );
 utils.setPlayerNameDatabase(playerNamesDatabase);
 utils.setGeneralDatabase(generalDatabase);
+utils.setDebug(config.default.debug.general);
 
-myBot.setUtilClass(utils);
-myBot.setConfig(config.default);
+let myBot;
+if (config.default.debug.disableMinecraft) {
+  console.log("Minecraft bot disabled");
+} else {
+  myBot = await import("./src/mineflayer/Bot.mjs");
+  myBot = myBot.default;
+  myBot.setUtilClass(utils);
+  myBot.setConfig(config.default);
+}
+
+let discordBot;
+if (config.default.debug.disableDiscord) {
+  console.log("Discord bot disabled");
+} else {
+  discordBot = await import("./src/discord/Discord.mjs");
+  discordBot = discordBot.default;
+  discordBot.setUtils(utils);
+  discordBot.setConfig(config.default);
+}
 refreshConfig();
 
 // Used to refresh allowList every 10 seconds
@@ -34,7 +49,10 @@ function refreshConfig() {
     try {
       const configModule = await import(`./Config.mjs?cacheBust=${Date.now()}`);
       // config = configModule.default; // Access the default export of the JSON module
-      myBot.setConfig(configModule.default);
+      if (!config.default.debug.disableMinecraft)
+        myBot.setConfig(configModule.default);
+      if (!config.default.debug.disableDiscord)
+        discordBot.setConfig(configModule.default);
       // DEBUG: console.log("Allowlist updated:", allowlist);
     } catch (error) {
       console.error("Error updating allowlist:", error);
@@ -49,7 +67,7 @@ function dataInput(data) {
   if (data.startsWith("/")) myBot.chat(data);
   else if (data.startsWith(myBot.config.partyCommandPrefix))
     myBot.onMessage({
-      content: `From [CONSOLE] ${myBot.username}: ${data}`,
+      content: `From [CONSOLE] ${myBot.bot.username}: ${data}`,
       self: true,
     });
   else if (data.startsWith("!dc")) return; // Add Discord bot stuff
