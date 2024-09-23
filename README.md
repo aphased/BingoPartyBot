@@ -165,16 +165,16 @@ the code, you can:
   privileges and access to [all commands](https://github.com/aphased/BingoPartyCommands?tab=readme-ov-file#admin-commands) -->
 <!-- - After executing `npm install` to get the dependencies installed, you will have to modify two lines of the Mineflayer library to fix a crash on startup. -->  
   <!-- fixed at least since in mineflayer >= 4.20.1, yay! -->
-    <!-- Comment out the lines assigning `entity.mobType` and `entity.objectType`, which will be around line 170-190 (depending on your version) in the file `node_modules/mineflayer/lib/plugins/entities.js`:
-    ```js
-    if (entityData) {
-      //      entity.mobType = entityData.displayName
-      //      entity.objectType = entityData.displayName
-      entity.displayName = entityData.displayName;
-      entity.entityType = entityData.id;
-      // …
-    } // …
-    ``` -->
+  <!-- Comment out the lines assigning `entity.mobType` and `entity.objectType`, which will be around line 170-190 (depending on your version) in the file `node_modules/mineflayer/lib/plugins/entities.js`:
+  ```js
+  if (entityData) {
+    //      entity.mobType = entityData.displayName
+    //      entity.objectType = entityData.displayName
+    entity.displayName = entityData.displayName;
+    entity.entityType = entityData.id;
+    // …
+  } // …
+  ``` -->
 - Execute `npm install` in your command line to get the dependencies installed
 - Run `./BingoPartyBot/run-bot` for Unix (Linux/macOS/…), on Windows you can
   execute the `run-bot.bat` file (which will however _not_ restart the bot upon crashes)
