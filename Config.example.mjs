@@ -14,4 +14,10 @@ export default {
   discordBotInfo: {
     token: "DISCORD BOT TOKEN HERE (or empty string)",
   },
+  debug: {
+    // IF YOU DONT KNOW WHAT YOU ARE DOING DO NOT TOUCH THIS. THIS IS MADE FOR DEVELOPERS TO DEBUG THE BOT ONLY
+    general: true,
+    disableMinecraft: false,
+    disableDiscord: false,
+  },
 };
