@@ -1,5 +1,7 @@
 // Utils.mjs
 
+import { Guild } from "discord.js";
+
 export class DebugOptions {
   constructor({
     printAll = false,
@@ -41,4 +43,20 @@ export const Permissions = Object.freeze({
   Admin: 4,
   Owner: 5,
   BotAccount: 5,
+});
+
+/*
+ *
+ * I don't think you'd need to add a new type, but just incase - Conutik
+ * 
+*/
+
+export const WebhookMessageType = Object.freeze({
+  JoinLeave: 0,
+  PrivateMessage: 1,
+  PublicMessage: 2,
+  GuildMessage: 3,
+  PartyMessage: 4,
+  Other: 5,
+  All: 6,
 });
