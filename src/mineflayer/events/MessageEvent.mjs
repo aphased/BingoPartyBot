@@ -10,6 +10,7 @@ export default {
    * @param {import("../Bot.mjs").default} bot
    */
   execute: async function (message, bot) {
+    bot.utils.sendWebhookMessage(message.toAnsi(), bot.utils.classifyMessage(message.toString()))
     if (bot.config.showMcChat && !message.self) console.log(message.toAnsi());
     if (message.self == true) message = message.content;
     if (RegExp(/^From /g).test(message.toString())) {

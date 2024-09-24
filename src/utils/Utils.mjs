@@ -1,8 +1,8 @@
 import axios from "axios";
-import { DebugOptions, MessageType } from "./Interfaces.mjs";
+import { DebugOptions, MessageType, WebhookMessageType } from "./Interfaces.mjs";
 import { createLogger, format, transports } from "winston";
 import JSONdb from "simple-json-db";
-import { Collection } from "discord.js";
+import { Collection, WebhookClient } from "discord.js";
 
 class Utils {
   constructor(debug = false, allowList = [], kickList = [], rulesList = []) {
@@ -12,6 +12,7 @@ class Utils {
     this.rulesList = rulesList; // Set rulesList
     this.refreshRulesList(); // Turn on rulesList refreshing
     this.link = new Link(); // Set Link class
+    this.webhookLogger = new WebhookLogger(); // Set WebhookLogger class
   }
 
   setDebug(debug) {
@@ -336,6 +337,33 @@ class Utils {
     getData[getData.indexOf(data)].hypixelRank = options.rank;
     this.playerNamesDatabase.set("data", getData);
   }
+
+  /**
+   * 
+   * @param {String} message 
+   * @returns {WebhookMessageType}
+   */
+  classifyMessage(message) {
+    if(partyMemberEventRegex.test(message)) return WebhookMessageType.JoinLeave;
+    else if (partyMemberKickedRegex.test(message) || partyMemberEventRegex.test(message)) return WebhookMessageType.PartyMessage;
+    else if (/^(From )/.test(message) || /^(To )/) return WebhookMessageType.PrivateMessage;
+    // else if () PUBLI STUFF
+    else if (/^(Guild >)/.test(message)) return WebhookMessageType.GuildMessage;
+    else return WebhookMessageType.Other;
+  }
+
+  /**
+   * 
+   * @param {String} message 
+   * @param {WebhookMessageType} messageType 
+   */
+  sendWebhookMessage(message, messageType) {
+    let webhooks = this.webhookLogger.getWebhooks({ messageType: messageType });
+    webhooks.forEach(async (value, key) => {
+      let discWebhook = new WebhookClient({ url: key });
+      discWebhook.send(`\`\`\`ansi\n${message}\`\`\``);
+    });
+  }
 }
 
 const logger = createLogger({
@@ -441,8 +469,47 @@ class Link {
   }
 }
 
+class WebhookLogger {
+  constructor() {
+    this.webhooks = new Collection();
+  }
+
+  /**
+   * 
+   * @param {Array<{webhookUrl: String, messageType: WebhookMessageType}>} webhooks - An array of webhook objects.
+   */
+  async setWebhooks(webhooks) {
+    this.webhooks.clear();
+    webhooks.forEach(x => {
+      this.webhooks.set(x.webhookUrl, x.messageType)
+    });
+    return this.webhooks;
+  }
+
+  /**
+   * 
+   * @param {Object} options 
+   * @param {String} [options.webhookUrl] - The URL of the webhook.
+   * @param {WebhookMessageType} [options.messageType] - The type of message to send to the webhook.
+   */
+  getWebhooks(options = {}) {
+    if (options.webhookUrl) return this.webhooks.get(options.webhookUrl);
+    else if (options.messageType) return this.webhooks.filter(x => x === options.messageType || x === WebhookMessageType.All);
+    else return this.webhooks;
+  }
+}
+
 const messageRegex =
   /^(?:Party >|From) ?(?:(\[.*?\]) )?(\w{1,16}): (.*?)(?:§.*)?$/s;
+
+const partyMessageRegex = /^(Party >)/
+
+  
+const bridgeMessageRegex =
+    /(You cannot say the same message twice!|Connected to|Bot kicked!|Bot disconnected.|You have joined|The party is now|The party is no longer|has promoted|has demoted|is now a Party Moderator|The party was transferred|disbanded|You are not allowed to disband this party.|Party Members|Party Leader|Party Moderators|You have been kicked from the party by|You are not in a party right now.|You are not currently in a party.|That player is not online!|Created a public party! Players can join with \/party join|Party is capped at|Party Poll|Invalid usage!|created a poll! Answer it below by clicking on an option|Question:|The poll|You cannot invite that player since they're not online.|You are not allowed to invite players.|enabled All Invite|to the party! They have 60 seconds to accept.|is already in the party.|You'll be partying with:)/;
+const partyMemberEventRegex =
+    /(left the party.|joined the party.|disconnected, they have 5 minutes to rejoin before they are removed from the party.|was removed from your party because they disconn)/;
+const partyMemberKickedRegex = /(has been removed from the party.)/; 
 
 export default {
   removeRank: function (name) {
