@@ -10,9 +10,14 @@ export default {
    * @param {import("../Bot.mjs").default} bot
    */
   execute: async function (message, bot) {
-    bot.utils.sendWebhookMessage(message.toAnsi(), bot.utils.classifyMessage(message.toString()))
-    if (bot.config.showMcChat && !message.self) console.log(message.toAnsi());
-    if (message.self == true) message = message.content;
+    if (bot.config.showMcChat && !message.self) {
+      console.log(message.toAnsi())
+      bot.utils.sendWebhookMessage(message.toAnsi(), bot.utils.classifyMessage(message.toString()))
+    };
+    if (message.self == true) {
+      message = message.content
+      bot.utils.sendWebhookMessage(message, bot.utils.classifyMessage(message.toString()))
+    };
     if (RegExp(/^From /g).test(message.toString())) {
       let command = message.toString().split(": ").slice(1).join(": "); // !p promo (lets say)
       if (command.toLowerCase().startsWith("boop!"))
@@ -59,6 +64,7 @@ export default {
         };
         if (!command.permission)
           return command.execute(bot, sender, commandArgs);
+        console.log(sender)
         if (
           command.permission <=
           bot.utils.getPermissionsByUser({ name: sender.username })

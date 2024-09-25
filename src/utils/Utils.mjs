@@ -149,10 +149,11 @@ class Utils {
    * @param {Object} options
    * @param {string} [options.uuid]
    * @param {string} [options.name]
+   * @param {string} [options.discord]
    * @returns {Object|null}
    */
   getUserObject(options = {}) {
-    if (!options || (!options.uuid && !options.name)) {
+    if (!options || (!options.uuid && !options.name && !options.discord)) {
       throw new Error(
         "Invalid options: 'uuid' or 'name' must be provided to get user info."
       );
@@ -160,13 +161,15 @@ class Utils {
 
     if (options.uuid) options.uuid = options.uuid.toLowerCase();
     if (options.name) options.name = options.name.toLowerCase();
+    if (options.discord) options.discord = options.discord.toLowerCase();
     return this.playerNamesDatabase
       .get("data")
       .find((x) =>
         x.accounts.some(
           (y) =>
             (options.uuid && y.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name && y.name.toLowerCase() == options.name)
+            (options.name && y.name && y.name.toLowerCase() == options.name) ||
+            (options.discord && y.discord && y.discord.toLowerCase() == options.discord)
         )
       );
   }
@@ -296,20 +299,27 @@ class Utils {
   setMonthGuide(options = {}) {
     let data = this.generalDatabase.get("monthGuide");
     if (!options.time)
-      options.time = new Date().getMonth() + "/" + new Date().getFullYear();
+      options.time = new Date().getMonth()+1 + "/" + new Date().getFullYear();
     if (!data) data = {};
-    data[options.time] = options.link;
+    if(data[new Date().getMonth() + "/" + new Date().getFullYear()] === options.link) return;
+    if(data[options.time] && data[options.time].overwrite) return;
+    data[options.time] = {
+      overwrite: options.overwrite || false,
+      link: options.link,
+    };
+    this.generalDatabase.set("monthGuide", data);
   }
   /**
    *
    * @param {Object} options
    * @param {string} [options.time]
-   * @returns {string}
+   * @returns {{overwrite: boolean, link: string}}
    */
   getMonthGuide(options = {}) {
     let data = this.generalDatabase.get("monthGuide");
+    if(!data) data = {}
     if (!options.time)
-      options.time = new Date().getMonth() + "/" + new Date().getFullYear();
+      options.time = new Date().getMonth()+1 + "/" + new Date().getFullYear();
     return data[options.time];
   }
 
@@ -360,10 +370,12 @@ class Utils {
   sendWebhookMessage(message, messageType) {
     let webhooks = this.webhookLogger.getWebhooks({ messageType: messageType });
     webhooks.forEach(async (value, key) => {
-      let discWebhook = new WebhookClient({ url: key }).catch(e => {
+      try {
+        let discWebhook = new WebhookClient({ url: key });
+        await discWebhook.send(`\`\`\`ansi\n${message}\`\`\``);
+      } catch (e) {
         this.log(`Error sending one of the webhooks a message, please check the URL.`, "error");
-      });
-      discWebhook.send(`\`\`\`ansi\n${message}\`\`\``).catch(e => {});
+      }
     });
   }
 }
