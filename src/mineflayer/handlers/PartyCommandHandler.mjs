@@ -1,7 +1,7 @@
-import { Collection } from 'discord.js';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath, pathToFileURL } from 'url';
+import { Collection } from "discord.js";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath, pathToFileURL } from "url";
 
 // Get the current file path
 const __filename = fileURLToPath(import.meta.url);
@@ -30,21 +30,24 @@ async function readDirectoryRecursive(dir) {
 
 export default async function loadPartyCommands() {
   let partyCommands = new Collection();
-  const commandsPath = path.resolve(__dirname, '../commands/');
+  const commandsPath = path.resolve(__dirname, "../commands/");
 
   try {
     const files = await readDirectoryRecursive(commandsPath);
 
-    const importPromises = files.map(async file => {
-      console.log('Found file:', file);
-      const command = await import(pathToFileURL(file).href + `?cacheBust=${Date.now()}`);
-      if (!command.default.ignore) partyCommands.set(command.default.name, command.default);
+    const importPromises = files.map(async (file) => {
+      console.log("Found file:", file);
+      const command = await import(
+        pathToFileURL(file).href + `?cacheBust=${Date.now()}`
+      );
+      if (!command.default.ignore)
+        partyCommands.set(command.default.name, command.default);
     });
 
     await Promise.all(importPromises);
     return partyCommands;
   } catch (err) {
-    console.error('Error reading directory:', err);
+    console.error("Error reading directory:", err);
     throw err;
   }
 }
