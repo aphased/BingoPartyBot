@@ -363,7 +363,7 @@ class Utils {
       let discWebhook = new WebhookClient({ url: key }).catch(e => {
         this.log(`Error sending one of the webhooks a message, please check the URL.`, "error");
       });
-      discWebhook.send(`\`\`\`ansi\n${message}\`\`\``);
+      discWebhook.send(`\`\`\`ansi\n${message}\`\`\``).catch(e => {});
     });
   }
 }
