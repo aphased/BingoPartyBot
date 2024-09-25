@@ -83,8 +83,9 @@ class Bot {
 
   setConfig(config) {
     this.config = config;
-    if(this.config.guideLink) this.utils.setMonthGuide({ link: this.config.guideLink });
-    this.utils.webhookLogger.setWebhooks(this.config.webhook.bridge)
+    if (this.config.guideLink)
+      this.utils.setMonthGuide({ link: this.config.guideLink });
+    this.utils.webhookLogger.setWebhooks(this.config.webhook.bridge);
   }
 
   /*

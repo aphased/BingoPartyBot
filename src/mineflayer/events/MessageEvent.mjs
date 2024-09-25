@@ -11,13 +11,19 @@ export default {
    */
   execute: async function (message, bot) {
     if (bot.config.showMcChat && !message.self) {
-      console.log(message.toAnsi())
-      bot.utils.sendWebhookMessage(message.toAnsi(), bot.utils.classifyMessage(message.toString()))
-    };
+      console.log(message.toAnsi());
+      bot.utils.sendWebhookMessage(
+        message.toAnsi(),
+        bot.utils.classifyMessage(message.toString()),
+      );
+    }
     if (message.self == true) {
-      message = message.content
-      bot.utils.sendWebhookMessage(message, bot.utils.classifyMessage(message.toString()))
-    };
+      message = message.content;
+      bot.utils.sendWebhookMessage(
+        message,
+        bot.utils.classifyMessage(message.toString()),
+      );
+    }
     if (RegExp(/^From /g).test(message.toString())) {
       let command = message.toString().split(": ").slice(1).join(": "); // !p promo (lets say)
       if (command.toLowerCase().startsWith("boop!"))
@@ -39,10 +45,19 @@ export default {
         );
       let args = command.split(" "); // Get the arugments of the command
       let commandFound;
-      if (args[0].toLowerCase() !== bot.config.partyCommandPrefix.toLowerCase()) {
-        commandFound = bot.partyCommands.find((value, key) => key.includes(args[1].toLowerCase()) && value.customPrefix.toLowerCase() === args[0].toLowerCase())
+      if (
+        args[0].toLowerCase() !== bot.config.partyCommandPrefix.toLowerCase()
+      ) {
+        commandFound = bot.partyCommands.find(
+          (value, key) =>
+            key.includes(args[1].toLowerCase()) &&
+            value.customPrefix.toLowerCase() === args[0].toLowerCase(),
+        );
       } else {
-        commandFound = bot.partyCommands.find((value, key) => key.includes(args[1].toLowerCase()) && !value.customPrefix)
+        commandFound = bot.partyCommands.find(
+          (value, key) =>
+            key.includes(args[1].toLowerCase()) && !value.customPrefix,
+        );
       }
       let commandName = args[1]; // Get the command name
       let commandArgs = args.slice(2); // Get the command arguments
@@ -66,7 +81,7 @@ export default {
         };
         if (!command.permission)
           return command.execute(bot, sender, commandArgs);
-        console.log(sender)
+        console.log(sender);
         if (
           command.permission <=
           bot.utils.getPermissionsByUser({ name: sender.username })

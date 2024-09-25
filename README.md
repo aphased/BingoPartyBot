@@ -6,17 +6,16 @@ when launching a regular instance of Minecraft, this repo enables a dedicated
 bot account using [Mineflayer](https://github.com/PrismarineJS/mineflayer),
 which can then be provided via e.g. a dedicated server in order to be always
 online. -->
-Similar to [BingoPartyTools](https://github.com/aphased/BingoPartyTools?\
+
+Similar to [BingoPartyTools](https://github.com/aphased/BingoPartyTools?
 tab=readme-ov-file#all-available-commands), but instead of being a ChatTriggers
-mod for a player's main account, this repo uses [Mineflayer](https://github.com/\
+mod for a player's main account, this repo uses [Mineflayer](https://github.com/
 PrismarineJS/mineflayer) to create a dedicated bot account. This bot can run on
 a dedicated server to remain online continuously.
 
-
 ## Features (overview)
 
-- All of [BingoPartyTools](https://github.com/aphased/BingoPartyTools?tab=readme-ov-file#all-available-commands
-)’
+- All of [BingoPartyTools](https://github.com/aphased/BingoPartyTools?tab=readme-ov-file#all-available-commands)’
   functionality on the user-facing side (see [this separate **Readme for how to use**](https://github.com/aphased/BingoPartyCommands)
   if you are a splasher/have party moderation permissions), including commands
   which are only accessible to and only work for a predefined group of users
@@ -29,16 +28,14 @@ a dedicated server to remain online continuously.
   monitoring who joins/leaves/is kicked from the party or goes offline as well
   as slash commands
 
-
 ## Code & module structure
 
 For potential contributors, or myself, when coming back to fix or extend something:
 
-
 <!-- - Start the bot (in my case on a Linux server) by executing
 `./BingoPartyBot/run-bot` in the shell, which will start Node
     - There is also a `.bat` file now for launching/testing the bot locally on Windows.
-    It does not (yet) re-launch automatically on crash unlike the Unix script. 
+    It does not (yet) re-launch automatically on crash unlike the Unix script.
 - In addition to initializing the bot, `index.mjs` enables command input
 in-game via the console stdin
 - Registering the chat listeners is done in `bot.mjs`
@@ -56,6 +53,7 @@ in-game via the console stdin
 - TODO: update this section with some explanations. For now, a handy list of files:
 
 <!-- (generated from !`tree -I node_modules` then auto-inserted in Helix) -->
+
 ```
 .
 ├── Config.example.mjs
@@ -129,7 +127,6 @@ in-game via the console stdin
         └── Webhook.mjs
 ```
 
-
 ## How to run
 
 If you are a **user** of the BingoParty bot system, you do not need to install
@@ -139,6 +136,7 @@ on how to use.
 
 If you want to **run** this system yourself, or would like to experiment with
 the code, you can:
+
 - Install [NodeJS](https://nodejs.org/en/download/prebuilt-installer/current),
   which is the runtime used for the bot
 - (optionally) Install the [Prettier](https://prettier.io/docs/en/install#set-up-your-editor)
@@ -163,7 +161,7 @@ the code, you can:
 - (optionally) Adapt the entry with property `permissionRank: botAccountOwner`
   to your main account's Minecraft IGN in `data/playerNames.json` to gain full admin
   privileges and access to [all commands](https://github.com/aphased/BingoPartyCommands?tab=readme-ov-file#admin-commands) -->
-<!-- - After executing `npm install` to get the dependencies installed, you will have to modify two lines of the Mineflayer library to fix a crash on startup. -->  
+<!-- - After executing `npm install` to get the dependencies installed, you will have to modify two lines of the Mineflayer library to fix a crash on startup. -->
   <!-- fixed at least since in mineflayer >= 4.20.1, yay! -->
   <!-- Comment out the lines assigning `entity.mobType` and `entity.objectType`, which will be around line 170-190 (depending on your version) in the file `node_modules/mineflayer/lib/plugins/entities.js`:
   ```js
@@ -175,20 +173,19 @@ the code, you can:
     // …
   } // …
   ``` -->
+
 - Execute `npm install` in your command line to get the dependencies installed
 - Run `./BingoPartyBot/run-bot` for Unix (Linux/macOS/…), on Windows you can
-  execute the `run-bot.bat` file (which will however _not_ restart the bot upon crashes)
-  – or just `node .`, which will also not restart on crash, but works everywhere
-    - Add something for (re)starting with more convenience and only needing to
-    remember a single command to to your .{shell}rc config file, for example
-    using `screen`: `alias restartbpb="screen -d -RR bpb $HOME/BingoPartyBot/run-bot"`
+execute the `run-bot.bat` file (which will however _not_ restart the bot upon crashes)
+– or just `node .`, which will also not restart on crash, but works everywhere - Add something for (re)starting with more convenience and only needing to
+remember a single command to to your .{shell}rc config file, for example
+using `screen`: `alias restartbpb="screen -d -RR bpb $HOME/BingoPartyBot/run-bot"`
 <!-- - Additional things (mostly so I have a place in which to look them up):
     - When SSH'd into the server, start a session using e.g. `screen -S bpb ./BingoPartyBot/run-bot`
     so that it persists connection resets (see `restartbpb` command alias above)
     - Reconnect to running session: `screen -r bpb`, exit viewing (not _quitting_ the program) with `ctrl-A D`
     - While viewing running session, make it scrollable with `ctrl-A [`
     - View last session's output: `screen -r -d` -->
-
 
 ## Roadmap
 
@@ -213,7 +210,6 @@ I do want to add though, at minimum:
   time-based **temporary bans** with optionally given ban reasons & expirations
   stored across relaunches.
 
-
 ## Credits & thanks
 
 Trypo wrote the initial port to a bot system using Mineflayer.
@@ -224,7 +220,6 @@ Thanks to ooffyy, BossFlea, p0iS, Calva, jbaNate and all splashers of
 for suggestions for new and improved features & all the bug-hunting.
 
 Thanks to Conutik for giving this project a much-needed thorough rewrite and overhaul!
-
 
 ## License
 
