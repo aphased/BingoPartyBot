@@ -38,14 +38,16 @@ export default {
           "Read the documentation at GitHub: aphased/BingoPartyCommands",
         );
       let args = command.split(" "); // Get the arugments of the command
-      if (args[0].toLowerCase() !== bot.config.partyCommandPrefix.toLowerCase())
-        return;
+      let commandFound;
+      if (args[0].toLowerCase() !== bot.config.partyCommandPrefix.toLowerCase()) {
+        commandFound = bot.partyCommands.find((value, key) => key.includes(args[1].toLowerCase()) && value.customPrefix.toLowerCase() === args[0].toLowerCase())
+      } else {
+        commandFound = bot.partyCommands.find((value, key) => key.includes(args[1].toLowerCase()) && !value.customPrefix)
+      }
       let commandName = args[1]; // Get the command name
       let commandArgs = args.slice(2); // Get the command arguments
-      if (bot.partyCommands.find((value, key) => key.includes(commandName))) {
-        let command = bot.partyCommands.find((value, key) =>
-          key.includes(commandName),
-        );
+      if (commandFound) {
+        let command = commandFound;
         if (command.disabled) return;
         let sender = Utils.removeRank(
           message.toString().split(": ")[0].replace("From ", ""),
