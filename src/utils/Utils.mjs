@@ -360,7 +360,9 @@ class Utils {
   sendWebhookMessage(message, messageType) {
     let webhooks = this.webhookLogger.getWebhooks({ messageType: messageType });
     webhooks.forEach(async (value, key) => {
-      let discWebhook = new WebhookClient({ url: key });
+      let discWebhook = new WebhookClient({ url: key }).catch(e => {
+        this.log(`Error sending one of the webhooks a message, please check the URL.`, "error");
+      });
       discWebhook.send(`\`\`\`ansi\n${message}\`\`\``);
     });
   }
