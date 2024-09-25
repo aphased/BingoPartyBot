@@ -45,6 +45,7 @@ export default {
         );
       let args = command.split(" "); // Get the arugments of the command
       let commandFound;
+      if(args.length < 2) return;
       if (
         args[0].toLowerCase() !== bot.config.partyCommandPrefix.toLowerCase()
       ) {
