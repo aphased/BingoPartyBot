@@ -14,14 +14,14 @@ export default {
       console.log(message.toAnsi());
       bot.utils.sendWebhookMessage(
         message.toAnsi(),
-        bot.utils.classifyMessage(message.toString()),
+        bot.utils.classifyMessage(message.toString())
       );
     }
     if (message.self == true) {
       message = message.content;
       bot.utils.sendWebhookMessage(
         message,
-        bot.utils.classifyMessage(message.toString()),
+        bot.utils.classifyMessage(message.toString())
       );
     }
     if (RegExp(/^From /g).test(message.toString())) {
@@ -29,8 +29,8 @@ export default {
       if (command.toLowerCase().startsWith("boop!"))
         return bot.chat(
           `/p invite ${Utils.removeRank(
-            message.toString().split(": ")[0].replace("From ", ""),
-          )}`,
+            message.toString().split(": ")[0].replace("From ", "")
+          )}`
         );
       if (command.toLowerCase().startsWith("help"))
         // TODO: execute "normal" help command here so logic isn't duplicated
@@ -41,23 +41,23 @@ export default {
         // since we /r anyways currently
         return bot.reply(
           "",
-          "Read the documentation at GitHub: aphased/BingoPartyCommands",
+          "Read the documentation at GitHub: aphased/BingoPartyCommands"
         );
       let args = command.split(" "); // Get the arugments of the command
       let commandFound;
-      if(args.length < 2) return;
+      if (args.length < 2) return;
       if (
         args[0].toLowerCase() !== bot.config.partyCommandPrefix.toLowerCase()
       ) {
         commandFound = bot.partyCommands.find(
           (value, key) =>
             key.includes(args[1].toLowerCase()) &&
-            value.customPrefix.toLowerCase() === args[0].toLowerCase(),
+            value.customPrefix.toLowerCase() === args[0].toLowerCase()
         );
       } else {
         commandFound = bot.partyCommands.find(
           (value, key) =>
-            key.includes(args[1].toLowerCase()) && !value.customPrefix,
+            key.includes(args[1].toLowerCase()) && !value.customPrefix
         );
       }
       let commandName = args[1]; // Get the command name
@@ -66,7 +66,7 @@ export default {
         let command = commandFound;
         if (command.disabled) return;
         let sender = Utils.removeRank(
-          message.toString().split(": ")[0].replace("From ", ""),
+          message.toString().split(": ")[0].replace("From ", "")
         );
         bot.utils.setUserRank({
           name: sender,
@@ -91,7 +91,7 @@ export default {
         else
           bot.reply(
             sender.username,
-            "You do not have permission to run this command!",
+            "You do not have permission to run this command!"
           );
       }
     }
