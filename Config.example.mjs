@@ -11,7 +11,8 @@ export default {
     name: "BingoParty Bridge",
     avatarUrl: "",
     bridge: [
-      { // These are for ingame logging, check the WebhookMessageType interface in src/utils/Interfaces.mjs for more info
+      {
+        // These are for ingame logging, check the WebhookMessageType interface in src/utils/Interfaces.mjs for more info
         webhookUrl: "",
         messageType: WebhookMessageType.All,
       },
@@ -19,8 +20,9 @@ export default {
   },
   discordBotInfo: {
     token: "DISCORD BOT TOKEN HERE (or empty string)",
+    guideChannel: "",
   },
-  guideLink: "",
+  guideLink: "", // I advise you to keep this empty, and just use discord commands to set the guide link or the guide channel.
   showMcChat: true,
   debug: {
     // IF YOU DONT KNOW WHAT YOU ARE DOING DO NOT TOUCH THIS. THIS IS MADE FOR DEVELOPERS TO DEBUG THE BOT ONLY

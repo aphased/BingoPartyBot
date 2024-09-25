@@ -15,6 +15,15 @@ export default {
 
     // TODO: (before the above) bring back the 30 second cooldown in between
     // guide links sent out
-    bot.chat(`/pc ${bot.config.guideLink}`);
+    let guide = bot.utils.getMonthGuide();
+    console.log(new Date().getMonth() + "/" + new Date().getFullYear())
+    console.log(guide)
+    if(!guide) {
+      bot.utils.setMonthGuide({ link: bot.config.guideLink });
+      guide = {
+        link: bot.config.guideLink
+      }
+    }
+    bot.chat(`/pc ${guide.link}`);
   },
 };

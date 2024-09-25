@@ -24,6 +24,8 @@ class Discord {
       this.interactionCreate = this.interactionCreate.bind(this);
       this.bot.once("ready", this.clientReady);
       this.bot.on("interactionCreate", this.interactionCreate)
+      setInterval(() => 
+        this.checkBingoMessage(this.config.discordBotInfo.guideChannel), 10000)
     } else {
       this.disabled = true; // Disable the bot if no token is provided (idk when this will be needed but why not)
     }
@@ -52,11 +54,38 @@ class Discord {
     if (!interaction.isCommand()) return;
     const command = this.commands.get(interaction.commandName);
     if (!command) return;
+    if(command.permission) {
+      let discord = this.utils.getUserObject({
+        discord: interaction.user.id
+      })
+      if(!discord) return interaction.reply({ content: "You are not allowed to use this command! If you believe this is an error contact an administrator and/or make sure your account is linked to your minecraft account.", ephemeral: true });
+      if(command.permission > discord.permissionRank)  return interaction.reply({ content: "You are not allowed to use this command! If you believe this is an error contact an administrator and/or make sure your account is linked to your minecraft account.", ephemeral: true });
+    }
     try {
       await command.execute(this, interaction);
     } catch (error) {
       console.error(error);
       await interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
+    }
+  }
+
+  async checkBingoMessage(channelId) {
+    /** @type {import("discord.js").Channel} */
+    const channel = await this.bot.channels.fetch(channelId);
+    // console.log(channel)
+    if(!channel.isTextBased()) return;
+    const messages = await channel.messages.fetch({
+      limit: 1
+    });
+    let message = messages.first();
+    let messageTimeStamp = new Date(message.createdTimestamp);
+    let currentTimeStamp = new Date();
+    if(messageTimeStamp.getMonth() !== currentTimeStamp.getMonth()-1) return;
+    if (/^(https:\/\/hypixel\.net\/threads\/bingo)/.test(message.content)) {
+      let guide = this.utils.getMonthGuide();
+      if(!guide) {
+        this.utils.setMonthGuide({ link: message.content });
+      }
     }
   }
 }

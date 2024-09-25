@@ -5,6 +5,7 @@ export default {
   ignore: true, // Whether to ignore this file or not
   description: "Test command", // Description of the command
   permission: Permissions.Admin, // Permission level required to execute this command
+  customPrefix: "", // Only use this if you want to use a custom prefix for this command, otherwise leave it empty and it'll use the default prefix
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
