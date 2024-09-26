@@ -18,6 +18,9 @@ export default {
       bot.reply(sender.username, "Rule not found.");
       return;
     }
-    bot.chat(`/pc Rule ${ruleNum}: ${rule}`);
+    bot.chat("/pc --- Bingo Brewers Rules (Outdated)---");
+    setTimeout(() => {
+      bot.chat(`/pc Rule ${ruleNum}: ${rule}`);
+    }, 1200);
   },
 };

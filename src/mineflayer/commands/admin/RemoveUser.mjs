@@ -5,7 +5,7 @@ import loadPartyCommands from "../../handlers/PartyCommandHandler.mjs";
 export default {
   name: ["removeuser"],
   ignore: false,
-  description: "Test command",
+  description: "Removes a user from the permission list",
   permission: Permissions.Owner,
   /**
    *

@@ -32,17 +32,20 @@ export default {
             message.toString().split(": ")[0].replace("From ", "")
           )}`
         );
-      if (command.toLowerCase().startsWith("help"))
+      if (command.toLowerCase().includes("help"))
         // TODO: execute "normal" help command here so logic isn't duplicated
         // and doesn't have to be kept in sync manually?
 
         // also TODO: we do not have the username here, yet! Either move some
         // lines of code around so we do have it, or ignore for the time being
         // since we /r anyways currently
+        // also also TODO: i cant figure out the part where we run /p bingoparty and it accepts!
+        // someone please help me i am typing this at 2:42 in the morning and im going mental
         return bot.reply(
           "",
           "Read the documentation at GitHub: aphased/BingoPartyCommands"
         );
+
       let args = command.split(" "); // Get the arugments of the command
       let commandFound;
       if (args.length < 2) return;
@@ -64,7 +67,9 @@ export default {
       let commandArgs = args.slice(2); // Get the command arguments
       if (commandFound) {
         let command = commandFound;
-        if (command.disabled) return;
+        if (command.disabled) return bot.chat(`/r This command is currently disabled!`);
+        //okay i know its not really neccesary but like make the bot more responsive i guess
+        //i didnt use bot.reply because it crashes using sender.username which is probalby due to it being right below me vvvvvvvvvvvvvvv
         let sender = Utils.removeRank(
           message.toString().split(": ")[0].replace("From ", "")
         );
@@ -93,7 +98,7 @@ export default {
             sender.username,
             "You do not have permission to run this command!"
           );
-      }
+      } 
     }
   },
 };

@@ -3,9 +3,10 @@ import Utils from "../../../utils/Utils.mjs";
 import loadPartyCommands from "../../handlers/PartyCommandHandler.mjs";
 
 export default {
-  name: ["getuser"],
+  name: ["getuser", "query"],
   ignore: false,
-  description: "Test command",
+  description: "See if a user is on the permission list, and what permissions they have",
+  //One day this will also have ban info? maybe?
   permission: Permissions.Owner,
   /**
    *

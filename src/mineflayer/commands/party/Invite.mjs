@@ -11,10 +11,10 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    let player = args[0] || sender;
+    let player = args[0] || sender.username;
     bot.chat(`/p invite ${player}`);
     setTimeout(() => {
-      bot.chat(`/pc ${sender} invited ${player} to the party.`);
-    }, 1000);
+      bot.chat(`/pc ${sender.username} invited ${player} to the party.`);
+    }, 1200);
   },
 };

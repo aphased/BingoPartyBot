@@ -44,8 +44,11 @@ export default {
         sender.username,
         `Hi ${sender.username}, what you sent wasn't a valid poll!`,
       );
+      setTimeout(() => {
+        bot.reply(sender.username, "The correct format for a poll is: Question?/Answer1/Answer2/OptionalAnswer/OptionalAnswer/OptionalAnswer")
+      }, 1200);
     } else {
-      bot.chat(`/p poll From ${sender}: ${poll}`);
+      bot.chat(`/p poll ${sender.username}: ${poll}`);
     }
   },
 };

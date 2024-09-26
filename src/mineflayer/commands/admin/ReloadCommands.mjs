@@ -4,7 +4,7 @@ import loadPartyCommands from "../../handlers/PartyCommandHandler.mjs";
 export default {
   name: ["reload"],
   ignore: false,
-  description: "Test command",
+  description: "Reloads all modifications to commands",
   permission: Permissions.Admin,
   /**
    *
