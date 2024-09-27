@@ -16,3 +16,6 @@ Config.mjs
 test.mjs
 playerNamesUpdated.json
 data/playerNames.json
+
+debug - Copy.ps1
+logs/

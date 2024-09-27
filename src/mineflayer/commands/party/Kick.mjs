@@ -16,7 +16,7 @@ export default {
     if (!player)
       return bot.reply(sender.username, "Please provide a player to kick.");
     bot.chat(
-      `/pc ${sender} was kicked from the party by ${player} from the party.`,
+      `/pc ${player} was kicked from the party by ${sender.username}`,
     );
     setTimeout(() => {
       bot.chat(`/p kick ${player}`);
@@ -25,9 +25,9 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `Kicked ${player} from the party. Command executed by ${sender}`,
+          content: `Kicked ${player} from the party. Command executed by ${sender.username}`,
         },
       );
-    }, 1000);
+    }, 550);
   },
 };

@@ -327,10 +327,13 @@
         {
             "accounts": [
                 {
-                    "name": "BingoParty",
+                    "name": "rti72",
                     "uuid": "491eca1eefc14765914a4d9f31760351"
                 }
-            ]
+            ],
+            "permissionRank": 5,
+            "hypixelRank": "[CONSOLE]",
+            "preferredName": "rti72"
         },
         {
             "accounts": [
@@ -864,15 +867,6 @@
         {
             "accounts": [
                 {
-                    "name": "Reccie",
-                    "uuid": "57e7b73332ab42708a73828d93a0bbfe"
-                }
-            ],
-            "permissionRank": 2
-        },
-        {
-            "accounts": [
-                {
                     "name": "Lord_Kxnterkill",
                     "uuid": null
                 }
@@ -926,22 +920,15 @@
                     "uuid": "7deb8ce555d84b268658fa5c2fa743cd"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 5,
+            "hypixelRank": "[VIP]",
+            "preferredName": "jbanate"
         },
         {
             "accounts": [
                 {
                     "name": "Fabien83560",
                     "uuid": "8a4819c8c92849e1b1522c3d2be0a88c"
-                }
-            ],
-            "permissionRank": 2
-        },
-        {
-            "accounts": [
-                {
-                    "name": "unterrunden",
-                    "uuid": "eb14ca9899334fe38e7e02eafde514fa"
                 }
             ],
             "permissionRank": 2

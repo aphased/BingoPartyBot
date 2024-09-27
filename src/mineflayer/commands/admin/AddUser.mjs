@@ -5,7 +5,7 @@ import loadPartyCommands from "../../handlers/PartyCommandHandler.mjs";
 export default {
   name: ["adduser"],
   ignore: false,
-  description: "Test command",
+  description: "Adds users to the permission list",
   permission: Permissions.Owner,
   /**
    *

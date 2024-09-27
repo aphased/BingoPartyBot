@@ -18,7 +18,7 @@ export default {
     if (repetitions > 7) repetitions = 7;
     for (let i = 0; i < repetitions; i++) {
       setTimeout(() => {
-        bot.chat(`/pc ${sender}: ${args.slice(1).join(" ")}`);
+        bot.chat(`/pc ${sender.username}: ${args.slice(1).join(" ")}`);
       }, 2000);
     }
   },

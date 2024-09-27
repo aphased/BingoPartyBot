@@ -48,8 +48,8 @@ export const Permissions = Object.freeze({
 /*
  *
  * I don't think you'd need to add a new type, but just incase - Conutik
- *
- */
+ * 
+*/
 
 export const WebhookMessageType = Object.freeze({
   JoinLeave: 0,

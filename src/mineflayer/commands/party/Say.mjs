@@ -16,6 +16,6 @@ export default {
       bot.reply(sender.username, "Please provide a message to send.");
       return;
     }
-    bot.chat(`/pc ${sender}: ${args.join(" ")}`);
+    bot.chat(`/pc ${sender.username}: ${args.join(" ")}`);
   },
 };

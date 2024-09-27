@@ -4,7 +4,7 @@ import loadPartyCommands from "../../handlers/PartyCommandHandler.mjs";
 export default {
   name: ["preferredname", "pn"],
   ignore: false,
-  description: "Test command",
+  description: "Sets your preferred name so the bot knows what to call you",
   permission: Permissions.Admin,
   /**
    *
