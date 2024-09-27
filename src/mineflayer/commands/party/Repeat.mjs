@@ -16,10 +16,13 @@ export default {
     let repetitions = parseInt(args[0]);
     if (isNaN(repetitions)) repetitions = 5;
     if (repetitions > 7) repetitions = 7;
+
+    bot.chat(`/pc ${sender.username}: ${args.slice(1).join(" ")}`);
+    repetitions--;
     for (let i = 0; i < repetitions; i++) {
       setTimeout(() => {
         bot.chat(`/pc ${sender.username}: ${args.slice(1).join(" ")}`);
-      }, 2000);
+      }, (i + 1) * 2000);
     }
   },
 };

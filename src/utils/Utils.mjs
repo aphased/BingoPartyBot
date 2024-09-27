@@ -116,7 +116,7 @@ class Utils {
   getUsersByPermissionRank(rank) {
     return this.playerNamesDatabase
       .get("data")
-      .filter((x) => x.permissionRank === rank);
+      .filter(x => x.permissionRank === rank);
   }
 
   /**
@@ -137,9 +137,9 @@ class Utils {
     if (options.name) options.name = options.name.toLowerCase();
     let processed = this.playerNamesDatabase
       .get("data")
-      .find((x) =>
+      .find(x =>
         x.accounts.some(
-          (y) =>
+          y =>
             (options.uuid && y.uuid && y.uuid.toLowerCase() == options.uuid) ||
             (options.name && y.name && y.name.toLowerCase() == options.name)
         )
@@ -168,9 +168,9 @@ class Utils {
     if (options.discord) options.discord = options.discord.toLowerCase();
     return this.playerNamesDatabase
       .get("data")
-      .find((x) =>
+      .find(x =>
         x.accounts.some(
-          (y) =>
+          y =>
             (options.uuid && y.uuid && y.uuid.toLowerCase() == options.uuid) ||
             (options.name && y.name && y.name.toLowerCase() == options.name) ||
             (options.discord &&
@@ -192,9 +192,9 @@ class Utils {
     if (options.name) options.name = options.name.toLowerCase();
     let data = this.playerNamesDatabase
       .get("data")
-      .find((x) =>
+      .find(x =>
         x.accounts.some(
-          (y) =>
+          y =>
             (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
             (options.name && y.name.toLowerCase() == options.name)
         )
@@ -221,9 +221,9 @@ class Utils {
     if (options.name) options.name = options.name.toLowerCase();
     let data = this.playerNamesDatabase
       .get("data")
-      .find((x) =>
+      .find(x =>
         x.accounts.some(
-          (y) =>
+          y =>
             (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
             (options.name && y.name.toLowerCase() == options.name)
         )
@@ -241,7 +241,7 @@ class Utils {
    * @returns the random string
    */
   /* const */
-  generateRandomString = (length) => {
+  generateRandomString = length => {
     const characters =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let result = "";
@@ -284,9 +284,9 @@ class Utils {
     if (options.name) options.name = options.name.toLowerCase();
     let data = this.playerNamesDatabase
       .get("data")
-      .find((x) =>
+      .find(x =>
         x.accounts.some(
-          (y) =>
+          y =>
             (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
             (options.name && y.name.toLowerCase() == options.name)
         )
@@ -345,9 +345,9 @@ class Utils {
     if (options.name) options.name = options.name.toLowerCase();
     let data = this.playerNamesDatabase
       .get("data")
-      .find((x) =>
+      .find(x =>
         x.accounts.some(
-          (y) =>
+          y =>
             (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
             (options.name && y.name.toLowerCase() == options.name)
         )
@@ -427,9 +427,9 @@ class Debug {
       console.log(
         allowList
           .map(
-            (x) =>
+            x =>
               `Player UUIDs: ${x.accounts
-                .map((y) => `${y.name} (${y.uuid})`)
+                .map(y => `${y.name} (${y.uuid})`)
                 .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`
           )
           .join("\n")
@@ -440,11 +440,11 @@ class Debug {
     if (options.printRank)
       console.log(
         allowList
-          .filter((x) => x.permissionRank === options.printRank)
+          .filter(x => x.permissionRank === options.printRank)
           .map(
-            (x) =>
+            x =>
               `Player UUIDs: ${x.accounts
-                .map((y) => `${y.name} (${y.uuid})`)
+                .map(y => `${y.name} (${y.uuid})`)
                 .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`
           )
           .join("\n")
@@ -452,11 +452,11 @@ class Debug {
     if (options.printUser)
       console.log(
         allowList
-          .filter((x) => x.uuids.includes(options.printUser))
+          .filter(x => x.uuids.includes(options.printUser))
           .map(
-            (x) =>
+            x =>
               `Player UUIDs: ${x.accounts
-                .map((y) => `${y.name} (${y.uuid})`)
+                .map(y => `${y.name} (${y.uuid})`)
                 .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`
           )
           .join("\n")
@@ -513,7 +513,7 @@ class WebhookLogger {
    */
   async setWebhooks(webhooks) {
     this.webhooks.clear();
-    webhooks.forEach((x) => {
+    webhooks.forEach(x => {
       this.webhooks.set(x.webhookUrl, x.messageType);
     });
     return this.webhooks;
@@ -529,7 +529,7 @@ class WebhookLogger {
     if (options.webhookUrl) return this.webhooks.get(options.webhookUrl);
     else if (options.messageType)
       return this.webhooks.filter(
-        (x) => x === options.messageType || x === WebhookMessageType.All
+        x => x === options.messageType || x === WebhookMessageType.All
       );
     else return this.webhooks;
   }

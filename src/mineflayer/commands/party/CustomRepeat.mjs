@@ -19,16 +19,13 @@ export default {
     if (isNaN(repetitions)) repetitions = 5;
     if (repetitions > 7) repetitions = 7;
     let duration = parseInt(args[1]);
-    if (isNaN(duration)) duration = 2000;
-    if (!args[0])
-      return bot.reply(
-        sender.username,
-        "did you just try to repeat an empty message?"
-      );
-    for (let i = 0; i <= repetitions; i++) {
+    if (isNaN(duration)) duration = 2;
+    bot.chat(`/pc ${sender.username}: ${args.slice(2).join(" ")}`);
+    repetitions--;
+    for (let i = 0; i < repetitions; i++) {
       setTimeout(() => {
         bot.chat(`/pc ${sender.username}: ${args.slice(2).join(" ")}`);
-      }, duration);
+      }, (i + 1) * (duration * 1000));
     }
   },
 };

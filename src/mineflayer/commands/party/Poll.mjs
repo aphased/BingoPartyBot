@@ -29,7 +29,7 @@ export default {
     // discard it from this test)
     let portions = poll.split("/");
     portions.shift();
-    let answerLengthsValid = portions.every((portion) => {
+    let answerLengthsValid = portions.every(portion => {
       return portion.length <= 20;
     });
 

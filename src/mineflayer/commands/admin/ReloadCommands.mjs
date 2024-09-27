@@ -13,7 +13,7 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    await bot.reloadPartyCommands().then((x) => {
+    await bot.reloadPartyCommands().then(x => {
       bot.reply(sender.username, "Reloaded commands!");
     });
   },

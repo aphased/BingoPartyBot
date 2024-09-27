@@ -34,7 +34,7 @@ const client = new Client({
   ],
 });
 
-client.once(Events.ClientReady, (readyClient) => {
+client.once(Events.ClientReady, readyClient => {
   log(`Discord bot ready! Logged in as ${readyClient.user.tag}`);
   botIsFunctional = true;
   // Retrieve potentially newest link once on every program startup

@@ -20,13 +20,13 @@ export default {
     let uuid = await bot.utils.getUUID(user);
     if (!uuid) return bot.reply(sender.username, "User not found!");
     let playerNames = bot.utils.playerNamesDatabase.get("data");
-    let index = playerNames.findIndex((x) =>
-      x.accounts.find((y) => y.uuid === uuid)
+    let index = playerNames.findIndex(x =>
+      x.accounts.find(y => y.uuid === uuid)
     );
     if (index === -1) return bot.reply(sender.username, "User does not exist!");
     let userObj = playerNames[index];
     let rank = Object.keys(Permissions).find(
-      (x) => Permissions[x] === userObj.permissionRank
+      x => Permissions[x] === userObj.permissionRank
     );
     bot.reply(
       sender.username,
