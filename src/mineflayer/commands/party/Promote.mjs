@@ -23,7 +23,7 @@ export default {
         },
         {
           content: `Promoted ${player} in the party. Command executed by ${sender.username}`,
-        },
+        }
       );
     }, 550);
   },

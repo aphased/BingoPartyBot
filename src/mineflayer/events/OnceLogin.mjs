@@ -39,7 +39,7 @@ export default {
         bot.utils.log("Added Bot account to database", "Info");
         bot.utils.log(
           "Please turn off bot and add your account to the database",
-          "Error",
+          "Error"
         );
         process.exit(1);
       }, 1000);
@@ -51,7 +51,7 @@ export default {
       },
       {
         content: "Logged in! `(" + bot.bot.username + ")`",
-      },
+      }
     );
   },
 };

@@ -26,12 +26,12 @@ export default {
       if (!args[0])
         return bot.reply(
           sender.username,
-          "Please specify a command to disable",
+          "Please specify a command to disable"
         );
       // TODO: this should work for just one, but also _multiple_ commands
       // sent at once (whitespace-separated)
       let command = bot.partyCommands.find((value, key) =>
-        key.includes(args[0]),
+        key.includes(args[0])
       );
       if (!command) return bot.reply(sender.username, "Command not found");
       command.disabled = true;

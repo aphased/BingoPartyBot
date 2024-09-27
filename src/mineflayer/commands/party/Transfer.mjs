@@ -15,8 +15,9 @@ export default {
     if (!args[0])
       return bot.reply(
         sender,
-        "Please provide a username to transfer the party to.",
+        "Please provide a username to transfer the party to."
       );
+    bot.chat("/pc The party was transferred to " + args[0]);
     bot.chat("/pc The party was transferred to " + args[0]);
     setTimeout(() => {
       bot.chat(`/p transfer ${args[0]}`);
@@ -26,7 +27,7 @@ export default {
         },
         {
           content: `Transferred party to ${args[0]}. Command executed by ${sender.username}`,
-        },
+        }
       );
     }, 550);
   },

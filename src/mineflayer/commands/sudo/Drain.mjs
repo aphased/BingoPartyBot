@@ -25,15 +25,13 @@ but for now itll be admin only because this command is very much poisable
     // Code here
     bot.chat(
       "/pc This party will be emptied in 10 seconds! Command ran by: " +
-        sender.username,
+        sender.username
     );
     setTimeout(() => {
       bot.chat("/pc The party has been emptied!");
 
       setTimeout(() => {
-
         bot.chat("/streamgui settings empty");
-
       }, 550);
 
       bot.webhook.send(
@@ -42,7 +40,7 @@ but for now itll be admin only because this command is very much poisable
         },
         {
           content: `Emptied party. Command executed by ${sender.username}`,
-        },
+        }
       );
     }, 10000);
   },

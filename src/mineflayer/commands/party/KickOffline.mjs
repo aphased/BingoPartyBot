@@ -22,7 +22,7 @@ export default {
         },
         {
           content: `Kicked all offline players. Command executed by ${sender}`,
-        },
+        }
       );
     }, 550);
   },

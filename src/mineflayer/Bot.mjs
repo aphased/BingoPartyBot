@@ -53,7 +53,7 @@ class Bot {
    * Advantage is being able to reply to anybody, at the cost of potentially
    * answering the wrong message to an incorrect recipient with quick
    * back-to-back commands/messages received.
-   
+
    * Thus, this use may change in the future, at which point including the
    * recipient's info (i.e. IGN) will be necessary.
    * @param {String} recipient  IGN to send a message to (currently not needed,
@@ -83,8 +83,9 @@ class Bot {
 
   setConfig(config) {
     this.config = config;
-    if(this.config.guideLink) this.utils.setMonthGuide({ link: this.config.guideLink });
-    this.utils.webhookLogger.setWebhooks(this.config.webhook.bridge)
+    if (this.config.guideLink)
+      this.utils.setMonthGuide({ link: this.config.guideLink });
+    this.utils.webhookLogger.setWebhooks(this.config.webhook.bridge);
   }
 
   /*

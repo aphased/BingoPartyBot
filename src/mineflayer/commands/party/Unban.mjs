@@ -15,7 +15,7 @@ export default {
     let player = args[0];
     if (!player)
       return bot.reply(sender.username, "Please provide a player to unban.");
-    bot.reply(sender.username, `Trying to unban ${player}`)
+    bot.reply(sender.username, `Trying to unban ${player}`);
     setTimeout(() => {
       bot.chat(`/lobby`);
       setTimeout(() => {
@@ -24,18 +24,17 @@ export default {
           bot.chat(`/limbo`);
           setTimeout(() => {
             bot.reply(sender.username, `Unbanned ${player}.`);
-          bot.webhook.send(
-            {
-              username: bot.config.webhook.name,
-            },
-            {
-              content: `Unbanned ${player} from the party. Command executed by ${sender.username}`,
-            },
-          );
+            bot.webhook.send(
+              {
+                username: bot.config.webhook.name,
+              },
+              {
+                content: `Unbanned ${player} from the party. Command executed by ${sender.username}`,
+              }
+            );
           }, 550);
         }, 550);
       }, 550);
     }, 550);
   },
 };
-

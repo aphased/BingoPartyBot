@@ -3,7 +3,8 @@ import { Permissions } from "../../../utils/Interfaces.mjs";
 export default {
   name: ["stream", "public", "open"], // This command will be triggered by either command1 or command2
   ignore: false, // Whether to ignore this file or not
-  description: "Opens the party to the public, or reopens it if an incompetant person transfers to themself without MVP++", // Description of the command
+  description:
+    "Opens the party to the public, or reopens it if an incompetant person transfers to themself without MVP++", // Description of the command
   permission: Permissions.Trusted, // Permission level required to execute this command
   /**
    *
@@ -14,6 +15,7 @@ export default {
   execute: async function (bot, sender, args) {
     let amount = parseInt(args[0]) || 100;
     bot.chat(`/pc Party size was set to ${amount} by ${sender.username}.`);
+    bot.chat(`/pc Party size was set to ${amount} by ${sender.username}.`);
     setTimeout(() => {
       bot.chat(`/stream open ${amount}`);
       bot.webhook.send(
@@ -22,7 +24,7 @@ export default {
         },
         {
           content: `Party was set to public (${amount}). Command executed by ${sender}`,
-        },
+        }
       );
     }, 550);
   },

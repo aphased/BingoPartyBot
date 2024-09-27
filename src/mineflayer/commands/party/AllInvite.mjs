@@ -21,7 +21,7 @@ export default {
         },
         {
           content: `Enabled all invite for the party. Command executed by ${sender.username}`,
-        },
+        }
       );
     }, 550);
   },

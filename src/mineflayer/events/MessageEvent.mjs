@@ -67,7 +67,8 @@ export default {
       let commandArgs = args.slice(2); // Get the command arguments
       if (commandFound) {
         let command = commandFound;
-        if (command.disabled) return bot.chat(`/r This command is currently disabled!`);
+        if (command.disabled)
+          return bot.chat(`/r This command is currently disabled!`);
         //okay i know its not really neccesary but like make the bot more responsive i guess
         //i didnt use bot.reply because it crashes using sender.username which is probalby due to it being right below me vvvvvvvvvvvvvvv
         let sender = Utils.removeRank(
@@ -98,7 +99,7 @@ export default {
             sender.username,
             "You do not have permission to run this command!"
           );
-      } 
+      }
     }
   },
 };

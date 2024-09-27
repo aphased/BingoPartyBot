@@ -30,7 +30,7 @@ export default {
     if (!rankNum) return bot.reply(sender.username, "Invalid rank!");
     if (mainUser) {
       let users = playerNames.find((x) =>
-        x.accounts.find((y) => y.uuid === mainUserUUID),
+        x.accounts.find((y) => y.uuid === mainUserUUID)
       );
       users.accounts.push({ name: user, uuid: uuid });
       playerNames[playerNames.indexOf(users)] = users;

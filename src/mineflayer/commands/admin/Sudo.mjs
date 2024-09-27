@@ -8,7 +8,7 @@ export default {
   description: "Disabled",
   permission: Permissions.Staff, // TODO: change this to on a per-player basis instead of per-rank?
   // maybe, staff should work for now but wed need to change the json as well for that
-  
+
   // read drain.mjs lmfao
   /**
    *

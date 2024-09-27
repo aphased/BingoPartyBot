@@ -22,7 +22,7 @@ export default {
         },
         {
           content: `Muted/Unmuted party. Command executed by ${sender.username}`,
-        },
+        }
       );
     }, 550);
   },

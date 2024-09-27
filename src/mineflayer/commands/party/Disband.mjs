@@ -6,8 +6,6 @@ export default {
   description: "Disband Command", // Description of the command
   permission: Permissions.Admin, // Permission level required to execute this command
 
-
-
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -18,7 +16,7 @@ export default {
     // Code here
     bot.chat(
       "/pc This party will be disbanded in 10 seconds! Command ran by: " +
-        sender.username,
+        sender.username
     );
     setTimeout(() => {
       bot.chat("/p disband");
@@ -28,7 +26,7 @@ export default {
         },
         {
           content: `Disbanded party. Command executed by ${sender.username}`,
-        },
+        }
       );
     }, 10000);
   },

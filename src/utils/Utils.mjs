@@ -98,7 +98,7 @@ class Utils {
   // Get uuid from username
   async getUUID(username) {
     let data = await axios.get(
-      `https://api.mojang.com/users/profiles/minecraft/${username}`,
+      `https://api.mojang.com/users/profiles/minecraft/${username}`
     );
     if (data.data.errorMessage) return null;
     return data.data.id;
@@ -107,7 +107,7 @@ class Utils {
   // Get username from uuid
   async getUsername(uuid) {
     let data = await axios.get(
-      `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`,
+      `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`
     );
     if (data.data.errorMessage) return null;
     return data.data.name;
@@ -129,7 +129,7 @@ class Utils {
   getPermissionsByUser(options = {}) {
     if (!options || (!options.uuid && !options.name)) {
       throw new Error(
-        "Invalid options: 'uuid' or 'name' must be provided for permissions check.",
+        "Invalid options: 'uuid' or 'name' must be provided for permissions check."
       );
     }
 
@@ -141,8 +141,8 @@ class Utils {
         x.accounts.some(
           (y) =>
             (options.uuid && y.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name && y.name.toLowerCase() == options.name),
-        ),
+            (options.name && y.name && y.name.toLowerCase() == options.name)
+        )
       );
     if (!processed) return null;
     return processed.permissionRank;
@@ -159,7 +159,7 @@ class Utils {
   getUserObject(options = {}) {
     if (!options || (!options.uuid && !options.name && !options.discord)) {
       throw new Error(
-        "Invalid options: 'uuid' or 'name' must be provided to get user info.",
+        "Invalid options: 'uuid' or 'name' must be provided to get user info."
       );
     }
 
@@ -175,8 +175,8 @@ class Utils {
             (options.name && y.name && y.name.toLowerCase() == options.name) ||
             (options.discord &&
               y.discord &&
-              y.discord.toLowerCase() == options.discord),
-        ),
+              y.discord.toLowerCase() == options.discord)
+        )
       );
   }
 
@@ -196,8 +196,8 @@ class Utils {
         x.accounts.some(
           (y) =>
             (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name.toLowerCase() == options.name),
-        ),
+            (options.name && y.name.toLowerCase() == options.name)
+        )
       );
     if (!data) return null;
     if (!data.preferredName) {
@@ -225,8 +225,8 @@ class Utils {
         x.accounts.some(
           (y) =>
             (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name.toLowerCase() == options.name),
-        ),
+            (options.name && y.name.toLowerCase() == options.name)
+        )
       );
     if (!data) return null;
     let getData = this.playerNamesDatabase.get("data");
@@ -266,7 +266,7 @@ class Utils {
     return (
       string +
       ` ${this.generateRandomString(
-        string.length * 0.33 < 6 ? 6 : string.length * 0.33,
+        string.length * 0.33 < 6 ? 6 : string.length * 0.33
       )}`
     );
   }
@@ -288,8 +288,8 @@ class Utils {
         x.accounts.some(
           (y) =>
             (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name.toLowerCase() == options.name),
-        ),
+            (options.name && y.name.toLowerCase() == options.name)
+        )
       );
     let getData = this.playerNamesDatabase.get("data");
     getData[getData.indexOf(data)].discord = options.discordId;
@@ -349,8 +349,8 @@ class Utils {
         x.accounts.some(
           (y) =>
             (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name.toLowerCase() == options.name),
-        ),
+            (options.name && y.name.toLowerCase() == options.name)
+        )
       );
     if (!data) return null;
     let getData = this.playerNamesDatabase.get("data");
@@ -392,7 +392,7 @@ class Utils {
       } catch (e) {
         this.log(
           `Error sending one of the webhooks a message, please check the URL.`,
-          "error",
+          "error"
         );
       }
     });
@@ -430,9 +430,9 @@ class Debug {
             (x) =>
               `Player UUIDs: ${x.accounts
                 .map((y) => `${y.name} (${y.uuid})`)
-                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`,
+                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`
           )
-          .join("\n"),
+          .join("\n")
       );
     if (options.printLength) console.log(allowList.length);
     if (options.printFirst) console.log(allowList[0]);
@@ -445,9 +445,9 @@ class Debug {
             (x) =>
               `Player UUIDs: ${x.accounts
                 .map((y) => `${y.name} (${y.uuid})`)
-                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`,
+                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`
           )
-          .join("\n"),
+          .join("\n")
       );
     if (options.printUser)
       console.log(
@@ -457,9 +457,9 @@ class Debug {
             (x) =>
               `Player UUIDs: ${x.accounts
                 .map((y) => `${y.name} (${y.uuid})`)
-                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`,
+                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`
           )
-          .join("\n"),
+          .join("\n")
       );
   }
 
@@ -529,7 +529,7 @@ class WebhookLogger {
     if (options.webhookUrl) return this.webhooks.get(options.webhookUrl);
     else if (options.messageType)
       return this.webhooks.filter(
-        (x) => x === options.messageType || x === WebhookMessageType.All,
+        (x) => x === options.messageType || x === WebhookMessageType.All
       );
     else return this.webhooks;
   }
@@ -573,7 +573,7 @@ let utils = new Utils(
   // import("../data/playerNames.json", { with: { type: "json" } }),
   null,
   import("../../data/autoKickWords.json", { with: { type: "json" } }),
-  import("../../data/bingoBrewersRules.json", { with: { type: "json" } }),
+  import("../../data/bingoBrewersRules.json", { with: { type: "json" } })
 );
 
 export { utils };

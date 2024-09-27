@@ -187,7 +187,7 @@ async function fetchLatestGuideMessage() {
     if (message.content.startsWith("https://hypixel.net/threads/")) {
       linkToBingoGuide = message.content;
       logDebug(
-        `Found guide link in message by ${message.author.tag}: ${message.content}`,
+        `Found guide link in message by ${message.author.tag}: ${message.content}`
       );
       linkFound = true;
       break;
