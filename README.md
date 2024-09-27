@@ -7,11 +7,11 @@ bot account using [Mineflayer](https://github.com/PrismarineJS/mineflayer),
 which can then be provided via e.g. a dedicated server in order to be always
 online. -->
 
-Similar to [BingoPartyTools](https://github.com/aphased/BingoPartyTools?
-tab=readme-ov-file#all-available-commands), but instead of being a ChatTriggers
-mod for a player's main account, this repo uses [Mineflayer](https://github.com/
-PrismarineJS/mineflayer) to create a dedicated bot account. This bot can run on
-a dedicated server to remain online continuously.
+Similar to [BingoPartyTools](https://github.com/aphased/BingoPartyTools?tab=readme-ov-file#all-available-commands),
+but instead of being a ChatTriggers mod for a player's main account, this repo
+uses [Mineflayer](https://github.com/PrismarineJS/mineflayer) to create a
+dedicated bot account. The bot can then run on a dedicated server to remain
+online continuously.
 
 ## Features (overview)
 

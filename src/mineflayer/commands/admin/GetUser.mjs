@@ -29,7 +29,7 @@ export default {
       (x) => Permissions[x] === userObj.permissionRank
     );
     bot.reply(
-      sender,
+      sender.username,
       `User: ${user} Rank: ${rank} (Level: ${userObj.permissionRank})`
     );
   },
