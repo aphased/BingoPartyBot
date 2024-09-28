@@ -5,7 +5,7 @@ import loadPartyCommands from "../../handlers/PartyCommandHandler.mjs";
 export default {
   name: ["adduser"],
   ignore: false,
-  description: "Test command",
+  description: "Adds users to the permission list",
   permission: Permissions.Owner,
   /**
    *
@@ -24,13 +24,13 @@ export default {
     if (!uuid || (mainUser && !mainUserUUID))
       return bot.reply(sender.username, "User not found!");
     let playerNames = bot.utils.playerNamesDatabase.get("data");
-    if (playerNames.find((x) => x.accounts.find((y) => y.uuid === uuid)))
+    if (playerNames.find(x => x.accounts.find(y => y.uuid === uuid)))
       return bot.reply(sender.username, "User already exists!");
     let rankNum = Permissions[rank];
     if (!rankNum) return bot.reply(sender.username, "Invalid rank!");
     if (mainUser) {
-      let users = playerNames.find((x) =>
-        x.accounts.find((y) => y.uuid === mainUserUUID),
+      let users = playerNames.find(x =>
+        x.accounts.find(y => y.uuid === mainUserUUID)
       );
       users.accounts.push({ name: user, uuid: uuid });
       playerNames[playerNames.indexOf(users)] = users;

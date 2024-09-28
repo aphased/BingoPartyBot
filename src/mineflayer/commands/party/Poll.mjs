@@ -29,7 +29,7 @@ export default {
     // discard it from this test)
     let portions = poll.split("/");
     portions.shift();
-    let answerLengthsValid = portions.every((portion) => {
+    let answerLengthsValid = portions.every(portion => {
       return portion.length <= 20;
     });
 
@@ -42,10 +42,20 @@ export default {
     if (!isValidPoll) {
       bot.reply(
         sender.username,
-        `Hi ${sender.username}, what you sent wasn't a valid poll!`,
+        `Hi ${sender.username}, what you sent wasn't a valid poll!`
       );
+      setTimeout(() => {
+        bot.reply(sender.username, "The correct format for a poll is:");
+
+        setTimeout(() => {
+          bot.reply(
+            sender.username,
+            "Question?/Answer1/Answer2/OptionalAnswer/OptionalAnswer/OptionalAnswer"
+          );
+        }, 550);
+      }, 550);
     } else {
-      bot.chat(`/p poll From ${sender}: ${poll}`);
+      bot.chat(`/p poll ${sender.username}: ${poll}`);
     }
   },
 };

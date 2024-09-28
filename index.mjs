@@ -12,11 +12,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 /** @type {JSONdb} */
 const playerNamesDatabase = new JSONdb(
-  path.resolve(__dirname, "./data/playerNames.json"),
+  path.resolve(__dirname, "./data/playerNames.json")
 );
 /** @type {JSONdb} */
 const generalDatabase = new JSONdb(
-  path.resolve(__dirname, "./data/generalDatabase.json"),
+  path.resolve(__dirname, "./data/generalDatabase.json")
 );
 utils.setPlayerNameDatabase(playerNamesDatabase);
 utils.setGeneralDatabase(generalDatabase);

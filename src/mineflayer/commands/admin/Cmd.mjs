@@ -2,7 +2,7 @@ import { Permissions } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["cmd"], // This command will be triggered by either command1 or command2
-  ignore: true, // Whether to ignore this file or not
+  ignore: false, // Whether to ignore this file or not
   description:
     "Admin-only, full execution of arguments as a chat command on the bot account (minus leading slash)", // Description of the command
   permission: Permissions.Owner, // Permission level required to execute this command

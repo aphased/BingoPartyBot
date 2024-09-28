@@ -4,7 +4,7 @@ import loadPartyCommands from "../../handlers/PartyCommandHandler.mjs";
 export default {
   name: ["preferredname", "pn"],
   ignore: false,
-  description: "Test command",
+  description: "Sets your preferred name so the bot knows what to call you",
   permission: Permissions.Admin,
   /**
    *
@@ -18,12 +18,12 @@ export default {
     if (args[0].length > 16)
       return bot.reply(
         sender.username,
-        "The name you provided is too long! (16 is the max)",
+        "The name you provided is too long! (16 is the max)"
       );
     bot.utils.setPreferredUsername({ name: sender, preferredName: args[0] });
     bot.reply(
       sender.username,
-      `Your preferred name has been set to ${args[0]}`,
+      `Your preferred name has been set to ${args[0]}`
     );
   },
 };

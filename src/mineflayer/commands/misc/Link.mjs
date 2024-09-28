@@ -14,7 +14,7 @@ export default {
     if (!args[0])
       return bot.reply(
         sender.username,
-        "Please provide a code to link your account",
+        "Please provide a code to link your account"
       );
     let code = args[0];
     let status = bot.utils.link.getId(code);

@@ -24,6 +24,6 @@ export default {
         link: bot.config.guideLink,
       };
     }
-    bot.chat(`/pc ${guide.link}`);
+    bot.chat(`/pc Guide: ${guide.link}`);
   },
 };

@@ -4,7 +4,8 @@ export default {
   name: ["disband"], // This command will be triggered by either command1 or command2
   ignore: false, // Whether to ignore this file or not
   description: "Disband Command", // Description of the command
-  permission: Permissions.Owner, // Permission level required to execute this command
+  permission: Permissions.Admin, // Permission level required to execute this command
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -15,7 +16,7 @@ export default {
     // Code here
     bot.chat(
       "/pc This party will be disbanded in 10 seconds! Command ran by: " +
-        sender,
+        sender.username
     );
     setTimeout(() => {
       bot.chat("/p disband");
@@ -24,8 +25,8 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `Disbanded party. Command executed by ${sender}`,
-        },
+          content: `Disbanded party. Command executed by ${sender.username}`,
+        }
       );
     }, 10000);
   },

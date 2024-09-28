@@ -6,6 +6,7 @@
 # … and explicitly mention exemptions, to avoid leaks.
 !.gitignore
 !.editorconfig
+!.prettierrc
 
 # Also don't upload all dependencies (like 300 MB lol)
 node_modules/
@@ -16,3 +17,6 @@ Config.mjs
 test.mjs
 playerNamesUpdated.json
 data/playerNames.json
+
+debug - Copy.ps1
+logs/

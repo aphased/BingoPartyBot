@@ -13,7 +13,7 @@ export default {
    */
   execute: async function (bot, sender, args) {
     // Code here
-    bot.chat(`/pc ${sender} has kicked offline players.`);
+    bot.chat(`/pc ${sender.username} has all kicked offline players.`);
     setTimeout(() => {
       bot.chat("/p kickoffline");
       bot.webhook.send(
@@ -21,9 +21,9 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `Kicked offline players. Command executed by ${sender}`,
-        },
+          content: `Kicked all offline players. Command executed by ${sender}`,
+        }
       );
-    }, 1000);
+    }, 550);
   },
 };

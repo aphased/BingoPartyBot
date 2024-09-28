@@ -5,6 +5,9 @@ export default {
   ignore: false, // Whether to ignore this file or not
   description: "Repeat Command", // Description of the command
   permission: Permissions.Trusted, // Permission level required to execute
+
+  // this command is VERY broken and i dont know why, ive tried during duration * 1000 but that doesnt work
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -17,10 +20,12 @@ export default {
     if (repetitions > 7) repetitions = 7;
     let duration = parseInt(args[1]);
     if (isNaN(duration)) duration = 2;
-    for (let i = 0; i <= repetitions; i++) {
+    bot.chat(`/pc ${sender.username}: ${args.slice(2).join(" ")}`);
+    repetitions--;
+    for (let i = 0; i < repetitions; i++) {
       setTimeout(() => {
-        bot.chat(`/pc ${sender}: ${args.slice(2).join(" ")}`);
-      }, duration);
+        bot.chat(`/pc ${sender.username}: ${args.slice(2).join(" ")}`);
+      }, (i + 1) * (duration * 1000));
     }
   },
 };

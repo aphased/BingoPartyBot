@@ -28,7 +28,7 @@ class Discord {
       this.bot.on("interactionCreate", this.interactionCreate);
       setInterval(
         () => this.checkBingoMessage(this.config.discordBotInfo.guideChannel),
-        10000,
+        10000
       );
     } else {
       this.disabled = true; // Disable the bot if no token is provided (idk when this will be needed but why not)

@@ -13,7 +13,7 @@ export default {
    */
   execute: async function (bot, sender, args) {
     // Code here
-    bot.chat(`/pc ${sender} has muted/unmuted the party.`);
+    bot.chat(`/pc ${sender.username} has muted/unmuted the party.`);
     setTimeout(() => {
       bot.chat("/p mute");
       bot.webhook.send(
@@ -21,9 +21,9 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `Muted/Unmuted party. Command executed by ${sender}`,
-        },
+          content: `Muted/Unmuted party. Command executed by ${sender.username}`,
+        }
       );
-    });
+    }, 550);
   },
 };

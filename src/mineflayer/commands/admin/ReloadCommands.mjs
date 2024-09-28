@@ -4,7 +4,7 @@ import loadPartyCommands from "../../handlers/PartyCommandHandler.mjs";
 export default {
   name: ["reload"],
   ignore: false,
-  description: "Test command",
+  description: "Reloads all modifications to commands",
   permission: Permissions.Admin,
   /**
    *
@@ -13,7 +13,7 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    await bot.reloadPartyCommands().then((x) => {
+    await bot.reloadPartyCommands().then(x => {
       bot.reply(sender.username, "Reloaded commands!");
     });
   },

@@ -3,7 +3,7 @@ import { Permissions } from "../../../utils/Interfaces.mjs";
 export default {
   name: ["enable"], // This command will be triggered by either command1 or command2
   ignore: false, // Whether to ignore this file or not
-  description: "Test command", // Description of the command
+  description: "Enables commands so they can be run using !p command", // Description of the command
   permission: Permissions.Admin, // Permission level required to execute this command
   /**
    *
@@ -28,7 +28,7 @@ export default {
       // TODO: this should work for just one, but also _multiple_ commands
       // sent at once (whitespace-separated)
       let command = bot.partyCommands.find((value, key) =>
-        key.includes(args[0]),
+        key.includes(args[0])
       );
       if (!command) return bot.reply(sender.username, "Command not found");
       command.disabled = false;

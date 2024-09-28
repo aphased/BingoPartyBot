@@ -3,9 +3,13 @@ import loadPartyCommands from "../../handlers/PartyCommandHandler.mjs";
 
 export default {
   name: ["sudo"], // TODO: this is not the implementation for sudo that jbanate had in mind, I believe – aphased
+  // yur correct it is not
   ignore: false,
-  description: "Test command",
+  description: "Disabled",
   permission: Permissions.Staff, // TODO: change this to on a per-player basis instead of per-rank?
+  // maybe, staff should work for now but wed need to change the json as well for that
+
+  // read drain.mjs lmfao
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
