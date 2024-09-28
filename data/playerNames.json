@@ -322,7 +322,8 @@
           "name": "gphased",
           "uuid": null
         }
-      ]
+      ],
+      "permissionRank": 5
     },
     {
       "accounts": [
@@ -928,7 +929,7 @@
           "uuid": "7deb8ce555d84b268658fa5c2fa743cd"
         }
       ],
-      "permissionRank": 5,
+      "permissionRank": 2,
       "hypixelRank": "[VIP]",
       "preferredName": "jbanate"
     },
