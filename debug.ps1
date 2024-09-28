@@ -1,24 +1,24 @@
 $StartBot = {
 	cls
-	# First check for the script_log.txt file, then rename it if needed.
+	# First check for the log.ansi file, then rename it if needed.
 
 	if (!(Test-Path ./logs/)) {
 		mkdir ./logs/ | Out-Null
 	}
 
-	if (Test-Path ./logs/script_log.txt) {
-		ren ./logs/script_log.txt "$((get-date).toString('dd-MM-yyyy HH;mm;ss')).log" | Out-Null
-		echo "[SCRIPT] Previous log file found, renaming to current date and time!" | tee -a ./logs/script_log.txt
+	if (Test-Path ./logs/log.ansi) {
+		ren ./logs/log.ansi "Log $((get-date).toString('dd-MM-yyyy HH;mm;ss')).ansi" | Out-Null
+		echo "[SCRIPT] Previous log file found, renaming to current date and time!" | tee -a ./logs/log.ansi
 	}
 
 	# Start the bot, then log everything.
-	echo "[SCRIPT] Running bot!" | tee -a ./logs/script_log.txt
-	node . | tee -a ./logs/script_log.txt
+	echo "[SCRIPT] Running bot!" | tee -a ./logs/log.ansi
+	node . | tee -a ./logs/log.ansi
 	# echo "Bot should run here..."
 	# pause
 
 	# Option for restarting - "-eq 7" is a no, while "-eq 6" is yes.
-	echo "[SCRIPT] Bot crashed or was stopped intentionally" | tee -a ./logs/script_log.txt
+	echo "[SCRIPT] Bot crashed or was stopped intentionally" | tee -a ./logs/log.ansi
 	$wshell = New-Object -ComObject Wscript.Shell
 	$answer = $wshell.Popup("Restart bot?", 0, "bot gone", 32 + 4)
 	#	if($answer -eq 7) {

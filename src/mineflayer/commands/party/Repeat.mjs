@@ -20,9 +20,12 @@ export default {
     bot.chat(`/pc ${sender.username}: ${args.slice(1).join(" ")}`);
     repetitions--;
     for (let i = 0; i < repetitions; i++) {
-      setTimeout(() => {
-        bot.chat(`/pc ${sender.username}: ${args.slice(1).join(" ")}`);
-      }, (i + 1) * 2000);
+      setTimeout(
+        () => {
+          bot.chat(`/pc ${sender.username}: ${args.slice(1).join(" ")}`);
+        },
+        (i + 1) * 2000,
+      );
     }
   },
 };

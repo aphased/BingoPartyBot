@@ -4,6 +4,7 @@ export default {
   name: ["guide", "gd", "g"], // This command will be triggered by either command1 or command2
   ignore: false, // Whether to ignore this file or not
   description: "Guide Command", // Description of the command
+  permission: Permissions.Trusted,
   /**
    *
    * @param {import("../../Bot.mjs").default} bot

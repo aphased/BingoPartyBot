@@ -1,9 +1,0 @@
-drain
-disband
-addUser
-su
-cmd
-warp
-msg
-
-endParty

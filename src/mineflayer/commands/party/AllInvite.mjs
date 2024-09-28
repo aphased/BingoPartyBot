@@ -12,7 +12,7 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    bot.chat(`/pc ${sender.username} has enabled all invite for the party.`);
+    bot.chat(`/pc ${sender.username} toggled the All Invite setting.`);
     setTimeout(() => {
       bot.chat("/p settings allinvite");
       bot.webhook.send(
@@ -20,8 +20,8 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `Enabled all invite for the party. Command executed by ${sender.username}`,
-        }
+          content: `\`${sender.username}\` toggled the All Invite setting.`,
+        },
       );
     }, 550);
   },

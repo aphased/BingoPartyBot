@@ -2,10 +2,10 @@ import { Permissions } from "../../../utils/Interfaces.mjs";
 import loadPartyCommands from "../../handlers/PartyCommandHandler.mjs";
 
 export default {
-  name: ["preferredname", "pn"],
+  name: ["preferredname", "pn", "name"],
   ignore: false,
   description: "Sets your preferred name so the bot knows what to call you",
-  permission: Permissions.Admin,
+  permission: Permissions.HoB,
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -15,15 +15,22 @@ export default {
   execute: async function (bot, sender, args) {
     if (args.length === 0)
       return bot.reply(sender.username, "Please provide a name!");
-    if (args[0].length > 16)
-      return bot.reply(
+    if (args[0].length > 16) {
+      bot.reply(
         sender.username,
-        "The name you provided is too long! (16 is the max)"
-      );
+        "The preferred name you provided is too long!",
+      ),
+        setTimeout(() => {
+          bot.reply(
+            sender.username,
+            "The limit for preferred names is 16 characters.",
+          );
+        }, 550);
+    }
     bot.utils.setPreferredUsername({ name: sender, preferredName: args[0] });
     bot.reply(
       sender.username,
-      `Your preferred name has been set to ${args[0]}`
+      `Your preferred name has been set to ${args[0]}.`,
     );
   },
 };

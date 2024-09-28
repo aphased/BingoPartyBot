@@ -4,7 +4,7 @@ export default {
   name: ["rule"], // This command will be triggered by either command1 or command2
   ignore: false, // Whether to ignore this file or not
   description: "Rule Command", // Description of the command
-  permission: Permissions.Trusted, // Permission level required to execute
+  permission: Permissions.ExSplasher, // Permission level required to execute
   /**
    *
    * @param {import("../../Bot.mjs").default} bot

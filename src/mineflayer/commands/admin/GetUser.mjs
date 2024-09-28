@@ -8,7 +8,7 @@ export default {
   description:
     "See if a user is on the permission list, and what permissions they have",
   //One day this will also have ban info? maybe?
-  permission: Permissions.Owner,
+  permission: Permissions.Trusted,
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -20,17 +20,21 @@ export default {
     let uuid = await bot.utils.getUUID(user);
     if (!uuid) return bot.reply(sender.username, "User not found!");
     let playerNames = bot.utils.playerNamesDatabase.get("data");
-    let index = playerNames.findIndex(x =>
-      x.accounts.find(y => y.uuid === uuid)
+    let index = playerNames.findIndex((x) =>
+      x.accounts.find((y) => y.uuid === uuid),
     );
-    if (index === -1) return bot.reply(sender.username, "User does not exist!");
+    if (index === -1)
+      return bot.reply(
+        sender.username,
+        "That person does not have any party permissions.",
+      );
     let userObj = playerNames[index];
     let rank = Object.keys(Permissions).find(
-      x => Permissions[x] === userObj.permissionRank
+      (x) => Permissions[x] === userObj.permissionRank,
     );
     bot.reply(
       sender.username,
-      `User: ${user} Rank: ${rank} (Level: ${userObj.permissionRank})`
+      `User: ${user} Rank: ${rank} (Level: ${userObj.permissionRank})`,
     );
   },
 };

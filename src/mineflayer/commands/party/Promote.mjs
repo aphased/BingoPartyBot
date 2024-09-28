@@ -14,7 +14,7 @@ export default {
   execute: async function (bot, sender, args) {
     let player = args[0] || sender.username;
     // Code here
-    bot.chat(`/pc ${sender.username} has promoted ${player} in the party.`);
+    bot.chat(`/pc ${player} was promoted by ${sender.username}`);
     setTimeout(() => {
       bot.chat(`/p promote ${player}`);
       bot.webhook.send(
@@ -22,8 +22,8 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `Promoted ${player} in the party. Command executed by ${sender.username}`,
-        }
+          content: `Promoted \`${player}\` in the party. Command executed by \`${sender.username}\``,
+        },
       );
     }, 550);
   },
