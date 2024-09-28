@@ -18,7 +18,8 @@ export default {
     let repetitions = parseInt(args[0]);
     if (isNaN(repetitions)) repetitions = 5;
     if (repetitions > 7) repetitions = 7;
-    let duration = parseInt(args[1]);
+    let duration = parseFloat(args[1]);
+    if(duration < 0.5) duration = 0.5;
     if (isNaN(duration)) duration = 2;
     bot.chat(`/pc ${sender.username}: ${args.slice(2).join(" ")}`);
     repetitions--;
