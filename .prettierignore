@@ -5,4 +5,4 @@ package.json
 TODO.md
 *.ps1
 *.json
-data/*
+data/

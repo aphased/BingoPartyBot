@@ -19,6 +19,7 @@ export default {
     let rank = args[1];
     let mainUser = args[2];
     console.log(user, rank, mainUser);
+    if(!user || !rank) return bot.reply(sender.username, "Please provide a user and a rank!");
     rank = Utils.capitalizeFirstLetter(rank);
     let uuid = await bot.utils.getUUID(user);
     let mainUserUUID = await bot.utils.getUUID(mainUser);
