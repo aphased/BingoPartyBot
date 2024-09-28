@@ -18,7 +18,6 @@ export default {
         "Please provide a username to transfer the party to."
       );
     bot.chat("/pc The party was transferred to " + args[0]);
-    bot.chat("/pc The party was transferred to " + args[0]);
     setTimeout(() => {
       bot.chat(`/p transfer ${args[0]}`);
       bot.webhook.send(
