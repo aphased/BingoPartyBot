@@ -13,16 +13,22 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
+    if (args.length < 1) {
+      bot.reply(sender.username, "Please provide a message to send.");
+      return;
+    }
     let repetitions = parseInt(args[0]);
-    if (isNaN(repetitions)) repetitions = 5;
+    let startIndex = 1;
+    if (isNaN(repetitions)) {
+      repetitions = 5;
+      startIndex = 0;
+    }
     if (repetitions > 7) repetitions = 7;
 
-    bot.chat(`/pc ${sender.username}: ${args.slice(1).join(" ")}`);
-    repetitions--;
     for (let i = 0; i < repetitions; i++) {
       setTimeout(() => {
-        bot.chat(`/pc ${sender.username}: ${args.slice(1).join(" ")}`);
-      }, (i + 1) * 2000);
+        bot.chat(`/pc ${sender.username}: ${args.slice(startIndex).join(" ")}`);
+      }, i * 2000);
     }
   },
 };
