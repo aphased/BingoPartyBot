@@ -26,12 +26,14 @@ class Discord {
       this.interactionCreate = this.interactionCreate.bind(this);
       this.bot.once("ready", this.clientReady);
       this.bot.on("interactionCreate", this.interactionCreate);
-      setInterval(
-        () => this.checkBingoMessage(this.config.discordBotInfo.guideChannel),
-        10000,
-      );
+      if (this.config?.discordBotInfo?.guideChannel) {
+        setInterval(
+          () => this.checkBingoMessage(this.config.discordBotInfo.guideChannel),
+          10000
+        );
+      }
     } else {
-      this.disabled = true; // Disable the bot if no token is provided (idk when this will be needed but why not)
+      this.disabled = true; // Disable the bot if no token is provided (idk whe n this will be needed but why not)
     }
   }
 

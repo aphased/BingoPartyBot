@@ -17,6 +17,7 @@ class Utils {
     this.refreshRulesList(); // Turn on rulesList refreshing
     this.link = new Link(); // Set Link class
     this.webhookLogger = new WebhookLogger(); // Set WebhookLogger class
+    this.discordAnsiCodes = discordAnsiCodes;
   }
 
   setDebug(debug) {
@@ -546,6 +547,31 @@ const bridgeMessageRegex =
 const partyMemberEventRegex =
   /(left the party.|joined the party.|disconnected, they have 5 minutes to rejoin before they are removed from the party.|was removed from your party because they disconn)/;
 const partyMemberKickedRegex = /(has been removed from the party.)/;
+
+const discordAnsiCodes = {
+  "§0": "\u001b[30m",
+  "§1": "\u001b[34m",
+  "§2": "\u001b[32m",
+  "§3": "\u001b[36m",
+  "§4": "\u001b[31m",
+  "§5": "\u001b[35m",
+  "§6": "\u001b[33m",
+  "§7": "\u001b[37m",
+  "§8": "\u001b[30m",
+  "§9": "\u001b[34m",
+  "§a": "\u001b[32m",
+  "§b": "\u001b[36m",
+  "§c": "\u001b[31m",
+  "§d": "\u001b[35m",
+  "§e": "\u001b[33m",
+  "§f": "\u001b[37m",
+  "§l": "\u001b[1m",
+  "§o": "\u001b[3m",
+  "§n": "\u001b[4m",
+  "§m": "\u001b[9m",
+  "§k": "\u001b[6m",
+  "§r": "\u001b[0m",
+};
 
 export default {
   removeRank: function (name) {
