@@ -322,7 +322,8 @@
           "name": "gphased",
           "uuid": null
         }
-      ]
+      ],
+      "permissionRank": 5
     },
     {
       "accounts": [
@@ -713,7 +714,9 @@
           "uuid": "2ad27919f1ab4872bd14a998287022c9"
         }
       ],
-      "permissionRank": 2
+      "permissionRank": 2,
+      "hypixelRank": "[MVP+]",
+      "preferredName": "Poisopoi"
     },
     {
       "accounts": [
@@ -926,7 +929,7 @@
           "uuid": "7deb8ce555d84b268658fa5c2fa743cd"
         }
       ],
-      "permissionRank": 5,
+      "permissionRank": 2,
       "hypixelRank": "[VIP]",
       "preferredName": "jbanate"
     },

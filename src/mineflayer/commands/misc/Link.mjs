@@ -4,6 +4,7 @@ export default {
   name: ["link"], // This command will be triggered by either command1 or command2
   ignore: false, // Whether to ignore this file or not
   description: "Link Command", // Description of the command
+  permission: Permissions.Trusted,
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -14,7 +15,7 @@ export default {
     if (!args[0])
       return bot.reply(
         sender.username,
-        "Please provide a code to link your account"
+        "Please provide a code to link your account",
       );
     let code = args[0];
     let status = bot.utils.link.getId(code);

@@ -1,10 +1,11 @@
 import { Permissions } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["mute", "unmute"], // This command will be triggered by either command1 or command2
+  name: ["close", "private"], // This command will be triggered by either command1 or command2
   ignore: false, // Whether to ignore this file or not
-  description: "Mute Command", // Description of the command
-  permission: Permissions.Trusted, // Permission level required to execute this command
+  description:
+    "Closes the party", // Description of the command
+  permission: Permissions.Staff, // Permission level required to execute this command
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -12,16 +13,15 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    // Code here
-    bot.chat("/p mute");
+    bot.chat(`/pc Party was closed by ${sender.username}`);
     setTimeout(() => {
-      bot.chat(`/pc Party mute was toggled by ${sender.username}.`);
+      bot.chat(`/pc`);
       bot.webhook.send(
         {
           username: bot.config.webhook.name,
         },
         {
-          content: `Party mute was toggled by \`${sender.username}\`.`,
+          content: `Party was closed by \`${sender.username}\`.`,
         },
       );
     }, 550);

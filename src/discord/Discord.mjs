@@ -33,7 +33,7 @@ class Discord {
         );
       }
     } else {
-      this.disabled = true; // Disable the bot if no token is provided (idk when this will be needed but why not)
+      this.disabled = true; // Disable the bot if no token is provided (idk whe n this will be needed but why not)
     }
   }
 

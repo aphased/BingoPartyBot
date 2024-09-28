@@ -1,5 +1,8 @@
 {
   "devDependencies": {
+    "husky": "^9.1.6",
+    "prettier": "3.3.3",
+    "pretty-quick": "^4.0.0",
     "typescript": "^5.3.3"
   },
   "name": "bingoparty-mineflayer",
@@ -21,5 +24,10 @@
     "simple-json-db": "^2.0.0",
     "strip-ansi": "^7.1.0",
     "winston": "^3.14.2"
+  },
+  "husky": {
+  "hooks": {
+    "pre-commit": "pretty-quick --staged"
   }
+}
 }
