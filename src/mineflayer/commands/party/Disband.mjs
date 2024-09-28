@@ -15,8 +15,7 @@ export default {
   execute: async function (bot, sender, args) {
     // Code here
     bot.chat(
-      "/pc This party will be disbanded in 10 seconds! Command ran by: " +
-        sender.username
+      `/pc Party was disbanded by ${sender.username}. 10 seconds remaining until disband!`,
     );
     setTimeout(() => {
       bot.chat("/p disband");
@@ -25,8 +24,8 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `Disbanded party. Command executed by ${sender.username}`,
-        }
+          content: `Party was disbanded by \`${sender.username}\`.`,
+        },
       );
     }, 10000);
   },

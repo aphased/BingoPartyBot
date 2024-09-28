@@ -21,7 +21,7 @@ export default {
       message = message.content;
       bot.utils.sendWebhookMessage(
         message,
-        bot.utils.classifyMessage(message.toString())
+        bot.utils.classifyMessage(message.toString()),
       );
     }
     if (RegExp(/^From /g).test(message.toString())) {
@@ -29,8 +29,8 @@ export default {
       if (command.toLowerCase().startsWith("boop!"))
         return bot.chat(
           `/p invite ${Utils.removeRank(
-            message.toString().split(": ")[0].replace("From ", "")
-          )}`
+            message.toString().split(": ")[0].replace("From ", ""),
+          )}`,
         );
       if (command.toLowerCase().includes("help"))
         // TODO: execute "normal" help command here so logic isn't duplicated
@@ -43,7 +43,7 @@ export default {
         // someone please help me i am typing this at 2:42 in the morning and im going mental
         return bot.reply(
           "",
-          "Read the documentation at GitHub: aphased/BingoPartyCommands"
+          "Read the documentation on GitHub: aphased/BingoPartyCommands",
         );
 
       let args = command.split(" "); // Get the arugments of the command
@@ -55,12 +55,12 @@ export default {
         commandFound = bot.partyCommands.find(
           (value, key) =>
             key.includes(args[1].toLowerCase()) &&
-            value.customPrefix.toLowerCase() === args[0].toLowerCase()
+            value.customPrefix.toLowerCase() === args[0].toLowerCase(),
         );
       } else {
         commandFound = bot.partyCommands.find(
           (value, key) =>
-            key.includes(args[1].toLowerCase()) && !value.customPrefix
+            key.includes(args[1].toLowerCase()) && !value.customPrefix,
         );
       }
       let commandName = args[1]; // Get the command name
@@ -72,7 +72,7 @@ export default {
         //okay i know its not really neccesary but like make the bot more responsive i guess
         //i didnt use bot.reply because it crashes using sender.username which is probalby due to it being right below me vvvvvvvvvvvvvvv
         let sender = Utils.removeRank(
-          message.toString().split(": ")[0].replace("From ", "")
+          message.toString().split(": ")[0].replace("From ", ""),
         );
         bot.utils.setUserRank({
           name: sender,
@@ -97,7 +97,7 @@ export default {
         else
           bot.reply(
             sender.username,
-            "You do not have permission to run this command!"
+            "You do not have permission to run this command!",
           );
       }
     }

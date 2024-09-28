@@ -17,7 +17,7 @@ export default {
       },
       {
         content: "Kicked from server for reason: " + reason.extra[0].text,
-      }
+      },
     );
   },
 };

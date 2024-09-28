@@ -28,7 +28,7 @@ export default {
           })
           .setTitle("Link your account")
           .setDescription(
-            `To link your account to the bot, use the following code in the game: \`${code}\``
+            `To link your account to the bot, use the following code in the game: \`${code}\``,
           )
           .setColor("Green")
           .setTimestamp()
@@ -51,7 +51,7 @@ export default {
               })
               .setTitle("Link your account")
               .setDescription(
-                "You have exceeded the maximum time to link your account"
+                "You have exceeded the maximum time to link your account",
               )
               .setColor("Red")
               .setTimestamp(),
@@ -75,7 +75,7 @@ export default {
               .setDescription(
                 "Your account has been linked successfully to `" +
                   status.username +
-                  "`"
+                  "`",
               )
               .setColor("Green")
               .setTimestamp(),

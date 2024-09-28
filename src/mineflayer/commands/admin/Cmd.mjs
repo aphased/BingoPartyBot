@@ -1,7 +1,7 @@
 import { Permissions } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["cmd"], // This command will be triggered by either command1 or command2
+  name: ["exec", "execute", "cmd"], // This command will be triggered by either command1 or command2
   ignore: false, // Whether to ignore this file or not
   description:
     "Admin-only, full execution of arguments as a chat command on the bot account (minus leading slash)", // Description of the command
@@ -14,5 +14,8 @@ export default {
    */
   execute: async function (bot, sender, args) {
     bot.chat("/" + args.join(" "));
+    setTimeout(() => {
+      bot.reply(sender.username, `Executed command: ${args.join(" ")}`);
+    }, 550);
   },
 };
