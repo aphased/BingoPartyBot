@@ -1,5 +1,5 @@
 import { Collection } from "discord.js";
-import Utils, { utils } from "../../utils/Utils.mjs";
+import Utils from "../../utils/Utils.mjs";
 
 export default {
   name: "MessageEvent",
@@ -13,7 +13,7 @@ export default {
     if (bot.config.showMcChat && !message.self) {
       console.log(message.toAnsi());
       bot.utils.sendWebhookMessage(
-        message.toAnsi(undefined, utils.discordAnsiCodes),
+        message.toAnsi(undefined, bot.utils.discordAnsiCodes),
         bot.utils.classifyMessage(message.toString())
       );
     }
