@@ -22,7 +22,7 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `Party was set to public (${amount}). Command executed by ${sender}`,
+          content: `Party was set to public (${amount}). Command executed by ${sender.username}`,
         }
       );
     }, 550);

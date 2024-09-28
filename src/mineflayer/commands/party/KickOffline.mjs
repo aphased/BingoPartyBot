@@ -21,7 +21,7 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `Kicked all offline players. Command executed by ${sender}`,
+          content: `Kicked all offline players. Command executed by ${sender.username}`,
         }
       );
     }, 550);
