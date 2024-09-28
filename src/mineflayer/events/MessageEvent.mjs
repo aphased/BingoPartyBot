@@ -13,7 +13,7 @@ export default {
     if (bot.config.showMcChat && !message.self) {
       console.log(message.toAnsi());
       bot.utils.sendWebhookMessage(
-        message.toAnsi(),
+        message.toAnsi(undefined, bot.utils.discordAnsiCodes),
         bot.utils.classifyMessage(message.toString())
       );
     }

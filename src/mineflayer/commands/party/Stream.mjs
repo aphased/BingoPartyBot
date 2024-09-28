@@ -15,7 +15,6 @@ export default {
   execute: async function (bot, sender, args) {
     let amount = parseInt(args[0]) || 100;
     bot.chat(`/pc Party size was set to ${amount} by ${sender.username}.`);
-    bot.chat(`/pc Party size was set to ${amount} by ${sender.username}.`);
     setTimeout(() => {
       bot.chat(`/stream open ${amount}`);
       bot.webhook.send(
@@ -23,7 +22,7 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `Party was set to public (${amount}). Command executed by ${sender}`,
+          content: `Party was set to public (${amount}). Command executed by ${sender.username}`,
         }
       );
     }, 550);
