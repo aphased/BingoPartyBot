@@ -98,11 +98,15 @@ class Utils {
 
   // Get uuid from username
   async getUUID(username) {
-    let data = await axios.get(
-      `https://api.mojang.com/users/profiles/minecraft/${username}`,
-    );
-    if (data.data.errorMessage) return null;
-    return data.data.id;
+    try {
+      let data = await axios.get(
+        `https://api.mojang.com/users/profiles/minecraft/${username}`
+      );
+      if (data.data.errorMessage) return null;
+      return data.data.id;
+    } catch (e) {
+      return null;
+    }
   }
 
   // Get username from uuid
