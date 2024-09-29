@@ -10,7 +10,8 @@
 
 # Also don't upload all dependencies (like 300 MB lol)
 node_modules/
-
+package.json
+package-lock.json
 old/*
 
 Config.mjs

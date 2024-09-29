@@ -15,6 +15,7 @@ export default {
     let player = args[0];
     if (!player)
       return bot.reply(sender.username, "Please provide a player to ban.");
+    let reason = args.slice(1).join(" ") || "No reason given.";
     bot.chat(
       `/pc ${player} was removed from the party and blocked from rejoining by ${sender.username}.`,
     );
@@ -31,7 +32,7 @@ export default {
                 username: bot.config.webhook.name,
               },
               {
-                content: `\`${player}\` was banned from the party by \`${sender.username}\`.`,
+                content: `\`${player}\` was banned from the party by \`${sender.username}\`. Reason: \`${reason}\``,
               },
             );
           }, 550);

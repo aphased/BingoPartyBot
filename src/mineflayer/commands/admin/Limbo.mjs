@@ -16,7 +16,7 @@ export default {
     setTimeout(() => {
       bot.chat("/limbo");
       setTimeout(() => {
-        bot.reply("Limboed!");
+        bot.reply(sender.username, `Limboed!`);
       }, 550);
     }, 550);
   },
