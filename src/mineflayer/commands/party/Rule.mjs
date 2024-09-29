@@ -21,6 +21,6 @@ export default {
     bot.chat("/pc --- Bingo Brewers Rules (Outdated)---");
     setTimeout(() => {
       bot.chat(`/pc Rule ${ruleNum}: ${rule}`);
-    }, 550);
+    }, bot.utils.minMsgDelay);
   },
 };

@@ -22,6 +22,7 @@ export default {
       duration = 2;
       startIndex--;
     }
+    if(duration < 0.5) duration = 0.5;
     if(isNaN(repetitions)) {
       repetitions = 5;
       startIndex--;
@@ -34,7 +35,7 @@ export default {
         bot.reply(sender.username, "To use this command, use: !p customrepeat <repetitions> <duration> <message>")
         setTimeout(() => {
           bot.reply(sender.username, "For example: !p rep 5 1 Hello world!")
-        }, 550)
+        }, bot.utils.minMsgDelay)
       }, 550)
       return;
     }
@@ -44,23 +45,5 @@ export default {
         bot.chat(`/pc ${sender.username}: ${args.slice(startIndex).join(" ")}`);
       }, i * (duration * 1000));
     }
-
-    /*
-    if (isNaN(repetitions)) repetitions = 5;
-    if(duration < 0.5) duration = 0.5;
-    if (isNaN(duration)) duration = 2;
-
-    if(args.slice(2).join(" "))
-
-    bot.chat(`/pc ${sender.username}: ${args.slice(2).join(" ")}`);
-    repetitions--;
-    for (let i = 0; i < repetitions; i++) {
-      setTimeout(
-        () => {
-          bot.chat(`/pc ${sender.username}: ${args.slice(2).join(" ")}`);
-        },
-        (i + 1) * (duration * 1000),
-      );
-    } */
   },
 };

@@ -25,6 +25,6 @@ export default {
           content: `Party was closed by \`${sender.username}\`. Reason: \`${reason}\``,
         },
       );
-    }, 550);
+    }, bot.utils.minMsgDelay);
   },
 };

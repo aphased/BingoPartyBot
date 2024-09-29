@@ -31,7 +31,7 @@ but for now itll be admin only because this command is very much poisable
 
       setTimeout(() => {
         bot.chat("/streamgui settings empty");
-      }, 550);
+      }, bot.utils.minMsgDelay);
 
       bot.webhook.send(
         {

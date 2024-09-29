@@ -16,6 +16,6 @@ export default {
     bot.chat(`/p invite ${player}`);
     setTimeout(() => {
       bot.chat(`/pc ${sender.username} invited ${player} to the party.`);
-    }, 550);
+    }, bot.utils.minMsgDelay);
   },
 };

@@ -27,6 +27,6 @@ export default {
           content: `\`${player}\` was kicked from the party by \`${sender.username}\`. Reason: \`${reason}\``,
         },
       );
-    }, 550);
+    }, bot.utils.minMsgDelay);
   },
 };

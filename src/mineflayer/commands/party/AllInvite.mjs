@@ -23,6 +23,6 @@ export default {
           content: `\`${sender.username}\` toggled the All Invite setting.`,
         },
       );
-    }, 550);
+    }, bot.utils.minMsgDelay);
   },
 };

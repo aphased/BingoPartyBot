@@ -27,8 +27,8 @@ export default {
         bot.reply(sender.username, "To use this command, use: !p repeat <repetitions> <message>")
         setTimeout(() => {
           bot.reply(sender.username, "For example: !p rep 5 Hello world!")
-        }, 550)
-      }, 550)
+        }, bot.utils.minMsgDelay)
+      }, bot.utils.minMsgDelay)
       return;
     }
 

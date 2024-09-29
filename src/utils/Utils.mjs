@@ -18,6 +18,7 @@ class Utils {
     this.link = new Link(); // Set Link class
     this.webhookLogger = new WebhookLogger(); // Set WebhookLogger class
     this.discordAnsiCodes = discordAnsiCodes;
+    this.minMsgDelay = 550;
   }
 
   setDebug(debug) {

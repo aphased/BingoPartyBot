@@ -25,7 +25,7 @@ export default {
             sender.username,
             "The limit for preferred names is 16 characters.",
           );
-        }, 550);
+        }, bot.utils.minMsgDelay);
     }
     bot.utils.setPreferredUsername({ name: sender.username, preferredName: args[0] });
     bot.reply(
