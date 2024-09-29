@@ -15,7 +15,7 @@ export default {
   execute: async function (bot, sender, args) {
     bot.chat("/" + args.join(" "));
     setTimeout(() => {
-      bot.reply(sender.username, bot.minMsgDelay + `Executed command: ${args.join(" ")}`);
+      bot.reply(sender.username, `Executed command: ${args.join(" ")}`);
     }, bot.utils.minMsgDelay);
   },
 };

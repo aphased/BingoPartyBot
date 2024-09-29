@@ -16,7 +16,7 @@ export default {
     let reason = args.slice(0).join(" ") || "No reason given.";
     bot.chat(`/pc Party was closed by ${sender.username}.`);
     setTimeout(() => {
-      bot.chat(`/pc`);
+      bot.chat(`/stream close`);
       bot.webhook.send(
         {
           username: bot.config.webhook.name,

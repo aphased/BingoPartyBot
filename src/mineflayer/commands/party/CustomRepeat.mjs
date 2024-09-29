@@ -23,6 +23,7 @@ export default {
       startIndex--;
     }
     if(duration < 0.5) duration = 0.5;
+    if(duration > 9) duration = 9;
     if(isNaN(repetitions)) {
       repetitions = 5;
       startIndex--;
