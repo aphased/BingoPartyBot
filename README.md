@@ -54,7 +54,7 @@ in-game via the console stdin
 
 <!-- (generated from !`tree -I node_modules` then auto-inserted in Helix) -->
 
-```
+```tree
 .
 ├── Config.example.mjs
 ├── Config.mjs
@@ -64,6 +64,7 @@ in-game via the console stdin
 │   ├── autoKickWords.json
 │   ├── banned.json
 │   ├── bingoBrewersRules.json
+│   ├── generalDatabase.json
 │   ├── playerNames.json
 │   ├── playerNamesOld.json
 │   ├── playerNamesOldFormat.json
@@ -78,6 +79,7 @@ in-game via the console stdin
     │   ├── components
     │   │   └── commands
     │   │       ├── ExampleCommand.mjs
+    │   │       ├── Guide.mjs
     │   │       └── Link.mjs
     │   ├── handlers
     │   │   └── CommandHandler.mjs
@@ -92,6 +94,7 @@ in-game via the console stdin
     │   │   │   ├── DisableCommands.mjs
     │   │   │   ├── EnableCommands.mjs
     │   │   │   ├── GetUser.mjs
+    │   │   │   ├── Limbo.mjs
     │   │   │   ├── PreferredName.mjs
     │   │   │   ├── ReloadCommands.mjs
     │   │   │   ├── RemoveUser.mjs
@@ -99,22 +102,27 @@ in-game via the console stdin
     │   │   ├── misc
     │   │   │   ├── Help.mjs
     │   │   │   └── Link.mjs
-    │   │   └── party
-    │   │       ├── AllInvite.mjs
-    │   │       ├── CustomRepeat.mjs
-    │   │       ├── Disband.mjs
-    │   │       ├── Guide.mjs
-    │   │       ├── Invite.mjs
-    │   │       ├── Kick.mjs
-    │   │       ├── KickOffline.mjs
-    │   │       ├── Mute.mjs
-    │   │       ├── Poll.mjs
-    │   │       ├── Promote.mjs
-    │   │       ├── Repeat.mjs
-    │   │       ├── Rule.mjs
-    │   │       ├── Say.mjs
-    │   │       ├── Stream.mjs
-    │   │       └── Transfer.mjs
+    │   │   ├── party
+    │   │   │   ├── AllInvite.mjs
+    │   │   │   ├── Ban.mjs
+    │   │   │   ├── Close.mjs
+    │   │   │   ├── CustomRepeat.mjs
+    │   │   │   ├── Disband.mjs
+    │   │   │   ├── Guide.mjs
+    │   │   │   ├── Invite.mjs
+    │   │   │   ├── Kick.mjs
+    │   │   │   ├── KickOffline.mjs
+    │   │   │   ├── Mute.mjs
+    │   │   │   ├── Poll.mjs
+    │   │   │   ├── Promote.mjs
+    │   │   │   ├── Repeat.mjs
+    │   │   │   ├── Rule.mjs
+    │   │   │   ├── Say.mjs
+    │   │   │   ├── Stream.mjs
+    │   │   │   ├── Transfer.mjs
+    │   │   │   └── Unban.mjs
+    │   │   └── sudo
+    │   │       └── Drain.mjs
     │   ├── events
     │   │   ├── MessageEvent.mjs
     │   │   ├── OnKick.mjs

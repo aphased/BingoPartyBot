@@ -20,7 +20,7 @@ export default {
   },
   discordBotInfo: {
     token: "DISCORD BOT TOKEN HERE (or empty string)",
-    guideChannel: "",
+    guideChannel: "ID for the channel which has bingo guide links",
   },
   guideLink: "", // I advise you to keep this empty, and just use discord commands to set the guide link or the guide channel.
   showMcChat: true,

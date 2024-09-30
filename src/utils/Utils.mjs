@@ -97,16 +97,20 @@ class Utils {
     }, 10000);
   }
 
-  // Get uuid from username
+  /** Get Minecraft player uuid from username */
   async getUUID(username) {
-    let data = await axios.get(
-      `https://api.mojang.com/users/profiles/minecraft/${username}`,
-    );
-    if (data.data.errorMessage) return null;
-    return data.data.id;
+    try {
+      let data = await axios.get(
+        `https://api.mojang.com/users/profiles/minecraft/${username}`
+      );
+      if (data.data.errorMessage) return null;
+      return data.data.id;
+    } catch (e) {
+      return null;
+    }
   }
 
-  // Get username from uuid
+  /** Get Minecraft player username from uuid */
   async getUsername(uuid) {
     let data = await axios.get(
       `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`,
@@ -115,6 +119,37 @@ class Utils {
     return data.data.name;
   }
 
+  /**
+   * Retrieves a list of user accounts filtered by the specified permission
+   * rank.
+   *
+   * @param {Permissions} rank - The rank from the Permissions enum by which to filter users.
+   *
+   * @returns {Array<Object>}
+   * An array containing one or more objects that hold details for every
+   * match to the given permission rank: Per actual player on record with that
+   * permission, an object containing an array of all user accounts and other
+   * related attributes. The structure per returned object (per actual player
+   * with that rank) is as follows:
+   * ```json
+   * [
+   *   {
+   *     "accounts": [
+   *       {
+   *         "name": "string",
+   *         "uuid": "string|null"
+   *       },
+   *       ...
+   *     ],
+   *     "permissionRank": 0-5,
+   *     "hypixelRank": "string",
+   *     "preferredName": "string",
+   *     "discord": "string"
+   *   },
+   *   ...
+   * ]
+   * ```
+   */
   getUsersByPermissionRank(rank) {
     return this.playerNamesDatabase
       .get("data")
@@ -393,6 +428,9 @@ class Utils {
         let discWebhook = new WebhookClient({ url: key });
         await discWebhook.send(`\`\`\`ansi\n${message}\`\`\``);
       } catch (e) {
+        // TODO: give this an "acknowledged" mode/toggle on a per-launch basis
+        // which from then on will allow console viewers to suppress this
+        // (otherwise fairly spammy) message:
         this.log(
           `Error sending one of the webhooks a message, please check the URL.`,
           "error",
