@@ -16,6 +16,7 @@ class Utils {
     this.rulesList = rulesList; // Set rulesList
     this.refreshRulesList(); // Turn on rulesList refreshing
     this.link = new Link(); // Set Link class
+    this.discordReply = new DiscordReply(); // Set DiscordReply class
     this.webhookLogger = new WebhookLogger(); // Set WebhookLogger class
     this.discordAnsiCodes = discordAnsiCodes;
     this.minMsgDelay = 550;
@@ -202,17 +203,20 @@ class Utils {
 
     if (options.uuid) options.uuid = options.uuid.toLowerCase();
     if (options.name) options.name = options.name.toLowerCase();
-    if (options.discord) options.discord = options.discord.toLowerCase();
+    if (options.discord) {
+      let data = this.playerNamesDatabase
+        .get("data")
+        .find((x) => x.discord == options.discord);
+      if (!data) return null;
+      return data;
+    }
     return this.playerNamesDatabase
       .get("data")
       .find((x) =>
         x.accounts.some(
           (y) =>
             (options.uuid && y.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name && y.name.toLowerCase() == options.name) ||
-            (options.discord &&
-              y.discord &&
-              y.discord.toLowerCase() == options.discord),
+            (options.name && y.name && y.name.toLowerCase() == options.name)
         ),
       );
   }
@@ -539,6 +543,33 @@ class Link {
   }
 
   setId(code, data) {
+    this.collection.set(code, data);
+  }
+}
+
+class DiscordReply {
+  constructor() {
+    this.collection = new Collection();
+  }
+
+  addReply(id) {
+    let code = utils.generateRandomString(6);
+    this.collection.set(code, {
+      id: id,
+      verified: false,
+    });
+    return code;
+  }
+
+  removeReply(code) {
+    this.collection.delete(code);
+  }
+
+  getReply(code) {
+    return this.collection.get(code);
+  }
+
+  setReply(code, data) {
     this.collection.set(code, data);
   }
 }
