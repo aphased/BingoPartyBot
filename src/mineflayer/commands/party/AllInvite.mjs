@@ -20,7 +20,7 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `\`${sender.username}\` toggled the All Invite setting.`,
+          content: `\`${sender.username}\` toggled the All Invite party setting.`,
         },
       );
     }, bot.utils.minMsgDelay);
