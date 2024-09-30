@@ -20,6 +20,6 @@ export default {
     bot.chat(args.join(" "));
     setTimeout(() => {
       bot.reply(sender.username, `Sent "${args.join(" ")}" in chat.`);
-    }, 550);
+    }, bot.utils.minMsgDelay);
   },
 };

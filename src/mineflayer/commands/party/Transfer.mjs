@@ -29,6 +29,6 @@ export default {
           content: `Party was transferred to \`${player}\` by \`${sender.username}\`.`,
         },
       );
-    }, 550);
+    }, bot.utils.minMsgDelay);
   },
 };

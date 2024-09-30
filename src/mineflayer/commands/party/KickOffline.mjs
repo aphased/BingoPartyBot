@@ -24,6 +24,6 @@ export default {
           content: `Offline players were purged by \`${sender.username}\`.`,
         },
       );
-    }, 550);
+    }, bot.utils.minMsgDelay);
   },
 };

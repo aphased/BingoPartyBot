@@ -32,9 +32,9 @@ export default {
                 content: `\`${player}\` was unbanned from the party by \`${sender.username}\`.`,
               },
             );
-          }, 550);
-        }, 550);
-      }, 550);
-    }, 550);
+          }, bot.utils.minMsgDelay);
+        }, bot.utils.minMsgDelay);
+      }, bot.utils.minMsgDelay);
+    }, bot.utils.minMsgDelay);
   },
 };

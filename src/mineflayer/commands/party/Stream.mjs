@@ -25,6 +25,6 @@ export default {
           content: `Party size was set to \`${amount}\` by \`${sender.username}\`.`,
         },
       );
-    }, 550);
+    }, bot.utils.minMsgDelay);
   },
 };
