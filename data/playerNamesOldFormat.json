@@ -474,6 +474,11 @@
     "names": ["mentaiko06", "scyox"],
     "permissionRank": "splasher"
   },
+  { 
+    "hypixelRank": "[VIP]",
+    "names": ["apehypocrite"],
+    "permissionRank": "splasher"
+  },
   {
     "hypixelRank": "[VIP++++]",
     "names": ["testNamePrimaryValue", "testNameSecondaryValue"],
