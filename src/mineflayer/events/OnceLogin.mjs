@@ -44,6 +44,30 @@ export default {
         process.exit(1);
       }, 1000);
     }
+    if (
+      bot.utils.getPermissionsByUser({ name: bot.bot.username }) <
+      Permissions.BotAccount
+    ) {
+      let data = bot.utils.playerNamesDatabase.get("data");
+      let userObject = data.find((x) =>
+        x.accounts.find((y) => y.name === bot.bot.username),
+      );
+      if (!userObject)
+        userObject = {
+          accounts: [
+            {
+              name: bot.bot.username,
+              uuid: await bot.utils.getUUID(bot.bot.username),
+            },
+          ],
+          preferredName: bot.bot.username,
+        };
+      userObject.permissionRank = Permissions.BotAccount;
+      if(data[data.indexOf(userObject)]) data[data.indexOf(userObject)] = userObject
+      else data.push(userObject);
+      bot.utils.playerNamesDatabase.set("data", data);
+      bot.utils.log("Bot account added to database", "Info");
+    }
     bot.webhook = new Webhook(bot.config.webhook.url);
     bot.webhook.send(
       {
