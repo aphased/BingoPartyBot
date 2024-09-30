@@ -99,11 +99,11 @@ class Discord {
     let message = messages.first();
     let messageTimeStamp = new Date(message.createdTimestamp);
     let currentTimeStamp = new Date();
-    if (messageTimeStamp.getMonth() !== currentTimeStamp.getMonth() - 1) return;
+    if (messageTimeStamp.getMonth() !== currentTimeStamp.getMonth()-1) return;
     if (/^(https:\/\/hypixel\.net\/threads\/bingo)/.test(message.content)) {
       let guide = this.utils.getMonthGuide();
       if (!guide) {
-        this.utils.setMonthGuide({ link: message.content });
+        this.utils.setMonthGuide({ link: message.content, time: (messageTimeStamp.getMonth()+2) + "/" + messageTimeStamp.getFullYear() });
       }
     }
   }

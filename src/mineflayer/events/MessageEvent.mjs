@@ -1,5 +1,6 @@
 import { Collection } from "discord.js";
 import Utils from "../../utils/Utils.mjs";
+import { SenderType } from "../../utils/Interfaces.mjs";
 
 export default {
   name: "MessageEvent",
@@ -10,6 +11,8 @@ export default {
    * @param {import("../Bot.mjs").default} bot
    */
   execute: async function (message, bot) {
+    let msgType = SenderType.Minecraft;
+    let discordReplyId;
     if (bot.config.showMcChat && !message.self) {
       console.log(message.toAnsi());
       bot.utils.sendWebhookMessage(
@@ -18,6 +21,11 @@ export default {
       );
     }
     if (message.self == true) {
+      msgType = SenderType.Console;
+      if(message.discord) {
+        msgType = SenderType.Discord;
+        discordReplyId = message.discordReplyId;
+      }
       message = message.content;
       bot.utils.sendWebhookMessage(
         message,
@@ -85,10 +93,12 @@ export default {
         sender = {
           username: sender,
           preferredName: bot.utils.getPreferredUsername({ name: sender }),
+          commandName: commandName,
+          type: msgType,
+          discordReplyId: discordReplyId,
         };
         if (!command.permission)
           return command.execute(bot, sender, commandArgs);
-        console.log(sender);
         if (
           command.permission <=
           bot.utils.getPermissionsByUser({ name: sender.username })
