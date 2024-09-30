@@ -11,43 +11,64 @@ export default {
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
-   * @param {String} sender
+   * @param {Object} sender
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    let user = args[0];
-    let rank = args[1];
-    let mainUser = args[2];
-    console.log(user, rank, mainUser);
-    if(!user || !rank) return bot.reply(sender.username, "Please provide a user and a rank!");
-    rank = Utils.capitalizeFirstLetter(rank);
-    let uuid = await bot.utils.getUUID(user);
-    let mainUserUUID = await bot.utils.getUUID(mainUser);
-    if (!uuid || (mainUser && !mainUserUUID))
-      return bot.reply(sender.username, "User not found!");
-    let playerNames = bot.utils.playerNamesDatabase.get("data");
-    if (playerNames.find((x) => x.accounts.find((y) => y.uuid === uuid)))
-      return bot.reply(sender.username, "User already exists!");
-    let rankNum = Permissions[rank];
-    if (!rankNum) return bot.reply(sender.username, "Invalid rank!");
-    if (mainUser) {
-      let users = playerNames.find((x) =>
-        x.accounts.find((y) => y.uuid === mainUserUUID),
+    if (args.length < 2)
+      return bot.reply(sender.username, "Usage: adduser <user> <permission>");
+    const user = args[0];
+    if (bot.utils.getUserObject({ name: args[1] })) {
+      const mainUser = args[1];
+      let data = bot.utils.playerNamesDatabase.get("data");
+      if (!data) data = [];
+      const userObject = data.find((x) =>
+        x.accounts.find((y) => y.name.toLowerCase() === mainUser.toLowerCase()),
       );
-      users.accounts.push({ name: user, uuid: uuid });
-      playerNames[playerNames.indexOf(users)] = users;
-    } else {
-      playerNames.push({
-        accounts: [
-          {
-            name: user,
-            uuid: uuid,
-          },
-        ],
-        permissionRank: rankNum,
+      if (!userObject) {
+        bot.reply(sender.username, "User not found");
+        return;
+      }
+      userObject.accounts.push({
+        name: user,
+        uuid: await bot.utils.getUUID(user),
       });
+      data[data.indexOf(userObject)] = userObject;
+      bot.utils.playerNamesDatabase.set("data", data);
+    } else {
+      let permission;
+      if (isNaN(args[1]))
+        permission = Permissions[Utils.capitalizeFirstLetter(args[1])];
+      else permission = parseInt(args[1]);
+      if (!permission) {
+        bot.reply(sender.username, "Invalid permission");
+        return;
+      }
+      let data = bot.utils.playerNamesDatabase.get("data");
+      if (!data) data = [];
+      let userObject = data.find((x) =>
+        x.accounts.find((y) => y.name.toLowerCase() === user.toLowerCase()),
+      );
+      if (userObject) {
+        userObject.permissionRank = permission;
+        data[data.indexOf(userObject)] = userObject;
+        bot.utils.playerNamesDatabase.set("data", data);
+        bot.reply(sender.username, "User updated");
+      } else {
+        data.push({
+          name: user,
+          permissionRank: permission,
+          accounts: [
+            {
+              name: user,
+              uuid: await bot.utils.getUUID(user),
+            },
+          ],
+          preferredName: user,
+        });
+        bot.utils.playerNamesDatabase.set("data", data);
+        bot.reply(sender.username, "User added");
+      }
     }
-    bot.utils.playerNamesDatabase.set("data", playerNames);
-    bot.reply(sender.username, `Added user ${user} with rank ${rank}`);
   },
 };
