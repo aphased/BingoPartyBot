@@ -22,7 +22,7 @@ but for now itll be admin only because this command is very much poisable
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    // Code here
+    let reason = args.slice(0).join(" ") || "No reason given.";
     bot.chat(
       `/pc The party was emptied by ${sender.username}. 10 seconds remaining until empty!`,
     );
@@ -31,14 +31,14 @@ but for now itll be admin only because this command is very much poisable
 
       setTimeout(() => {
         bot.chat("/streamgui settings empty");
-      }, 550);
+      }, bot.utils.minMsgDelay);
 
       bot.webhook.send(
         {
           username: bot.config.webhook.name,
         },
         {
-          content: `Emptied party. Command executed by \`${sender.username}\``,
+          content: `The party was emptied by \`${sender.username}\` Reason: \`${reason}\``,
         },
       );
     }, 10000);

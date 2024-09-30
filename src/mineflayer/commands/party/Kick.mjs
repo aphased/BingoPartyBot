@@ -13,6 +13,7 @@ export default {
    */
   execute: async function (bot, sender, args) {
     let player = args[0];
+    let reason = args.slice(1).join(" ") || "No reason given.";
     if (!player)
       return bot.reply(sender.username, "Please provide a player to kick.");
     bot.chat(`/pc ${player} was kicked from the party by ${sender.username}.`);
@@ -23,9 +24,9 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `\`${player}\` was kicked from the party by \`${sender.username}\`.`,
+          content: `\`${player}\` was kicked from the party by \`${sender.username}\`. Reason: \`${reason}\``,
         },
       );
-    }, 550);
+    }, bot.utils.minMsgDelay);
   },
 };

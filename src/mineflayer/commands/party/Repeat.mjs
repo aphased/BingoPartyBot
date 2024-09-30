@@ -13,10 +13,6 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    if (args.length < 1) {
-      bot.reply(sender.username, "Please provide a message to send.");
-      return;
-    }
     let repetitions = parseInt(args[0]);
     let startIndex = 1;
     if (isNaN(repetitions)) {
@@ -24,6 +20,17 @@ export default {
       startIndex = 0;
     }
     if (repetitions > 7) repetitions = 7;
+
+    if (args.length < 1 + startIndex) {
+      bot.reply(sender.username, "Invalid command usage!");
+      setTimeout(() => {
+        bot.reply(sender.username, "To use this command, use: !p repeat <repetitions> <message>")
+        setTimeout(() => {
+          bot.reply(sender.username, "For example: !p rep 5 Hello world!")
+        }, bot.utils.minMsgDelay)
+      }, bot.utils.minMsgDelay)
+      return;
+    }
 
     for (let i = 0; i < repetitions; i++) {
       setTimeout(() => {

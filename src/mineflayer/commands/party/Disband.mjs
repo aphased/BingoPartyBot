@@ -13,7 +13,7 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    // Code here
+    let reason = args.slice(0).join(" ") || "No reason given.";
     bot.chat(
       `/pc Party was disbanded by ${sender.username}. 10 seconds remaining until disband!`,
     );
@@ -24,7 +24,7 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `Party was disbanded by \`${sender.username}\`.`,
+          content: `Party was disbanded by \`${sender.username}\`. Reason: \`${reason}\``,
         },
       );
     }, 10000);

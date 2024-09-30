@@ -125,6 +125,7 @@ class Bot {
     this.bot.chat("/limbo");
     this.bot.waitForTicks(8);
   }
+
 }
 
 const myBot = new Bot();

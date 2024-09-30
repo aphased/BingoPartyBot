@@ -5,7 +5,7 @@ export default {
   name: ["preferredname", "pn", "name"],
   ignore: false,
   description: "Sets your preferred name so the bot knows what to call you",
-  permission: Permissions.HoB,
+  permission: Permissions.Owner,
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -25,9 +25,9 @@ export default {
             sender.username,
             "The limit for preferred names is 16 characters.",
           );
-        }, 550);
+        }, bot.utils.minMsgDelay);
     }
-    bot.utils.setPreferredUsername({ name: sender, preferredName: args[0] });
+    bot.utils.setPreferredUsername({ name: sender.username, preferredName: args[0] });
     bot.reply(
       sender.username,
       `Your preferred name has been set to ${args[0]}.`,
