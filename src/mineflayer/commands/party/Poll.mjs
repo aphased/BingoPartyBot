@@ -52,8 +52,8 @@ export default {
             sender.username,
             "Question?/Answer1/Answer2/Optional/Optional/Optional",
           );
-        }, 550);
-      }, 550);
+        }, bot.utils.minMsgDelay);
+      }, bot.utils.minMsgDelay);
     } else {
       bot.chat(`/p poll ${sender.username}: ${poll}`);
     }

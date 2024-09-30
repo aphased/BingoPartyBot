@@ -16,6 +16,6 @@ export default {
     bot.chat("/" + args.join(" "));
     setTimeout(() => {
       bot.reply(sender.username, `Executed command: ${args.join(" ")}`);
-    }, 550);
+    }, bot.utils.minMsgDelay);
   },
 };

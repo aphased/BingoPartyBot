@@ -16,19 +16,35 @@ export default {
    */
   execute: async function (bot, sender, args) {
     let repetitions = parseInt(args[0]);
-    if (isNaN(repetitions)) repetitions = 5;
+    let duration = parseFloat(args[1]);
+    let startIndex = 2;
+    if (isNaN(duration)) {
+      duration = 2;
+      startIndex--;
+    }
+    if(duration < 0.5) duration = 0.5;
+    if(duration > 9) duration = 9;
+    if(isNaN(repetitions)) {
+      repetitions = 5;
+      startIndex--;
+    }
     if (repetitions > 7) repetitions = 7;
-    let duration = parseInt(args[1]);
-    if (isNaN(duration)) duration = 2;
-    bot.chat(`/pc ${sender.username}: ${args.slice(2).join(" ")}`);
-    repetitions--;
+
+    if (args.length < 1 + startIndex) {
+      bot.reply(sender.username, "Invalid command usage!");
+      setTimeout(() => {
+        bot.reply(sender.username, "To use this command, use: !p customrepeat <repetitions> <duration> <message>")
+        setTimeout(() => {
+          bot.reply(sender.username, "For example: !p rep 5 1 Hello world!")
+        }, bot.utils.minMsgDelay)
+      }, 550)
+      return;
+    }
+
     for (let i = 0; i < repetitions; i++) {
-      setTimeout(
-        () => {
-          bot.chat(`/pc ${sender.username}: ${args.slice(2).join(" ")}`);
-        },
-        (i + 1) * (duration * 1000),
-      );
+      setTimeout(() => {
+        bot.chat(`/pc ${sender.username}: ${args.slice(startIndex).join(" ")}`);
+      }, i * (duration * 1000));
     }
   },
 };

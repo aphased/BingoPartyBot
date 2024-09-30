@@ -16,8 +16,9 @@ old/*
 data/playerNamesUpdated*.json
 data/playerNamesOld*.json
 
+
 test.mjs
-generalDatabase.json
+data/generalDatabase.json
 
 debug - Copy.ps1
 logs/
