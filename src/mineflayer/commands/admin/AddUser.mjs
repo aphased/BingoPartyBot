@@ -22,8 +22,8 @@ export default {
       const mainUser = args[1];
       let data = bot.utils.playerNamesDatabase.get("data");
       if (!data) data = [];
-      const userObject = data.find(
-        (x) => x.accounts.find((y) => y.name.toLowerCase() === mainUser.toLowerCase()),
+      const userObject = data.find((x) =>
+        x.accounts.find((y) => y.name.toLowerCase() === mainUser.toLowerCase()),
       );
       if (!userObject) {
         bot.reply(sender.username, "User not found");
@@ -46,8 +46,8 @@ export default {
       }
       let data = bot.utils.playerNamesDatabase.get("data");
       if (!data) data = [];
-      let userObject = data.find(
-        (x) => x.accounts.find((y) => y.name.toLowerCase() === user.toLowerCase()),
+      let userObject = data.find((x) =>
+        x.accounts.find((y) => y.name.toLowerCase() === user.toLowerCase()),
       );
       if (userObject) {
         userObject.permissionRank = permission;
