@@ -71,6 +71,8 @@ export default {
           `No guide available - contact ${botAccountOwner}`,
         );
       }
+
+      return;
     }
 
     bot.chat(`/pc Guide: ${guide.link}`);
