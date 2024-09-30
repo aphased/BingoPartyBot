@@ -17,7 +17,7 @@ export default {
    */
   execute: async function (bot, sender, args) {
     let uuid = await bot.utils.getUUID(sender.username);
-    if (!uuid) return bot.reply(sender.username, "whad.");
+    if (!uuid) return bot.reply(sender, "whad.");
     let playerNames = bot.utils.playerNamesDatabase.get("data");
     let index = playerNames.findIndex((x) =>
       x.accounts.find((y) => y.uuid === uuid),

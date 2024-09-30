@@ -36,7 +36,7 @@ export default {
             text: "You have 5 minutes to link your account",
           }),
       ],
-    });
+    }).catch(e => {});
 
     let repetitions = 0;
     setInterval(async () => {
@@ -56,7 +56,7 @@ export default {
               .setColor("Red")
               .setTimestamp(),
           ],
-        });
+        }).catch(e => {});
         bot.utils.link.removeCode(code);
         return;
       }
@@ -80,7 +80,7 @@ export default {
               .setColor("Green")
               .setTimestamp(),
           ],
-        });
+        }).catch(e => {});
         bot.utils.link.removeCode(code);
         bot.utils.setDiscord({
           name: status.username,

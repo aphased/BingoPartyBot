@@ -19,7 +19,7 @@ export default {
   execute: async function (bot, sender, args) {
     bot.chat(args.join(" "));
     setTimeout(() => {
-      bot.reply(sender.username, `Sent "${args.join(" ")}" in chat.`);
+      bot.reply(sender, `Sent "${args.join(" ")}" in chat.`);
     }, bot.utils.minMsgDelay);
   },
 };

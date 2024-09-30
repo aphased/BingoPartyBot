@@ -18,12 +18,12 @@ export default {
     let type = args[1];
     let uuid = await bot.utils.getUUID(user);
     // TODO: attempt to try it based on username one time if UUID fails?
-    if (!uuid) return bot.reply(sender.username, `User ${user} not found!`);
+    if (!uuid) return bot.reply(sender, `User ${user} not found!`);
     let playerNames = bot.utils.playerNamesDatabase.get("data");
     let index = playerNames.findIndex((x) =>
       x.accounts.find((y) => y.uuid === uuid),
     );
-    if (index === -1) return bot.reply(sender.username, "User does not exist!");
+    if (index === -1) return bot.reply(sender, "User does not exist!");
     if (type && type == "only") {
       playerNames[index].accounts = playerNames[index].accounts.filter(
         (x) => x.uuid !== uuid,
@@ -32,6 +32,6 @@ export default {
       playerNames.splice(index, 1);
     }
     bot.utils.playerNamesDatabase.set("data", playerNames);
-    bot.reply(sender.username, `Removed user ${user}`);
+    bot.reply(sender, `Removed user ${user}`);
   },
 };

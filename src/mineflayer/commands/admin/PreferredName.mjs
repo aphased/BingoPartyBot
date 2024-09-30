@@ -14,7 +14,7 @@ export default {
    */
   execute: async function (bot, sender, args) {
     if (args.length === 0)
-      return bot.reply(sender.username, "Please provide a name!");
+      return bot.reply(sender, "Please provide a name!");
     if (args[0].length > 16) {
       bot.reply(
         sender.username,

@@ -16,7 +16,7 @@ export default {
    */
   execute: async function (bot, sender, args) {
     if (args.length < 2)
-      return bot.reply(sender.username, "Usage: adduser <user> <permission>");
+      return bot.reply(sender, "Usage: adduser <user> <permission>");
     const user = args[0];
     if (bot.utils.getUserObject({ name: args[1] })) {
       const mainUser = args[1];
@@ -26,7 +26,7 @@ export default {
         x.accounts.find((y) => y.name.toLowerCase() === mainUser.toLowerCase()),
       );
       if (!userObject) {
-        bot.reply(sender.username, "User not found");
+        bot.reply(sender, "User not found");
         return;
       }
       userObject.accounts.push({
@@ -41,7 +41,7 @@ export default {
         permission = Permissions[Utils.capitalizeFirstLetter(args[1])];
       else permission = parseInt(args[1]);
       if (!permission) {
-        bot.reply(sender.username, "Invalid permission");
+        bot.reply(sender, "Invalid permission");
         return;
       }
       let data = bot.utils.playerNamesDatabase.get("data");
@@ -53,7 +53,7 @@ export default {
         userObject.permissionRank = permission;
         data[data.indexOf(userObject)] = userObject;
         bot.utils.playerNamesDatabase.set("data", data);
-        bot.reply(sender.username, "User updated");
+        bot.reply(sender, "User updated");
       } else {
         data.push({
           name: user,
@@ -67,7 +67,7 @@ export default {
           preferredName: user,
         });
         bot.utils.playerNamesDatabase.set("data", data);
-        bot.reply(sender.username, "User added");
+        bot.reply(sender, "User added");
       }
     }
   },
