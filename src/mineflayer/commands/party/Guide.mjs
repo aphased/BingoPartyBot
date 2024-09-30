@@ -22,10 +22,12 @@ export default {
       // const timeLeft = Math.ceil(
       //   (COOLDOWN_DURATION - (currentTime - lastGuideSentTime)) / 1000,
       // );
-      // TODO: optional discord logging for this when requested via (dc) command
+      // TODO: optional Discord logging for this when requested via a future
+      // Discord "slash" command
       //   `Please wait ${timeLeft} seconds before requesting the guide again.`
-      console.log(
+      bot.utils.log(
         "Not posting guide again. (<30s passed since last share message)",
+        "Info",
       );
       return;
     }
