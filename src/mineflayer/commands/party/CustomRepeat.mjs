@@ -31,11 +31,11 @@ export default {
     if (repetitions > 7) repetitions = 7;
 
     if (args.length < 1 + startIndex) {
-      bot.reply(sender.username, "Invalid command usage!");
+      bot.reply(sender, "Invalid command usage!");
       setTimeout(() => {
-        bot.reply(sender.username, "To use this command, use: !p customrepeat <repetitions> <duration> <message>")
+        bot.reply(sender, "To use this command, use: !p customrepeat <repetitions> <duration> <message>")
         setTimeout(() => {
-          bot.reply(sender.username, "For example: !p rep 5 1 Hello world!")
+          bot.reply(sender, "For example: !p rep 5 1 Hello world!")
         }, bot.utils.minMsgDelay)
       }, 550)
       return;

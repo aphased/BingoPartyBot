@@ -21,7 +21,7 @@ export default {
         bot.partyCommands.get(key).disabled = true;
       });
       // TODO: also console log here
-      bot.reply(sender.username, "All commands disabled!");
+      bot.reply(sender, "All commands disabled!");
     } else {
       if (!args[0])
         return bot.reply(
@@ -33,9 +33,9 @@ export default {
       let command = bot.partyCommands.find((value, key) =>
         key.includes(args[0]),
       );
-      if (!command) return bot.reply(sender.username, "Command not found.");
+      if (!command) return bot.reply(sender, "Command not found.");
       command.disabled = true;
-      bot.reply(sender.username, "Command disabled!");
+      bot.reply(sender, "Command disabled!");
     }
   },
 };

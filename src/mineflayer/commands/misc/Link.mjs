@@ -19,12 +19,12 @@ export default {
       );
     let code = args[0];
     let status = bot.utils.link.getId(code);
-    if (!status) return bot.reply(sender.username, "Invalid code");
-    if (status.verified) return bot.reply(sender.username, "Code already used");
+    if (!status) return bot.reply(sender, "Invalid code");
+    if (status.verified) return bot.reply(sender, "Code already used");
     bot.utils.link.setId(code, {
       verified: true,
       username: sender.username,
     });
-    bot.reply(sender.username, "Account linked successfully");
+    bot.reply(sender, "Account linked successfully");
   },
 };

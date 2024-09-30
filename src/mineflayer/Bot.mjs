@@ -1,6 +1,7 @@
 import mineflayer from "mineflayer";
 import * as config from "../../Config.mjs";
 import loadPartyCommands from "./handlers/PartyCommandHandler.mjs";
+import { SenderType } from "../utils/Interfaces.mjs";
 
 class Bot {
   constructor() {
@@ -56,16 +57,27 @@ class Bot {
 
    * Thus, this use may change in the future, at which point including the
    * recipient's info (i.e. IGN) will be necessary.
-   * @param {String} recipient  IGN to send a message to (currently not needed,
+   * @param {Object} sender  IGN to send a message to (currently not needed,
+   * @param {String} [sender.username]
+   * @param {String} [sender.preferredName]
+   * @param {String} [sender.commandName]
+   * @param {String} [sender.type]
+   * @param {String} [sender.discordReplyId]
    * but try to supply this value).
    * @param {String} message  Message to send.
    */
-  reply(recipient, message) {
+  reply(sender, message) {
     if (this.utils.debug)
-      console.log(`Replying to ${recipient} with message: ${message}`);
+      console.log(`Replying to ${sender.username} with message: ${message}`);
     // alternative (currently unused):
     // this.chat(`w ${recipient} ${this.utils.addRandomString(message)}`);
-    this.chat(`/r ${this.utils.addRandomString(message)}`);
+    if(sender.type === SenderType.Minecraft) this.chat(`/r ${this.utils.addRandomString(message)}`);
+    else if (sender.type === SenderType.Discord) {
+      this.utils.discordReply.getReply(sender.discordReplyId).editReply(message);
+      this.utils.discordReply.removeReply(sender.discordReplyId);
+    } else if (sender.type === SenderType.Console) {
+      this.utils.log(message, "Info");
+    }
   }
 
   async reloadPartyCommands() {

@@ -45,7 +45,7 @@ export default {
         `Hi ${sender.username}, what you sent wasn't a valid poll!`,
       );
       setTimeout(() => {
-        bot.reply(sender.username, "The correct format for a poll is:");
+        bot.reply(sender, "The correct format for a poll is:");
 
         setTimeout(() => {
           bot.reply(

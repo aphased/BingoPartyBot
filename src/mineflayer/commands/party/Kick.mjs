@@ -15,7 +15,7 @@ export default {
     let player = args[0];
     let reason = args.slice(1).join(" ") || "No reason given.";
     if (!player)
-      return bot.reply(sender.username, "Please provide a player to kick.");
+      return bot.reply(sender, "Please provide a player to kick.");
     bot.chat(`/pc ${player} was kicked from the party by ${sender.username}.`);
     setTimeout(() => {
       bot.chat(`/p kick ${player}`);
