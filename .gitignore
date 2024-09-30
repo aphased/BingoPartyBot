@@ -1,24 +1,23 @@
-# Ignore everything containing secrets (including hidden files)…
+# Ignore everything containing secrets…
 *.env
-*backup.env*
-
-# … and explicitly mention exemptions, to avoid leaks.
-!.gitignore
-!.editorconfig
-!.prettierrc.json
-!.prettierignore
+Config.mjs
 
 # Also don't upload all dependencies (like 300 MB lol)
 node_modules/
 
-old/*
-
-Config.mjs
-test.mjs
-playerNamesUpdated.json
+# Individual to each contributor:
+TODO.md
 data/playerNames.json
+# However, explicitly do not ignore "canonical" allowlist database:
+!data/backup-PlayerNames.json
+
+# Ignore legacy stuff
+old/*
+data/playerNamesUpdated*.json
+data/playerNamesOld*.json
+
+test.mjs
 generalDatabase.json
 
 debug - Copy.ps1
 logs/
-TODO.md
