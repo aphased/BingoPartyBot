@@ -14,7 +14,7 @@ export default {
    */
   execute: async function (bot, sender, args) {
     let reason = args.slice(0).join(" ") || "No reason given.";
-    bot.chat(`/pc Party was closed by ${sender.username}.`);
+    bot.chat(`/pc The party was closed by ${sender.username}.`);
     setTimeout(() => {
       bot.chat(`/stream close`);
       bot.webhook.send(
@@ -22,7 +22,7 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `Party was closed by \`${sender.username}\`. Reason: \`${reason}\``,
+          content: `The party was closed by \`${sender.username}\`. Reason: \`${reason}\``,
         },
       );
     }, bot.utils.minMsgDelay);

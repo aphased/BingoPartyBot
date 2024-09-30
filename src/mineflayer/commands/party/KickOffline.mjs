@@ -21,7 +21,7 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `Offline players were purged by \`${sender.username}\`.`,
+          content: `Offline players were purged (from the party) by \`${sender.username}\`.`,
         },
       );
     }, bot.utils.minMsgDelay);
