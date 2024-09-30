@@ -34,7 +34,7 @@ export default {
 
     // TODO: add back `publicguide` functionality (sending link upon reading
     // /pc !guide from a player and do not send the below `bot.reply()` in that
-    // case. Update the boolean accordingly.
+    // case. Update the boolean accordingly with some dynamic condition.
     const publicGuideRequest = false;
 
     let guide = bot.utils.getMonthGuide();
