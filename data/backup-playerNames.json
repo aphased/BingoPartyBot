@@ -1042,6 +1042,17 @@
                 }
             ],
             "permissionRank": 2
+        },
+        {
+            "name": "apehypocrite",
+            "permissionRank": 2,
+            "accounts": [
+                {
+                    "name": "apehypocrite",
+                    "uuid": "30704697660148aab98ec0b4b65399ce"
+                }
+            ],
+            "preferredName": "apehypocrite"
         }
     ]
 }

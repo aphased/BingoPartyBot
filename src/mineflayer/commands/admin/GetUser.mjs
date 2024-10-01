@@ -7,7 +7,7 @@ export default {
   ignore: false,
   description:
     "See if a user is on the permission list, and what permissions they have",
-  //One day this will also have ban info? maybe?
+  // TODO: One day this will also have ban info? maybe?
   permission: Permissions.Trusted,
   /**
    *

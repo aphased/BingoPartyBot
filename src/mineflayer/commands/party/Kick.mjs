@@ -14,8 +14,10 @@ export default {
   execute: async function (bot, sender, args) {
     let player = args[0];
     let reason = args.slice(1).join(" ") || "No reason given.";
-    if (!player)
-      return bot.reply(sender, "Please provide a player to kick.");
+    if (!player) return bot.reply(sender, "Please provide a player to kick.");
+    if (!bot.utils.isHigherRanked(sender.username, player)) {
+      return;
+    }
     bot.chat(`/pc ${player} was kicked from the party by ${sender.username}.`);
     setTimeout(() => {
       bot.chat(`/p kick ${player}`);

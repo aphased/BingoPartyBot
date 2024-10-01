@@ -17,12 +17,12 @@ export default {
       console.log(message.toAnsi());
       bot.utils.sendWebhookMessage(
         message.toAnsi(undefined, bot.utils.discordAnsiCodes),
-        bot.utils.classifyMessage(message.toString())
+        bot.utils.classifyMessage(message.toString()),
       );
     }
     if (message.self == true) {
       msgType = SenderType.Console;
-      if(message.discord) {
+      if (message.discord) {
         msgType = SenderType.Discord;
         discordReplyId = message.discordReplyId;
       }
@@ -84,11 +84,14 @@ export default {
         );
         bot.utils.setUserRank({
           name: sender,
-          rank: message
-            .toString()
-            .split(": ")[0]
-            .replace("From ", "")
-            .match(/\[.+]/g)[0],
+          rank:
+            message
+              .toString()
+              .split(": ")[0]
+              .replace("From ", "")
+              // match is null if player doesn't have a rank, so we "transform"
+              // that into an empty string
+              .match(/\[.+]/g)[0] ?? "",
         });
         sender = {
           username: sender,

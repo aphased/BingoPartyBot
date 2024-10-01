@@ -13,9 +13,11 @@ export default {
    */
   execute: async function (bot, sender, args) {
     let player = args[0];
-    if (!player)
-      return bot.reply(sender, "Please provide a player to ban.");
+    if (!player) return bot.reply(sender, "Please provide a player to ban.");
     let reason = args.slice(1).join(" ") || "No reason given.";
+    if (!bot.utils.isHigherRanked(sender.username, player)) {
+      return;
+    }
     bot.chat(
       `/pc ${player} was removed from the party and blocked from rejoining by ${sender.username}.`,
     );

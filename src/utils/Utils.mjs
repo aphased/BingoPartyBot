@@ -222,6 +222,27 @@ class Utils {
   }
 
   /**
+   * @param {string} user1   sender.username
+   * @param {string} user2   sender.username
+   *
+   * @returns {boolean} Returns true **iff** the player behind username 1 has
+   * a strictly higher permission level than the entry behind username 2, i.e.,
+   * returns true if #1 is allowed to kick/ban/etc. #2.
+   *
+   * @example
+   * ```js
+   * if (!bot.utils.isHigherRanked(sender.username, playerToBeAffected)) return;
+   * ```
+   */
+  isHigherRanked(user1, user2) {
+    // bot.utils.getPermissionsByUser({ name: sender.username })
+    const result =
+      this.getPermissionsByUser({ name: user1 }) >
+      this.getPermissionsByUser({ name: user2 });
+    return result;
+  }
+
+  /**
    * Use this to replace getHypixelRankByName
    * @param {Object} options
    * @param {string} [options.uuid]

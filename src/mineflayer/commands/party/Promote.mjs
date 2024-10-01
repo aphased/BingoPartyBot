@@ -22,7 +22,7 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `\`${player}\` was promoted (in the party) by \`${sender.username}\``,
+          content: `\`${player}\` was party promoted by \`${sender.username}\``,
         },
       );
     }, bot.utils.minMsgDelay);
