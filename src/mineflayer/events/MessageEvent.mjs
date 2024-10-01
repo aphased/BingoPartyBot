@@ -82,16 +82,20 @@ export default {
         let sender = Utils.removeRank(
           message.toString().split(": ")[0].replace("From ", ""),
         );
+        // Extract Hypixel rank from the message
+        const match = message
+          .toString()
+          .split(": ")[0]
+          .replace("From ", "")
+          .match(/\[.+]/g);
+
+        // Check if match is null or empty (=non-ranked), and assign accordingly
+        const rank = match && match.length > 0 ? match[0] : "";
+
+        // Set the user rank
         bot.utils.setUserRank({
           name: sender,
-          rank:
-            message
-              .toString()
-              .split(": ")[0]
-              .replace("From ", "")
-              // match is null if player doesn't have a rank, so we "transform"
-              // that into an empty string
-              .match(/\[.+]/g)[0] ?? "",
+          rank: rank,
         });
         sender = {
           username: sender,

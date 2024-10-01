@@ -20,6 +20,8 @@ export default {
     // are commented out. However, they are "basically functional" in logic
     // apart from some mistake in terms of syntax or similar, which is why
     // they're kept in for reference.
+    // Conutik:
+    // bot.partyCommands.find(x=>x.includes("repeat")).execute(bot,sender,`4 4 ${args.join(" ")}`.split(" "))
 
     // TODO: bot.partyCommands.get("repeat").execute(bot, sender, `4 4 ${args}`);
 
