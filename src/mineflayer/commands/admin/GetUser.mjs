@@ -25,7 +25,7 @@ export default {
     );
     if (index === -1)
       return bot.reply(
-        sender.username,
+        sender,
         "That person does not have any party permissions.",
       );
     let userObj = playerNames[index];
@@ -33,7 +33,7 @@ export default {
       (x) => Permissions[x] === userObj.permissionRank,
     );
     bot.reply(
-      sender.username,
+      sender,
       `User: ${user} Rank: ${rank} (Level: ${userObj.permissionRank})`,
     );
   },

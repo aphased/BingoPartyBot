@@ -41,7 +41,7 @@ export default {
 
     if (!isValidPoll) {
       bot.reply(
-        sender.username,
+        sender,
         `Hi ${sender.username}, what you sent wasn't a valid poll!`,
       );
       setTimeout(() => {
@@ -49,7 +49,7 @@ export default {
 
         setTimeout(() => {
           bot.reply(
-            sender.username,
+            sender,
             "Question?/Answer1/Answer2/Optional/Optional/Optional",
           );
         }, bot.utils.minMsgDelay);

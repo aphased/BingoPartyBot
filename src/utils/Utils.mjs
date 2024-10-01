@@ -20,6 +20,11 @@ class Utils {
     this.webhookLogger = new WebhookLogger(); // Set WebhookLogger class
     this.discordAnsiCodes = discordAnsiCodes;
     this.minMsgDelay = 550;
+    (async () => {
+      setInterval(() => {
+        this.sendWebhookMessages();
+      }, 5000);
+    })()
   }
 
   setDebug(debug) {
@@ -441,26 +446,25 @@ class Utils {
     else return WebhookMessageType.Other;
   }
 
-  /**
-   *
-   * @param {String} message
-   * @param {WebhookMessageType} messageType
-   */
-  sendWebhookMessage(message, messageType) {
-    let webhooks = this.webhookLogger.getWebhooks({ messageType: messageType });
-    webhooks.forEach(async (value, key) => {
-      try {
-        let discWebhook = new WebhookClient({ url: key });
-        await discWebhook.send(`\`\`\`ansi\n${message}\`\`\``);
-      } catch (e) {
-        // TODO: give this an "acknowledged" mode/toggle on a per-launch basis
-        // which from then on will allow console viewers to suppress this
-        // (otherwise fairly spammy) message:
-        this.log(
-          `Error sending one of the webhooks a message, please check the URL.`,
-          "error",
-        );
-      }
+  sendWebhookMessages() {
+    let messageQueue = this.webhookLogger.messageQueue;
+    messageQueue.forEach(async (value, key) => {
+      if(!value) return;
+      let webhooks = this.webhookLogger.getWebhooks({ messageType: key });
+      webhooks.forEach(async (value1, key) => {
+        try {
+          let discWebhook = new WebhookClient({ url: key });
+          await discWebhook.send(`\`\`\`ansi\n${value.join("\n")}\`\`\``);
+        } catch (e) {
+          if(this.webhookLogger.invalidWebhooks.has(key)) return;
+          this.log(
+            `Error sending one of the webhooks a message, please check the URL.`,
+            "error",
+          );
+          this.webhookLogger.setInvalidWebhook(key);
+        }
+      });
+      this.webhookLogger.messageQueue.set(key, null);
     });
   }
 }
@@ -598,6 +602,25 @@ class DiscordReply {
 class WebhookLogger {
   constructor() {
     this.webhooks = new Collection();
+    this.messageQueue = new Collection();
+    this.invalidWebhooks = new Collection();
+  }
+
+  addMessage(message, messageType) {
+    let type = this.messageQueue.get(messageType);
+    if (!type) type = [];
+    type.push(message);
+    if (messageType === WebhookMessageType.All) {
+      this.messageQueue.set(
+        WebhookMessageType.All,
+        this.messageQueue.get(WebhookMessageType.All).push(message),
+      );
+    }
+    this.messageQueue.set(messageType, type);
+  }
+
+  setInvalidWebhook(url) {
+    this.invalidWebhooks.set(url, true);
   }
 
   /**
