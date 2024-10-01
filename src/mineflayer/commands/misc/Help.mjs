@@ -13,7 +13,7 @@ export default {
    */
   execute: async function (bot, sender, args) {
     bot.reply(
-      sender.username,
+      sender,
       "Read the documentation on Github: aphased/BingoPartyCommands",
     );
   },

@@ -17,19 +17,19 @@ export default {
       return bot.reply(sender, "Please provide a name!");
     if (args[0].length > 16) {
       bot.reply(
-        sender.username,
+        sender,
         "The preferred name you provided is too long!",
       ),
         setTimeout(() => {
           bot.reply(
-            sender.username,
+            sender,
             "The limit for preferred names is 16 characters.",
           );
         }, bot.utils.minMsgDelay);
     }
     bot.utils.setPreferredUsername({ name: sender.username, preferredName: args[0] });
     bot.reply(
-      sender.username,
+      sender,
       `Your preferred name has been set to ${args[0]}.`,
     );
   },

@@ -92,7 +92,7 @@ class Discord {
     /** @type {import("discord.js").Channel} */
     const channel = await this.bot.channels.fetch(channelId);
     // console.log(channel)
-    if (!channel.isTextBased()) return;
+    if (channel && !channel.isTextBased()) return;
     const messages = await channel.messages.fetch({
       limit: 1,
     });

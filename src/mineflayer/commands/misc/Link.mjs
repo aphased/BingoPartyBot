@@ -14,7 +14,7 @@ export default {
   execute: async function (bot, sender, args) {
     if (!args[0])
       return bot.reply(
-        sender.username,
+        sender,
         "Please provide a code to link your account",
       );
     let code = args[0];

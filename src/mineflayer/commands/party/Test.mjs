@@ -24,7 +24,7 @@ export default {
     );
     if (index === -1)
       return bot.reply(
-        sender.username,
+        sender,
         "wait how do you manage to run this and get the no perms output what",
       );
     let userObj = playerNames[index];
@@ -32,7 +32,7 @@ export default {
       (x) => Permissions[x] === userObj.permissionRank,
     );
     bot.reply(
-      sender.username,
+      sender,
       `You have permissions! Your permission level is ${rank} (Level: ${userObj.permissionRank})`,
     );
   },

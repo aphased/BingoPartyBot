@@ -15,7 +15,7 @@ export default {
     let discordReplyId;
     if (bot.config.showMcChat && !message.self) {
       console.log(message.toAnsi());
-      bot.utils.sendWebhookMessage(
+      bot.utils.webhookLogger.addMessage(
         message.toAnsi(undefined, bot.utils.discordAnsiCodes),
         bot.utils.classifyMessage(message.toString()),
       );
@@ -27,7 +27,7 @@ export default {
         discordReplyId = message.discordReplyId;
       }
       message = message.content;
-      bot.utils.sendWebhookMessage(
+      bot.utils.webhookLogger.addMessage(
         message,
         bot.utils.classifyMessage(message.toString()),
       );
