@@ -60,3 +60,10 @@ export const WebhookMessageType = Object.freeze({
   Other: 5,
   All: 6,
 });
+
+
+export const SenderType = Object.freeze({
+  Minecraft: 0,
+  Discord: 1,
+  Console: 2
+})

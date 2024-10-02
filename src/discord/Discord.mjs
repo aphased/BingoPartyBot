@@ -33,7 +33,7 @@ class Discord {
         );
       }
     } else {
-      this.disabled = true; // Disable the bot if no token is provided (idk when this will be needed but why not)
+      this.disabled = true; // Disable the bot if no token is provided (idk whe n this will be needed but why not)
     }
   }
 
@@ -92,18 +92,18 @@ class Discord {
     /** @type {import("discord.js").Channel} */
     const channel = await this.bot.channels.fetch(channelId);
     // console.log(channel)
-    if (!channel.isTextBased()) return;
+    if (channel && !channel.isTextBased()) return;
     const messages = await channel.messages.fetch({
       limit: 1,
     });
     let message = messages.first();
     let messageTimeStamp = new Date(message.createdTimestamp);
     let currentTimeStamp = new Date();
-    if (messageTimeStamp.getMonth() !== currentTimeStamp.getMonth() - 1) return;
+    if (messageTimeStamp.getMonth() !== currentTimeStamp.getMonth()-1) return;
     if (/^(https:\/\/hypixel\.net\/threads\/bingo)/.test(message.content)) {
       let guide = this.utils.getMonthGuide();
       if (!guide) {
-        this.utils.setMonthGuide({ link: message.content });
+        this.utils.setMonthGuide({ link: message.content, time: (messageTimeStamp.getMonth()+2) + "/" + messageTimeStamp.getFullYear() });
       }
     }
   }

@@ -22,9 +22,9 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `Party was set to public (${amount}). Command executed by ${sender.username}`,
-        }
+          content: `Party size was set to \`${amount}\` by \`${sender.username}\`.`,
+        },
       );
-    }, 550);
+    }, bot.utils.minMsgDelay);
   },
 };

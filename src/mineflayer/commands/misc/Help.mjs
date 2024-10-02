@@ -4,6 +4,7 @@ export default {
   name: ["help"], // This command will be triggered by either command1 or command2
   ignore: false, // Whether to ignore this file or not
   description: "Help Command", // Description of the command
+  permission: Permissions.HoB,
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -12,8 +13,8 @@ export default {
    */
   execute: async function (bot, sender, args) {
     bot.reply(
-      sender.username,
-      "Read the documentation at aphased/BingoPartyCommands on GitHub"
+      sender,
+      "Read the documentation on Github: aphased/BingoPartyCommands",
     );
   },
 };

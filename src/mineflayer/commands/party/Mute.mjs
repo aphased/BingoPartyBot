@@ -12,18 +12,18 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    // Code here
-    bot.chat(`/pc ${sender.username} has muted/unmuted the party.`);
+    let reason = args.join(" ") || "No reason given.";
+    bot.chat("/p mute");
     setTimeout(() => {
-      bot.chat("/p mute");
+      bot.chat(`/pc Party mute was toggled by ${sender.username}.`);
       bot.webhook.send(
         {
           username: bot.config.webhook.name,
         },
         {
-          content: `Muted/Unmuted party. Command executed by ${sender.username}`,
-        }
+          content: `Party mute was toggled by \`${sender.username}\`. Reason: \`${reason}\``,
+        },
       );
-    }, 550);
+    }, bot.utils.minMsgDelay);
   },
 };

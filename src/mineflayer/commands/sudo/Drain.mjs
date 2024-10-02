@@ -5,7 +5,7 @@ export default {
   ignore: false, // Whether to ignore this file or not
   description: "Empties the party after a 10 second delay", // Description of the command
   permission: Permissions.Admin, // Permission level required to execute this command
-  customPrefix: "!sudo", // Only use this if you want to use a custom prefix for this command, otherwise leave it empty and it'll use the default prefix
+  // customPrefix: "!sudo", // Only use this if you want to use a custom prefix for this command, otherwise leave it empty and it'll use the default prefix
   /*
   permission: Permissions.Admin
 maybe for the per user thing it can be something like:
@@ -22,25 +22,24 @@ but for now itll be admin only because this command is very much poisable
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    // Code here
+    let reason = args.slice(0).join(" ") || "No reason given.";
     bot.chat(
-      "/pc This party will be emptied in 10 seconds! Command ran by: " +
-        sender.username
+      `/pc The party was emptied by ${sender.username}. 10 seconds remaining until empty!`,
     );
     setTimeout(() => {
       bot.chat("/pc The party has been emptied!");
 
       setTimeout(() => {
         bot.chat("/streamgui settings empty");
-      }, 550);
+      }, bot.utils.minMsgDelay);
 
       bot.webhook.send(
         {
           username: bot.config.webhook.name,
         },
         {
-          content: `Emptied party. Command executed by ${sender.username}`,
-        }
+          content: `The party was emptied by \`${sender.username}\` Reason: \`${reason}\``,
+        },
       );
     }, 10000);
   },

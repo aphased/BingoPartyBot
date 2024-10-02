@@ -13,10 +13,13 @@ export default {
    */
   execute: async function (bot, sender, args) {
     let player = args[0];
-    if (!player)
-      return bot.reply(sender.username, "Please provide a player to ban.");
+    if (!player) return bot.reply(sender, "Please provide a player to ban.");
+    let reason = args.slice(1).join(" ") || "No reason given.";
+    if (!bot.utils.isHigherRanked(sender.username, player)) {
+      return;
+    }
     bot.chat(
-      `/pc ${player} was kicked from the party and blocked from rejoining by ${sender.username}`
+      `/pc ${player} was removed from the party and blocked from rejoining by ${sender.username}.`,
     );
     setTimeout(() => {
       bot.chat(`/lobby`);
@@ -31,12 +34,12 @@ export default {
                 username: bot.config.webhook.name,
               },
               {
-                content: `Banned ${player} from the party. Command executed by ${sender.username}`,
-              }
+                content: `\`${player}\` was banned from the party by \`${sender.username}\`. Reason: \`${reason}\``,
+              },
             );
-          }, 550);
-        }, 550);
-      }, 550);
-    }, 550);
+          }, bot.utils.minMsgDelay);
+        }, bot.utils.minMsgDelay);
+      }, bot.utils.minMsgDelay);
+    }, bot.utils.minMsgDelay);
   },
 };

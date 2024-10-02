@@ -1,5 +1,6 @@
 import { Collection } from "discord.js";
 import Utils from "../../utils/Utils.mjs";
+import { SenderType } from "../../utils/Interfaces.mjs";
 
 export default {
   name: "MessageEvent",
@@ -11,18 +12,25 @@ export default {
    */
   execute: async function (message, bot) {
     if (message.toString() === bot.utils.chatSeparator) return;
+    let msgType = SenderType.Minecraft;
+    let discordReplyId;
     if (bot.config.showMcChat && !message.self) {
       console.log(message.toAnsi());
-      bot.utils.sendWebhookMessage(
+      bot.utils.webhookLogger.addMessage(
         message.toAnsi(undefined, bot.utils.discordAnsiCodes),
-        bot.utils.classifyMessage(message.toString())
+        bot.utils.classifyMessage(message.toString()),
       );
     }
     if (message.self == true) {
+      msgType = SenderType.Console;
+      if (message.discord) {
+        msgType = SenderType.Discord;
+        discordReplyId = message.discordReplyId;
+      }
       message = message.content;
-      bot.utils.sendWebhookMessage(
+      bot.utils.webhookLogger.addMessage(
         message,
-        bot.utils.classifyMessage(message.toString())
+        bot.utils.classifyMessage(message.toString()),
       );
     }
     if (RegExp(/^From /g).test(message.toString())) {
@@ -30,8 +38,8 @@ export default {
       if (command.toLowerCase().startsWith("boop!"))
         return bot.chat(
           `/p invite ${Utils.removeRank(
-            message.toString().split(": ")[0].replace("From ", "")
-          )}`
+            message.toString().split(": ")[0].replace("From ", ""),
+          )}`,
         );
       if (command.toLowerCase().includes("help"))
         // TODO: execute "normal" help command here so logic isn't duplicated
@@ -44,7 +52,7 @@ export default {
         // someone please help me i am typing this at 2:42 in the morning and im going mental
         return bot.reply(
           "",
-          "Read the documentation at GitHub: aphased/BingoPartyCommands"
+          "Read the documentation on GitHub: aphased/BingoPartyCommands",
         );
 
       let args = command.split(" "); // Get the arugments of the command
@@ -56,12 +64,12 @@ export default {
         commandFound = bot.partyCommands.find(
           (value, key) =>
             key.includes(args[1].toLowerCase()) &&
-            value.customPrefix.toLowerCase() === args[0].toLowerCase()
+            value.customPrefix.toLowerCase() === args[0].toLowerCase(),
         );
       } else {
         commandFound = bot.partyCommands.find(
           (value, key) =>
-            key.includes(args[1].toLowerCase()) && !value.customPrefix
+            key.includes(args[1].toLowerCase()) && !value.customPrefix,
         );
       }
       let commandName = args[1]; // Get the command name
@@ -73,23 +81,32 @@ export default {
         //okay i know its not really neccesary but like make the bot more responsive i guess
         //i didnt use bot.reply because it crashes using sender.username which is probalby due to it being right below me vvvvvvvvvvvvvvv
         let sender = Utils.removeRank(
-          message.toString().split(": ")[0].replace("From ", "")
+          message.toString().split(": ")[0].replace("From ", ""),
         );
+        // Extract Hypixel rank from the message
+        const match = message
+          .toString()
+          .split(": ")[0]
+          .replace("From ", "")
+          .match(/\[.+]/g);
+
+        // Check if match is null or empty (=non-ranked), and assign accordingly
+        const rank = match && match.length > 0 ? match[0] : "";
+
+        // Set the user rank
         bot.utils.setUserRank({
           name: sender,
-          rank: message
-            .toString()
-            .split(": ")[0]
-            .replace("From ", "")
-            .match(/\[.+]/g)[0],
+          rank: rank,
         });
         sender = {
           username: sender,
           preferredName: bot.utils.getPreferredUsername({ name: sender }),
+          commandName: commandName,
+          type: msgType,
+          discordReplyId: discordReplyId,
         };
         if (!command.permission)
           return command.execute(bot, sender, commandArgs);
-        console.log(sender);
         if (
           command.permission <=
           bot.utils.getPermissionsByUser({ name: sender.username })
@@ -98,7 +115,7 @@ export default {
         else
           bot.reply(
             sender.username,
-            "You do not have permission to run this command!"
+            "You do not have permission to run this command!",
           );
       }
     }

@@ -28,7 +28,7 @@ export default {
           })
           .setTitle("Link your account")
           .setDescription(
-            `To link your account to the bot, use the following code in the game: \`${code}\``
+            `To link your account to the bot, use the following code in the game: \`${code}\``,
           )
           .setColor("Green")
           .setTimestamp()
@@ -36,7 +36,7 @@ export default {
             text: "You have 5 minutes to link your account",
           }),
       ],
-    });
+    }).catch(e => {});
 
     let repetitions = 0;
     setInterval(async () => {
@@ -51,12 +51,12 @@ export default {
               })
               .setTitle("Link your account")
               .setDescription(
-                "You have exceeded the maximum time to link your account"
+                "You have exceeded the maximum time to link your account",
               )
               .setColor("Red")
               .setTimestamp(),
           ],
-        });
+        }).catch(e => {});
         bot.utils.link.removeCode(code);
         return;
       }
@@ -75,12 +75,12 @@ export default {
               .setDescription(
                 "Your account has been linked successfully to `" +
                   status.username +
-                  "`"
+                  "`",
               )
               .setColor("Green")
               .setTimestamp(),
           ],
-        });
+        }).catch(e => {});
         bot.utils.link.removeCode(code);
         bot.utils.setDiscord({
           name: status.username,

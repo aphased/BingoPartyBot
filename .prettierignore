@@ -1,0 +1,8 @@
+build
+coverage
+package-lock.json
+package.json
+TODO.md
+*.ps1
+*.json
+data/

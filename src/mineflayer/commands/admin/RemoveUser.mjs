@@ -6,7 +6,7 @@ export default {
   name: ["removeuser"],
   ignore: false,
   description: "Removes a user from the permission list",
-  permission: Permissions.Owner,
+  permission: Permissions.Admin,
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -18,20 +18,20 @@ export default {
     let type = args[1];
     let uuid = await bot.utils.getUUID(user);
     // TODO: attempt to try it based on username one time if UUID fails?
-    if (!uuid) return bot.reply(sender.username, `User ${user} not found!`);
+    if (!uuid) return bot.reply(sender, `User ${user} not found!`);
     let playerNames = bot.utils.playerNamesDatabase.get("data");
-    let index = playerNames.findIndex(x =>
-      x.accounts.find(y => y.uuid === uuid)
+    let index = playerNames.findIndex((x) =>
+      x.accounts.find((y) => y.uuid === uuid),
     );
-    if (index === -1) return bot.reply(sender.username, "User does not exist!");
+    if (index === -1) return bot.reply(sender, "User does not exist!");
     if (type && type == "only") {
       playerNames[index].accounts = playerNames[index].accounts.filter(
-        x => x.uuid !== uuid
+        (x) => x.uuid !== uuid,
       );
     } else {
       playerNames.splice(index, 1);
     }
     bot.utils.playerNamesDatabase.set("data", playerNames);
-    bot.reply(sender.username, `Removed user ${user}`);
+    bot.reply(sender, `Removed user ${user}`);
   },
 };

@@ -4,7 +4,7 @@ export default {
   name: ["rule"], // This command will be triggered by either command1 or command2
   ignore: false, // Whether to ignore this file or not
   description: "Rule Command", // Description of the command
-  permission: Permissions.Trusted, // Permission level required to execute
+  permission: Permissions.ExSplasher, // Permission level required to execute
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -15,12 +15,14 @@ export default {
     let ruleNum = args[0] || "1";
     let rule = bot.utils.rulesList[ruleNum];
     if (!rule) {
-      bot.reply(sender.username, "Rule not found.");
+      bot.reply(sender, "Rule not found.");
       return;
     }
-    bot.chat("/pc --- Bingo Brewers Rules (Outdated)---");
+    // TODO: update rules (both data & usage system/mechanism)
+    // bot.chat("/pc --- Bingo Brewers Rules (Outdated)---");
+    bot.chat("/pc --- Bingo Brewers Rules ---");
     setTimeout(() => {
       bot.chat(`/pc Rule ${ruleNum}: ${rule}`);
-    }, 550);
+    }, bot.utils.minMsgDelay);
   },
 };

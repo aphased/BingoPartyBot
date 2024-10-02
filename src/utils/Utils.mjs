@@ -16,10 +16,17 @@ class Utils {
     this.rulesList = rulesList; // Set rulesList
     this.refreshRulesList(); // Turn on rulesList refreshing
     this.link = new Link(); // Set Link class
+    this.discordReply = new DiscordReply(); // Set DiscordReply class
     this.webhookLogger = new WebhookLogger(); // Set WebhookLogger class
     this.discordAnsiCodes = discordAnsiCodes;
     this.chatSeparator =
       "-----------------------------------------------------";
+    this.minMsgDelay = 550;
+    (async () => {
+      setInterval(() => {
+        this.sendWebhookMessages();
+      }, 5000);
+    })()
   }
 
   setDebug(debug) {
@@ -98,28 +105,63 @@ class Utils {
     }, 10000);
   }
 
-  // Get uuid from username
+  /** Get Minecraft player uuid from username */
   async getUUID(username) {
-    let data = await axios.get(
-      `https://api.mojang.com/users/profiles/minecraft/${username}`
-    );
-    if (data.data.errorMessage) return null;
-    return data.data.id;
+    try {
+      let data = await axios.get(
+        `https://api.mojang.com/users/profiles/minecraft/${username}`
+      );
+      if (data.data.errorMessage) return null;
+      return data.data.id;
+    } catch (e) {
+      return null;
+    }
   }
 
-  // Get username from uuid
+  /** Get Minecraft player username from uuid */
   async getUsername(uuid) {
     let data = await axios.get(
-      `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`
+      `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`,
     );
     if (data.data.errorMessage) return null;
     return data.data.name;
   }
 
+  /**
+   * Retrieves a list of user accounts filtered by the specified permission
+   * rank.
+   *
+   * @param {Permissions} rank - The rank from the Permissions enum by which to filter users.
+   *
+   * @returns {Array<Object>}
+   * An array containing one or more objects that hold details for every
+   * match to the given permission rank: Per actual player on record with that
+   * permission, an object containing an array of all user accounts and other
+   * related attributes. The structure per returned object (per actual player
+   * with that rank) is as follows:
+   * ```json
+   * [
+   *   {
+   *     "accounts": [
+   *       {
+   *         "name": "string",
+   *         "uuid": "string|null"
+   *       },
+   *       ...
+   *     ],
+   *     "permissionRank": 0-5,
+   *     "hypixelRank": "string",
+   *     "preferredName": "string",
+   *     "discord": "string"
+   *   },
+   *   ...
+   * ]
+   * ```
+   */
   getUsersByPermissionRank(rank) {
     return this.playerNamesDatabase
       .get("data")
-      .filter(x => x.permissionRank === rank);
+      .filter((x) => x.permissionRank === rank);
   }
 
   /**
@@ -132,7 +174,7 @@ class Utils {
   getPermissionsByUser(options = {}) {
     if (!options || (!options.uuid && !options.name)) {
       throw new Error(
-        "Invalid options: 'uuid' or 'name' must be provided for permissions check."
+        "Invalid options: 'uuid' or 'name' must be provided for permissions check.",
       );
     }
 
@@ -140,12 +182,12 @@ class Utils {
     if (options.name) options.name = options.name.toLowerCase();
     let processed = this.playerNamesDatabase
       .get("data")
-      .find(x =>
+      .find((x) =>
         x.accounts.some(
-          y =>
+          (y) =>
             (options.uuid && y.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name && y.name.toLowerCase() == options.name)
-        )
+            (options.name && y.name && y.name.toLowerCase() == options.name),
+        ),
       );
     if (!processed) return null;
     return processed.permissionRank;
@@ -162,25 +204,49 @@ class Utils {
   getUserObject(options = {}) {
     if (!options || (!options.uuid && !options.name && !options.discord)) {
       throw new Error(
-        "Invalid options: 'uuid' or 'name' must be provided to get user info."
+        "Invalid options: 'uuid' or 'name' must be provided to get user info.",
       );
     }
 
     if (options.uuid) options.uuid = options.uuid.toLowerCase();
     if (options.name) options.name = options.name.toLowerCase();
-    if (options.discord) options.discord = options.discord.toLowerCase();
+    if (options.discord) {
+      let data = this.playerNamesDatabase
+        .get("data")
+        .find((x) => x.discord == options.discord);
+      if (!data) return null;
+      return data;
+    }
     return this.playerNamesDatabase
       .get("data")
-      .find(x =>
+      .find((x) =>
         x.accounts.some(
-          y =>
+          (y) =>
             (options.uuid && y.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name && y.name.toLowerCase() == options.name) ||
-            (options.discord &&
-              y.discord &&
-              y.discord.toLowerCase() == options.discord)
-        )
+            (options.name && y.name && y.name.toLowerCase() == options.name)
+        ),
       );
+  }
+
+  /**
+   * @param {string} user1   sender.username
+   * @param {string} user2   sender.username
+   *
+   * @returns {boolean} Returns true **iff** the player behind username 1 has
+   * a strictly higher permission level than the entry behind username 2, i.e.,
+   * returns true if #1 is allowed to kick/ban/etc. #2.
+   *
+   * @example
+   * ```js
+   * if (!bot.utils.isHigherRanked(sender.username, playerToBeAffected)) return;
+   * ```
+   */
+  isHigherRanked(user1, user2) {
+    // bot.utils.getPermissionsByUser({ name: sender.username })
+    const result =
+      this.getPermissionsByUser({ name: user1 }) >
+      this.getPermissionsByUser({ name: user2 });
+    return result;
   }
 
   /**
@@ -195,12 +261,12 @@ class Utils {
     if (options.name) options.name = options.name.toLowerCase();
     let data = this.playerNamesDatabase
       .get("data")
-      .find(x =>
+      .find((x) =>
         x.accounts.some(
-          y =>
+          (y) =>
             (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name.toLowerCase() == options.name)
-        )
+            (options.name && y.name.toLowerCase() == options.name),
+        ),
       );
     if (!data) return null;
     if (!data.preferredName) {
@@ -224,12 +290,12 @@ class Utils {
     if (options.name) options.name = options.name.toLowerCase();
     let data = this.playerNamesDatabase
       .get("data")
-      .find(x =>
+      .find((x) =>
         x.accounts.some(
-          y =>
+          (y) =>
             (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name.toLowerCase() == options.name)
-        )
+            (options.name && y.name.toLowerCase() == options.name),
+        ),
       );
     if (!data) return null;
     let getData = this.playerNamesDatabase.get("data");
@@ -244,7 +310,7 @@ class Utils {
    * @returns the random string
    */
   /* const */
-  generateRandomString = length => {
+  generateRandomString = (length) => {
     const characters =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let result = "";
@@ -268,8 +334,9 @@ class Utils {
     // accept/allow a *veeeery* long message to not go through.
     return (
       string +
+      " |" +
       ` ${this.generateRandomString(
-        string.length * 0.33 < 6 ? 6 : string.length * 0.33
+        string.length * 0.33 < 6 ? 6 : string.length * 0.33,
       )}`
     );
   }
@@ -287,12 +354,12 @@ class Utils {
     if (options.name) options.name = options.name.toLowerCase();
     let data = this.playerNamesDatabase
       .get("data")
-      .find(x =>
+      .find((x) =>
         x.accounts.some(
-          y =>
+          (y) =>
             (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name.toLowerCase() == options.name)
-        )
+            (options.name && y.name.toLowerCase() == options.name),
+        ),
       );
     let getData = this.playerNamesDatabase.get("data");
     getData[getData.indexOf(data)].discord = options.discordId;
@@ -348,12 +415,12 @@ class Utils {
     if (options.name) options.name = options.name.toLowerCase();
     let data = this.playerNamesDatabase
       .get("data")
-      .find(x =>
+      .find((x) =>
         x.accounts.some(
-          y =>
+          (y) =>
             (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name.toLowerCase() == options.name)
-        )
+            (options.name && y.name.toLowerCase() == options.name),
+        ),
       );
     if (!data) return null;
     let getData = this.playerNamesDatabase.get("data");
@@ -381,23 +448,25 @@ class Utils {
     else return WebhookMessageType.Other;
   }
 
-  /**
-   *
-   * @param {String} message
-   * @param {WebhookMessageType} messageType
-   */
-  sendWebhookMessage(message, messageType) {
-    let webhooks = this.webhookLogger.getWebhooks({ messageType: messageType });
-    webhooks.forEach(async (value, key) => {
-      try {
-        let discWebhook = new WebhookClient({ url: key });
-        await discWebhook.send(`\`\`\`ansi\n${message}\`\`\``);
-      } catch (e) {
-        this.log(
-          `Error sending one of the webhooks a message, please check the URL.`,
-          "error"
-        );
-      }
+  sendWebhookMessages() {
+    let messageQueue = this.webhookLogger.messageQueue;
+    messageQueue.forEach(async (value, key) => {
+      if(!value) return;
+      let webhooks = this.webhookLogger.getWebhooks({ messageType: key });
+      webhooks.forEach(async (value1, key) => {
+        try {
+          let discWebhook = new WebhookClient({ url: key });
+          await discWebhook.send(`\`\`\`ansi\n${value.join("\n")}\`\`\``);
+        } catch (e) {
+          if(this.webhookLogger.invalidWebhooks.has(key)) return;
+          this.log(
+            `Error sending one of the webhooks a message, please check the URL.`,
+            "error",
+          );
+          this.webhookLogger.setInvalidWebhook(key);
+        }
+      });
+      this.webhookLogger.messageQueue.set(key, null);
     });
   }
 }
@@ -430,12 +499,12 @@ class Debug {
       console.log(
         allowList
           .map(
-            x =>
+            (x) =>
               `Player UUIDs: ${x.accounts
-                .map(y => `${y.name} (${y.uuid})`)
-                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`
+                .map((y) => `${y.name} (${y.uuid})`)
+                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`,
           )
-          .join("\n")
+          .join("\n"),
       );
     if (options.printLength) console.log(allowList.length);
     if (options.printFirst) console.log(allowList[0]);
@@ -443,26 +512,26 @@ class Debug {
     if (options.printRank)
       console.log(
         allowList
-          .filter(x => x.permissionRank === options.printRank)
+          .filter((x) => x.permissionRank === options.printRank)
           .map(
-            x =>
+            (x) =>
               `Player UUIDs: ${x.accounts
-                .map(y => `${y.name} (${y.uuid})`)
-                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`
+                .map((y) => `${y.name} (${y.uuid})`)
+                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`,
           )
-          .join("\n")
+          .join("\n"),
       );
     if (options.printUser)
       console.log(
         allowList
-          .filter(x => x.uuids.includes(options.printUser))
+          .filter((x) => x.uuids.includes(options.printUser))
           .map(
-            x =>
+            (x) =>
               `Player UUIDs: ${x.accounts
-                .map(y => `${y.name} (${y.uuid})`)
-                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`
+                .map((y) => `${y.name} (${y.uuid})`)
+                .join(", ")}\nPermissions: ${x.permissionRank}\n--------------`,
           )
-          .join("\n")
+          .join("\n"),
       );
   }
 
@@ -505,9 +574,55 @@ class Link {
   }
 }
 
+class DiscordReply {
+  constructor() {
+    this.collection = new Collection();
+  }
+
+  addReply(id) {
+    let code = utils.generateRandomString(6);
+    this.collection.set(code, {
+      id: id,
+      verified: false,
+    });
+    return code;
+  }
+
+  removeReply(code) {
+    this.collection.delete(code);
+  }
+
+  getReply(code) {
+    return this.collection.get(code);
+  }
+
+  setReply(code, data) {
+    this.collection.set(code, data);
+  }
+}
+
 class WebhookLogger {
   constructor() {
     this.webhooks = new Collection();
+    this.messageQueue = new Collection();
+    this.invalidWebhooks = new Collection();
+  }
+
+  addMessage(message, messageType) {
+    let type = this.messageQueue.get(messageType);
+    if (!type) type = [];
+    type.push(message);
+    if (messageType === WebhookMessageType.All) {
+      this.messageQueue.set(
+        WebhookMessageType.All,
+        this.messageQueue.get(WebhookMessageType.All).push(message),
+      );
+    }
+    this.messageQueue.set(messageType, type);
+  }
+
+  setInvalidWebhook(url) {
+    this.invalidWebhooks.set(url, true);
   }
 
   /**
@@ -516,7 +631,7 @@ class WebhookLogger {
    */
   async setWebhooks(webhooks) {
     this.webhooks.clear();
-    webhooks.forEach(x => {
+    webhooks.forEach((x) => {
       this.webhooks.set(x.webhookUrl, x.messageType);
     });
     return this.webhooks;
@@ -532,7 +647,7 @@ class WebhookLogger {
     if (options.webhookUrl) return this.webhooks.get(options.webhookUrl);
     else if (options.messageType)
       return this.webhooks.filter(
-        x => x === options.messageType || x === WebhookMessageType.All
+        (x) => x === options.messageType || x === WebhookMessageType.All,
       );
     else return this.webhooks;
   }
@@ -601,7 +716,7 @@ let utils = new Utils(
   // import("../data/playerNames.json", { with: { type: "json" } }),
   null,
   import("../../data/autoKickWords.json", { with: { type: "json" } }),
-  import("../../data/bingoBrewersRules.json", { with: { type: "json" } })
+  import("../../data/bingoBrewersRules.json", { with: { type: "json" } }),
 );
 
 export { utils };
