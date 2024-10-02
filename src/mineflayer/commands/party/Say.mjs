@@ -1,7 +1,7 @@
 import { Permissions } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["say"], // This command will be triggered by either command1 or command2
+  name: ["say", "speak"], // This command will be triggered by either command1 or command2
   ignore: false, // Whether to ignore this file or not
   description: "Say Command", // Description of the command
   permission: Permissions.Trusted, // Permission level required to execute

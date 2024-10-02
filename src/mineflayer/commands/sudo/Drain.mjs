@@ -3,7 +3,7 @@ import { Permissions } from "../../../utils/Interfaces.mjs";
 export default {
   name: ["drain", "empty"], // This command will be triggered by either command1 or command2
   ignore: false, // Whether to ignore this file or not
-  description: "Empties the party after a 5 second delay", // Description of the command
+  description: "Empties the party after a 10 second delay", // Description of the command
   permission: Permissions.Admin, // Permission level required to execute this command
   customPrefix: "!sudo", // Only use this if you want to use a custom prefix for this command, otherwise leave it empty and it'll use the default prefix
   /*
