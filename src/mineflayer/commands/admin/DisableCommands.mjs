@@ -25,7 +25,7 @@ export default {
     } else {
       if (!args[0])
         return bot.reply(
-          sender.username,
+          sender,
           "Please specify a command to disable.",
         );
       // TODO: this should work for just one, but also _multiple_ commands

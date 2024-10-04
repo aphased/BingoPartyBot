@@ -68,7 +68,7 @@ export default {
           null;
 
         bot.reply(
-          sender.username,
+          sender,
           // equivalent to e.g. "contact aphased"
           `No guide available - contact ${botAccountOwner}`,
         );

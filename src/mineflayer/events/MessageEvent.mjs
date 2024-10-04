@@ -11,11 +11,12 @@ export default {
    * @param {import("../Bot.mjs").default} bot
    */
   execute: async function (message, bot) {
+    if (message.toString() === bot.utils.chatSeparator) return;
     let msgType = SenderType.Minecraft;
     let discordReplyId;
     if (bot.config.showMcChat && !message.self) {
       console.log(message.toAnsi());
-      bot.utils.sendWebhookMessage(
+      bot.utils.webhookLogger.addMessage(
         message.toAnsi(undefined, bot.utils.discordAnsiCodes),
         bot.utils.classifyMessage(message.toString()),
       );
@@ -27,7 +28,7 @@ export default {
         discordReplyId = message.discordReplyId;
       }
       message = message.content;
-      bot.utils.sendWebhookMessage(
+      bot.utils.webhookLogger.addMessage(
         message,
         bot.utils.classifyMessage(message.toString()),
       );
