@@ -19,6 +19,8 @@ class Utils {
     this.discordReply = new DiscordReply(); // Set DiscordReply class
     this.webhookLogger = new WebhookLogger(); // Set WebhookLogger class
     this.discordAnsiCodes = discordAnsiCodes;
+    this.chatSeparator =
+      "-----------------------------------------------------";
     this.minMsgDelay = 550;
     (async () => {
       setInterval(() => {

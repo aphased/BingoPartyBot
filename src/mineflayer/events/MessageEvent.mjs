@@ -11,6 +11,7 @@ export default {
    * @param {import("../Bot.mjs").default} bot
    */
   execute: async function (message, bot) {
+    if (message.toString() === bot.utils.chatSeparator) return;
     let msgType = SenderType.Minecraft;
     let discordReplyId;
     if (bot.config.showMcChat && !message.self) {
