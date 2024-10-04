@@ -112,10 +112,7 @@ export default {
         )
           return command.execute(bot, sender, commandArgs);
         else
-          bot.reply(
-            sender.username,
-            "You do not have permission to run this command!",
-          );
+          bot.reply(sender, "You do not have permission to run this command!");
       }
     }
   },
