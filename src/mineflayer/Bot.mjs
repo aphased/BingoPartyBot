@@ -71,9 +71,12 @@ class Bot {
       console.log(`Replying to ${sender.username} with message: ${message}`);
     // alternative (currently unused):
     // this.chat(`w ${recipient} ${this.utils.addRandomString(message)}`);
-    if(sender.type === SenderType.Minecraft) this.chat(`/r ${this.utils.addRandomString(message)}`);
+    if (sender.type === SenderType.Minecraft)
+      this.chat(`/r ${this.utils.addRandomString(message)}`);
     else if (sender.type === SenderType.Discord) {
-      this.utils.discordReply.getReply(sender.discordReplyId).editReply(message);
+      this.utils.discordReply
+        .getReply(sender.discordReplyId)
+        .editReply(message);
       this.utils.discordReply.removeReply(sender.discordReplyId);
     } else if (sender.type === SenderType.Console) {
       this.utils.log(message, "Info");
@@ -137,7 +140,6 @@ class Bot {
     this.bot.chat("/limbo");
     this.bot.waitForTicks(8);
   }
-
 }
 
 const myBot = new Bot();

@@ -16,10 +16,10 @@ const Permissions = Object.freeze({
   Famous: 1,
   Splasher: 2,
   Trusted: 2,
-  Admin: 3,
   Staff: 3,
-  Owner: 4,
-  BotAccount: 4,
+  Admin: 4,
+  Owner: 5,
+  BotAccount: 5,
 });
 
 for (let x of players.default) {
