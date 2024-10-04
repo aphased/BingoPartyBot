@@ -87,7 +87,9 @@
                     "uuid": "6bd56d7096884fc3b9b8eca329ae4063"
                 }
             ],
-            "permissionRank": 3
+            "permissionRank": 3,
+            "hypixelRank": "[MVP+]",
+            "preferredName": "p0iS"
         },
         {
             "accounts": [
@@ -324,7 +326,7 @@
                 }
             ],
             "permissionRank": 5,
-            "hypixelRank": "[CONSOLE]",
+            "hypixelRank": "[MVP+]",
             "preferredName": "aphased",
             "discord": "369870952344846336"
         },
@@ -380,7 +382,9 @@
                     "uuid": "59cbc42ab8bc462d93765da98336c8f9"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "hypixelRank": "[MVP+]",
+            "preferredName": "KiLLz_StRoMzY"
         },
         {
             "accounts": [
@@ -393,7 +397,10 @@
                     "uuid": "262f6f1c442f4ab2923d5598058b1479"
                 }
             ],
-            "permissionRank": 3
+            "permissionRank": 3,
+            "hypixelRank": "[MVP+]",
+            "preferredName": "ooffyy",
+            "discord": "582329993670164484"
         },
         {
             "accounts": [
@@ -415,7 +422,9 @@
                     "uuid": "6b1a8bb88ffe45929708add2430ffaab"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "hypixelRank": "[MVP++]",
+            "preferredName": "Netomnia"
         },
         {
             "accounts": [
@@ -502,7 +511,9 @@
                     "uuid": "2f168b28d2674d728af38daa1e019dbc"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "hypixelRank": "[MVP+]",
+            "preferredName": "Tryp0MC"
         },
         {
             "accounts": [
@@ -528,7 +539,9 @@
                     "uuid": "7c6f6471da794823855a189c6958f6b2"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "hypixelRank": "[MVP+]",
+            "preferredName": "foqh"
         },
         {
             "accounts": [
@@ -607,7 +620,9 @@
                     "uuid": "85f1efe9c56441378c55dd7dceb4b403"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "hypixelRank": "[VIP+]",
+            "preferredName": "ZerosTulip"
         },
         {
             "accounts": [
@@ -624,7 +639,9 @@
                     "uuid": "a80619a05c684dbaa265cfad7bcd8430"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "hypixelRank": "[MVP++]",
+            "preferredName": "Spxi"
         },
         {
             "accounts": [
@@ -657,7 +674,9 @@
                     "uuid": "92624a756f7246b082fc8009654085aa"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "hypixelRank": "[MVP+]",
+            "preferredName": "emaia"
         },
         {
             "accounts": [
@@ -666,7 +685,9 @@
                     "uuid": "ae9acba268234b6b87657805a3112769"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "hypixelRank": "[VIP]",
+            "preferredName": "Siggydlx"
         },
         {
             "accounts": [
@@ -799,7 +820,9 @@
                     "uuid": "581e8773bc8b44d38816edc8a03d6a19"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "hypixelRank": "[MVP+]",
+            "preferredName": "JakeyBub"
         },
         {
             "accounts": [
@@ -826,7 +849,9 @@
                     "uuid": null
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "hypixelRank": "[MVP+]",
+            "preferredName": "Dxtty"
         },
         {
             "accounts": [
@@ -884,7 +909,9 @@
                     "uuid": "9b2abffc43024490b70b670754bced75"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "hypixelRank": "[MVP++]",
+            "preferredName": "tuilps"
         },
         {
             "accounts": [
@@ -911,7 +938,9 @@
                     "uuid": "53d1677061c7416f974b34845adbc75c"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "hypixelRank": "[VIP]",
+            "preferredName": "JulianUwU"
         },
         {
             "accounts": [
@@ -926,7 +955,8 @@
             ],
             "permissionRank": 2,
             "hypixelRank": "[VIP]",
-            "preferredName": "jbanate"
+            "preferredName": "jbanate",
+            "discord": "696288407655153675"
         },
         {
             "accounts": [
@@ -944,7 +974,9 @@
                     "uuid": "eb14ca9899334fe38e7e02eafde514fa"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "hypixelRank": "[MVP+]",
+            "preferredName": "unterrunden"
         },
         {
             "accounts": [
@@ -963,9 +995,15 @@
                 {
                     "name": "Huskestuggu",
                     "uuid": "69d1c5d66865408cbe2bb49ceaa718ed"
+                },
+                {
+                    "name": "BingoHubSplasher",
+                    "uuid": "ba8fd82a6c9445858f49e871d9af7eba"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "hypixelRank": "[VIP+]",
+            "preferredName": "Mininoob46"
         },
         {
             "accounts": [
@@ -975,7 +1013,9 @@
                 }
             ],
             "permissionRank": 2,
-            "preferredName": "Conutik"
+            "preferredName": "Conutik",
+            "hypixelRank": "[MVP+]",
+            "discord": "1186598102619148371"
         },
         {
             "accounts": [
@@ -993,7 +1033,9 @@
                     "uuid": "5ae286920fc349899a6d95eb8371e1fb"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "hypixelRank": "[VIP]",
+            "preferredName": "1RealFadi"
         },
         {
             "accounts": [
@@ -1002,7 +1044,9 @@
                     "uuid": "749a26efb6bc47c18ec7ed4edf1fe130"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "hypixelRank": "[VIP]",
+            "preferredName": "MuggleMagic"
         },
         {
             "accounts": [
@@ -1023,16 +1067,24 @@
                     "uuid": "491eca1eefc14765914a4d9f31760351"
                 }
             ],
-            "permissionRank": 5
+            "permissionRank": 5,
+            "hypixelRank": "[CONSOLE]",
+            "preferredName": "BingoParty"
         },
         {
             "accounts": [
                 {
                     "name": "zLuna___",
                     "uuid": "051062833caf405b97a6f25b2afa230b"
+                },
+                {
+                    "name": "ClerkSeraphine__",
+                    "uuid": "051062833caf405b97a6f25b2afa230b"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "hypixelRank": "[VIP]",
+            "preferredName": "zLuna___"
         },
         {
             "accounts": [
@@ -1041,7 +1093,9 @@
                     "uuid": "17f61ecb16b246708874ce7916c27c6e"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "hypixelRank": "",
+            "preferredName": "mentaiko06"
         },
         {
             "name": "apehypocrite",
@@ -1053,6 +1107,22 @@
                 }
             ],
             "preferredName": "apehypocrite"
+        },
+        {
+            "name": "1a2b3g4e",
+            "permissionRank": 2,
+            "accounts": [
+                {
+                    "name": "1a2b3g4e",
+                    "uuid": "909924ef3e7641fa810f9c9688ad2c6b"
+                },
+                {
+                    "name": "tgfrv",
+                    "uuid": "a5081489e7724fea88a870a7273150c4"
+                }
+            ],
+            "preferredName": "1a2b3g4e",
+            "hypixelRank": "[MVP+]"
         }
     ]
 }
