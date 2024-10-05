@@ -16,6 +16,10 @@ export default {
       bot.reply(sender, "Please provide a message to send.");
       return;
     }
+    if(args.join(" ").split("").length > 256) {
+      bot.reply(sender, "Message is too long! Please keep it under 256 characters.");
+      return;
+    }
     bot.chat(`/pc ${sender.username}: ${args.join(" ")}`);
   },
 };
