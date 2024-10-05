@@ -64,6 +64,7 @@ export default {
         commandFound = bot.partyCommands.find(
           (value, key) =>
             key.includes(args[1].toLowerCase()) &&
+            value.customPrefix &&
             value.customPrefix.toLowerCase() === args[0].toLowerCase(),
         );
       } else {
