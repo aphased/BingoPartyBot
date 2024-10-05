@@ -7,6 +7,7 @@ export default {
     email: "EMAIL OF ACCOUNT HERE",
   },
   webhook: {
+    // TODO: add support for multiple URLS here too, just like for bridge
     url: "WEBHOOK API URL HERE", // This is for main bot logging
     name: "BingoParty Bridge",
     avatarUrl: "",
