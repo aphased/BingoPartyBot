@@ -26,7 +26,7 @@ class Utils {
       setInterval(() => {
         this.sendWebhookMessages();
       }, 5000);
-    })()
+    })();
   }
 
   setDebug(debug) {
@@ -451,14 +451,14 @@ class Utils {
   sendWebhookMessages() {
     let messageQueue = this.webhookLogger.messageQueue;
     messageQueue.forEach(async (value, key) => {
-      if(!value) return;
+      if (!value) return;
       let webhooks = this.webhookLogger.getWebhooks({ messageType: key });
       webhooks.forEach(async (value1, key) => {
         try {
           let discWebhook = new WebhookClient({ url: key });
           await discWebhook.send(`\`\`\`ansi\n${value.join("\n")}\`\`\``);
         } catch (e) {
-          if(this.webhookLogger.invalidWebhooks.has(key)) return;
+          if (this.webhookLogger.invalidWebhooks.has(key)) return;
           this.log(
             `Error sending one of the webhooks a message, please check the URL.`,
             "error",

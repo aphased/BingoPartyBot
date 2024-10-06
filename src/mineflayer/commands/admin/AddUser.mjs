@@ -40,7 +40,7 @@ export default {
       if (isNaN(args[1]))
         permission = Permissions[Utils.capitalizeFirstLetter(args[1])];
       else permission = parseInt(args[1]);
-      if (!permission) {
+      if (!permission && permission !== 0) {
         bot.reply(sender, "Invalid permission");
         return;
       }

@@ -63,7 +63,8 @@ export default {
           preferredName: bot.bot.username,
         };
       userObject.permissionRank = Permissions.BotAccount;
-      if(data[data.indexOf(userObject)]) data[data.indexOf(userObject)] = userObject
+      if (data[data.indexOf(userObject)])
+        data[data.indexOf(userObject)] = userObject;
       else data.push(userObject);
       bot.utils.playerNamesDatabase.set("data", data);
       bot.utils.log("Bot account added to database", "Info");

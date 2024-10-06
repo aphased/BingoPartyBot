@@ -1,13 +1,11 @@
 import { Permissions } from "../../../utils/Interfaces.mjs";
-import Utils from "../../../utils/Utils.mjs";
-import loadPartyCommands from "../../handlers/PartyCommandHandler.mjs";
 
 export default {
-  name: ["test", "boopme"],
+  name: ["test", "testpermissions", "testperms", "testcommand", "boopme"],
   ignore: false,
   description:
-    "See if YOU are on the permission list, and what permissions you have",
-  //One day this will also have ban info? maybe?
+    "Test command. See if you are on the permission list, and what permissions you have",
+  // One day this will also have ban info? maybe?
   permission: Permissions.ExSplasher,
   /**
    *
@@ -16,6 +14,12 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
+    // previous implementation:
+    /* let userPerms = bot.utils.getPermissionsByUser({ name: sender.username });
+    if (userPerms) {
+      bot.reply(sender, `You have permission level: ${userPerms}`);
+    } */
+
     let uuid = await bot.utils.getUUID(sender.username);
     if (!uuid) return bot.reply(sender, "whad.");
     let playerNames = bot.utils.playerNamesDatabase.get("data");
