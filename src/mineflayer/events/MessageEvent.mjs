@@ -1,6 +1,5 @@
-import { Collection } from "discord.js";
 import Utils from "../../utils/Utils.mjs";
-import { SenderType } from "../../utils/Interfaces.mjs";
+import { SenderType, Permissions } from "../../utils/Interfaces.mjs";
 
 export default {
   name: "MessageEvent",
@@ -108,13 +107,23 @@ export default {
         };
         if (!command.permission)
           return command.execute(bot, sender, commandArgs);
-        if (
-          command.permission <=
-          bot.utils.getPermissionsByUser({ name: sender.username })
-        )
+
+        let userPermissionLevel = bot.utils.getPermissionsByUser({
+          name: sender.username,
+        });
+        if (command.permission <= userPermissionLevel)
           return command.execute(bot, sender, commandArgs);
-        else
-          bot.reply(sender, "You do not have permission to run this command!");
+        else {
+          // Compare against the lowest permission rank which effectively is not
+          // allowed to (and can't) do anything
+          if (userPermissionLevel > Permissions.ExSplasher)
+            // Don't reply if the sender may not even be on the allowlist at
+            // all, could be just anybody/a random player too
+            bot.reply(
+              sender,
+              "You do not have permission to run this command!",
+            );
+        }
       }
     }
   },
