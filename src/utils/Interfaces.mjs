@@ -27,11 +27,9 @@ export const MessageType = Object.freeze({
   Other: 3,
 });
 
-/*
- *
+/**
  * When adding a new permission, make sure you place it in the number that corresponds to the correct weight.
  * A higher weight means a higher permission level.
- *
  */
 export const Permissions = Object.freeze({
   ExSplasher: 0,
@@ -45,12 +43,9 @@ export const Permissions = Object.freeze({
   BotAccount: 5,
 });
 
-/*
- *
+/**
  * I don't think you'd need to add a new type, but just incase - Conutik
- *
  */
-
 export const WebhookMessageType = Object.freeze({
   JoinLeave: 0,
   PrivateMessage: 1,
@@ -61,9 +56,8 @@ export const WebhookMessageType = Object.freeze({
   All: 6,
 });
 
-
 export const SenderType = Object.freeze({
   Minecraft: 0,
   Discord: 1,
-  Console: 2
-})
+  Console: 2,
+});
