@@ -35,6 +35,8 @@ export default {
     if (RegExp(/^From /g).test(message.toString())) {
       let command = message.toString().split(": ").slice(1).join(": "); // !p promo (lets say)
       if (command.toLowerCase().startsWith("boop!"))
+        // TODO: this needs a settings toggle – if !p invite is disabled, this
+        // shouldn't work either
         return bot.chat(
           `/p invite ${Utils.removeRank(
             message.toString().split(": ")[0].replace("From ", ""),
@@ -124,6 +126,10 @@ export default {
               "You do not have permission to run this command!",
             );
         }
+      } else {
+        // (if not commandFound)
+        /* TODO: attach handler for messages in party chat like "!guide" here? */
+        return;
       }
     }
   },
