@@ -17,6 +17,12 @@ export default {
    */
   execute: async function (bot, sender, args) {
     let user = args[0];
+    if (!user || user.length == 0) {
+      return bot.reply(
+        sender,
+        "Please provide a user to query/get permissions for.",
+      );
+    }
     let uuid = await bot.utils.getUUID(user);
     if (!uuid) return bot.reply(sender, "User not found!");
     let playerNames = bot.utils.playerNamesDatabase.get("data");
