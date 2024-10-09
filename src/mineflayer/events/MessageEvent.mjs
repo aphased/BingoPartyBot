@@ -12,6 +12,16 @@ export default {
    */
   execute: async function (message, bot) {
     if (message.toString() === bot.utils.chatSeparator) return;
+    // Attempt to extract locraw's "server" entry from message and check for limbo
+    const locrawServer = message
+      .toString()
+      .match(/^{"server":"(\w+)"(,"\w+":"[\w ]+")*}$/)?.[1];
+    if (locrawServer) {
+      if (locrawServer !== "limbo") {
+        bot.chat("/limbo");
+      }
+      return;
+    }
     let msgType = SenderType.Minecraft;
     let discordReplyId;
     if (bot.config.showMcChat && !message.self) {
