@@ -22,7 +22,10 @@ export default {
       );
     }
     const partyInvite = bot.utils.findValidPartyInvite(message);
-    if (partyInvite) {
+    if (
+      partyInvite &&
+      !bot.partyCommands.find((value, key) => key.includes("invite")).disabled
+    ) {
       setTimeout(() => {
         bot.chat(`/p accept ${partyInvite}`);
       }, bot.utils.minMsgDelay);
