@@ -448,6 +448,26 @@ class Utils {
     else return WebhookMessageType.Other;
   }
 
+  /**
+   *
+   * @param {ChatMessage} message
+   * @returns {String|null}
+   */
+  findValidPartyInvite(message) {
+    // all clickable segments in the invite message have the same clickEvent, so we only care about the first one
+    const inviteIGN = message.extra
+      ?.find((obj) => obj.clickEvent?.value?.startsWith("/party accept "))
+      ?.clickEvent?.value?.slice(14);
+    if (
+      inviteIGN &&
+      (this.getPermissionsByUser({ name: inviteIGN }) ?? 0) >= 2
+    ) {
+      return inviteIGN;
+    } else {
+      return null;
+    }
+  }
+
   sendWebhookMessages() {
     let messageQueue = this.webhookLogger.messageQueue;
     messageQueue.forEach(async (value, key) => {
