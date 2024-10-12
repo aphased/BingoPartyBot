@@ -26,16 +26,22 @@ export default {
       if (!args[0])
         return bot.reply(
           sender,
-          "Please specify a command to enable.",
+          "Please specify one or more command(s) to enable.",
         );
-      // TODO: this should work for just one, but also _multiple_ commands
-      // sent at once (whitespace-separated)
-      let command = bot.partyCommands.find((value, key) =>
-        key.includes(args[0]),
-      );
-      if (!command) return bot.reply(sender, "Command not found.");
-      command.disabled = false;
-      bot.reply(sender, "Command enabled!");
+      let commands = [];
+      args.forEach((arg) => {
+        const found = bot.partyCommands.find((value, key) => key.includes(arg));
+        if (found) {
+          commands.push(found);
+        }
+      });
+
+      if (commands.length !== args.length)
+        return bot.reply(sender, "One or more command(s) not found.");
+      commands.forEach((cmd) => {
+        cmd.disabled = false;
+      });
+      bot.reply(sender, "Command(s) enabled!");
     }
   },
 };
