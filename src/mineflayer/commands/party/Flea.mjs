@@ -16,19 +16,10 @@ export default {
     // 4 repetitions à 4 seconds apart, then a pause of 20 seconds, then a
     // final fifth one
 
-    // TODO: The two marked lines below will currently lead to a crash, so they
-    // are commented out. However, they are "basically functional" in logic
-    // apart from some mistake in terms of syntax or similar, which is why
-    // they're kept in for reference.
-    // Conutik:
-    // bot.partyCommands.find(x=>x.includes("repeat")).execute(bot,sender,`4 4 ${args.join(" ")}`.split(" "))
-
-    // TODO: bot.partyCommands.get("repeat").execute(bot, sender, `4 4 ${args}`);
+    bot.partyCommands.find((value, key) => key.includes("customrepeat")).execute(bot,sender,`4 4 ${args.join(" ")}`.split(" "))
 
     setTimeout(() => {
-      // TODO: bot.partyCommands.get("say").execute(bot, sender, args);
-      // equivalent to?:
-      // bot.chat(`/pc ${sender.username}: ${args.slice(startIndex).join(" ")}`);
-    }, 16_000 + 20_000);
+      bot.partyCommands.find((value, key) => key.includes("say")).execute(bot,sender,args)
+    }, 12_000 + 20_000);
   },
 };
