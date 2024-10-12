@@ -11,7 +11,8 @@ export default {
    * @param {import("../Bot.mjs").default} bot
    */
   execute: async function (bot) {
-    bot.utils.log("Logged in! `(" + bot.bot.username + ")`", "Info");
+    bot.username = bot.bot.username;
+    bot.utils.log("Logged in! `(" + bot.username + ")`", "Info");
     if (Object.keys(bot.utils.playerNamesDatabase.JSON()).length <= 0) {
       bot.utils.log("Player names database is empty! Fetching data...", "Warn");
       bot.utils.playerNamesDatabase.set("data", [
@@ -45,22 +46,22 @@ export default {
       }, 1000);
     }
     if (
-      bot.utils.getPermissionsByUser({ name: bot.bot.username }) <
+      bot.utils.getPermissionsByUser({ name: bot.username }) <
       Permissions.BotAccount
     ) {
       let data = bot.utils.playerNamesDatabase.get("data");
       let userObject = data.find((x) =>
-        x.accounts.find((y) => y.name === bot.bot.username),
+        x.accounts.find((y) => y.name === bot.username),
       );
       if (!userObject)
         userObject = {
           accounts: [
             {
-              name: bot.bot.username,
-              uuid: await bot.utils.getUUID(bot.bot.username),
+              name: bot.username,
+              uuid: await bot.utils.getUUID(bot.username),
             },
           ],
-          preferredName: bot.bot.username,
+          preferredName: bot.username,
         };
       userObject.permissionRank = Permissions.BotAccount;
       if(data[data.indexOf(userObject)]) data[data.indexOf(userObject)] = userObject
@@ -74,7 +75,7 @@ export default {
         username: bot.config.webhook.name,
       },
       {
-        content: "Logged in! `(" + bot.bot.username + ")`",
+        content: "Logged in! `(" + bot.username + ")`",
       },
     );
   },
