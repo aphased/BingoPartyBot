@@ -136,7 +136,9 @@ class Bot {
   }
 
   async onSpawn() {
-    await this.bot.waitForTicks(10);
+    await new Promise((resolve) =>
+      setTimeout(resolve, this.utils.minMsgDelay * 3),
+    );
     this.bot.chat("/locraw");
   }
 }

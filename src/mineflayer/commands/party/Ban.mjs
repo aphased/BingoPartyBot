@@ -27,17 +27,14 @@ export default {
         bot.chat(`/p kick ${player}`);
         setTimeout(() => {
           bot.chat(`/block add ${player}`);
-          setTimeout(() => {
-            bot.chat(`/limbo`);
-            bot.webhook.send(
-              {
-                username: bot.config.webhook.name,
-              },
-              {
-                content: `\`${player}\` was banned from the party by \`${sender.username}\`. Reason: \`${reason}\``,
-              },
-            );
-          }, bot.utils.minMsgDelay);
+          bot.webhook.send(
+            {
+              username: bot.config.webhook.name,
+            },
+            {
+              content: `\`${player}\` was banned from the party by \`${sender.username}\`. Reason: \`${reason}\``,
+            },
+          );
         }, bot.utils.minMsgDelay);
       }, bot.utils.minMsgDelay);
     }, bot.utils.minMsgDelay);
