@@ -19,6 +19,7 @@ export default {
       return bot.reply(sender, "Usage: adduser <user> <permission>");
     const user = args[0];
     if (bot.utils.getUserObject({ name: args[1] })) {
+      // add alias/alt account name to existing player entry
       const mainUser = args[1];
       let data = bot.utils.playerNamesDatabase.get("data");
       if (!data) data = [];
@@ -35,7 +36,9 @@ export default {
       });
       data[data.indexOf(userObject)] = userObject;
       bot.utils.playerNamesDatabase.set("data", data);
+      bot.reply(sender, "User updated");
     } else {
+      // add entirely new player entry
       let permission;
       if (isNaN(args[1]))
         permission = Permissions[Utils.capitalizeFirstLetter(args[1])];
