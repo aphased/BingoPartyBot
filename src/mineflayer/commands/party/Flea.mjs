@@ -16,10 +16,14 @@ export default {
     // 4 repetitions à 4 seconds apart, then a pause of 20 seconds, then a
     // final fifth one
 
-    bot.partyCommands.find((value, key) => key.includes("customrepeat")).execute(bot,sender,`4 4 ${args.join(" ")}`.split(" "))
+    bot.partyCommands
+      .find((value, key) => key.includes("customrepeat"))
+      .execute(bot, sender, `4 4 ${args.join(" ")}`.split(" "));
 
     setTimeout(() => {
-      bot.partyCommands.find((value, key) => key.includes("say")).execute(bot,sender,args)
+      bot.partyCommands
+        .find((value, key) => key.includes("say"))
+        .execute(bot, sender, args);
     }, 12_000 + 20_000);
   },
 };
