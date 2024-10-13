@@ -11,7 +11,7 @@
                     "uuid": "67ebe27f41a04b86a49837ff5d53382d"
                 }
             ],
-            "permissionRank": 3
+            "permissionRank": 4
         },
         {
             "accounts": [
@@ -24,7 +24,9 @@
                     "uuid": "29fba804f9ee43b1b9f997e2849fa6df"
                 }
             ],
-            "permissionRank": 3
+            "permissionRank": 4,
+            "hypixelRank": "[MVP+]",
+            "preferredName": "indigo_polecat"
         },
         {
             "accounts": [
@@ -98,7 +100,9 @@
                     "uuid": "93679901c82e468199fc54b53bb11c84"
                 }
             ],
-            "permissionRank": 1
+            "permissionRank": 1,
+            "hypixelRank": "[MVP++]",
+            "preferredName": "Dredlig"
         },
         {
             "accounts": [
@@ -369,7 +373,10 @@
                     "uuid": "4f4a555700a544a18d55d1b2fa47cac4"
                 }
             ],
-            "permissionRank": 3
+            "permissionRank": 3,
+            "hypixelRank": "[MVP++]",
+            "preferredName": "BossFlea",
+            "discord": "821735954128830504"
         },
         {
             "accounts": [
@@ -1002,7 +1009,7 @@
                 }
             ],
             "permissionRank": 2,
-            "hypixelRank": "[VIP+]",
+            "hypixelRank": "[MVP+]",
             "preferredName": "Mininoob46"
         },
         {
@@ -1041,6 +1048,10 @@
             "accounts": [
                 {
                     "name": "MuggleMagic",
+                    "uuid": "749a26efb6bc47c18ec7ed4edf1fe130"
+                },
+                {
+                    "name": "TryhardingMode",
                     "uuid": "749a26efb6bc47c18ec7ed4edf1fe130"
                 }
             ],
@@ -1123,6 +1134,21 @@
             ],
             "preferredName": "1a2b3g4e",
             "hypixelRank": "[MVP+]"
+        },
+        {
+            "name": "xXRC",
+            "permissionRank": 2,
+            "accounts": [
+                {
+                    "name": "xXRC",
+                    "uuid": "cb8281d2c6b44f2d954eda6647d4b505"
+                },
+                {
+                    "name": "xXGC",
+                    "uuid": "dc223d5b144c4ec2a4e6a0d1142a721d"
+                }
+            ],
+            "preferredName": "xXRC"
         }
     ]
 }
