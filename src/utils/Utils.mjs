@@ -129,6 +129,15 @@ class Utils {
   }
 
   /**
+   * @param {import("../mineflayer/Bot.mjs").default} bot
+   * @param {string} commandAlias
+   * @returns {Object|null}
+   */
+  getCommandByAlias(bot, commandAlias) {
+    return bot.partyCommands.find((value, key) => key.includes(commandAlias));
+  }
+
+  /**
    * Retrieves a list of user accounts filtered by the specified permission
    * rank.
    *
