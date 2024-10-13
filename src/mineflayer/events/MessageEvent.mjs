@@ -17,7 +17,7 @@ export default {
       .toString()
       .match(/^{"server":"(\w+)"(,"\w+":"[\w ]+")*}$/)?.[1];
     if (locrawServer) {
-      if (locrawServer !== "limbo") {
+      if (locrawServer !== "limbo" && !bot.config.debug.disableAutoLimbo) {
         bot.chat("/limbo");
       }
       return;
