@@ -147,6 +147,13 @@ export default {
     } else if (RegExp(/^Party > /g).test(message.toString())) {
       let command = message.toString().split(": ").slice(1).join(": ");
       let args = command.split(" ");
+      // Check if the message is blacklisted and kick if so
+      let kickList = await bot.utils.getKickList();
+      if (kickList.some((e) => args[0].startsWith(e))) {
+        bot.chat(
+          `/p kick ${Utils.removeRank(message.toString().split(": ")[0].replace("Party > ", ""))}`,
+        );
+      }
       let commandFound = bot.partyCommands.find(
         (value, key) =>
           key.includes(args[0].toLowerCase()) && value.isPartyChatCommand,

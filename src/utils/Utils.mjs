@@ -81,12 +81,13 @@ class Utils {
   }
 
   async getKickList() {
-    if (this.kickList.length === 0)
+    if (this.kickList.length === 0) {
       this.kickList = await import(
         `../../data/autoKickWords.json?cacheBust=${Date.now()}`,
         { with: { type: "json" } }
       );
-    this.kickList = this.kickList.default;
+      this.kickList = this.kickList.default.autoKickWords;
+    }
     return this.kickList;
   }
 
@@ -736,7 +737,7 @@ let utils = new Utils(
   true,
   // import("../data/playerNames.json", { with: { type: "json" } }),
   null,
-  import("../../data/autoKickWords.json", { with: { type: "json" } }),
+  import("../../data/autoKickWords.json", { with: { type: "json" } }).autoKickWords,
   import("../../data/bingoBrewersRules.json", { with: { type: "json" } }),
 );
 
