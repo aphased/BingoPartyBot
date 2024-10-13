@@ -30,5 +30,6 @@ export default {
     general: true,
     disableMinecraft: false,
     disableDiscord: false,
+    disableAutoLimbo: false
   },
 };

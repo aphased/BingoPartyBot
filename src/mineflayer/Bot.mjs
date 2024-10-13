@@ -24,7 +24,7 @@ class Bot {
     this.bot.once("login", this.onceLogin.bind(this));
 
     this.bot.addListener("kicked", this.onKicked.bind(this));
-    this.bot.once("spawn", this.onceSpawn.bind(this));
+    this.bot.addListener("spawn", this.onSpawn.bind(this));
     // this.bot.addListener("end", this.onEnd.bind(this));
     // this.bot.addListener("chat", this.onChat.bind(this));
     this.bot.addListener("message", this.onMessage.bind(this));
@@ -143,10 +143,11 @@ class Bot {
     configModule.default.execute(message, this);
   }
 
-  onceSpawn() {
-    this.bot.waitForTicks(22);
-    this.bot.chat("/limbo");
-    this.bot.waitForTicks(8);
+  async onSpawn() {
+    await new Promise((resolve) =>
+      setTimeout(resolve, this.utils.minMsgDelay * 3),
+    );
+    this.bot.chat("/locraw");
   }
 }
 

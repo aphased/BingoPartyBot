@@ -21,18 +21,15 @@ export default {
       setTimeout(() => {
         bot.chat(`/block remove ${player}`);
         setTimeout(() => {
-          bot.chat(`/limbo`);
-          setTimeout(() => {
-            bot.reply(sender, `Unbanned ${player}.`);
-            bot.webhook.send(
-              {
-                username: bot.config.webhook.name,
-              },
-              {
-                content: `\`${player}\` was unbanned from the party by \`${sender.username}\`.`,
-              },
-            );
-          }, bot.utils.minMsgDelay);
+          bot.reply(sender, `Unbanned ${player}.`);
+          bot.webhook.send(
+            {
+              username: bot.config.webhook.name,
+            },
+            {
+              content: `\`${player}\` was unbanned from the party by \`${sender.username}\`.`,
+            },
+          );
         }, bot.utils.minMsgDelay);
       }, bot.utils.minMsgDelay);
     }, bot.utils.minMsgDelay);
