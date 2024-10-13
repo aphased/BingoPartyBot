@@ -143,11 +143,11 @@ export default {
               "You do not have permission to run this command!",
             );
         }
-      } else {
-        // (if not commandFound)
-        /* TODO: attach handler for messages in party chat like "!guide" here? */
-        return;
       }
+    } else {
+      // (if not commandFound)
+      /* TODO: attach handler for messages in party chat like "!guide" here? */
+      return;
     }
   },
 };
