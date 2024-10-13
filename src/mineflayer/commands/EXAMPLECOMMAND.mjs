@@ -21,5 +21,8 @@ export default {
        - Sending links (https://…) that aren't found on the hypixel.net domain won't work,
          unfortunately, due to Hypixel's limitations on "advertising"
     */
+    /*
+       Read CONTRIBUTING.md for more things that are good to know =)
+    */
   },
 };

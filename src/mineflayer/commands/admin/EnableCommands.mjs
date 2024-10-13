@@ -18,7 +18,7 @@ export default {
     if (args[0] && args[0].toLowerCase() === "all") {
       bot.partyCommands.forEach((value, key) => {
         if (key.includes("disable") || key.includes("enable")) return;
-        bot.partyCommands.get(key).disabled = false;
+        value.disabled = false;
       });
       // TODO: also console log here
       bot.reply(sender, "All commands have been enabled!");
@@ -30,7 +30,7 @@ export default {
         );
       let commands = [];
       args.forEach((arg) => {
-        const found = bot.partyCommands.find((value, key) => key.includes(arg));
+        const found = bot.utils.getCommandByAlias(bot, arg);
         if (found) {
           commands.push(found);
         }
@@ -38,6 +38,11 @@ export default {
 
       if (commands.length !== args.length)
         return bot.reply(sender, "One or more command(s) not found.");
+      if (commands.some((cmd) => cmd.name.includes("disable") || cmd.name.includes("enable")))
+        return bot.reply(
+          sender,
+          "'!p enable' and '!p disable' are always enabled!",
+        );
       commands.forEach((cmd) => {
         cmd.disabled = false;
       });
