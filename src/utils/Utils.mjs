@@ -446,6 +446,9 @@ class Utils {
       return WebhookMessageType.PrivateMessage;
     // else if () PUBLI STUFF
     else if (/^(Guild >)/.test(message)) return WebhookMessageType.GuildMessage;
+    // TODO: add a test for the comprehensive bridgeMessageRegex, and only
+    // whitelist messages passing it, not letting through all other messages
+    // by default
     else return WebhookMessageType.Other;
   }
 
@@ -461,7 +464,8 @@ class Utils {
       ?.clickEvent?.value?.slice(14);
     if (
       inviteIGN &&
-      (this.getPermissionsByUser({ name: inviteIGN }) ?? Permissions.ExSplasher) >= Permissions.Splasher
+      (this.getPermissionsByUser({ name: inviteIGN }) ??
+        Permissions.ExSplasher) >= Permissions.Splasher
     ) {
       return inviteIGN;
     } else {
