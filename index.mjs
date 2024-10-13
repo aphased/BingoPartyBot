@@ -67,7 +67,7 @@ function dataInput(data) {
   if (data.startsWith("/")) myBot.chat(data);
   else if (data.startsWith(myBot.config.partyCommandPrefix))
     myBot.onMessage({
-      content: `From [CONSOLE] ${myBot.bot.username}: ${data}`,
+      content: `From [CONSOLE] ${myBot.username}: ${data}`,
       self: true,
     });
   else if (data.startsWith("!dc")) return; // Add Discord bot stuff
