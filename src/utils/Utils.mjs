@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   DebugOptions,
   MessageType,
+  Permissions,
   WebhookMessageType,
 } from "./Interfaces.mjs";
 import { createLogger, format, transports } from "winston";
@@ -446,6 +447,26 @@ class Utils {
     // else if () PUBLI STUFF
     else if (/^(Guild >)/.test(message)) return WebhookMessageType.GuildMessage;
     else return WebhookMessageType.Other;
+  }
+
+  /**
+   *
+   * @param {ChatMessage} message
+   * @returns {String|null}
+   */
+  findValidPartyInvite(message) {
+    // all clickable segments in the invite message have the same clickEvent, so we only care about the first one
+    const inviteIGN = message.extra
+      ?.find((obj) => obj.clickEvent?.value?.startsWith("/party accept "))
+      ?.clickEvent?.value?.slice(14);
+    if (
+      inviteIGN &&
+      (this.getPermissionsByUser({ name: inviteIGN }) ?? Permissions.ExSplasher) >= Permissions.Splasher
+    ) {
+      return inviteIGN;
+    } else {
+      return null;
+    }
   }
 
   sendWebhookMessages() {
