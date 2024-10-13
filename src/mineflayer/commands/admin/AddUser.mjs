@@ -43,6 +43,7 @@ export default {
       if (isNaN(args[1]))
         permission = Permissions[Utils.capitalizeFirstLetter(args[1])];
       else permission = parseInt(args[1]);
+      // 0 is falsy in JS, but a valid permisson rank, so we have to check…
       if (!permission && permission !== 0) {
         bot.reply(sender, "Invalid permission");
         return;
