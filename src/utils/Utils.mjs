@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   DebugOptions,
   MessageType,
+  Permissions,
   WebhookMessageType,
 } from "./Interfaces.mjs";
 import { createLogger, format, transports } from "winston";
@@ -460,7 +461,7 @@ class Utils {
       ?.clickEvent?.value?.slice(14);
     if (
       inviteIGN &&
-      (this.getPermissionsByUser({ name: inviteIGN }) ?? 0) >= 2
+      (this.getPermissionsByUser({ name: inviteIGN }) ?? Permissions.ExSplasher) >= Permissions.Splasher
     ) {
       return inviteIGN;
     } else {
