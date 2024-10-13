@@ -30,6 +30,15 @@ export default {
         bot.utils.classifyMessage(message.toString()),
       );
     }
+    const partyInvite = bot.utils.findValidPartyInvite(message);
+    if (
+      partyInvite &&
+      !bot.partyCommands.find((value, key) => key.includes("invite")).disabled
+    ) {
+      setTimeout(() => {
+        bot.chat(`/p accept ${partyInvite}`);
+      }, bot.utils.minMsgDelay);
+    }
     if (message.self == true) {
       msgType = SenderType.Console;
       if (message.discord) {
@@ -59,8 +68,6 @@ export default {
         // also TODO: we do not have the username here, yet! Either move some
         // lines of code around so we do have it, or ignore for the time being
         // since we /r anyways currently
-        // also also TODO: i cant figure out the part where we run /p bingoparty and it accepts!
-        // someone please help me i am typing this at 2:42 in the morning and im going mental
         return bot.reply(
           "",
           "Read the documentation on GitHub: aphased/BingoPartyCommands",
