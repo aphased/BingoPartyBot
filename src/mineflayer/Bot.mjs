@@ -31,9 +31,21 @@ class Bot {
   }
 
   /**
+   * This central function is directly or indirectly called whenever anything
+   * is output to Minecraft chat. Before outputting the message, some security/
+   * safety checks are performed (see below within function implementation for
+   * details).
    * @param {String} message
    */
   chat(message) {
+    // Escape potential injections that could ping users etc. on Discord by
+    // escaping all ` (backticks) with ‵ ("reversed prime", U+2035)
+    message = message.replace(/`/g, "‵");
+    // Check message length limit, if it is too long, only perform a cut off
+    // – ideally the caller ensures this property already so that it can be
+    // handled more gracefully than sending out a probably incomplete chat
+    // message.
+    message = message.substring(0, 255);
     this.bot.chat(message);
   }
 

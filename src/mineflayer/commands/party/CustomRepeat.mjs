@@ -22,9 +22,9 @@ export default {
       duration = 2;
       startIndex--;
     }
-    if(duration < 0.5) duration = 0.5;
-    if(duration > 9) duration = 9;
-    if(isNaN(repetitions)) {
+    if (duration < 0.5) duration = 0.5;
+    if (duration > 9) duration = 9;
+    if (isNaN(repetitions)) {
       repetitions = 5;
       startIndex--;
     }
@@ -33,18 +33,26 @@ export default {
     if (args.length < 1 + startIndex) {
       bot.reply(sender, "Invalid command usage!");
       setTimeout(() => {
-        bot.reply(sender, "To use this command, use: !p customrepeat <repetitions> <duration> <message>")
+        bot.reply(
+          sender,
+          "To use this command, use: !p customrepeat <repetitions> <duration> <message>",
+        );
         setTimeout(() => {
-          bot.reply(sender, "For example: !p rep 5 1 Hello world!")
-        }, bot.utils.minMsgDelay)
-      }, 550)
+          bot.reply(sender, "For example: !p rep 5 1 Hello world!");
+        }, bot.utils.minMsgDelay);
+      }, 550);
       return;
     }
 
     for (let i = 0; i < repetitions; i++) {
-      setTimeout(() => {
-        bot.chat(`/pc ${sender.username}: ${args.slice(startIndex).join(" ")}`);
-      }, i * (duration * 1000));
+      setTimeout(
+        () => {
+          bot.chat(
+            `/pc ${sender.username}: ${args.slice(startIndex).join(" ")}`,
+          );
+        },
+        i * (duration * 1000),
+      );
     }
   },
 };
