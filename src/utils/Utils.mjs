@@ -636,6 +636,9 @@ class WebhookLogger {
   addMessage(message, messageType) {
     let type = this.messageQueue.get(messageType);
     if (!type) type = [];
+    // Escape potential injections that could ping users etc. on Discord by
+    // escaping all ` (backticks) with ‵ ("reversed prime", U+2035)
+    message = message.replace(/`/g, "‵");
     type.push(message);
     if (messageType === WebhookMessageType.All) {
       this.messageQueue.set(
