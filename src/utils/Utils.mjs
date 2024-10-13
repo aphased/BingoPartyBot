@@ -455,6 +455,9 @@ class Utils {
       return WebhookMessageType.PrivateMessage;
     // else if () PUBLI STUFF
     else if (/^(Guild >)/.test(message)) return WebhookMessageType.GuildMessage;
+    // TODO: add a test for the comprehensive bridgeMessageRegex, and only
+    // whitelist messages passing it, not letting through all other messages
+    // by default
     else return WebhookMessageType.Other;
   }
 
@@ -470,7 +473,8 @@ class Utils {
       ?.clickEvent?.value?.slice(14);
     if (
       inviteIGN &&
-      (this.getPermissionsByUser({ name: inviteIGN }) ?? Permissions.ExSplasher) >= Permissions.Splasher
+      (this.getPermissionsByUser({ name: inviteIGN }) ??
+        Permissions.ExSplasher) >= Permissions.Splasher
     ) {
       return inviteIGN;
     } else {
@@ -641,6 +645,9 @@ class WebhookLogger {
   addMessage(message, messageType) {
     let type = this.messageQueue.get(messageType);
     if (!type) type = [];
+    // Escape potential injections that could ping users etc. on Discord by
+    // escaping all ` (backticks) with ‵ ("reversed prime", U+2035)
+    message = message.replace(/`/g, "‵");
     type.push(message);
     if (messageType === WebhookMessageType.All) {
       this.messageQueue.set(
