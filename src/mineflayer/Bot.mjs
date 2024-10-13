@@ -38,9 +38,6 @@ class Bot {
    * @param {String} message
    */
   chat(message) {
-    // Escape potential injections that could ping users etc. on Discord by
-    // escaping all ` (backticks) with ‵ ("reversed prime", U+2035)
-    message = message.replace(/`/g, "‵");
     message = this.utils.replaceColorlessEmotes(message)
     // Check message length limit, if it is too long, only perform a cut off
     // – ideally the caller ensures this property already so that it can be
