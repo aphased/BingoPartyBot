@@ -144,10 +144,35 @@ export default {
             );
         }
       }
-    } else {
-      // (if not commandFound)
-      /* TODO: attach handler for messages in party chat like "!guide" here? */
-      return;
+    } else if (RegExp(/^Party > /g).test(message.toString())) {
+      let command = message.toString().split(": ").slice(1).join(": ");
+      let args = command.split(" ");
+      let commandFound = bot.partyCommands.find(
+        (value, key) =>
+          key.includes(args[0].toLowerCase()) && value.isPartyChatCommand,
+      );
+      if (commandFound) {
+        command = commandFound;
+        if (command.disabled) return;
+        let sender = Utils.removeRank(
+          message.toString().split(": ")[0].replace("Party > ", ""),
+        );
+        // No need to check and update rank in allowlist for public party commands
+        sender = {
+          username: sender,
+          preferredName: bot.utils.getPreferredUsername({ name: sender }),
+          commandName: args[0],
+          type: msgType,
+          discordReplyId: discordReplyId,
+        };
+        if (!command.permission)
+          return command.execute(bot, sender, args.slice(1));
+        let userPermissionLevel = bot.utils.getPermissionsByUser({
+          name: sender.username,
+        });
+        if (command.permission <= userPermissionLevel)
+          return command.execute(bot, sender, args.slice(1));
+      }
     }
   },
 };
