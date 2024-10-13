@@ -30,7 +30,7 @@ export default {
         );
       let commands = [];
       args.forEach((arg) => {
-        const found = bot.partyCommands.find((value, key) => key.includes(arg));
+        const found = bot.utils.getCommandByAlias(bot, arg);
         if (found) {
           commands.push(found);
         }

@@ -33,7 +33,7 @@ export default {
     const partyInvite = bot.utils.findValidPartyInvite(message);
     if (
       partyInvite &&
-      !bot.partyCommands.find((value, key) => key.includes("invite")).disabled
+      !bot.utils.getCommandByAlias(bot, "invite").disabled
     ) {
       setTimeout(() => {
         bot.chat(`/p accept ${partyInvite}`);
@@ -53,7 +53,7 @@ export default {
     }
     if (RegExp(/^From /g).test(message.toString())) {
       let command = message.toString().split(": ").slice(1).join(": "); // !p promo (lets say)
-      if (command.toLowerCase().startsWith("boop!"))
+      if (command.toLowerCase().startsWith("boop!") && !bot.utils.getCommandByAlias(bot, "invite").disabled)
         // TODO: this needs a settings toggle – if !p invite is disabled, this
         // shouldn't work either
         return bot.chat(
