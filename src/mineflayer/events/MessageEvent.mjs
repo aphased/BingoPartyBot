@@ -150,7 +150,7 @@ export default {
       // Check if the message is blacklisted and kick if so
       let kickList = await bot.utils.getKickList();
       if (kickList.some((e) => args[0].startsWith(e))) {
-        bot.chat(
+        return bot.chat(
           `/p kick ${Utils.removeRank(message.toString().split(": ")[0].replace("Party > ", ""))}`,
         );
       }
