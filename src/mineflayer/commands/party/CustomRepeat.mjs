@@ -6,7 +6,6 @@ export default {
   description: "Repeat Command", // Description of the command
   permission: Permissions.Trusted, // Permission level required to execute
 
-  // this command is VERY broken and i dont know why, ive tried during duration * 1000 but that doesnt work
 
   /**
    *
@@ -16,15 +15,15 @@ export default {
    */
   execute: async function (bot, sender, args) {
     let repetitions = parseInt(args[0]);
-    let duration = parseFloat(args[1]);
+    let delay = parseFloat(args[1]);
     let startIndex = 2;
-    if (isNaN(duration)) {
-      duration = 2;
+    if (isNaN(delay)) {
+      delay = 2;
       startIndex--;
     }
-    if (duration < 0.5) duration = 0.5;
-    if (duration > 9) duration = 9;
-    if (isNaN(repetitions)) {
+    if(delay < 0.5) delay = 0.5;
+    if(delay > 9) delay = 9;
+    if(isNaN(repetitions)) {
       repetitions = 5;
       startIndex--;
     }
@@ -32,27 +31,18 @@ export default {
 
     if (args.length < 1 + startIndex) {
       bot.reply(sender, "Invalid command usage!");
-      setTimeout(() => {
+      await bot.utils.waitForDelay(bot.utils.minMsgDelay);
         bot.reply(
           sender,
-          "To use this command, use: !p customrepeat <repetitions> <duration> <message>",
+          "To use this command, use: !p customrepeat <repetitions> <delay> <message>",
         );
-        setTimeout(() => {
-          bot.reply(sender, "For example: !p rep 5 1 Hello world!");
-        }, bot.utils.minMsgDelay);
-      }, 550);
-      return;
+        await bot.utils.waitForDelay(bot.utils.minMsgDelay);
+          bot.reply(sender, "For example: !p crep 5 1 Hello world!")
     }
 
     for (let i = 0; i < repetitions; i++) {
-      setTimeout(
-        () => {
-          bot.chat(
-            `/pc ${sender.username}: ${args.slice(startIndex).join(" ")}`,
-          );
-        },
-        i * (duration * 1000),
-      );
+        bot.chat(`/pc ${sender.username}: ${args.slice(startIndex).join(" ")}`);
+        await bot.utils.waitForDelay(bot.utils.minMsgDelay);
     }
   },
 };

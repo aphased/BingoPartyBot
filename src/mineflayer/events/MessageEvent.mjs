@@ -33,7 +33,7 @@ export default {
     const partyInvite = bot.utils.findValidPartyInvite(message);
     if (
       partyInvite &&
-      !bot.utils.getCommandByAlias(bot, "invite").disabled
+      !bot.partyCommands.find((value, key) => key.includes("invite")).disabled
     ) {
       setTimeout(() => {
         bot.chat(`/p accept ${partyInvite}`);
@@ -53,7 +53,7 @@ export default {
     }
     if (RegExp(/^From /g).test(message.toString())) {
       let command = message.toString().split(": ").slice(1).join(": "); // !p promo (lets say)
-      if (command.toLowerCase().startsWith("boop!") && !bot.utils.getCommandByAlias(bot, "invite").disabled)
+      if (command.toLowerCase().startsWith("boop!"))
         // TODO: this needs a settings toggle – if !p invite is disabled, this
         // shouldn't work either
         return bot.chat(
@@ -95,10 +95,6 @@ export default {
       let commandArgs = args.slice(2); // Get the command arguments
       if (commandFound) {
         let command = commandFound;
-        if (command.disabled)
-          return bot.chat(`/r This command is currently disabled!`);
-        //okay i know its not really neccesary but like make the bot more responsive i guess
-        //i didnt use bot.reply because it crashes using sender.username which is probalby due to it being right below me vvvvvvvvvvvvvvv
         let sender = Utils.removeRank(
           message.toString().split(": ")[0].replace("From ", ""),
         );
@@ -124,6 +120,8 @@ export default {
           type: msgType,
           discordReplyId: discordReplyId,
         };
+        if (command.disabled)
+          return bot.reply(sender, `This command is currently disabled!`);
         if (!command.permission)
           return command.execute(bot, sender, commandArgs);
 

@@ -13,9 +13,9 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    let reason = args.slice(0).join(" ") || "No reason given.";
+      let reason = args.slice(0).join(" ") || "No reason given.";
     bot.chat(`/pc The party was closed by ${sender.username}.`);
-    setTimeout(() => {
+    await bot.utils.waitForDelay(bot.utils.minMsgDelay);
       bot.chat(`/stream close`);
       bot.webhook.send(
         {
@@ -25,6 +25,5 @@ export default {
           content: `The party was closed by \`${sender.username}\`. Reason: \`${reason}\``,
         },
       );
-    }, bot.utils.minMsgDelay);
   },
 };

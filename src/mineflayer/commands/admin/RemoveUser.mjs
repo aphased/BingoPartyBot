@@ -14,9 +14,9 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    let user = args[0];
-    let type = args[1];
-    let uuid = await bot.utils.getUUID(user);
+      let user = args[0];
+      let type = args[1];
+      let uuid = await bot.utils.getUUID(user);
     // TODO: attempt to try it based on username one time if UUID fails?
     if (!uuid) return bot.reply(sender, `User ${user} not found!`);
     let playerNames = bot.utils.playerNamesDatabase.get("data");

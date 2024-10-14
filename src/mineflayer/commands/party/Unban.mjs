@@ -16,22 +16,19 @@ export default {
     if (!player)
       return bot.reply(sender, "Please provide a player to unban.");
     bot.reply(sender, `Trying to unban ${player}...`);
-    setTimeout(() => {
-      bot.chat(`/lobby`);
-      setTimeout(() => {
-        bot.chat(`/block remove ${player}`);
-        setTimeout(() => {
-          bot.reply(sender, `Unbanned ${player}.`);
-          bot.webhook.send(
-            {
-              username: bot.config.webhook.name,
-            },
-            {
-              content: `\`${player}\` was unbanned from the party by \`${sender.username}\`.`,
-            },
-          );
-        }, bot.utils.minMsgDelay);
-      }, bot.utils.minMsgDelay);
-    }, bot.utils.minMsgDelay);
+    await bot.utils.waitForDelay(bot.utils.minMsgDelay);
+    bot.chat(`/lobby`);
+    await bot.utils.waitForDelay(bot.utils.minMsgDelay);
+    bot.chat(`/block remove ${player}`);
+    await bot.utils.waitForDelay(bot.utils.minMsgDelay);
+    bot.reply(sender, `Unbanned ${player}.`);
+    bot.webhook.send(
+      {
+        username: bot.config.webhook.name,
+      },
+      {
+        content: `\`${player}\` was unbanned from the party by \`${sender.username}\`.`,
+      },
+    );
   },
 };

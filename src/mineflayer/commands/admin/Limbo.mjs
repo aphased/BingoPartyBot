@@ -13,11 +13,9 @@ export default {
    */
   execute: async function (bot, sender, args) {
     bot.chat("/lobby");
-    setTimeout(() => {
-      bot.chat("/limbo");
-      setTimeout(() => {
-        bot.reply(sender, `Limboed!`);
-      }, bot.utils.minMsgDelay);
-    }, bot.utils.minMsgDelay);
+    await bot.utils.waitForDelay(bot.utils.minMsgDelay);
+    bot.chat("/limbo");
+    await bot.utils.waitForDelay(bot.utils.minMsgDelay);
+    bot.reply(sender, `Limboed!`);
   },
 };
