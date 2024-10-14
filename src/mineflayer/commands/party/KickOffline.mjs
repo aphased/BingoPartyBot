@@ -13,7 +13,7 @@ export default {
    */
   execute: async function (bot, sender, args) {
     // Code here
-    bot.chat(`/pc Offline players were purged by ${sender.username}.`);
+    bot.chat(`/pc Offline players were purged by ${sender.preferredName}.`);
     setTimeout(() => {
       bot.chat("/p kickoffline");
       bot.webhook.send(
@@ -21,7 +21,7 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `Offline players were purged (from the party) by \`${sender.username}\`.`,
+          content: `Offline players were purged (from the party) by \`${sender.preferredName}\`.`,
         },
       );
     }, bot.utils.minMsgDelay);

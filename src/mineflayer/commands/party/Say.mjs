@@ -26,6 +26,6 @@ export default {
       );
       return;
     }
-    bot.chat(`/pc ${sender.username}: ${args.join(" ")}`);
+    bot.chat(`/pc ${sender.preferredName}: ${args.join(" ")}`);
   },
 };

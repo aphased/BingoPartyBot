@@ -18,7 +18,7 @@ export default {
     if (!bot.utils.isHigherRanked(sender.username, player)) {
       return;
     }
-    bot.chat(`/pc ${player} was kicked from the party by ${sender.username}.`);
+    bot.chat(`/pc ${player} was kicked from the party by ${sender.preferredName}.`);
     setTimeout(() => {
       bot.chat(`/p kick ${player}`);
       bot.webhook.send(
@@ -26,7 +26,7 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `\`${player}\` was kicked from the party by \`${sender.username}\`. Reason: \`${reason}\``,
+          content: `\`${player}\` was kicked from the party by \`${sender.preferredName}\`. Reason: \`${reason}\``,
         },
       );
     }, bot.utils.minMsgDelay);
