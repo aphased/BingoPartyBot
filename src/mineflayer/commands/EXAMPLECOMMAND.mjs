@@ -6,6 +6,7 @@ export default {
   description: "Test command", // Description of the command
   permission: Permissions.Admin, // Permission level required to execute this command
   customPrefix: "", // Only use this if you want to use a custom prefix for this command, otherwise leave it empty and it'll use the default prefix
+  isPartyChatCommand: false, // Set to true if the command should be used in party chat, also include the command's prefix (if applicable) in the name (e.g. '!guide')
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
