@@ -82,12 +82,13 @@ class Utils {
   }
 
   async getKickList() {
-    if (this.kickList.length === 0)
+    if (this.kickList.length === 0) {
       this.kickList = await import(
         `../../data/autoKickWords.json?cacheBust=${Date.now()}`,
         { with: { type: "json" } }
       );
-    this.kickList = this.kickList.default;
+      this.kickList = this.kickList.default.autoKickWords;
+    }
     return this.kickList;
   }
 
@@ -350,6 +351,17 @@ class Utils {
         string.length * 0.33 < 6 ? 6 : string.length * 0.33,
       )}`
     );
+  }
+
+  /**
+   * @param {String} message
+   * @returns {String}
+   */
+  replaceColorlessEmotes(message) {
+    Object.keys(hypixelEmotes).forEach((emote) => {
+      message = message.replaceAll(hypixelEmotes[emote], emote)
+    })
+    return message;
   }
 
   /**
@@ -727,10 +739,38 @@ const discordAnsiCodes = {
   "§r": "\u001b[0m",
 };
 
+const hypixelEmotes = {
+  "<3": "❤",
+  ":star:": "✮",
+  ":yes:": "✔",
+  ":no:": "✖",
+  ":java:": "☕",
+  ":arrow:": "➜",
+  ":shrug:": "¯\\_(ツ)_/¯",
+  ":tableflip:": "(╯°□°）╯︵ ┻━┻",
+  "o/": "( ﾟ◡ﾟ)/",
+  ":123:": "123",
+  ":totem:": "☉_☉",
+  ":typing:": "✎...",
+  ":maths:": "√(π+x)=L",
+  ":snail:": "@'-'",
+  ":thinking:": "(0.o?)",
+  ":gimme:": "༼つ◕_◕༽つ",
+  ":wizard:": "('-')⊃━☆ﾟ.*･｡ﾟ",
+  ":pvp:": "⚔",
+  ":peace:": "✌",
+  ":oof:": "OOF",
+  ":puffer:": "<('O')>",
+}
+
 export default {
-  removeRank: function (name) {
-    return name.replace(/\[.+]/g, "").trim();
+  getUsername: function (message) {
+    return message.match(/^(Party >|From)( \[.+\])? (\w+): .+/)?.[3]
   },
+
+  // removeRank: function (name) {
+  //   return name.replace(/\[.+]/g, "").trim();
+  // },
 
   determineMessageType: function (parsedMsgObj) {
     if (isWhisper(parsedMsgObj)) return MessageType.Whisper;
@@ -753,7 +793,7 @@ let utils = new Utils(
   true,
   // import("../data/playerNames.json", { with: { type: "json" } }),
   null,
-  import("../../data/autoKickWords.json", { with: { type: "json" } }),
+  import("../../data/autoKickWords.json", { with: { type: "json" } }).autoKickWords,
   import("../../data/bingoBrewersRules.json", { with: { type: "json" } }),
 );
 

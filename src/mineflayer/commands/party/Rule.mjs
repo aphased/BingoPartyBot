@@ -1,5 +1,9 @@
 import { Permissions } from "../../../utils/Interfaces.mjs";
 
+/** Timestamp of the last rule message sent */
+let lastRuleSentTime = 0;
+const COOLDOWN_DURATION = 5_000;
+
 export default {
   name: ["rule"], // This command will be triggered by either command1 or command2
   ignore: false, // Whether to ignore this file or not
@@ -12,6 +16,18 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
+    const currentTime = Date.now();
+
+    if (currentTime - lastRuleSentTime < COOLDOWN_DURATION) {
+      bot.reply(
+        sender,
+        `Rule command is on cooldown!`,
+      );
+      return;
+    }
+
+    lastRuleSentTime = currentTime;
+
     let ruleNum = args[0] || "1";
     let rule = bot.utils.rulesList[ruleNum];
     if (!rule) {

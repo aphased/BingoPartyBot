@@ -57,9 +57,7 @@ export default {
         // TODO: this needs a settings toggle – if !p invite is disabled, this
         // shouldn't work either
         return bot.chat(
-          `/p invite ${Utils.removeRank(
-            message.toString().split(": ")[0].replace("From ", ""),
-          )}`,
+          `/p invite ${Utils.getUsername(message.toString())}`,
         );
       if (command.toLowerCase().includes("help"))
         // TODO: execute "normal" help command here so logic isn't duplicated
@@ -95,9 +93,7 @@ export default {
       let commandArgs = args.slice(2); // Get the command arguments
       if (commandFound) {
         let command = commandFound;
-        let sender = Utils.removeRank(
-          message.toString().split(": ")[0].replace("From ", ""),
-        );
+        let sender = Utils.getUsername(message.toString());
         // Extract Hypixel rank from the message
         const match = message
           .toString()
@@ -142,10 +138,40 @@ export default {
             );
         }
       }
-    } else {
-      // (if not commandFound)
-      /* TODO: attach handler for messages in party chat like "!guide" here? */
-      return;
+    } else if (RegExp(/^Party > /g).test(message.toString())) {
+      let command = message.toString().split(": ").slice(1).join(": ");
+      let args = command.split(" ");
+      // Check if the message is blacklisted and kick if so
+      let kickList = await bot.utils.getKickList();
+      if (kickList.some((e) => args[0].startsWith(e))) {
+        return bot.chat(
+          `/p kick ${Utils.getUsername(message.toString())}`,
+        );
+      }
+      let commandFound = bot.partyCommands.find(
+        (value, key) =>
+          key.includes(args[0].toLowerCase()) && value.isPartyChatCommand,
+      );
+      if (commandFound) {
+        command = commandFound;
+        if (command.disabled) return;
+        let sender = Utils.getUsername(message.toString());
+        // No need to check and update rank in allowlist for public party commands
+        sender = {
+          username: sender,
+          preferredName: bot.utils.getPreferredUsername({ name: sender }),
+          commandName: args[0],
+          type: msgType,
+          discordReplyId: discordReplyId,
+        };
+        if (!command.permission)
+          return command.execute(bot, sender, args.slice(1));
+        let userPermissionLevel = bot.utils.getPermissionsByUser({
+          name: sender.username,
+        });
+        if (command.permission <= userPermissionLevel)
+          return command.execute(bot, sender, args.slice(1));
+      }
     }
   },
 };
