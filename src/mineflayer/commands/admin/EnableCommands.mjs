@@ -5,6 +5,7 @@ export default {
   ignore: false, // Whether to ignore this file or not
   description: "Enables commands so they can be run using !p command", // Description of the command
   permission: Permissions.Admin, // Permission level required to execute this command
+  alwaysEnabled: true,
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -16,8 +17,8 @@ export default {
   execute: async function (bot, sender, args) {
     // Code here
     if (args[0] && args[0].toLowerCase() === "all") {
-      bot.partyCommands.forEach((value, key) => {
-        if (key.includes("disable") || key.includes("enable")) return;
+      bot.partyCommands.forEach((value) => {
+        if (value.alwaysEnabled) return;
         value.disabled = false;
       });
       // TODO: also console log here
@@ -38,10 +39,10 @@ export default {
 
       if (commands.length !== args.length)
         return bot.reply(sender, "One or more command(s) not found.");
-      if (commands.some((cmd) => cmd.name.includes("disable") || cmd.name.includes("enable")))
+      if (commands.some((cmd) => cmd.alwaysEnabled))
         return bot.reply(
           sender,
-          "'!p enable' and '!p disable' are always enabled!",
+          "One or more commands are always enabled!",
         );
       commands.forEach((cmd) => {
         cmd.disabled = false;
