@@ -16,12 +16,24 @@ export default {
       let reason = args.slice(1).join(" ") || "No reason given.";
       // check for invalid usage: no player or trying to kick player with higher or same perms
       if (!player) return bot.reply(sender, "Please provide a player to kick.");
-
+      if(player == bot.username) {
+        const messages = [
+          sender.username + " tried to kick " + bot.username + " from the party. L Bozo!",
+          "I guess " + sender.username + " really doesn't like me. Joke's on you, I don't like you either!",
+          "Come on " + sender.username + ", why would you try to do that? :(",
+          "Can't kick me if I kick you first, " + sender.username,
+        ];
+        var random = Math.floor(Math.random()*messages.length);
+        bot.chat(`/pc ${messages[random]}`);
+        await bot.utils.waitForDelay(bot.utils.minMsgDelay);
+        bot.chat(`/p kick ${sender.username}`)
+        return;
+      }
       if (!bot.utils.isHigherRanked(sender.username, player)) {
         return bot.reply(sender, "You do not have permission to do kick this player!");
       }
       // actual stuff
-        bot.chat(`/pc ${player} was removed from the party and blocked from rejoining by ${sender.username}.`);
+        bot.chat(`/pc ${player} was kicked from the by ${sender.username}.`);
 
         await bot.utils.waitForDelay(bot.utils.minMsgDelay);
         bot.chat(`/p kick ${player}`);
