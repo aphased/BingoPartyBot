@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions } from "../../../../utils/Interfaces.mjs";
 
 export default {
   name: ["!guide", "!gd"], // This command will be triggered by either command1 or command2
@@ -7,7 +7,7 @@ export default {
   isPartyChatCommand: true,
   /**
    *
-   * @param {import("../../Bot.mjs").default} bot
+   * @param {import("../../../Bot.mjs").default} bot
    * @param {String} sender
    * @param {Array<String>} args
    */
