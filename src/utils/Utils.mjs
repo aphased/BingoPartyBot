@@ -728,8 +728,8 @@ const discordAnsiCodes = {
 };
 
 export default {
-  removeRank: function (name) {
-    return name.replace(/\[.+]/g, "").trim();
+  getUsername: function (message) {
+    return message.match(/^(Party >|From) \[.+\] (\w+): .+/)?.[2]
   },
 
   determineMessageType: function (parsedMsgObj) {

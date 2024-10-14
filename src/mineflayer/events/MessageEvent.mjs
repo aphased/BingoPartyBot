@@ -57,9 +57,7 @@ export default {
         // TODO: this needs a settings toggle – if !p invite is disabled, this
         // shouldn't work either
         return bot.chat(
-          `/p invite ${Utils.removeRank(
-            message.toString().split(": ")[0].replace("From ", ""),
-          )}`,
+          `/p invite ${Utils.getUsername(message.toString())}`,
         );
       if (command.toLowerCase().includes("help"))
         // TODO: execute "normal" help command here so logic isn't duplicated
@@ -99,9 +97,7 @@ export default {
           return bot.chat(`/r This command is currently disabled!`);
         //okay i know its not really neccesary but like make the bot more responsive i guess
         //i didnt use bot.reply because it crashes using sender.username which is probalby due to it being right below me vvvvvvvvvvvvvvv
-        let sender = Utils.removeRank(
-          message.toString().split(": ")[0].replace("From ", ""),
-        );
+        let sender = Utils.getUsername(message.toString());
         // Extract Hypixel rank from the message
         const match = message
           .toString()
@@ -151,7 +147,7 @@ export default {
       let kickList = await bot.utils.getKickList();
       if (kickList.some((e) => args[0].startsWith(e))) {
         return bot.chat(
-          `/p kick ${Utils.removeRank(message.toString().split(": ")[0].replace("Party > ", ""))}`,
+          `/p kick ${Utils.getUsername(message.toString())}`,
         );
       }
       let commandFound = bot.partyCommands.find(
@@ -161,9 +157,7 @@ export default {
       if (commandFound) {
         command = commandFound;
         if (command.disabled) return;
-        let sender = Utils.removeRank(
-          message.toString().split(": ")[0].replace("Party > ", ""),
-        );
+        let sender = Utils.getUsername(message.toString());
         // No need to check and update rank in allowlist for public party commands
         sender = {
           username: sender,
