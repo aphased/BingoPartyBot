@@ -729,8 +729,12 @@ const discordAnsiCodes = {
 
 export default {
   getUsername: function (message) {
-    return message.match(/^(Party >|From) \[.+\] (\w+): .+/)?.[2]
+    return message.match(/^(Party >|From)( \[.+\])? (\w+): .+/)?.[3]
   },
+
+  // removeRank: function (name) {
+  //   return name.replace(/\[.+]/g, "").trim();
+  // },
 
   determineMessageType: function (parsedMsgObj) {
     if (isWhisper(parsedMsgObj)) return MessageType.Whisper;
