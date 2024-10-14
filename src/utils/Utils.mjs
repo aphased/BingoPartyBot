@@ -352,6 +352,17 @@ class Utils {
   }
 
   /**
+   * @param {String} message
+   * @returns {String}
+   */
+  replaceColorlessEmotes(message) {
+    Object.keys(hypixelEmotes).forEach((emote) => {
+      message = message.replaceAll(hypixelEmotes[emote], emote)
+    })
+    return message;
+  }
+
+  /**
    * Use this to replace getHypixelRankByName
    * @param {Object} options
    * @param {string} [options.uuid]
@@ -725,6 +736,30 @@ const discordAnsiCodes = {
   "§k": "\u001b[6m",
   "§r": "\u001b[0m",
 };
+
+const hypixelEmotes = {
+  "<3": "❤",
+  ":star:": "✮",
+  ":yes:": "✔",
+  ":no:": "✖",
+  ":java:": "☕",
+  ":arrow:": "➜",
+  ":shrug:": "¯\\_(ツ)_/¯",
+  ":tableflip:": "(╯°□°）╯︵ ┻━┻",
+  "o/": "( ﾟ◡ﾟ)/",
+  ":123:": "123",
+  ":totem:": "☉_☉",
+  ":typing:": "✎...",
+  ":maths:": "√(π+x)=L",
+  ":snail:": "@'-'",
+  ":thinking:": "(0.o?)",
+  ":gimme:": "༼つ◕_◕༽つ",
+  ":wizard:": "('-')⊃━☆ﾟ.*･｡ﾟ",
+  ":pvp:": "⚔",
+  ":peace:": "✌",
+  ":oof:": "OOF",
+  ":puffer:": "<('O')>",
+}
 
 export default {
   removeRank: function (name) {
