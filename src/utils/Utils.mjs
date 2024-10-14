@@ -23,6 +23,7 @@ class Utils {
     this.chatSeparator =
       "-----------------------------------------------------";
     this.minMsgDelay = 550;
+    this.waitForDelay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     (async () => {
       setInterval(() => {
         this.sendWebhookMessages();

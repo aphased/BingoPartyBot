@@ -15,8 +15,22 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    if (args.length < 2)
-      return bot.reply(sender, "Usage: adduser <user> <permission>");
+    if (args.length < 2) {
+      bot.reply(sender, "Invalid command usage!");
+
+      await bot.utils.waitForDelay(bot.utils.minMsgDelay);
+      bot.reply(sender, "To use this command, use: !p adduser <user> <permission>");
+
+      await bot.utils.waitForDelay(bot.utils.minMsgDelay);
+      bot.reply(sender, "For example: !p adduser jbanate Splasher");
+
+      await bot.utils.waitForDelay(bot.utils.minMsgDelay);
+      bot.reply(sender, "Or, to add alts: !p adduser <alt> <main>");
+
+      await bot.utils.waitForDelay(bot.utils.minMsgDelay);
+      bot.reply(sender, "For example: !p adduser jbanate2 jbanate");
+  }
+
     const user = args[0];
     if (bot.utils.getUserObject({ name: args[1] })) {
       // add alias/alt account name to existing player entry

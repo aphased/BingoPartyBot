@@ -26,22 +26,20 @@ but for now itll be admin only because this command is very much poisable
     bot.chat(
       `/pc The party was emptied by ${sender.username}. 10 seconds remaining until empty!`,
     );
-    setTimeout(() => {
-      bot.chat("/pc The party has been emptied!");
+    await bot.utils.waitForDelay(10000);
+    bot.chat("/pc The party has been emptied!");
 
-      setTimeout(() => {
-        bot.chat("/streamgui settings empty");
-      }, bot.utils.minMsgDelay);
+    await bot.utils.waitForDelay(bot.utils.minMsgDelay);
+    bot.chat("/streamgui settings empty");
 
-      bot.webhook.send(
-        {
-          username: bot.config.webhook.name,
-        },
-        {
-          content: `The party was emptied by \`${sender.username}\` Reason: \`${reason}\``,
-        },
-      );
-    }, 10000);
+    bot.webhook.send(
+      {
+        username: bot.config.webhook.name,
+      },
+      {
+        content: `The party was emptied by \`${sender.username}\` Reason: \`${reason}\``,
+      },
+    );
   },
 };
 

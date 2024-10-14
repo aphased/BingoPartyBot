@@ -14,7 +14,7 @@ export default {
   execute: async function (bot, sender, args) {
     let reason = args.join(" ") || "No reason given.";
     bot.chat("/p mute");
-    setTimeout(() => {
+    await bot.utils.waitForDelay(bot.utils.minMsgDelay);
       bot.chat(`/pc Party mute was toggled by ${sender.username}.`);
       bot.webhook.send(
         {
@@ -24,6 +24,5 @@ export default {
           content: `Party mute was toggled by \`${sender.username}\`. Reason: \`${reason}\``,
         },
       );
-    }, bot.utils.minMsgDelay);
   },
 };

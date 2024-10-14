@@ -16,7 +16,7 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    let user = args[0];
+      let user = args[0];
     if (!user || user.length == 0) {
       return bot.reply(
         sender,
