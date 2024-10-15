@@ -13,10 +13,7 @@ export default {
    */
   execute: async function (bot, sender, args) {
     if (!args[0])
-      return bot.reply(
-        sender,
-        "Please provide a code to link your account",
-      );
+      return bot.reply(sender, "Please provide a code to link your account");
     let code = args[0];
     let status = bot.utils.link.getId(code);
     if (!status) return bot.reply(sender, "Invalid code");

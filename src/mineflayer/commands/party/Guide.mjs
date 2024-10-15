@@ -30,10 +30,7 @@ export default {
         "Info",
       );
       if (!isPublicCommand) {
-        bot.reply(
-          sender,
-          `Guide command is on cooldown!`,
-        );
+        bot.reply(sender, `Guide command is on cooldown!`);
       }
       return;
     }

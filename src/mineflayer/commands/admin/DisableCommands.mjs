@@ -40,10 +40,7 @@ export default {
       if (commands.length !== args.length)
         return bot.reply(sender, "One or more command(s) not found.");
       if (commands.some((cmd) => cmd.alwaysEnabled))
-        return bot.reply(
-          sender,
-          "One or more commands can't be disabled!",
-        );
+        return bot.reply(sender, "One or more commands can't be disabled!");
       commands.forEach((cmd) => {
         cmd.disabled = true;
       });

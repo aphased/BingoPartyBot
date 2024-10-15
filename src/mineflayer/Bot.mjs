@@ -38,7 +38,7 @@ class Bot {
    * @param {String} message
    */
   chat(message) {
-    message = this.utils.replaceColorlessEmotes(message)
+    message = this.utils.replaceColorlessEmotes(message);
     // Check message length limit, if it is too long, only perform a cut off
     // – ideally the caller ensures this property already so that it can be
     // handled more gracefully than sending out a probably incomplete chat

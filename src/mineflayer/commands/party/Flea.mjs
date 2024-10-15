@@ -19,9 +19,9 @@ export default {
       .find((value, key) => key.includes("customrepeat"))
       .execute(bot, sender, `4 4 ${args.join(" ")}`.split(" "));
 
-      await bot.utils.waitForDelay(12_000 + 20_000);
-      bot.partyCommands
-        .find((value, key) => key.includes("say"))
-        .execute(bot, sender, args);
+    await bot.utils.waitForDelay(12_000 + 20_000);
+    bot.partyCommands
+      .find((value, key) => key.includes("say"))
+      .execute(bot, sender, args);
   },
 };

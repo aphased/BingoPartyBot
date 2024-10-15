@@ -19,6 +19,6 @@ export default {
   execute: async function (bot, sender, args) {
     bot.chat(args.join(" "));
     await bot.utils.waitForDelay(bot.utils.minMsgDelay);
-      bot.reply(sender, `Sent "${args.join(" ")}" in chat.`);
+    bot.reply(sender, `Sent "${args.join(" ")}" in chat.`);
   },
 };

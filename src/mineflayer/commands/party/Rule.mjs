@@ -19,10 +19,7 @@ export default {
     const currentTime = Date.now();
 
     if (currentTime - lastRuleSentTime < COOLDOWN_DURATION) {
-      bot.reply(
-        sender,
-        `Rule command is on cooldown!`,
-      );
+      bot.reply(sender, `Rule command is on cooldown!`);
       return;
     }
 

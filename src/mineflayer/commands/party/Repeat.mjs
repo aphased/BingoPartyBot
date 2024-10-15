@@ -24,11 +24,14 @@ export default {
     if (args.length < 1 + startIndex) {
       bot.reply(sender, "Invalid command usage!");
       setTimeout(() => {
-        bot.reply(sender, "To use this command, use: !p repeat <repetitions> <message>")
+        bot.reply(
+          sender,
+          "To use this command, use: !p repeat <repetitions> <message>",
+        );
         setTimeout(() => {
-          bot.reply(sender, "For example: !p rep 5 Hello world!")
-        }, bot.utils.minMsgDelay)
-      }, bot.utils.minMsgDelay)
+          bot.reply(sender, "For example: !p rep 5 Hello world!");
+        }, bot.utils.minMsgDelay);
+      }, bot.utils.minMsgDelay);
       return;
     }
 

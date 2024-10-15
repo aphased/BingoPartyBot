@@ -22,6 +22,6 @@ export default {
       {
         content: `\`${sender.username}\` toggled the All Invite party setting.`,
       },
-     );
+    );
   },
 };

@@ -13,9 +13,9 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-      bot.chat("/" + args.join(" "));
+    bot.chat("/" + args.join(" "));
 
-      await bot.utils.waitForDelay(bot.utils.minMsgDelay);
-      bot.reply(sender, `Executed command: ${args.join(" ")}`);
+    await bot.utils.waitForDelay(bot.utils.minMsgDelay);
+    bot.reply(sender, `Executed command: ${args.join(" ")}`);
   },
 };

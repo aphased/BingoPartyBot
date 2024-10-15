@@ -23,7 +23,8 @@ class Utils {
     this.chatSeparator =
       "-----------------------------------------------------";
     this.minMsgDelay = 550;
-    this.waitForDelay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    this.waitForDelay = (ms) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
     (async () => {
       setInterval(() => {
         this.sendWebhookMessages();
@@ -112,7 +113,7 @@ class Utils {
   async getUUID(username) {
     try {
       let data = await axios.get(
-        `https://api.mojang.com/users/profiles/minecraft/${username}`
+        `https://api.mojang.com/users/profiles/minecraft/${username}`,
       );
       if (data.data.errorMessage) return null;
       return data.data.id;
@@ -235,7 +236,7 @@ class Utils {
         x.accounts.some(
           (y) =>
             (options.uuid && y.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name && y.name.toLowerCase() == options.name)
+            (options.name && y.name && y.name.toLowerCase() == options.name),
         ),
       );
   }
@@ -359,8 +360,8 @@ class Utils {
    */
   replaceColorlessEmotes(message) {
     Object.keys(hypixelEmotes).forEach((emote) => {
-      message = message.replaceAll(hypixelEmotes[emote], emote)
-    })
+      message = message.replaceAll(hypixelEmotes[emote], emote);
+    });
     return message;
   }
 
@@ -761,11 +762,11 @@ const hypixelEmotes = {
   ":peace:": "✌",
   ":oof:": "OOF",
   ":puffer:": "<('O')>",
-}
+};
 
 export default {
   getUsername: function (message) {
-    return message.match(/^(Party >|From)( \[.+\])? (\w+): .+/)?.[3]
+    return message.match(/^(Party >|From)( \[.+\])? (\w+): .+/)?.[3];
   },
 
   // removeRank: function (name) {
@@ -793,7 +794,9 @@ let utils = new Utils(
   true,
   // import("../data/playerNames.json", { with: { type: "json" } }),
   null,
-  import("../../data/autoKickWords.json", { with: { type: "json" } }).autoKickWords,
+  import("../../data/autoKickWords.json", {
+    with: { type: "json" },
+  }).autoKickWords,
   import("../../data/bingoBrewersRules.json", { with: { type: "json" } }),
 );
 

@@ -3,8 +3,7 @@ import { Permissions } from "../../../utils/Interfaces.mjs";
 export default {
   name: ["close", "private"], // This command will be triggered by either command1 or command2
   ignore: false, // Whether to ignore this file or not
-  description:
-    "Closes the party", // Description of the command
+  description: "Closes the party", // Description of the command
   permission: Permissions.Staff, // Permission level required to execute this command
   /**
    *
@@ -13,17 +12,17 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-      let reason = args.slice(0).join(" ") || "No reason given.";
+    let reason = args.slice(0).join(" ") || "No reason given.";
     bot.chat(`/pc The party was closed by ${sender.username}.`);
     await bot.utils.waitForDelay(bot.utils.minMsgDelay);
-      bot.chat(`/stream close`);
-      bot.webhook.send(
-        {
-          username: bot.config.webhook.name,
-        },
-        {
-          content: `The party was closed by \`${sender.username}\`. Reason: \`${reason}\``,
-        },
-      );
+    bot.chat(`/stream close`);
+    bot.webhook.send(
+      {
+        username: bot.config.webhook.name,
+      },
+      {
+        content: `The party was closed by \`${sender.username}\`. Reason: \`${reason}\``,
+      },
+    );
   },
 };

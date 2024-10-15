@@ -13,8 +13,7 @@ export default {
    */
   execute: async function (bot, sender, args) {
     let player = args[0];
-    if (!player)
-      return bot.reply(sender, "Please provide a player to unban.");
+    if (!player) return bot.reply(sender, "Please provide a player to unban.");
     bot.reply(sender, `Trying to unban ${player}...`);
     await bot.utils.waitForDelay(bot.utils.minMsgDelay);
     bot.chat(`/lobby`);

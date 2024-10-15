@@ -19,7 +19,10 @@ export default {
       bot.reply(sender, "Invalid command usage!");
 
       await bot.utils.waitForDelay(bot.utils.minMsgDelay);
-      bot.reply(sender, "To use this command, use: !p adduser <user> <permission>");
+      bot.reply(
+        sender,
+        "To use this command, use: !p adduser <user> <permission>",
+      );
 
       await bot.utils.waitForDelay(bot.utils.minMsgDelay);
       bot.reply(sender, "For example: !p adduser jbanate Splasher");
@@ -29,7 +32,7 @@ export default {
 
       await bot.utils.waitForDelay(bot.utils.minMsgDelay);
       bot.reply(sender, "For example: !p adduser jbanate2 jbanate");
-  }
+    }
 
     const user = args[0];
     if (bot.utils.getUserObject({ name: args[1] })) {
