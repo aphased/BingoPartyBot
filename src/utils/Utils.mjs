@@ -111,7 +111,7 @@ class Utils {
   async getUUID(username) {
     try {
       let data = await axios.get(
-        `https://api.mojang.com/users/profiles/minecraft/${username}`
+        `https://api.mojang.com/users/profiles/minecraft/${username}`,
       );
       if (data.data.errorMessage) return null;
       return data.data.id;
@@ -234,7 +234,7 @@ class Utils {
         x.accounts.some(
           (y) =>
             (options.uuid && y.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name && y.name.toLowerCase() == options.name)
+            (options.name && y.name && y.name.toLowerCase() == options.name),
         ),
       );
   }
@@ -358,8 +358,8 @@ class Utils {
    */
   replaceColorlessEmotes(message) {
     Object.keys(hypixelEmotes).forEach((emote) => {
-      message = message.replaceAll(hypixelEmotes[emote], emote)
-    })
+      message = message.replaceAll(hypixelEmotes[emote], emote);
+    });
     return message;
   }
 
@@ -514,6 +514,22 @@ class Utils {
       });
       this.webhookLogger.messageQueue.set(key, null);
     });
+  }
+
+  /**
+   * @param {import("../mineflayer/Bot.mjs").default} bot
+   * @param {string}
+   * @returns {Object} An object containing key-value pairs (dict) where
+   *                   the keys are command names and the values are their
+   *                   (longer) descriptions.
+   */
+  extractAllDescriptions(bot) {
+    // TODO
+    return {
+      name1: "longer description for name1",
+      name2: "longer description for name2",
+      name3: "longer description for name3",
+    };
   }
 }
 
@@ -760,11 +776,11 @@ const hypixelEmotes = {
   ":peace:": "✌",
   ":oof:": "OOF",
   ":puffer:": "<('O')>",
-}
+};
 
 export default {
   getUsername: function (message) {
-    return message.match(/^(Party >|From)( \[.+\])? (\w+): .+/)?.[3]
+    return message.match(/^(Party >|From)( \[.+\])? (\w+): .+/)?.[3];
   },
 
   // removeRank: function (name) {
@@ -792,7 +808,9 @@ let utils = new Utils(
   true,
   // import("../data/playerNames.json", { with: { type: "json" } }),
   null,
-  import("../../data/autoKickWords.json", { with: { type: "json" } }).autoKickWords,
+  import("../../data/autoKickWords.json", {
+    with: { type: "json" },
+  }).autoKickWords,
   import("../../data/bingoBrewersRules.json", { with: { type: "json" } }),
 );
 
