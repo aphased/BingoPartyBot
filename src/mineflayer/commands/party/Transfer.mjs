@@ -18,7 +18,7 @@ export default {
         sender,
         "Please provide a username to transfer the party to.",
       );
-    bot.chat(`/pc The party was transferred to ${player} by ${sender.username}.`);
+    bot.chat(`/pc The party was transferred to ${player} by ${sender.preferredName}.`);
     setTimeout(() => {
       bot.chat(`/p transfer ${args[0]}`);
       bot.webhook.send(
@@ -26,7 +26,7 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `The party was transferred to \`${player}\` by \`${sender.username}\`.`,
+          content: `The party was transferred to \`${player}\` by \`${sender.preferredName}\`.`,
         },
       );
     }, bot.utils.minMsgDelay);

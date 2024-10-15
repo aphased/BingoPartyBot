@@ -30,7 +30,7 @@ export default {
       Math.min(maximumPartySlots, parseInt(args[0]) || maximumPartySlots),
     );
 
-    bot.chat(`/pc Party size was set to ${amount} by ${sender.username}.`);
+    bot.chat(`/pc Party size was set to ${amount} by ${sender.preferredName}.`);
     setTimeout(() => {
       bot.chat(`/stream open ${amount}`);
       bot.webhook.send(
@@ -38,7 +38,7 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `Party size was set to \`${amount}\` by \`${sender.username}\`.`,
+          content: `Party size was set to \`${amount}\` by \`${sender.preferredName}\`.`,
         },
       );
     }, bot.utils.minMsgDelay);

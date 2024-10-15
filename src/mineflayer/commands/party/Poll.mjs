@@ -42,7 +42,7 @@ export default {
     if (!isValidPoll) {
       bot.reply(
         sender,
-        `Hi ${sender.username}, what you sent wasn't a valid poll!`,
+        `Hi ${sender.preferredName}, what you sent wasn't a valid poll!`,
       );
       setTimeout(() => {
         bot.reply(sender, "The correct format for a poll is:");
@@ -55,7 +55,7 @@ export default {
         }, bot.utils.minMsgDelay);
       }, bot.utils.minMsgDelay);
     } else {
-      bot.chat(`/p poll ${sender.username}: ${poll}`);
+      bot.chat(`/p poll ${sender.preferredName}: ${poll}`);
     }
   },
 };

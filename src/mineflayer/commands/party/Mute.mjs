@@ -15,13 +15,13 @@ export default {
     let reason = args.join(" ") || "No reason given.";
     bot.chat("/p mute");
     setTimeout(() => {
-      bot.chat(`/pc Party mute was toggled by ${sender.username}.`);
+      bot.chat(`/pc Party mute was toggled by ${sender.preferredName}.`);
       bot.webhook.send(
         {
           username: bot.config.webhook.name,
         },
         {
-          content: `Party mute was toggled by \`${sender.username}\`. Reason: \`${reason}\``,
+          content: `Party mute was toggled by \`${sender.preferredName}\`. Reason: \`${reason}\``,
         },
       );
     }, bot.utils.minMsgDelay);

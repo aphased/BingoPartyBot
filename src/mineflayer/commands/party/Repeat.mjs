@@ -34,7 +34,7 @@ export default {
 
     for (let i = 0; i < repetitions; i++) {
       setTimeout(() => {
-        bot.chat(`/pc ${sender.username}: ${args.slice(startIndex).join(" ")}`);
+        bot.chat(`/pc ${sender.preferredName}: ${args.slice(startIndex).join(" ")}`);
       }, i * 2000);
     }
   },

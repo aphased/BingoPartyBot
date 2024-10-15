@@ -19,7 +19,7 @@ export default {
       return;
     }
     bot.chat(
-      `/pc ${player} was removed from the party and blocked from rejoining by ${sender.username}.`,
+      `/pc ${player} was removed from the party and blocked from rejoining by ${sender.preferredName}.`,
     );
     setTimeout(() => {
       bot.chat(`/lobby`);
@@ -32,7 +32,7 @@ export default {
               username: bot.config.webhook.name,
             },
             {
-              content: `\`${player}\` was banned from the party by \`${sender.username}\`. Reason: \`${reason}\``,
+              content: `\`${player}\` was banned from the party by \`${sender.preferredName}\`. Reason: \`${reason}\``,
             },
           );
         }, bot.utils.minMsgDelay);

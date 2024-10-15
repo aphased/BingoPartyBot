@@ -27,7 +27,7 @@ export default {
               username: bot.config.webhook.name,
             },
             {
-              content: `\`${player}\` was unbanned from the party by \`${sender.username}\`.`,
+              content: `\`${player}\` was unbanned from the party by \`${sender.preferredName}\`.`,
             },
           );
         }, bot.utils.minMsgDelay);
