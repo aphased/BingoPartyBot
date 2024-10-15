@@ -4,8 +4,8 @@ Thanks for wanting to improve the BingoParty bot! This document describes some
 important things you should know regarding the project setup and code.
 For a general introduction, go through the [Readme file](./README.md).  
 
-**Please keep in mind that this file's contents are currently undergoing a rewrite**
-(and hopefully won't remain as unstructured).  
+**Please keep in mind that this file's contents are currently undergoing a
+rewrite** (and hopefully won't remain as unstructured).
 At the current point in time, this document may feature potentially incorrect, and
 almost certainly incomplete info, too.
 
@@ -33,7 +33,8 @@ in-game via the console stdin
 `bingoBrewersRules.json`, and `autokickWords.json` (WIP on `banned.json`)
 - `manageData.mjs` to interact with said data (also partially WIP) -->
 
-- TODO: update this section with some explanations. For now, a handy list of files:
+- TODO: update this section with some explanations. For now, a handy overview
+list of files:
 
 <!-- (generated from !`tree -I node_modules` then auto-inserted in Helix) -->
 
@@ -54,17 +55,13 @@ in-game via the console stdin
 ├── index.mjs
 ├── package-lock.json
 ├── package.json
-├── playerNamesUpdated.json
 ├── run-bot
 └── src
     ├── discord
     │   ├── Discord.mjs
     │   ├── components
     │   │   └── commands
-    │   │       ├── ExampleCommand.mjs
-    │   │       ├── Guide.mjs
-    │   │       ├── Link.mjs
-    │   │       └── RunCommand.mjs
+    │   │       └── (all Discord slash commands)
     │   ├── handlers
     │   │   └── CommandHandler.mjs
     │   └── old.mjs
@@ -73,42 +70,13 @@ in-game via the console stdin
     │   ├── commands
     │   │   ├── EXAMPLECOMMAND.mjs
     │   │   ├── admin
-    │   │   │   ├── AddUser.mjs
-    │   │   │   ├── Cmd.mjs
-    │   │   │   ├── DisableCommands.mjs
-    │   │   │   ├── EnableCommands.mjs
-    │   │   │   ├── GetUser.mjs
-    │   │   │   ├── Limbo.mjs
-    │   │   │   ├── PreferredName.mjs
-    │   │   │   ├── ReloadCommands.mjs
-    │   │   │   ├── RemoveUser.mjs
-    │   │   │   └── Sudo.mjs
+    │   │   │   └── (in-game commands for admin activities)
     │   │   ├── misc
-    │   │   │   ├── Help.mjs
-    │   │   │   ├── Link.mjs
-    │   │   │   └── Test.mjs
+    │   │   │   └── (in-game commands for users and their data)
     │   │   ├── party
-    │   │   │   ├── AllInvite.mjs
-    │   │   │   ├── Ban.mjs
-    │   │   │   ├── Close.mjs
-    │   │   │   ├── CustomRepeat.mjs
-    │   │   │   ├── Disband.mjs
-    │   │   │   ├── Flea.mjs
-    │   │   │   ├── Guide.mjs
-    │   │   │   ├── Invite.mjs
-    │   │   │   ├── Kick.mjs
-    │   │   │   ├── KickOffline.mjs
-    │   │   │   ├── Mute.mjs
-    │   │   │   ├── Poll.mjs
-    │   │   │   ├── Promote.mjs
-    │   │   │   ├── Repeat.mjs
-    │   │   │   ├── Rule.mjs
-    │   │   │   ├── Say.mjs
-    │   │   │   ├── Stream.mjs
-    │   │   │   ├── Transfer.mjs
-    │   │   │   └── Unban.mjs
+    │   │   │   └── (in-game commands mimicking Hypixel commands for parties)
     │   │   └── sudo
-    │   │       └── Drain.mjs
+    │   │       └── (in-game commands for rarely used/critical actions)
     │   ├── events
     │   │   ├── MessageEvent.mjs
     │   │   ├── OnKick.mjs
@@ -182,7 +150,8 @@ Regarding the database:
 At this point, you may finally:
 - Run `./BingoPartyBot/run-bot` for Unix (Linux/macOS/…), on Windows you can
 execute the `run-bot.bat` file (which will however _not_ restart the bot upon crashes)
-– or just `node .`, which will also not restart on crash, but works everywhere - Add something for (re)starting with more convenience and only needing to
+– or just `node .`, which will also not restart on crash, but works everywhere
+- Add something for (re)starting with more convenience and only needing to
 remember a single command to to your .{shell}rc config file, for example
 using `screen`: `alias restartbpb="screen -d -RR bpb $HOME/BingoPartyBot/run-bot"`
 <!-- - Additional things (mostly so I have a place in which to look them up):
@@ -218,12 +187,25 @@ than directly going to their underlying implementations:
     and finally adding a randomizer string to the message in order to bypass the
     anti-spam limitations of Hypixel chatting.
 
-- If you want to access a command's functionality outside of just defining it in the `commands/` directory:
+- If you want to send a message to party chat about the commands action (like
+  `Party mute was toggled by Name` for example), use `sender.preferredName`:
   ```js
-  bot.utils.getCommand(name).execute() …
+  bot.chat(`/pc Party mute was toggled by ${sender.preferredName}.`);
+  ```
+  - This ensures the name that is preferred and/or chosen by users is actually
+    taken when producing output which all party members can see.
+  - A preferred name is one of the IGN from any of the existing account(s) on
+    record for one player.
+
+- If you want to access a command's functionality outside of just defining it in
+  the `commands/` directory:
+  ```js
+  bot.utils.getCommandByAlias(bot, name).execute() …
   ```
 
-- If you want to issue multiple commands to Hypixel via Minecraft chat back to back:
+- If you want to issue multiple commands to Hypixel via Minecraft chat back to
+  back:
+  - TODO: Note: This is currently not yet implemented and live/ready to use!
   ```js
   await bot.utils.delay(bot.utils.minMsgDelay);
   bot.chat(`/someCommand`);
