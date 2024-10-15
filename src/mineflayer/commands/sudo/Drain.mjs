@@ -24,7 +24,7 @@ but for now itll be admin only because this command is very much poisable
   execute: async function (bot, sender, args) {
     let reason = args.slice(0).join(" ") || "No reason given.";
     bot.chat(
-      `/pc The party was emptied by ${sender.username}. 10 seconds remaining until empty!`,
+      `/pc The party was emptied by ${sender.preferredName}. 10 seconds remaining until empty!`,
     );
     setTimeout(() => {
       bot.chat("/pc The party has been emptied!");
@@ -38,7 +38,7 @@ but for now itll be admin only because this command is very much poisable
           username: bot.config.webhook.name,
         },
         {
-          content: `The party was emptied by \`${sender.username}\` Reason: \`${reason}\``,
+          content: `The party was emptied by \`${sender.preferredName}\` Reason: \`${reason}\``,
         },
       );
     }, 10000);

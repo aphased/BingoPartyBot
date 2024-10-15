@@ -12,7 +12,7 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    bot.chat(`/pc ${sender.username} toggled the All Invite setting.`);
+    bot.chat(`/pc ${sender.preferredName} toggled the All Invite setting.`);
     setTimeout(() => {
       bot.chat("/p settings allinvite");
       bot.webhook.send(
@@ -20,7 +20,7 @@ export default {
           username: bot.config.webhook.name,
         },
         {
-          content: `\`${sender.username}\` toggled the All Invite party setting.`,
+          content: `\`${sender.preferredName}\` toggled the All Invite party setting.`,
         },
       );
     }, bot.utils.minMsgDelay);

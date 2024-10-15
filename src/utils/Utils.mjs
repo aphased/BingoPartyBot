@@ -261,11 +261,10 @@ class Utils {
   }
 
   /**
-   * Use this to replace getHypixelRankByName
    * @param {Object} options
-   * @param {string} [options.uuid]
-   * @param {string} [options.name]
-   * @returns {Object|null}
+   * @param {String} [options.uuid]
+   * @param {String} [options.name]
+   * @returns {String|null}
    */
   getPreferredUsername(options = {}) {
     if (options.uuid) options.uuid = options.uuid.toLowerCase();
@@ -289,12 +288,11 @@ class Utils {
     return data.preferredName;
   }
   /**
-   * Use this to replace getHypixelRankByName
    * @param {Object} options
-   * @param {string} [options.uuid]
-   * @param {string} [options.name]
-   * @param {string} [options.newName]
-   * @returns {Object|null}
+   * @param {String} [options.uuid]
+   * @param {String} [options.name]
+   * @param {String} [options.newName]
+   * @returns
    */
   setPreferredUsername(options = {}) {
     if (options.uuid) options.uuid = options.uuid.toLowerCase();

@@ -48,7 +48,7 @@ export default {
       setTimeout(
         () => {
           bot.chat(
-            `/pc ${sender.username}: ${args.slice(startIndex).join(" ")}`,
+            `/pc ${sender.preferredName}: ${args.slice(startIndex).join(" ")}`,
           );
         },
         i * (duration * 1000),
