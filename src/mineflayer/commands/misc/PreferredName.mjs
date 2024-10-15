@@ -24,11 +24,21 @@ export default {
     const requestedName = usernames.find(
       (name) => name?.toLowerCase() === args[0]?.toLowerCase(),
     );
-    if (!requestedName) // no name supplied or not a valid option
-      return bot.reply(
-        sender,
-        `Your current preferred name is: ${sender.preferredName}. Set it to one of your other accounts' igns: ${usernames.join(", ")}`,
-      );
+
+    // no name supplied or not a valid option
+    if (!requestedName) {
+      const message = `Your current preferred name is: ${sender.preferredName}. Set it to one of your other accounts' igns: ${usernames.join(", ")}`;
+      if (message.length > 252) {
+        const splitIndex = message.slice(0, 253).lastIndexOf(" ");
+        bot.reply(sender, message.slice(0, splitIndex));
+        setTimeout(
+          () => bot.reply(sender, message.slice(splitIndex)),
+          bot.utils.minMsgDelay,
+        );
+        return;
+      }
+      return bot.reply(sender, message);
+    }
     bot.utils.setPreferredUsername({
       name: sender.username,
       newName: requestedName,
