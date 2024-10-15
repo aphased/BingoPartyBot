@@ -31,10 +31,7 @@ export default {
       );
     }
     const partyInvite = bot.utils.findValidPartyInvite(message);
-    if (
-      partyInvite &&
-      !bot.utils.getCommandByAlias(bot, "invite").disabled
-    ) {
+    if (partyInvite && !bot.utils.getCommandByAlias(bot, "invite").disabled) {
       setTimeout(() => {
         bot.chat(`/p accept ${partyInvite}`);
       }, bot.utils.minMsgDelay);
@@ -53,12 +50,13 @@ export default {
     }
     if (RegExp(/^From /g).test(message.toString())) {
       let command = message.toString().split(": ").slice(1).join(": "); // !p promo (lets say)
-      if (command.toLowerCase().startsWith("boop!") && !bot.utils.getCommandByAlias(bot, "invite").disabled)
+      if (
+        command.toLowerCase().startsWith("boop!") &&
+        !bot.utils.getCommandByAlias(bot, "invite").disabled
+      )
         // TODO: this needs a settings toggle – if !p invite is disabled, this
         // shouldn't work either
-        return bot.chat(
-          `/p invite ${Utils.getUsername(message.toString())}`,
-        );
+        return bot.chat(`/p invite ${Utils.getUsername(message.toString())}`);
       if (command.toLowerCase().includes("help"))
         // TODO: execute "normal" help command here so logic isn't duplicated
         // and doesn't have to be kept in sync manually?
@@ -144,9 +142,7 @@ export default {
       // Check if the message is blacklisted and kick if so
       let kickList = await bot.utils.getKickList();
       if (kickList.some((e) => args[0].startsWith(e))) {
-        return bot.chat(
-          `/p kick ${Utils.getUsername(message.toString())}`,
-        );
+        return bot.chat(`/p kick ${Utils.getUsername(message.toString())}`);
       }
       let commandFound = bot.partyCommands.find(
         (value, key) =>
