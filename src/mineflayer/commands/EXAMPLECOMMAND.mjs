@@ -23,7 +23,8 @@ export default {
          unfortunately, due to Hypixel's limitations on "advertising"
     */
     /*
-       Read CONTRIBUTING.md for more things that are good to know =)
+      Also read the section about custom functions/use of aliases in
+      CONTRIBUTING.md for more things that are good to know =)
     */
   },
 };
