@@ -157,15 +157,17 @@ class Utils {
    *       {
    *         "name": "string",
    *         "uuid": "string|null"
+   *         "hypixelRank": "string",
    *       },
-   *       ...
+   *       {
+   *        potential alt account(s)...
+   *       }
    *     ],
    *     "permissionRank": 0-5,
-   *     "hypixelRank": "string",
-   *     "preferredName": "string",
+   *     "preferredAccount": "uuid string to get the preferred account's name",
    *     "discord": "string"
    *   },
-   *   ...
+   *   next player object...
    * ]
    * ```
    */
@@ -472,6 +474,7 @@ class Utils {
   }
 
   /**
+   * Returns IGN of the inviting player, or null if no invite was found.
    *
    * @param {ChatMessage} message
    * @returns {String|null}
