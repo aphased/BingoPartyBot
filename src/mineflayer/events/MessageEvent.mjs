@@ -54,8 +54,6 @@ export default {
         command.toLowerCase().startsWith("boop!") &&
         !bot.utils.getCommandByAlias(bot, "invite").disabled
       )
-        // TODO: this needs a settings toggle – if !p invite is disabled, this
-        // shouldn't work either
         return bot.chat(`/p invite ${Utils.getUsername(message.toString())}`);
       if (command.toLowerCase().includes("help"))
         // TODO: execute "normal" help command here so logic isn't duplicated
@@ -114,22 +112,35 @@ export default {
           type: msgType,
           discordReplyId: discordReplyId,
         };
-        if (command.disabled)
-          return bot.reply(sender, "This command is currently disabled!");
-        if (!command.permission)
-          return command.execute(bot, sender, commandArgs);
 
         let userPermissionLevel = bot.utils.getPermissionsByUser({
           name: sender.username,
         });
-        if (command.permission <= userPermissionLevel)
+        /**
+         * @returns {boolean}
+         */
+        let allowedToExecute = command.permission <= userPermissionLevel;
+
+        if (command.disabled) {
+          if (allowedToExecute) {
+            // Skip response message if it's just anybody (not on the allowlist)
+            // trying to `!p doSomething`
+            bot.reply(sender, "This command is currently disabled!");
+          }
+          return;
+        }
+
+        if (allowedToExecute || !command.permission)
           return command.execute(bot, sender, commandArgs);
         else {
-          // Compare against the lowest permission rank which effectively is not
-          // allowed to (and can't) do anything
-          if (userPermissionLevel > Permissions.ExSplasher)
-            // Don't reply if the sender may not even be on the allowlist at
-            // all, could be just anybody/a random player too
+          // Compare against the lowest permission rank on the allowlist
+          if (
+            command.permission &&
+            userPermissionLevel > Permissions.ExSplasher
+          )
+            // Similar to above in the case of a disabled command, don't reply
+            // if the sender may not even be on the allowlist at all, could be
+            // just anybody/a random player too
             bot.reply(
               sender,
               "You do not have permission to run this command!",
