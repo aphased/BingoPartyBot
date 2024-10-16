@@ -31,10 +31,7 @@ export default {
       );
     }
     const partyInvite = bot.utils.findValidPartyInvite(message);
-    if (
-      partyInvite &&
-      !bot.utils.getCommandByAlias(bot, "invite").disabled
-    ) {
+    if (partyInvite && !bot.utils.getCommandByAlias(bot, "invite").disabled) {
       setTimeout(() => {
         bot.chat(`/p accept ${partyInvite}`);
       }, bot.utils.minMsgDelay);
@@ -53,12 +50,11 @@ export default {
     }
     if (RegExp(/^From /g).test(message.toString())) {
       let command = message.toString().split(": ").slice(1).join(": "); // !p promo (lets say)
-      if (command.toLowerCase().startsWith("boop!") && !bot.utils.getCommandByAlias(bot, "invite").disabled)
-        // TODO: this needs a settings toggle – if !p invite is disabled, this
-        // shouldn't work either
-        return bot.chat(
-          `/p invite ${Utils.getUsername(message.toString())}`,
-        );
+      if (
+        command.toLowerCase().startsWith("boop!") &&
+        !bot.utils.getCommandByAlias(bot, "invite").disabled
+      )
+        return bot.chat(`/p invite ${Utils.getUsername(message.toString())}`);
       if (command.toLowerCase().includes("help"))
         // TODO: execute "normal" help command here so logic isn't duplicated
         // and doesn't have to be kept in sync manually?
@@ -93,10 +89,6 @@ export default {
       let commandArgs = args.slice(2); // Get the command arguments
       if (commandFound) {
         let command = commandFound;
-        if (command.disabled)
-          return bot.chat(`/r This command is currently disabled!`);
-        //okay i know its not really neccesary but like make the bot more responsive i guess
-        //i didnt use bot.reply because it crashes using sender.username which is probalby due to it being right below me vvvvvvvvvvvvvvv
         let sender = Utils.getUsername(message.toString());
         // Extract Hypixel rank from the message
         const match = message
@@ -120,20 +112,35 @@ export default {
           type: msgType,
           discordReplyId: discordReplyId,
         };
-        if (!command.permission)
-          return command.execute(bot, sender, commandArgs);
 
         let userPermissionLevel = bot.utils.getPermissionsByUser({
           name: sender.username,
         });
-        if (command.permission <= userPermissionLevel)
+        /**
+         * @returns {boolean}
+         */
+        let allowedToExecute = command.permission <= userPermissionLevel;
+
+        if (command.disabled) {
+          if (allowedToExecute) {
+            // Skip response message if it's just anybody (not on the allowlist)
+            // trying to `!p doSomething`
+            bot.reply(sender, "This command is currently disabled!");
+          }
+          return;
+        }
+
+        if (allowedToExecute || !command.permission)
           return command.execute(bot, sender, commandArgs);
         else {
-          // Compare against the lowest permission rank which effectively is not
-          // allowed to (and can't) do anything
-          if (userPermissionLevel > Permissions.ExSplasher)
-            // Don't reply if the sender may not even be on the allowlist at
-            // all, could be just anybody/a random player too
+          // Compare against the lowest permission rank on the allowlist
+          if (
+            command.permission &&
+            userPermissionLevel > Permissions.ExSplasher
+          )
+            // Similar to above in the case of a disabled command, don't reply
+            // if the sender may not even be on the allowlist at all, could be
+            // just anybody/a random player too
             bot.reply(
               sender,
               "You do not have permission to run this command!",
@@ -146,9 +153,7 @@ export default {
       // Check if the message is blacklisted and kick if so
       let kickList = await bot.utils.getKickList();
       if (kickList.some((e) => args[0].startsWith(e))) {
-        return bot.chat(
-          `/p kick ${Utils.getUsername(message.toString())}`,
-        );
+        return bot.chat(`/p kick ${Utils.getUsername(message.toString())}`);
       }
       let commandFound = bot.partyCommands.find(
         (value, key) =>
