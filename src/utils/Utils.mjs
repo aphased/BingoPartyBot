@@ -164,7 +164,7 @@ class Utils {
    *       }
    *     ],
    *     "permissionRank": 0-5,
-   *     "preferredName": "uuid string of one of the accounts",
+   *     "preferredAccount": "uuid string to get the preferred account's name",
    *     "discord": "string"
    *   },
    *   next player object...
