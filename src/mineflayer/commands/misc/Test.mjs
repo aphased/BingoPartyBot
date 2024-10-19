@@ -5,8 +5,10 @@ export default {
   ignore: false,
   description:
     "Test command. See if you are on the permission list, and what permissions you have",
+  // command can't have a permission requirement, otherwise any uuid fetching here is pointless as db permission checks would prevent it from executing in the first place
+  // there still isn't any output without being in the db
+
   // One day this will also have ban info? maybe?
-  permission: Permissions.ExSplasher,
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -14,30 +16,22 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    // previous implementation:
-    /* let userPerms = bot.utils.getPermissionsByUser({ name: sender.username });
-    if (userPerms) {
-      bot.reply(sender, `You have permission level: ${userPerms}`);
-    } */
-
     let uuid = await bot.utils.getUUID(sender.username);
-    if (!uuid) return bot.reply(sender, "whad.");
-    let playerNames = bot.utils.playerNamesDatabase.get("data");
-    let index = playerNames.findIndex((x) =>
-      x.accounts.find((y) => y.uuid === uuid),
-    );
-    if (index === -1)
-      return bot.reply(
-        sender,
-        "wait how do you manage to run this and get the no perms output what",
-      );
-    let userObj = playerNames[index];
-    let rank = Object.keys(Permissions).find(
-      (x) => Permissions[x] === userObj.permissionRank,
+    let permissionRank;
+    if (uuid) permissionRank = bot.utils.getPermissionsByUser({ uuid: uuid });
+    // if uuid fetching fails, try with username
+    else
+      permissionRank = bot.utils.getPermissionsByUser({
+        name: sender.username,
+      });
+    if (!permissionRank)
+      return;
+    const permission = Object.keys(Permissions).find(
+      (perm) => Permissions[perm] === permissionRank,
     );
     bot.reply(
       sender,
-      `You have permissions! Your permission level is ${rank} (Level: ${userObj.permissionRank})`,
+      `You have permissions! Your permissions are ${permission} (Level: ${permissionRank})`,
     );
   },
 };
