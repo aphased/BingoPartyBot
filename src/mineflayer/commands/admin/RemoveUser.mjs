@@ -1,6 +1,4 @@
 import { Permissions } from "../../../utils/Interfaces.mjs";
-import Utils from "../../../utils/Utils.mjs";
-import loadPartyCommands from "../../handlers/PartyCommandHandler.mjs";
 
 export default {
   name: ["removeuser"],
@@ -15,23 +13,17 @@ export default {
    */
   execute: async function (bot, sender, args) {
     let user = args[0];
-    let type = args[1];
-    let uuid = await bot.utils.getUUID(user);
-    // TODO: attempt to try it based on username one time if UUID fails?
-    if (!uuid) return bot.reply(sender, `User ${user} not found!`);
-    let playerNames = bot.utils.playerNamesDatabase.get("data");
-    let index = playerNames.findIndex((x) =>
-      x.accounts.find((y) => y.uuid === uuid),
-    );
-    if (index === -1) return bot.reply(sender, "User does not exist!");
-    if (type && type == "only") {
-      playerNames[index].accounts = playerNames[index].accounts.filter(
-        (x) => x.uuid !== uuid,
+    let only = args[1]?.toLowerCase?.() === "only";
+    if (!user)
+      return bot.reply(
+        sender,
+        'Please supply a username to remove! You can choose to keep the person\'s other accounts by appending "only".',
       );
-    } else {
-      playerNames.splice(index, 1);
-    }
-    bot.utils.playerNamesDatabase.set("data", playerNames);
-    bot.reply(sender, `Removed user ${user}`);
+    if (!bot.utils.getUserObject({ name: user }))
+      return bot.reply(sender, `User ${user} not found in database!`);
+    bot.utils.removeUser({ name: user, onlyThis: only });
+    if (only)
+      return bot.reply(sender, `Removed account ${user}, but kept other alts.`);
+    bot.reply(sender, `Removed user ${user} and all their other accounts.`);
   },
 };

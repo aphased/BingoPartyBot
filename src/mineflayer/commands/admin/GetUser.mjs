@@ -17,30 +17,26 @@ export default {
    */
   execute: async function (bot, sender, args) {
     let user = args[0];
-    if (!user || user.length == 0) {
+    if (!user) {
       return bot.reply(
         sender,
         "Please provide a user to query/get permissions for.",
       );
     }
-    let uuid = await bot.utils.getUUID(user);
-    if (!uuid) return bot.reply(sender, "User not found!");
-    let playerNames = bot.utils.playerNamesDatabase.get("data");
-    let index = playerNames.findIndex((x) =>
-      x.accounts.find((y) => y.uuid === uuid),
-    );
-    if (index === -1)
+    let userObj = bot.utils.getUserObject({ name: user });
+    if (!userObj)
       return bot.reply(
         sender,
         "That person does not have any party permissions.",
       );
-    let userObj = playerNames[index];
-    let rank = Object.keys(Permissions).find(
-      (x) => Permissions[x] === userObj.permissionRank,
+    const rank = Object.keys(Permissions).find(
+      (perm) => Permissions[perm] === userObj.permissionRank,
     );
+    // Get name with correct capitalisation
+    const name = userObj.accounts.find((acc) => acc.name.toLowerCase() === user.toLowerCase()).name;
     bot.reply(
       sender,
-      `User: ${user} Rank: ${rank} (Level: ${userObj.permissionRank})`,
+      `User: ${name} Rank: ${rank} (Level: ${userObj.permissionRank})`,
     );
   },
 };

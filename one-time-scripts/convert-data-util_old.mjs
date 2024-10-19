@@ -1,9 +1,9 @@
 import JSONdb from "simple-json-db";
 // import * as players from "./data/playerNamesOldFormat.json" assert { type: "json" };
-import * as players from "./data/playerNamesOldFormat.json" with { type: "json" };
+import * as players from "../data/playerNamesOldFormat.json" with { type: "json" };
 import axios from "axios";
 
-let db = new JSONdb("./data/playerNamesUpdatedFormat.json");
+let db = new JSONdb("../data/playerNamesUpdatedFormat.json");
 db.set("players", []);
 
 function delay(ms) {

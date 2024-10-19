@@ -25,11 +25,13 @@ export default {
   },
   guideLink: "", // I advise you to keep this empty, and just use discord commands to set the guide link or the guide channel.
   showMcChat: true,
+  usernameRefreshInterval: 2 * 60 * 60 * 1000, // in milliseconds, default is 2h (2 * 60 * 60 * 1000ms)
   debug: {
     // IF YOU DONT KNOW WHAT YOU ARE DOING DO NOT TOUCH THIS. THIS IS MADE FOR DEVELOPERS TO DEBUG THE BOT ONLY
     general: true,
     disableMinecraft: false,
     disableDiscord: false,
-    disableAutoLimbo: false
+    disableAutoLimbo: false,
+    disableUsernameRefresh: false,
   },
 };
