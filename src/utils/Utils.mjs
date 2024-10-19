@@ -156,15 +156,15 @@ class Utils {
    *     "accounts": [
    *       {
    *         "name": "string",
-   *         "uuid": "string|null"
-   *         "hypixelRank": "string",
+   *         "uuid": "string",
+   *         "hypixelRank": "string|null"
    *       },
    *       {
    *        potential alt account(s)...
    *       }
    *     ],
    *     "permissionRank": 0-5,
-   *     "preferredAccount": "uuid string to get the preferred account's name",
+   *     "preferredAccount": "string (uuid of preferred account)",
    *     "discord": "string"
    *   },
    *   next player object...
@@ -242,6 +242,75 @@ class Utils {
   }
 
   /**
+   *
+   * @param {Object} options
+   * @param {String} [options.uuid]
+   * @param {String} [options.name]
+   * @param {Number} [options.permissionRank]
+   * @param {Number} [options.mainAccount]
+   * @returns
+   */
+  addUser(options = {}) {
+    if (
+      !options ||
+      !options.uuid ||
+      !options.name ||
+      !(options.permissionRank || options.mainAccount) ||
+      this.getUserObject(options)
+    )
+      return null;
+    let db = this.playerNamesDatabase.get("data");
+    if (options.mainAccount) {
+      // Add account as alt of `mainAccount`
+      let userObj = this.getUserObject({ name: options.mainAccount });
+      if (!userObj) return null;
+      db[db.indexOf(userObj)].accounts.push({
+        name: options.name,
+        uuid: options.uuid,
+      });
+    }
+    // Add entirely new player entry
+    else
+      db.push({
+        accounts: [
+          {
+            name: options.name,
+            uuid: options.uuid,
+          },
+        ],
+        permissionRank: options.permissionRank,
+      });
+    this.playerNamesDatabase.set("data", db);
+  }
+
+  /**
+   *
+   * @param {Object} options
+   * @param {String} [options.name]
+   * @param {Boolean} [options.onlyThis]
+   * @returns
+   */
+  removeUser(options = {}) {
+    if (!options || !options.name) return null;
+    let userObj = this.getUserObject(options);
+    if (!userObj) return null;
+    let db = this.playerNamesDatabase.get("data");
+    if (options.onlyThis) {
+      // Only remove this account, leave other alts intact
+      userObj.accounts = userObj.accounts.filter(
+        (acc) => acc.name.toLowerCase() !== options.name.toLowerCase(),
+      );
+      // reset preferredAccount to prevent having a removed uuid stored
+      delete userObj.preferredAccount;
+      db[db.indexOf(userObj)] = userObj;
+    }
+    // Remove the entire user
+    else db.splice(db.indexOf(userObj), 1);
+    this.playerNamesDatabase.set("data", db);
+  }
+
+
+  /**
    * @param {string} user1   sender.username
    * @param {string} user2   sender.username
    *
@@ -266,29 +335,64 @@ class Utils {
    * @param {Object} options
    * @param {String} [options.uuid]
    * @param {String} [options.name]
+   * @param {Number} [options.permissionRank]
+   */
+  setPermissionRank(options = {}) {
+    let userObj = this.getUserObject(options);
+    if (
+      !userObj ||
+      !Object.values(Permissions).includes(options.permissionRank)
+    )
+      return null;
+    let db = this.playerNamesDatabase.get("data");
+    db[db.indexOf(userObj)].permissionRank = options.permissionRank;
+    this.playerNamesDatabase.set("data", db);
+  }
+
+  /**
+   * @param {Object} options
+   * @param {String} [options.uuid]
+   * @param {String} [options.name]
+   * @param {String} [options.discord]
+   * @param {String} [options.forceHideRank]
    * @returns {String|null}
    */
   getPreferredUsername(options = {}) {
-    if (options.uuid) options.uuid = options.uuid.toLowerCase();
-    if (options.name) options.name = options.name.toLowerCase();
-    let data = this.playerNamesDatabase
-      .get("data")
-      .find((x) =>
-        x.accounts.some(
-          (y) =>
-            (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name.toLowerCase() == options.name),
-        ),
-      );
-    if (!data) return null;
-    if (!data.preferredName) {
-      let getData = this.playerNamesDatabase.get("data");
-      getData[getData.indexOf(data)].preferredName = data.accounts[0].name;
-      this.playerNamesDatabase.set("data", getData);
-      return data.accounts[0].name;
+    let userObj = this.getUserObject(options);
+    if (!userObj) return null;
+    // if preferredAccount is not defined, set it to the user's first account
+    if (!userObj.preferredAccount) {
+      this.setPreferredAccount({
+        name: options.name,
+        uuid: options.uuid,
+        preferredAccount: userObj.accounts[0].uuid,
+      });
     }
-    return data.preferredName;
+    const preferredAccount = userObj.accounts.find(
+      (acc) => acc.uuid === userObj.preferredAccount,
+    );
+    let preferredName = "";
+    if (!userObj.hideRank && !options.forceHideRank)
+      preferredName += preferredAccount.hypixelRank + " " ?? "";
+    preferredName += preferredAccount.name;
+    return preferredName;
   }
+
+  /**
+   * @param {Object} options
+   * @param {String} [options.uuid]
+   * @param {String} [options.name]
+   * @param {String} [options.preferredAccount]
+   * @returns
+   */
+  setPreferredAccount(options = {}) {
+    let userObj = this.getUserObject(options);
+    if (!userObj) return null;
+    let db = this.playerNamesDatabase.get("data");
+    db[db.indexOf(userObj)].preferredAccount = options.preferredAccount;
+    this.playerNamesDatabase.set("data", db);
+  }
+
   /**
    * @param {Object} options
    * @param {String} [options.uuid]
@@ -296,22 +400,12 @@ class Utils {
    * @param {String} [options.newName]
    * @returns
    */
-  setPreferredUsername(options = {}) {
-    if (options.uuid) options.uuid = options.uuid.toLowerCase();
-    if (options.name) options.name = options.name.toLowerCase();
-    let data = this.playerNamesDatabase
-      .get("data")
-      .find((x) =>
-        x.accounts.some(
-          (y) =>
-            (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name.toLowerCase() == options.name),
-        ),
-      );
-    if (!data) return null;
-    let getData = this.playerNamesDatabase.get("data");
-    getData[getData.indexOf(data)].preferredName = options.newName;
-    this.playerNamesDatabase.set("data", getData);
+  setHideRankSetting(options = {}) {
+    let userObj = this.getUserObject(options);
+    if (!userObj) return null;
+    let db = this.playerNamesDatabase.get("data");
+    db[db.indexOf(userObj)].hideRank = options.hideRank;
+    this.playerNamesDatabase.set("data", db);
   }
 
   /**
@@ -430,24 +524,40 @@ class Utils {
    * @param {Object} options
    * @param {string} [options.uuid]
    * @param {string} [options.name]
-   * @param {string} [options.rank]
    */
-  setUserRank(options = {}) {
-    if (options.uuid) options.uuid = options.uuid.toLowerCase();
-    if (options.name) options.name = options.name.toLowerCase();
-    let data = this.playerNamesDatabase
-      .get("data")
-      .find((x) =>
-        x.accounts.some(
-          (y) =>
-            (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name.toLowerCase() == options.name),
-        ),
-      );
-    if (!data) return null;
-    let getData = this.playerNamesDatabase.get("data");
-    getData[getData.indexOf(data)].hypixelRank = options.rank;
-    this.playerNamesDatabase.set("data", getData);
+  getHypixelRank(options = {}) {
+    let userObj = this.getUserObject(options);
+    if (!userObj) return null;
+    return userObj.accounts.find(
+      (acc) =>
+        (options.uuid &&
+          acc.uuid === options.uuid?.toLowerCase?.()) ||
+        (options.name &&
+          acc.name.toLowerCase() === options.name?.toLowerCase?.()),
+    )?.hypixelRank;
+  }
+
+  /**
+   *
+   * @param {Object} options
+   * @param {string} [options.uuid]
+   * @param {string} [options.name]
+   * @param {string} [options.hypixelRank]
+   */
+  setHypixelRank(options = {}) {
+    let userObj = this.getUserObject(options);
+    if (!userObj) return null;
+    let db = this.playerNamesDatabase.get("data");
+    let account = userObj.accounts.find(
+      (acc) =>
+        (options.uuid &&
+          acc.uuid.toLowerCase() === options.uuid.toLowerCase()) ||
+        (options.name &&
+          acc.name.toLowerCase() === options.name.toLowerCase()),
+    )
+    account.hypixelRank = options.hypixelRank;
+    db[db.indexOf(userObj)].accounts[userObj.accounts.indexOf(account)] = account;
+    this.playerNamesDatabase.set("data", db);
   }
 
   /**

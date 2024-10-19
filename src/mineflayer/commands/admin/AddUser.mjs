@@ -1,11 +1,10 @@
 import { Permissions } from "../../../utils/Interfaces.mjs";
 import Utils from "../../../utils/Utils.mjs";
-import loadPartyCommands from "../../handlers/PartyCommandHandler.mjs";
 
 export default {
-  name: ["adduser"],
+  name: ["adduser", "user"],
   ignore: false,
-  description: "Adds users to the permission list",
+  description: "Adds users to the permission list or changes their permission",
   permission: Permissions.Admin,
   // Eventually a sudo command
   /**
@@ -16,63 +15,65 @@ export default {
    */
   execute: async function (bot, sender, args) {
     if (args.length < 2)
-      return bot.reply(sender, "Usage: adduser <user> <permission>");
+      return bot.reply(
+        sender,
+        "Usage: !p adduser <user> <(updated)permission> or !p adduser <newAlt> <existingMain>",
+      );
     const user = args[0];
+    // get correct username capitalisation from uuid request response
+    const data = await bot.utils.getUUID(user, true);
+    if (!data)
+      return bot.reply(
+        sender,
+        `Something went wrong while fetching ${user}'s UUID! Invalid username or Mojang API issue`,
+      );
     if (bot.utils.getUserObject({ name: args[1] })) {
-      // add alias/alt account name to existing player entry
+      // add alt account to existing player entry ("!p adduser <altName> <mainName>")
+      if (bot.utils.getUserObject({ name: user }))
+        return bot.reply(sender, `${data.name} is already in the database!`);
       const mainUser = args[1];
-      let data = bot.utils.playerNamesDatabase.get("data");
-      if (!data) data = [];
-      const userObject = data.find((x) =>
-        x.accounts.find((y) => y.name.toLowerCase() === mainUser.toLowerCase()),
-      );
-      if (!userObject) {
-        bot.reply(sender, "User not found");
-        return;
-      }
-      userObject.accounts.push({
-        name: user,
-        uuid: await bot.utils.getUUID(user),
+      bot.utils.addUser({
+        name: data.name,
+        uuid: data.uuid,
+        mainAccount: mainUser,
       });
-      data[data.indexOf(userObject)] = userObject;
-      bot.utils.playerNamesDatabase.set("data", data);
-      bot.reply(sender, "User updated");
+      bot.reply(sender, `Added ${data.name} as ${mainUser}'s alt.`);
     } else {
-      // add entirely new player entry
-      let permission;
+      // Add entirely new player entry or update `permissionRank`
+      let permissionRank;
       if (isNaN(args[1]))
-        permission = Permissions[Utils.capitalizeFirstLetter(args[1])];
-      else permission = parseInt(args[1]);
-      // 0 is falsy in JS, but a valid permisson rank, so we have to check…
-      if (!permission && permission !== 0) {
-        bot.reply(sender, "Invalid permission");
-        return;
+        permissionRank = Permissions[Utils.capitalizeFirstLetter(args[1])];
+      else permissionRank = parseInt(args[1]);
+      // Check if permission is valid
+      if (!Object.values(Permissions).includes(permissionRank)) {
+        return bot.reply(sender, `Invalid permission rank: ${args[1]}.`);
       }
-      let data = bot.utils.playerNamesDatabase.get("data");
-      if (!data) data = [];
-      let userObject = data.find((x) =>
-        x.accounts.find((y) => y.name.toLowerCase() === user.toLowerCase()),
-      );
-      if (userObject) {
-        userObject.permissionRank = permission;
-        data[data.indexOf(userObject)] = userObject;
-        bot.utils.playerNamesDatabase.set("data", data);
-        bot.reply(sender, "User updated");
-      } else {
-        data.push({
-          name: user,
-          permissionRank: permission,
-          accounts: [
-            {
-              name: user,
-              uuid: await bot.utils.getUUID(user),
-            },
-          ],
-          preferredName: user,
+      if (bot.utils.getUserObject({ name: data.name })) {
+        // Update permission rank if user exists
+        bot.utils.setPermissionRank({
+          name: data.name,
+          permissionRank: permissionRank,
         });
-        bot.utils.playerNamesDatabase.set("data", data);
-        bot.reply(sender, "User added");
+        const permission = Object.keys(Permissions).find(
+          (perm) => Permissions[perm] === permissionRank,
+        );
+        return bot.reply(
+          sender,
+          `Updated ${data.name}'s permission to ${permission} (level: ${permissionRank})`,
+        );
       }
+      bot.utils.addUser({
+        name: data.name,
+        uuid: data.uuid,
+        permissionRank: permissionRank,
+      });
+      const permission = Object.keys(Permissions).find(
+        (perm) => Permissions[perm] === permissionRank,
+      );
+      return bot.reply(
+        sender,
+        `Added ${data.name} as new account with permission ${permission} (level: ${permissionRank})`,
+      );
     }
   },
 };

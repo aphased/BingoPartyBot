@@ -26,11 +26,15 @@ export default {
     if (!command)
       return interaction.editReply("You need to provide a command to run!");
     bot.utils.discordReply.setReply(replyId, interaction);
-    let user = bot.utils.getUserObject({ discord: interaction.user.id });
-    if (!user)
-      return interaction.editReply("You need to link your account first!");
+    let preferredName = bot.utils.getPreferredUsername({
+      discord: interaction.user.id,
+    });
+    if (!preferredName)
+      return interaction.editReply(
+        "You need to link your account first using `/link` and `!p link` in-game!",
+      );
     myBot.onMessage({
-      content: `From ${user.hypixelRank} ${user.accounts[0].name}: ${command}`,
+      content: `From ${preferredName}: ${command}`,
       self: true,
       discord: true,
       discordReplyId: replyId,

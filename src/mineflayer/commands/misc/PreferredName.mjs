@@ -12,22 +12,22 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    const usernames = bot.utils
-      .getUserObject({ name: sender.username })
-      ?.accounts?.map((acc) => acc.name);
-    if (!usernames)
+    let availableAccs = bot.utils.getUserObject({
+      name: sender.username,
+    })?.accounts;
+    if (!availableAccs)
       return bot.reply(
         sender,
         "How are you even able to run this without being in the db??",
       );
-    // attempt to get the requested username with correct capitalisation
-    const requestedName = usernames.find(
-      (name) => name?.toLowerCase() === args[0]?.toLowerCase(),
+    // get account object with supplied username (case-insensitive)
+    const account = availableAccs.find(
+      (obj) => obj.name.toLowerCase() === args[0]?.toLowerCase?.(),
     );
-
+    
     // no name supplied or not a valid option
-    if (!requestedName) {
-      const message = `Your current preferred name is: ${sender.preferredName}. Set it to one of your other accounts' igns: ${usernames.join(", ")}`;
+    if (!account) {
+      const message = `Your current preferred name is: ${sender.preferredName}. Set it to any one of your ${availableAccs.length} accounts' igns: ${availableAccs.map((obj) => obj.name).join(", ")}`;
       if (message.length > 252) {
         const splitIndex = message.slice(0, 253).lastIndexOf(" ");
         bot.reply(sender, message.slice(0, splitIndex));
@@ -39,10 +39,10 @@ export default {
       }
       return bot.reply(sender, message);
     }
-    bot.utils.setPreferredUsername({
+    bot.utils.setPreferredAccount({
       name: sender.username,
-      newName: requestedName,
+      preferredAccount: account.uuid,
     });
-    bot.reply(sender, `Your preferred name has been set to ${requestedName}.`);
+    bot.reply(sender, `Your preferred name has been set to ${account.name}.`);
   },
 };

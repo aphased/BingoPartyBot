@@ -13,62 +13,47 @@ export default {
   execute: async function (bot) {
     bot.username = bot.bot.username;
     bot.utils.log("Logged in! `(" + bot.username + ")`", "Info");
-    if (Object.keys(bot.utils.playerNamesDatabase.JSON()).length <= 0) {
-      bot.utils.log("Player names database is empty! Fetching data...", "Warn");
-      bot.utils.playerNamesDatabase.set("data", [
-        {
-          accounts: [
-            {
+    if (!bot.utils.playerNamesDatabase.get("data")) {
+      bot.utils.log(
+        "Player names database is empty! Generating default data...",
+        "Warn",
+      );
+      bot.utils.playerNamesDatabase.set("data", []);
+      bot.utils.addUser({
               name: bot.username,
               uuid: await bot.utils.getUUID(bot.username),
-            },
-          ],
           permissionRank: Permissions.BotAccount,
-        },
-        {
-          accounts: [
-            {
+      });
+      bot.utils.addUser({
               name: "YOUR USERNAME",
               uuid: "YOUR UUID",
-            },
-          ],
           permissionRank: Permissions.Owner,
-        },
-      ]);
-      //   bot.playerNamesDatabase.sync();
+      });
       setTimeout(() => {
         bot.utils.log("Added Bot account to database", "Info");
         bot.utils.log(
-          "Please turn off bot and add your account to the database",
+          "Please turn off bot and add your own account to the database",
           "Error",
         );
         process.exit(1);
       }, 1000);
     }
-    if (
-      bot.utils.getPermissionsByUser({ name: bot.username }) <
-      Permissions.BotAccount
-    ) {
-      let data = bot.utils.playerNamesDatabase.get("data");
-      let userObject = data.find((x) =>
-        x.accounts.find((y) => y.name === bot.username),
-      );
-      if (!userObject)
-        userObject = {
-          accounts: [
-            {
+    const permissionRank = bot.utils.getPermissionsByUser({
+      name: bot.username,
+    });
+    if (!permissionRank) {
+      bot.utils.addUser({
               name: bot.username,
               uuid: await bot.utils.getUUID(bot.username),
-            },
-          ],
-          preferredName: bot.username,
-        };
-      userObject.permissionRank = Permissions.BotAccount;
-      if (data[data.indexOf(userObject)])
-        data[data.indexOf(userObject)] = userObject;
-      else data.push(userObject);
-      bot.utils.playerNamesDatabase.set("data", data);
+        permissionRank: Permissions.BotAccount,
+      });
       bot.utils.log("Bot account added to database", "Info");
+    } else if (permissionRank < Permissions.BotAccount) {
+      bot.utils.setPermissionRank({
+        name: bot.username,
+        permissionRank: Permissions.BotAccount,
+      });
+      bot.utils.log("Bot account permission updated", "Info");
     }
     bot.webhook = new Webhook(bot.config.webhook.url);
     bot.webhook.send(
