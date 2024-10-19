@@ -54,16 +54,15 @@ export default {
       // Prevent _ever_ outputting empty "Party > [MVP++] BingoParty: Guide: "
       console.log("Absolutely no guide available!");
       if (!isPublicCommand) {
-        /* We really only expect to get one relevant entry (corresponding to the
-          actual person) with owner permission, so taking the first object from
-          the result is ok. After that, we can try again if preferredName isn't
-          set (i.e., returns null) by taking the first in-game accounts' name */
-        const botAccountOwner =
-          bot.utils.getUsersByPermissionRank(Permissions.Owner)?.[0]
-            ?.preferredName ??
-          bot.utils.getUsersByPermissionRank(Permissions.Owner)?.[0]
-            ?.accounts?.[0]?.name ??
-          null;
+        // `Permissions.BotAccount === Permissions.Owner`, so the bot has to be filtered out first
+        // Then take the first remaining user, as only one owner is expected
+        const botAccountOwner = bot.utils.getPreferredUsername({
+          name: bot.utils
+            .getUsersByPermissionRank(Permissions.Owner)
+            .find(
+              (obj) => !obj.accounts.some((acc) => acc.name === bot.username),
+            )?.accounts?.[0]?.name,
+        });
 
         bot.reply(
           sender,

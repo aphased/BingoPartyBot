@@ -48,13 +48,16 @@ export default {
         bot.utils.classifyMessage(message.toString()),
       );
     }
+    let commandFound;
     if (RegExp(/^From /g).test(message.toString())) {
       let command = message.toString().split(": ").slice(1).join(": "); // !p promo (lets say)
       if (
         command.toLowerCase().startsWith("boop!") &&
         !bot.utils.getCommandByAlias(bot, "invite").disabled
       )
-        return bot.chat(`/p invite ${Utils.getUsername(message.toString())}`);
+        return bot.chat(
+          `/p invite ${Utils.extractUsername(message.toString())}`,
+        );
       if (command.toLowerCase().includes("help"))
         // TODO: execute "normal" help command here so logic isn't duplicated
         // and doesn't have to be kept in sync manually?
@@ -85,100 +88,53 @@ export default {
             key.includes(args[1].toLowerCase()) && !value.customPrefix,
         );
       }
-      let commandName = args[1]; // Get the command name
-      let commandArgs = args.slice(2); // Get the command arguments
-      if (commandFound) {
-        let command = commandFound;
-        let sender = Utils.getUsername(message.toString());
-        // Extract Hypixel rank from the message
-        const match = message
-          .toString()
-          .split(": ")[0]
-          .replace("From ", "")
-          .match(/\[.+]/g);
-
-        // Check if match is null or empty (=non-ranked), and assign accordingly
-        const rank = match && match.length > 0 ? match[0] : "";
-
-        // Set the user rank
-        bot.utils.setUserRank({
-          name: sender,
-          rank: rank,
-        });
-        sender = {
-          username: sender,
-          preferredName: bot.utils.getPreferredUsername({ name: sender }),
-          commandName: commandName,
-          type: msgType,
-          discordReplyId: discordReplyId,
-        };
-
-        let userPermissionLevel = bot.utils.getPermissionsByUser({
-          name: sender.username,
-        });
-        /**
-         * @returns {boolean}
-         */
-        let allowedToExecute = command.permission <= userPermissionLevel;
-
-        if (command.disabled) {
-          if (allowedToExecute) {
-            // Skip response message if it's just anybody (not on the allowlist)
-            // trying to `!p doSomething`
-            bot.reply(sender, "This command is currently disabled!");
-          }
-          return;
-        }
-
-        if (allowedToExecute || !command.permission)
-          return command.execute(bot, sender, commandArgs);
-        else {
-          // Compare against the lowest permission rank on the allowlist
-          if (
-            command.permission &&
-            userPermissionLevel > Permissions.ExSplasher
-          )
-            // Similar to above in the case of a disabled command, don't reply
-            // if the sender may not even be on the allowlist at all, could be
-            // just anybody/a random player too
-            bot.reply(
-              sender,
-              "You do not have permission to run this command!",
-            );
-        }
-      }
     } else if (RegExp(/^Party > /g).test(message.toString())) {
       let command = message.toString().split(": ").slice(1).join(": ");
       let args = command.split(" ");
       // Check if the message is blacklisted and kick if so
       let kickList = await bot.utils.getKickList();
       if (kickList.some((e) => args[0].startsWith(e))) {
-        return bot.chat(`/p kick ${Utils.getUsername(message.toString())}`);
+        return bot.chat(`/p kick ${Utils.extractUsername(message.toString())}`);
       }
-      let commandFound = bot.partyCommands.find(
+      commandFound = bot.partyCommands.find(
         (value, key) =>
           key.includes(args[0].toLowerCase()) && value.isPartyChatCommand,
       );
-      if (commandFound) {
-        command = commandFound;
-        if (command.disabled) return;
-        let sender = Utils.getUsername(message.toString());
-        // No need to check and update rank in allowlist for public party commands
-        sender = {
-          username: sender,
-          preferredName: bot.utils.getPreferredUsername({ name: sender }),
-          commandName: args[0],
-          type: msgType,
-          discordReplyId: discordReplyId,
-        };
-        if (!command.permission)
-          return command.execute(bot, sender, args.slice(1));
-        let userPermissionLevel = bot.utils.getPermissionsByUser({
-          name: sender.username,
+    }
+    if (commandFound) {
+      const command = commandFound;
+      const commandName = args[1];
+      const commandArgs = args.slice(2);
+      let sender = Utils.extractUsername(message.toString());
+      // Get Hypixel rank from the message
+      const rank = Utils.extractHypixelRank(message.toString());
+      // Update the sender account's hypixel rank if necessary (will fail safely if user is not in db)
+      if (bot.utils.getHypixelRank({ name: sender }) !== rank)
+        bot.utils.setHypixelRank({
+          name: sender,
+          hypixelRank: rank,
         });
-        if (command.permission <= userPermissionLevel)
-          return command.execute(bot, sender, args.slice(1));
-      }
+      sender = {
+        username: sender,
+        preferredName: bot.utils.getPreferredUsername({ name: sender }),
+        commandName: commandName,
+        type: msgType,
+        discordReplyId: discordReplyId,
+      };
+      if (
+        !command.permission ||
+        command.permission <=
+          bot.utils.getPermissionsByUser({ name: sender.username })
+      ) {
+        if (command.disabled)
+          return bot.reply(sender, "This command is currently disabled!");
+        command.execute(bot, sender, commandArgs);
+      } else if (bot.utils.getUserObject({ name: sender.username }))
+        // don't reply if user is not in the db
+        return bot.reply(
+          sender,
+          "You don't have permission to execute this command!",
+        );
     }
   },
 };
