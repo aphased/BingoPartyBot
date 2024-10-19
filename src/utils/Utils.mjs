@@ -319,8 +319,12 @@ class Utils {
       userObj.accounts = userObj.accounts.filter(
         (acc) => acc.name.toLowerCase() !== options.name.toLowerCase(),
       );
-      // reset preferredAccount to prevent having a removed uuid stored
-      delete userObj.preferredAccount;
+      // reset preferredAccount if it's the removed account
+      if (
+        userObj.accounts.find((acc) => acc.name === options.name).uuid ===
+        userObj.preferredAccount
+      )
+        delete userObj.preferredAccount;
       db[db.indexOf(userObj)] = userObj;
     }
     // Remove the entire user
@@ -345,9 +349,7 @@ class Utils {
         (acc) => acc.name.toLowerCase() === options.name.toLowerCase(),
       );
       const uuid = userObj.accounts[index].uuid;
-      const username = await this.getUsername(
-        userObj.accounts[index].uuid,
-      );
+      const username = await this.getUsername(userObj.accounts[index].uuid);
       if (!username) return [uuid];
       db[db.indexOf(userObj)].accounts[index].name = username;
     } else {
@@ -577,8 +579,7 @@ class Utils {
     if (!userObj) return null;
     return userObj.accounts.find(
       (acc) =>
-        (options.uuid &&
-          acc.uuid === options.uuid?.toLowerCase?.()) ||
+        (options.uuid && acc.uuid === options.uuid?.toLowerCase?.()) ||
         (options.name &&
           acc.name.toLowerCase() === options.name?.toLowerCase?.()),
     )?.hypixelRank;
@@ -599,11 +600,11 @@ class Utils {
       (acc) =>
         (options.uuid &&
           acc.uuid.toLowerCase() === options.uuid.toLowerCase()) ||
-        (options.name &&
-          acc.name.toLowerCase() === options.name.toLowerCase()),
-    )
+        (options.name && acc.name.toLowerCase() === options.name.toLowerCase()),
+    );
     account.hypixelRank = options.hypixelRank;
-    db[db.indexOf(userObj)].accounts[userObj.accounts.indexOf(account)] = account;
+    db[db.indexOf(userObj)].accounts[userObj.accounts.indexOf(account)] =
+      account;
     this.playerNamesDatabase.set("data", db);
   }
 
