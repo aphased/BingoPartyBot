@@ -431,8 +431,8 @@ class Utils {
       (acc) => acc.uuid === userObj.preferredAccount,
     );
     let preferredName = "";
-    if (!userObj.hideRank && !options.forceHideRank)
-      preferredName += preferredAccount.hypixelRank + " " ?? "";
+    if (!userObj.hideRank && !options.forceHideRank && preferredAccount.hypixelRank)
+      preferredName += preferredAccount.hypixelRank + " ";
     preferredName += preferredAccount.name;
     return preferredName;
   }
