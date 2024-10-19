@@ -397,7 +397,7 @@ class Utils {
    * @param {Object} options
    * @param {String} [options.uuid]
    * @param {String} [options.name]
-   * @param {String} [options.newName]
+   * @param {String} [options.hideRank]
    * @returns
    */
   setHideRankSetting(options = {}) {
