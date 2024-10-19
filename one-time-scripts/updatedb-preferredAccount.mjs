@@ -15,7 +15,7 @@ let data = db.get("data");
 
 if (!data) {
   console.log(
-    "Coudldn't load playerNames database file! Make sure data/playerNames.json exists and contains player data!",
+    "Couldn't load playerNames database file! Make sure data/playerNames.json exists and contains player data!",
   );
   process.exit(1);
 }
