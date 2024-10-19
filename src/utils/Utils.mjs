@@ -185,29 +185,14 @@ class Utils {
    * @returns {Object|null}
    */
   getPermissionsByUser(options = {}) {
-    if (!options || (!options.uuid && !options.name)) {
-      throw new Error(
-        "Invalid options: 'uuid' or 'name' must be provided for permissions check.",
-      );
-    }
+    if (!options || (!options.uuid && !options.name)) return null;
 
-    if (options.uuid) options.uuid = options.uuid.toLowerCase();
-    if (options.name) options.name = options.name.toLowerCase();
-    let processed = this.playerNamesDatabase
-      .get("data")
-      .find((x) =>
-        x.accounts.some(
-          (y) =>
-            (options.uuid && y.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name && y.name.toLowerCase() == options.name),
-        ),
-      );
-    if (!processed) return null;
-    return processed.permissionRank;
+    let userObj = this.getUserObject(options);
+    if (!userObj) return null;
+    return userObj.permissionRank;
   }
 
   /**
-   * Use this to replace getHypixelRankByName
    * @param {Object} options
    * @param {string} [options.uuid]
    * @param {string} [options.name]
@@ -215,28 +200,24 @@ class Utils {
    * @returns {Object|null}
    */
   getUserObject(options = {}) {
-    if (!options || (!options.uuid && !options.name && !options.discord)) {
-      throw new Error(
-        "Invalid options: 'uuid' or 'name' must be provided to get user info.",
-      );
-    }
-
-    if (options.uuid) options.uuid = options.uuid.toLowerCase();
-    if (options.name) options.name = options.name.toLowerCase();
+    if (!options || (!options.uuid && !options.name && !options.discord))
+      return null;
+    const uuid = options.uuid?.toLowerCase?.();
+    const name = options.name?.toLowerCase?.();
     if (options.discord) {
       let data = this.playerNamesDatabase
         .get("data")
-        .find((x) => x.discord == options.discord);
+        .find((user) => user.discord == options.discord);
       if (!data) return null;
       return data;
     }
     return this.playerNamesDatabase
       .get("data")
-      .find((x) =>
-        x.accounts.some(
-          (y) =>
-            (options.uuid && y.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name && y.name.toLowerCase() == options.name),
+      .find((user) =>
+        user.accounts.some(
+          (acc) =>
+            (uuid && acc.uuid === uuid) ||
+            (name && acc.name.toLowerCase() === name),
         ),
       );
   }
@@ -458,7 +439,6 @@ class Utils {
   }
 
   /**
-   * Use this to replace getHypixelRankByName
    * @param {Object} options
    * @param {string} [options.uuid]
    * @param {string} [options.name]
@@ -466,20 +446,11 @@ class Utils {
    * @returns {Object|null}
    */
   setDiscord(options = {}) {
-    if (options.uuid) options.uuid = options.uuid.toLowerCase();
-    if (options.name) options.name = options.name.toLowerCase();
-    let data = this.playerNamesDatabase
-      .get("data")
-      .find((x) =>
-        x.accounts.some(
-          (y) =>
-            (options.uuid && y.uuid.toLowerCase() == options.uuid) ||
-            (options.name && y.name.toLowerCase() == options.name),
-        ),
-      );
-    let getData = this.playerNamesDatabase.get("data");
-    getData[getData.indexOf(data)].discord = options.discordId;
-    this.playerNamesDatabase.set("data", getData);
+    let userObj = this.getUserObject(options);
+    if (!userObj) return null;
+    let db = this.playerNamesDatabase.get("data");
+    db[db.indexOf(userObj)].discord = options.discordId;
+    this.playerNamesDatabase.set("data", db);
   }
 
   /**
@@ -772,12 +743,6 @@ class WebhookLogger {
     // escaping all ` (backticks) with ‵ ("reversed prime", U+2035)
     message = message.replace(/`/g, "‵");
     type.push(message);
-    if (messageType === WebhookMessageType.All) {
-      this.messageQueue.set(
-        WebhookMessageType.All,
-        this.messageQueue.get(WebhookMessageType.All).push(message),
-      );
-    }
     this.messageQueue.set(messageType, type);
   }
 
@@ -874,8 +839,12 @@ const hypixelEmotes = {
 };
 
 export default {
-  getUsername: function (message) {
-    return message.match(/^(Party >|From)( \[.+\])? (\w+): .+/)?.[3];
+  extractUsername: function (message) {
+    return message.match(/^(Party >|From)( \[.+\])? (\w+): .+$/)?.[3];
+  },
+
+  extractHypixelRank: function (message) {
+    return message.match(/^(Party >|From)( \[.+\])? (\w+): .+$/)?.[2]?.trim();
   },
 
   // removeRank: function (name) {
