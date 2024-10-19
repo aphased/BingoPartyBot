@@ -107,14 +107,52 @@ class Utils {
     }, 10000);
   }
 
+  async updateAllFromUUID(bot) {
+    const startTimestamp = Date.now();
+    this.log("Started refreshing all stored usernames from UUID...", "Info");
+    let fails = [];
+    for (const user of this.playerNamesDatabase.get("data")) {
+      fails.push(
+        await this.updateUserFromUUID({ name: user.accounts[0].name }),
+      );
+    }
+    // flatten array: `[[uuid1, uuid2], [], [uuid3]]` -> `[uuid1, uuid2, uuid3]`
+    fails = fails.flat();
+    const doneTimestamp = Date.now();
+    const secondsElapsed =
+      Math.round(doneTimestamp / 10 - startTimestamp / 10) / 100;
+    if (fails.length < 1)
+      this.log(
+        `Successfully updated all usernames in ${secondsElapsed}s!`,
+        "Info",
+      );
+    // a (partially) failed refresh is only a security risk (in theory), if the uuid in question hasn't been checked in 37 days (time for ign to be released after name change)
+    // this means no retry before next scheduled execution is be necessary
+    else
+      this.log(
+        `Encountered ${fails.length} issues while updating usernames (invalid UUID (somehow), or API issue). Time taken: ${secondsElapsed}s; failed UUIDs: ${fails.join(" ")}`,
+        "Warn",
+      );
+    this.generalDatabase.set("lastUsernameRefresh", Date.now());
+    this.scheduledUsernameRefresh = setTimeout(
+      this.updateAllFromUUID.bind(this),
+      bot.config.usernameRefreshInterval,
+      bot,
+    );
+    return { timeTaken: secondsElapsed, failed: fails.length };
+  }
+
   /** Get Minecraft player uuid from username */
-  async getUUID(username) {
+  async getUUID(username, returnName = false) {
     try {
-      let data = await axios.get(
+      let response = await axios.get(
         `https://api.mojang.com/users/profiles/minecraft/${username}`,
       );
-      if (data.data.errorMessage) return null;
-      return data.data.id;
+      if (response.data.errorMessage) return null;
+      // useful if, in addition to fetching the uuid, you also want to validate username capitalisation
+      if (returnName)
+        return { uuid: response.data.id, name: response.data.name };
+      return response.data.id;
     } catch (e) {
       return null;
     }
@@ -290,6 +328,44 @@ class Utils {
     this.playerNamesDatabase.set("data", db);
   }
 
+  /**
+   * @param {Object} options
+   * @param {String} [options.name]
+   * @param {Boolean} [options.onlyThis]
+   * @returns {Promise<Array<String>>} array of uuids that failed to update
+   */
+  async updateUserFromUUID(options = {}) {
+    let userObj = this.getUserObject(options);
+    if (!userObj) return null;
+    let db = this.playerNamesDatabase.get("data");
+    let fails = [];
+    if (options.onlyThis) {
+      // only update this account's username
+      const index = userObj.accounts.findIndex(
+        (acc) => acc.name.toLowerCase() === options.name.toLowerCase(),
+      );
+      const uuid = userObj.accounts[index].uuid;
+      const username = await this.getUsername(
+        userObj.accounts[index].uuid,
+      );
+      if (!username) return [uuid];
+      db[db.indexOf(userObj)].accounts[index].name = username;
+    } else {
+      // update all the user's accounts' usernames
+      for (const acc of userObj.accounts) {
+        // the rate limit for the endpoint used in `getUsername` seems to be exactly 1700/min, according to my tests
+        const username = await this.getUsername(acc.uuid);
+        if (!username) fails.push(acc.uuid);
+        else acc.name = username;
+        userObj.accounts[userObj.accounts.indexOf(acc)];
+        // this delay isn't necessary for any rate limit, but probably makes sense anyway
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+      db[db.indexOf(userObj)] = userObj;
+    }
+    this.playerNamesDatabase.set("data", db);
+    return fails;
+  }
 
   /**
    * @param {string} user1   sender.username
