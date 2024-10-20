@@ -663,7 +663,9 @@ class Utils {
     this.webhookLogger.webhooks.forEach(async (type, url) => {
       const messages = this.webhookLogger.getMessages(type);
       if (messages.length < 1) return;
-      let toSend = `\`\`\`ansi\n${messages.join("\n")}\`\`\``;
+      let toSend;
+      if (type === WebhookMessageType.ActionLog) toSend = messages.join("\n");
+      else toSend = `\`\`\`ansi\n${messages.join("\n")}\`\`\``;
       try {
         let discWebhook = new WebhookClient({ url: url });
         await discWebhook.send(toSend);

@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["stream", "public", "open"], // This command will be triggered by either command1 or command2
@@ -33,13 +33,10 @@ export default {
     bot.chat(`/pc Party size was set to ${amount} by ${sender.preferredName}.`);
     setTimeout(() => {
       bot.chat(`/stream open ${amount}`);
-      bot.webhook.send(
-        {
-          username: bot.config.webhook.name,
-        },
-        {
-          content: `Party size was set to \`${amount}\` by \`${sender.preferredName}\`.`,
-        },
+      bot.utils.webhookLogger.addMessage(
+        `Party size was set to \`${amount}\` by \`${sender.preferredName}\`.`,
+        WebhookMessageType.ActionLog,
+        true,
       );
     }, bot.utils.minMsgDelay);
   },
