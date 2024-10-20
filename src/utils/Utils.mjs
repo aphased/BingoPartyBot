@@ -431,7 +431,11 @@ class Utils {
       (acc) => acc.uuid === userObj.preferredAccount,
     );
     let preferredName = "";
-    if (!userObj.hideRank && !options.forceHideRank && preferredAccount.hypixelRank)
+    if (
+      !userObj.hideRank &&
+      !options.forceHideRank &&
+      preferredAccount.hypixelRank
+    )
       preferredName += preferredAccount.hypixelRank + " ";
     preferredName += preferredAccount.name;
     return preferredName;
@@ -614,20 +618,22 @@ class Utils {
    * @returns {WebhookMessageType}
    */
   classifyMessage(message) {
-    if (partyMemberEventRegex.test(message))
-      return WebhookMessageType.JoinLeave;
-    else if (
-      partyMemberKickedRegex.test(message) ||
-      partyMemberEventRegex.test(message)
+    if (
+      partyMemberEventRegex.test(message) ||
+      partyMemberJoinedRegex.test(message) ||
+      partyMemberLeftRegex.test(message)
     )
-      return WebhookMessageType.PartyMessage;
-    else if (/^(From )/.test(message) || /^(To )/)
+      return WebhookMessageType.JoinLeave;
+    else if (privateMessageRegex.test(message))
       return WebhookMessageType.PrivateMessage;
-    // else if () PUBLI STUFF
-    else if (/^(Guild >)/.test(message)) return WebhookMessageType.GuildMessage;
-    // TODO: add a test for the comprehensive bridgeMessageRegex, and only
-    // whitelist messages passing it, not letting through all other messages
-    // by default
+    else if (publicMessageRegex.test(message))
+      return WebhookMessageType.PublicMessage;
+    else if (guildMessageRegex.test(message))
+      return WebhookMessageType.GuildMessage;
+    else if (partyMessageRegex.test(message))
+      return WebhookMessageType.PartyMessage;
+    else if (!bridgeBlacklistRegex.some((regex) => regex.test(message)))
+      return WebhookMessageType.Bridge;
     else return WebhookMessageType.Other;
   }
 
@@ -654,25 +660,24 @@ class Utils {
   }
 
   sendWebhookMessages() {
-    let messageQueue = this.webhookLogger.messageQueue;
-    messageQueue.forEach(async (value, key) => {
-      if (!value) return;
-      let webhooks = this.webhookLogger.getWebhooks({ messageType: key });
-      webhooks.forEach(async (value1, key) => {
-        try {
-          let discWebhook = new WebhookClient({ url: key });
-          await discWebhook.send(`\`\`\`ansi\n${value.join("\n")}\`\`\``);
-        } catch (e) {
-          if (this.webhookLogger.invalidWebhooks.has(key)) return;
-          this.log(
-            `Error sending one of the webhooks a message, please check the URL.`,
-            "error",
-          );
-          this.webhookLogger.setInvalidWebhook(key);
-        }
-      });
-      this.webhookLogger.messageQueue.set(key, null);
+    this.webhookLogger.webhooks.forEach(async (type, url) => {
+      const messages = this.webhookLogger.getMessages(type);
+      if (messages.length < 1) return;
+      let toSend = `\`\`\`ansi\n${messages.join("\n")}\`\`\``;
+      try {
+        let discWebhook = new WebhookClient({ url: url });
+        await discWebhook.send(toSend);
+      } catch (e) {
+        if (this.webhookLogger.invalidWebhooks.has(url)) return;
+        this.log(
+          `Error sending message to one of the webhooks, please check the URL.`,
+          "error",
+        );
+        this.webhookLogger.setInvalidWebhook(url);
+      }
     });
+    // clear message queue after sending
+    this.webhookLogger.messageQueue = [];
   }
 }
 
@@ -809,18 +814,16 @@ class DiscordReply {
 class WebhookLogger {
   constructor() {
     this.webhooks = new Collection();
-    this.messageQueue = new Collection();
     this.invalidWebhooks = new Collection();
+    this.messageQueue = [];
   }
 
-  addMessage(message, messageType) {
-    let type = this.messageQueue.get(messageType);
-    if (!type) type = [];
-    // Escape potential injections that could ping users etc. on Discord by
-    // escaping all ` (backticks) with ‵ ("reversed prime", U+2035)
-    message = message.replace(/`/g, "‵");
-    type.push(message);
-    this.messageQueue.set(messageType, type);
+  addMessage(message, messageType, allowBackticks = false) {
+    if (!allowBackticks)
+      // Escape potential injections that could ping users etc. on Discord by
+      // escaping all ` (backticks) with ‵ ("reversed prime", U+2035)
+      message = message.replace(/`/g, "‵");
+    this.messageQueue.push({ message: message, type: messageType });
   }
 
   setInvalidWebhook(url) {
@@ -841,30 +844,60 @@ class WebhookLogger {
 
   /**
    *
-   * @param {Object} options
-   * @param {String} [options.webhookUrl] - The URL of the webhook.
-   * @param {WebhookMessageType} [options.messageType] - The type of message to send to the webhook.
+   * @param {WebhookMessageType} [messageType]
    */
-  getWebhooks(options = {}) {
-    if (options.webhookUrl) return this.webhooks.get(options.webhookUrl);
-    else if (options.messageType)
-      return this.webhooks.filter(
-        (x) => x === options.messageType || x === WebhookMessageType.All,
+  getMessages(messageType) {
+    let messages = [];
+    if (messageType === WebhookMessageType.All) messages = this.messageQueue;
+    else if (messageType === WebhookMessageType.Bridge)
+      messages = this.messageQueue.filter((msg) =>
+        [
+          WebhookMessageType.JoinLeave,
+          WebhookMessageType.PrivateMessage,
+          WebhookMessageType.PartyMessage,
+          WebhookMessageType.Bridge,
+        ].includes(msg.type),
       );
-    else return this.webhooks;
+    else messages = this.messageQueue.filter((msg) => msg.type === messageType);
+    return messages.map((msg) => msg.message);
   }
 }
 
-const messageRegex =
-  /^(?:Party >|From) ?(?:(\[.*?\]) )?(\w{1,16}): (.*?)(?:§.*)?$/s;
+const privateMessageRegex = /^From |^To /;
 
-const partyMessageRegex = /^(Party >)/;
+const partyMessageRegex = /^Party > /;
 
-const bridgeMessageRegex =
-  /(You cannot say the same message twice!|Connected to|Bot kicked!|Bot disconnected.|You have joined|The party is now|The party is no longer|has promoted|has demoted|is now a Party Moderator|The party was transferred|disbanded|You are not allowed to disband this party.|Party Members|Party Leader|Party Moderators|You have been kicked from the party by|You are not in a party right now.|You are not currently in a party.|That player is not online!|Created a public party! Players can join with \/party join|Party is capped at|Party Poll|Invalid usage!|created a poll! Answer it below by clicking on an option|Question:|The poll|You cannot invite that player since they're not online.|You are not allowed to invite players.|enabled All Invite|to the party! They have 60 seconds to accept.|is already in the party.|You'll be partying with:)/;
+const guildMessageRegex = /^Guild > /;
+
+const publicMessageRegex = /^(\[.+\] )?\w+: /;
+
+// seperate join/leave regex for future #status party member tracking
 const partyMemberEventRegex =
-  /(left the party.|joined the party.|disconnected, they have 5 minutes to rejoin before they are removed from the party.|was removed from your party because they disconn)/;
-const partyMemberKickedRegex = /(has been removed from the party.)/;
+  /^(?:\[.+\] )?(\w+) (?:has disconnected, they have 5 minutes to rejoin before they are removed from the party\.)$/;
+const partyMemberJoinedRegex = /^(?:\[.+\] )?(\w+) (?:joined the party\.)$/;
+const partyMemberLeftRegex =
+  /^(?:(?:\[.+\] )?(\w+)|Kicked (.+)) (?:has left the party\.|was removed from your party because they disconnected\.|has been removed from the party\.|because they were offline\.)$/;
+
+// stored as array for clarity
+const bridgeBlacklistRegex = Object.freeze([
+  /^Friend > /,
+  /^You tipped \d+ players? in \d+ (different )?games?!$/,
+  /^-+$/,
+  /^ *$/,
+  /^[WATCHDOG ANNOUNCEMENT]$/,
+  /^Watchdog has banned [\d,]+ players in the last 7 days\.$/,
+  /^Staff have banned an additional [\d,]+ in the last 7 days\.$/,
+  /^Blacklisted modifications are a bannable offense!$/,
+  /^You have \d+ (voicemail\(s\)|unclaimed (leveling|achievement) rewards?)!$/,
+  /^Click here to (read|view) (them|it)!$/,
+  /^\/limbo for more information\.$/,
+  /^ >>> \[MVP\+\+\] \w+ [a-z ]+ the lobby! <<<$/,
+  /^\[MVP\+\] \w+ [a-z ]+ the lobby!$/,
+]);
+
+// currently unused alternative to blacklist, needs rewrite (any message containing the strings is matched)
+const bridgeWhitelistRegex =
+  /(You cannot say the same message twice!|Connected to|Bot kicked!|Bot disconnected.|You have joined|The party is now|The party is no longer|has promoted|has demoted|is now a Party Moderator|The party was transferred|disbanded|You are not allowed to disband this party.|Party Members|Party Leader|Party Moderators|You have been kicked from the party by|You are not in a party right now.|You are not currently in a party.|That player is not online!|Created a public party! Players can join with \/party join|Party is capped at|Party Poll|Invalid usage!|created a poll! Answer it below by clicking on an option|Question:|The poll|You cannot invite that player since they're not online.|You are not allowed to invite players.|enabled All Invite|to the party! They have 60 seconds to accept.|is already in the party.|You'll be partying with:)/;
 
 const discordAnsiCodes = {
   "§0": "\u001b[30m",
