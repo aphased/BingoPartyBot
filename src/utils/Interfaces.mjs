@@ -52,8 +52,10 @@ export const WebhookMessageType = Object.freeze({
   PublicMessage: 2,
   GuildMessage: 3,
   PartyMessage: 4,
-  Other: 5,
-  All: 6,
+  ActionLog: 5,
+  Bridge: 6,
+  Other: 7, // anything that isn't any of the above
+  All: 8, // all of the above
 });
 
 export const SenderType = Object.freeze({

@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["close", "private"], // This command will be triggered by either command1 or command2
@@ -17,13 +17,10 @@ export default {
     bot.chat(`/pc The party was closed by ${sender.preferredName}.`);
     setTimeout(() => {
       bot.chat(`/stream close`);
-      bot.webhook.send(
-        {
-          username: bot.config.webhook.name,
-        },
-        {
-          content: `The party was closed by \`${sender.preferredName}\`. Reason: \`${reason}\``,
-        },
+      bot.utils.webhookLogger.addMessage(
+        `The party was closed by \`${sender.preferredName}\`. Reason: \`${reason}\``,
+        WebhookMessageType.ActionLog,
+        true,
       );
     }, bot.utils.minMsgDelay);
   },

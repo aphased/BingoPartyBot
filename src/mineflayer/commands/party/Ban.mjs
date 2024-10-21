@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["ban", "block"], // This command will be triggered by either command1 or command2
@@ -27,13 +27,10 @@ export default {
         bot.chat(`/p kick ${player}`);
         setTimeout(() => {
           bot.chat(`/block add ${player}`);
-          bot.webhook.send(
-            {
-              username: bot.config.webhook.name,
-            },
-            {
-              content: `\`${player}\` was banned from the party by \`${sender.preferredName}\`. Reason: \`${reason}\``,
-            },
+          bot.utils.webhookLogger.addMessage(
+            `\`${player}\` was banned from the party by \`${sender.preferredName}\`. Reason: \`${reason}\``,
+            WebhookMessageType.ActionLog,
+            true,
           );
         }, bot.utils.minMsgDelay);
       }, bot.utils.minMsgDelay);

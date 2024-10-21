@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["transfer"], // This command will be triggered by either command1 or command2
@@ -21,13 +21,10 @@ export default {
     bot.chat(`/pc The party was transferred to ${player} by ${sender.preferredName}.`);
     setTimeout(() => {
       bot.chat(`/p transfer ${args[0]}`);
-      bot.webhook.send(
-        {
-          username: bot.config.webhook.name,
-        },
-        {
-          content: `The party was transferred to \`${player}\` by \`${sender.preferredName}\`.`,
-        },
+      bot.utils.webhookLogger.addMessage(
+        `The party was transferred to \`${player}\` by \`${sender.preferredName}\`.`,
+        WebhookMessageType.ActionLog,
+        true,
       );
     }, bot.utils.minMsgDelay);
   },

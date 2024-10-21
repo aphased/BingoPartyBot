@@ -48,9 +48,10 @@ export default {
         bot.utils.classifyMessage(message.toString()),
       );
     }
+    const command = message.toString().split(": ").slice(1).join(": ")
+    const args = command.split(" ");
     let commandFound;
     if (RegExp(/^From /g).test(message.toString())) {
-      let command = message.toString().split(": ").slice(1).join(": "); // !p promo (lets say)
       if (
         command.toLowerCase().startsWith("boop!") &&
         !bot.utils.getCommandByAlias(bot, "invite").disabled
@@ -70,8 +71,6 @@ export default {
           "Read the documentation on GitHub: aphased/BingoPartyCommands",
         );
 
-      let args = command.split(" "); // Get the arugments of the command
-      let commandFound;
       if (args.length < 2) return;
       if (
         args[0].toLowerCase() !== bot.config.partyCommandPrefix.toLowerCase()
@@ -89,8 +88,6 @@ export default {
         );
       }
     } else if (RegExp(/^Party > /g).test(message.toString())) {
-      let command = message.toString().split(": ").slice(1).join(": ");
-      let args = command.split(" ");
       // Check if the message is blacklisted and kick if so
       let kickList = await bot.utils.getKickList();
       if (kickList.some((e) => args[0].startsWith(e))) {

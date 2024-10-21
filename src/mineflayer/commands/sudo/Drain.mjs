@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["drain", "empty"], // This command will be triggered by either command1 or command2
@@ -33,13 +33,10 @@ but for now itll be admin only because this command is very much poisable
         bot.chat("/streamgui settings empty");
       }, bot.utils.minMsgDelay);
 
-      bot.webhook.send(
-        {
-          username: bot.config.webhook.name,
-        },
-        {
-          content: `The party was emptied by \`${sender.preferredName}\` Reason: \`${reason}\``,
-        },
+      bot.utils.webhookLogger.addMessage(
+        `The party was emptied by \`${sender.preferredName}\` Reason: \`${reason}\``,
+        WebhookMessageType.ActionLog,
+        true,
       );
     }, 10000);
   },
