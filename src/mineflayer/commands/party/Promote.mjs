@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["promote", "promo", "prom", "pro"], // This command will be triggered by either command1 or command2
@@ -17,13 +17,10 @@ export default {
     bot.chat(`/pc ${player} was promoted by ${sender.preferredName}`);
     setTimeout(() => {
       bot.chat(`/p promote ${player}`);
-      bot.webhook.send(
-        {
-          username: bot.config.webhook.name,
-        },
-        {
-          content: `\`${player}\` was party promoted by \`${sender.preferredName}\``,
-        },
+      bot.utils.webhookLogger.addMessage(
+        `\`${player}\` was party promoted by \`${sender.preferredName}\``,
+        WebhookMessageType.ActionLog,
+        true,
       );
     }, bot.utils.minMsgDelay);
   },

@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["disband"], // This command will be triggered by either command1 or command2
@@ -19,13 +19,10 @@ export default {
     );
     setTimeout(() => {
       bot.chat("/p disband");
-      bot.webhook.send(
-        {
-          username: bot.config.webhook.name,
-        },
-        {
-          content: `The party was disbanded by \`${sender.preferredName}\`. Reason: \`${reason}\``,
-        },
+      bot.utils.webhookLogger.addMessage(
+        `The party was disbanded by \`${sender.preferredName}\`. Reason: \`${reason}\``,
+        WebhookMessageType.ActionLog,
+        true,
       );
     }, 10000);
   },

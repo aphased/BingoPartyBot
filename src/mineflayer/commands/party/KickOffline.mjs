@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["kickoffline", "kickafk", "ko", "ka"], // This command will be triggered by either command1 or command2
@@ -16,13 +16,10 @@ export default {
     bot.chat(`/pc Offline players were purged by ${sender.preferredName}.`);
     setTimeout(() => {
       bot.chat("/p kickoffline");
-      bot.webhook.send(
-        {
-          username: bot.config.webhook.name,
-        },
-        {
-          content: `Offline players were purged (from the party) by \`${sender.preferredName}\`.`,
-        },
+      bot.utils.webhookLogger.addMessage(
+        `Offline players were purged (from the party) by \`${sender.preferredName}\`.`,
+        WebhookMessageType.ActionLog,
+        true,
       );
     }, bot.utils.minMsgDelay);
   },

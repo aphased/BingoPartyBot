@@ -1,6 +1,4 @@
-import { Collection } from "discord.js";
-import Utils from "../../utils/Utils.mjs";
-import Webhook from "../../utils/Webhook.mjs";
+import { WebhookMessageType } from "../../utils/Interfaces.mjs";
 
 export default {
   name: "Kick Event",
@@ -10,14 +8,12 @@ export default {
    * @param {import("../Bot.mjs").default} bot
    */
   execute: async function (bot, reason, loggedIn) {
-    bot.utils.log("Kicked from server for reason: " + reason, "Error");
-    bot.webhook.send(
-      {
-        username: bot.config.webhook.name,
-      },
-      {
-        content: "Kicked from server for reason: " + reason.extra[0].text,
-      },
+    const reasonstr = JSON.parse(reason)?.extra?.[0]?.text;
+    bot.utils.log(`Kicked from server ${loggedIn ? "" : "during login "}for reason: ${reasonstr} (${reason})`, "Error");
+    bot.utils.webhookLogger.addMessage(
+      `Kicked from server ${loggedIn ? "" : "during login "}for reason: ${reasonstr}`,
+      WebhookMessageType.ActionLog,
+      true,
     );
   },
 };

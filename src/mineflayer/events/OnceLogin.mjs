@@ -1,7 +1,4 @@
-import { Collection } from "discord.js";
-import Utils from "../../utils/Utils.mjs";
-import Webhook from "../../utils/Webhook.mjs";
-import { Permissions } from "../../utils/Interfaces.mjs";
+import { Permissions, WebhookMessageType } from "../../utils/Interfaces.mjs";
 
 export default {
   name: "Login Event",
@@ -55,14 +52,10 @@ export default {
       });
       bot.utils.log("Bot account permission updated", "Info");
     }
-    bot.webhook = new Webhook(bot.config.webhook.url);
-    bot.webhook.send(
-      {
-        username: bot.config.webhook.name,
-      },
-      {
-        content: "Logged in! `(" + bot.username + ")`",
-      },
+    bot.utils.webhookLogger.addMessage(
+      `Logged in! \`(${bot.username})\``,
+      WebhookMessageType.ActionLog,
+      true,
     );
     // schedule first refresh of usernames from UUID
     if (!bot.config.debug.disableUsernameRefresh) {

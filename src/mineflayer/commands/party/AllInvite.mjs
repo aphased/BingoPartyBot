@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["allinvite", "allinv", "ai"], // This command will be triggered by either command1 or command2
@@ -15,13 +15,10 @@ export default {
     bot.chat(`/pc ${sender.preferredName} toggled the All Invite setting.`);
     setTimeout(() => {
       bot.chat("/p settings allinvite");
-      bot.webhook.send(
-        {
-          username: bot.config.webhook.name,
-        },
-        {
-          content: `\`${sender.preferredName}\` toggled the All Invite party setting.`,
-        },
+      bot.utils.webhookLogger.addMessage(
+        `\`${sender.preferredName}\` toggled the All Invite party setting.`,
+        WebhookMessageType.ActionLog,
+        true,
       );
     }, bot.utils.minMsgDelay);
   },
