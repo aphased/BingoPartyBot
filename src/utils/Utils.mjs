@@ -160,11 +160,15 @@ class Utils {
 
   /** Get Minecraft player username from uuid */
   async getUsername(uuid) {
-    let data = await axios.get(
-      `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`,
-    );
-    if (data.data.errorMessage) return null;
-    return data.data.name;
+    try {
+      let data = await axios.get(
+        `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`,
+      );
+      if (data.data.errorMessage) return null;
+      return data.data.name;
+    } catch (e) {
+      return null;
+    }
   }
 
   /**
