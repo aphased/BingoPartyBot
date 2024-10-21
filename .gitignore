@@ -3,7 +3,7 @@
 Config.mjs
 
 # Also don't upload all dependencies (like 300 MB lol)
-node_modules/
+node_modules*/
 
 # Individual to each contributor:
 TODO.md
@@ -11,10 +11,12 @@ data/playerNames.json
 # However, explicitly do not ignore "canonical" allowlist database:
 !data/backup-PlayerNames.json
 
-# Ignore legacy stuff
+# Ignore legacy stuff & OS files
 old/*
 data/playerNamesUpdated*.json
 data/playerNamesOld*.json
+
+.DS_Store
 
 data/generalDatabase.json
 
