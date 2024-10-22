@@ -890,7 +890,7 @@ const bridgeBlacklistRegex = Object.freeze([
   /^You tipped \d+ players? in \d+ (different )?games?!$/,
   /^-+$/,
   /^ *$/,
-  /^[WATCHDOG ANNOUNCEMENT]$/,
+  /^\[WATCHDOG ANNOUNCEMENT\]$/,
   /^Watchdog has banned [\d,]+ players in the last 7 days\.$/,
   /^Staff have banned an additional [\d,]+ in the last 7 days\.$/,
   /^Blacklisted modifications are a bannable offense!$/,
