@@ -954,6 +954,24 @@ const hypixelEmotes = {
   ":puffer:": "<('O')>",
 };
 
+// class to replace (and emulate parts of) mineflayer's ChatMessage for custom console/discord messages or commands
+class CustomMessage {
+  constructor(message, isDiscord = false, discordReplyId = null) {
+    this.self = true;
+    this.ansiMessage = message;
+    this.isDiscord = isDiscord;
+    this.discordReplyId = discordReplyId;
+  }
+
+  toString() {
+    return this.ansiMessage.replace(/\[\d+m/g, "");
+  }
+
+  toAnsi() {
+    return this.ansiMessage;
+  }
+}
+
 export default {
   extractUsername: function (message) {
     return message.match(/^(Party >|From)( \[.+\])? (\w+): .+$/)?.[3];
@@ -982,6 +1000,8 @@ export default {
   capitalizeFirstLetter: function (string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   },
+
+  CustomMessage: CustomMessage,
 };
 
 let utils = new Utils(

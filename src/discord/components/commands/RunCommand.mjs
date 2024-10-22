@@ -1,5 +1,5 @@
 import { ApplicationCommandOptionType, Client, Message } from "discord.js";
-import { utils } from "../../../utils/Utils.mjs";
+import Utils, { utils } from "../../../utils/Utils.mjs";
 import myBot from "../../../mineflayer/Bot.mjs";
 
 export default {
@@ -28,16 +28,18 @@ export default {
     bot.utils.discordReply.setReply(replyId, interaction);
     let preferredName = bot.utils.getPreferredUsername({
       discord: interaction.user.id,
+      forceHideRank: true,
     });
     if (!preferredName)
       return interaction.editReply(
         "You need to link your account first using `/link` and `!p link` in-game!",
       );
-    myBot.onMessage({
-      content: `From ${preferredName}: ${command}`,
-      self: true,
-      discord: true,
-      discordReplyId: replyId,
-    });
+    myBot.onMessage(
+      new Utils.CustomMessage(
+        `[35mFrom [34m[DISCORD] ${preferredName}[37m: ${command}[0m`,
+        true,
+        replyId,
+      ),
+    );
   },
 };

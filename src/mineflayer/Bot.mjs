@@ -2,6 +2,7 @@ import mineflayer from "mineflayer";
 import * as config from "../../Config.mjs";
 import loadPartyCommands from "./handlers/PartyCommandHandler.mjs";
 import { SenderType } from "../utils/Interfaces.mjs";
+import Utils from "../utils/Utils.mjs";
 
 class Bot {
   constructor() {
@@ -38,7 +39,7 @@ class Bot {
    * @param {String} message
    */
   chat(message) {
-    message = this.utils.replaceColorlessEmotes(message)
+    message = this.utils.replaceColorlessEmotes(message);
     // Check message length limit, if it is too long, only perform a cut off
     // – ideally the caller ensures this property already so that it can be
     // handled more gracefully than sending out a probably incomplete chat
@@ -80,11 +81,25 @@ class Bot {
     if (sender.type === SenderType.Minecraft)
       this.chat(`/r ${this.utils.addRandomString(message)}`);
     else if (sender.type === SenderType.Discord) {
+      // log message reply (like with a hypixel dm reply)
+      this.onMessage(
+        new Utils.CustomMessage(
+          `[35mTo [34m[DISCORD] ${sender.username}[37m: ${message}[0m`,
+          true,
+        ),
+      );
       this.utils.discordReply
         .getReply(sender.discordReplyId)
         .editReply(message);
       this.utils.discordReply.removeReply(sender.discordReplyId);
     } else if (sender.type === SenderType.Console) {
+      // log message reply (like with a hypixel dm reply)
+      this.onMessage(
+        new Utils.CustomMessage(
+          `[35mTo [31m[CONSOLE] ${this.username}[37m: ${message}[0m`,
+          true,
+        ),
+      );
       this.utils.log(message, "Info");
     }
   }
