@@ -97,7 +97,6 @@ class Bot {
       this.onMessage(
         new Utils.CustomMessage(
           `[35mTo [31m[CONSOLE] ${this.username}[37m: ${message}[0m`,
-          true,
         ),
       );
       this.utils.log(message, "Info");
