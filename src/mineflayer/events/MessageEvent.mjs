@@ -1,5 +1,5 @@
 import Utils from "../../utils/Utils.mjs";
-import { SenderType, Permissions } from "../../utils/Interfaces.mjs";
+import { SenderType } from "../../utils/Interfaces.mjs";
 
 export default {
   name: "MessageEvent",
@@ -23,7 +23,7 @@ export default {
     }
     let msgType = SenderType.Minecraft;
     let discordReplyId;
-    if (bot.config.showMcChat && !message.self) {
+    if (bot.config.showMcChat) {
       console.log(message.toAnsi());
       bot.utils.webhookLogger.addMessage(
         message.toAnsi(undefined, bot.utils.discordAnsiCodes),
@@ -36,19 +36,14 @@ export default {
         bot.chat(`/p accept ${partyInvite}`);
       }, bot.utils.minMsgDelay);
     }
-    if (message.self == true) {
+    if (message.self === true) {
       msgType = SenderType.Console;
-      if (message.discord) {
+      if (message.isDiscord) {
         msgType = SenderType.Discord;
         discordReplyId = message.discordReplyId;
       }
-      message = message.content;
-      bot.utils.webhookLogger.addMessage(
-        message,
-        bot.utils.classifyMessage(message.toString()),
-      );
     }
-    const command = message.toString().split(": ").slice(1).join(": ")
+    const command = message.toString().split(": ").slice(1).join(": ");
     const args = command.split(" ");
     let commandFound;
     if (RegExp(/^From /g).test(message.toString())) {
@@ -103,14 +98,16 @@ export default {
       const commandName = args[1];
       const commandArgs = args.slice(2);
       let sender = Utils.extractUsername(message.toString());
-      // Get Hypixel rank from the message
-      const rank = Utils.extractHypixelRank(message.toString());
-      // Update the sender account's hypixel rank if necessary (will fail safely if user is not in db)
-      if (bot.utils.getHypixelRank({ name: sender }) !== rank)
-        bot.utils.setHypixelRank({
-          name: sender,
-          hypixelRank: rank,
-        });
+      if (msgType === SenderType.Minecraft) {
+        // Get Hypixel rank from the message
+        const rank = Utils.extractHypixelRank(message.toString());
+        // Update the sender account's hypixel rank if necessary (will fail safely if user is not in db)
+        if (bot.utils.getHypixelRank({ name: sender }) !== rank)
+          bot.utils.setHypixelRank({
+            name: sender,
+            hypixelRank: rank,
+          });
+      }
       sender = {
         username: sender,
         preferredName: bot.utils.getPreferredUsername({ name: sender }),
