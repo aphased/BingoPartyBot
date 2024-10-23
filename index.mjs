@@ -2,7 +2,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import { utils } from "./src/utils/Utils.mjs";
+import Utils, { utils } from "./src/utils/Utils.mjs";
 import * as config from "./Config.mjs";
 import JSONdb from "simple-json-db";
 import path from "path";
@@ -66,9 +66,10 @@ function dataInput(data) {
   data = data.toString().trim();
   if (data.startsWith("/")) myBot.chat(data);
   else if (data.startsWith(myBot.config.partyCommandPrefix))
-    myBot.onMessage({
-      content: `From [CONSOLE] ${myBot.username}: ${data}`,
-      self: true,
-    });
+    myBot.onMessage(
+      new Utils.CustomMessage(
+        `[35mFrom [31m[CONSOLE] ${myBot.username}[37m: ${data}[0m`,
+      ),
+    );
   else if (data.startsWith("!dc")) return; // Add Discord bot stuff
 }

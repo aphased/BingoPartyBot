@@ -906,7 +906,7 @@ const bridgeBlacklistRegex = Object.freeze([
   /^You tipped \d+ players? in \d+ (different )?games?!$/,
   /^-+$/,
   /^ *$/,
-  /^[WATCHDOG ANNOUNCEMENT]$/,
+  /^\[WATCHDOG ANNOUNCEMENT\]$/,
   /^Watchdog has banned [\d,]+ players in the last 7 days\.$/,
   /^Staff have banned an additional [\d,]+ in the last 7 days\.$/,
   /^Blacklisted modifications are a bannable offense!$/,
@@ -970,6 +970,24 @@ const hypixelEmotes = {
   ":puffer:": "<('O')>",
 };
 
+// class to replace (and emulate parts of) mineflayer's ChatMessage for custom console/discord messages or commands
+class CustomMessage {
+  constructor(message, isDiscord = false, discordReplyId = null) {
+    this.self = true;
+    this.ansiMessage = message;
+    this.isDiscord = isDiscord;
+    this.discordReplyId = discordReplyId;
+  }
+
+  toString() {
+    return this.ansiMessage.replace(/\[\d+m/g, "");
+  }
+
+  toAnsi() {
+    return this.ansiMessage;
+  }
+}
+
 export default {
   extractUsername: function (message) {
     return message.match(/^(Party >|From)( \[.+\])? (\w+): .+$/)?.[3];
@@ -998,6 +1016,8 @@ export default {
   capitalizeFirstLetter: function (string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   },
+
+  CustomMessage: CustomMessage,
 };
 
 let utils = new Utils(
