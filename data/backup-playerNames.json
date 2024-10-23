@@ -4,14 +4,16 @@
             "accounts": [
                 {
                     "name": "HunterHiHunter",
-                    "uuid": "322eb7ef60a44956a707a22e9630bdb8"
+                    "uuid": "322eb7ef60a44956a707a22e9630bdb8",
+                    "hypixelRank": "[MVP+]"
                 },
                 {
                     "name": "Hub14",
                     "uuid": "67ebe27f41a04b86a49837ff5d53382d"
                 }
             ],
-            "permissionRank": 4
+            "permissionRank": 4,
+            "preferredAccount": "322eb7ef60a44956a707a22e9630bdb8"
         },
         {
             "accounts": [
@@ -295,7 +297,8 @@
             "accounts": [
                 {
                     "name": "aphased",
-                    "uuid": "2b2c370c6dc04707931758c99101c6e6"
+                    "uuid": "2b2c370c6dc04707931758c99101c6e6",
+                    "hypixelRank": "[MVP+]"
                 },
                 {
                     "name": "bphased",
@@ -457,7 +460,7 @@
         {
             "accounts": [
                 {
-                    "name": "SigmaCookie",
+                    "name": "CaringCookie",
                     "uuid": "e12acc8b7b7e4764ae772affee58c2ce"
                 },
                 {
@@ -654,7 +657,8 @@
             "accounts": [
                 {
                     "name": "Siggydlx",
-                    "uuid": "ae9acba268234b6b87657805a3112769"
+                    "uuid": "ae9acba268234b6b87657805a3112769",
+                    "hypixelRank": "[VIP]"
                 }
             ],
             "permissionRank": 2,
@@ -899,7 +903,8 @@
                 },
                 {
                     "name": "Dementiacasper",
-                    "uuid": "7deb8ce555d84b268658fa5c2fa743cd"
+                    "uuid": "7deb8ce555d84b268658fa5c2fa743cd",
+                    "hypixelRank": "[VIP]"
                 }
             ],
             "permissionRank": 2,
@@ -1035,7 +1040,8 @@
             "accounts": [
                 {
                     "name": "xXRC",
-                    "uuid": "cb8281d2c6b44f2d954eda6647d4b505"
+                    "uuid": "cb8281d2c6b44f2d954eda6647d4b505",
+                    "hypixelRank": "[MVP+]"
                 },
                 {
                     "name": "xXGC",
