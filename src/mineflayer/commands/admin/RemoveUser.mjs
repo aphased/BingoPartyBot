@@ -4,7 +4,7 @@ export default {
   name: ["removeuser"],
   ignore: false,
   description: "Removes a user from the permission list",
-  permission: Permissions.Admin,
+  permission: Permissions.Staff,
   /**
    *
    * @param {import("../../Bot.mjs").default} bot

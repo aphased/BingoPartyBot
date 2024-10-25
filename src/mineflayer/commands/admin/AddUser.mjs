@@ -5,7 +5,7 @@ export default {
   name: ["adduser", "user"],
   ignore: false,
   description: "Adds users to the permission list or changes their permission",
-  permission: Permissions.Admin,
+  permission: Permissions.Staff,
   // Eventually a sudo command
   /**
    *
