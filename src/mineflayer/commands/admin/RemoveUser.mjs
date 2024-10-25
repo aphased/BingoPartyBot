@@ -4,7 +4,7 @@ export default {
   name: ["removeuser"],
   ignore: false,
   description: "Removes a user from the permission list",
-  permission: Permissions.Admin,
+  permission: Permissions.Staff,
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -21,6 +21,11 @@ export default {
       );
     if (!bot.utils.getUserObject({ name: user }))
       return bot.reply(sender, `User ${user} not found in database!`);
+    if (!bot.utils.isHigherRanked(sender.username, user))
+      return bot.reply(
+        sender,
+        `Your permission rank is too low to perform this operation.`,
+      );
     bot.utils.removeUser({ name: user, onlyThis: only });
     if (only)
       return bot.reply(sender, `Removed account ${user}, but kept other alts.`);
