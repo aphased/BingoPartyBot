@@ -32,6 +32,13 @@ export default {
       if (bot.utils.getUserObject({ name: user }))
         return bot.reply(sender, `${data.name} is already in the database!`);
       const mainUser = args[1];
+      if (
+        bot.utils.isHigherRanked(sender.username, mainUser)
+      )
+        return bot.reply(
+          sender,
+          `Your permission rank is too low to perform this operation.`,
+        );
       bot.utils.addUser({
         name: data.name,
         uuid: data.uuid,
@@ -45,9 +52,16 @@ export default {
         permissionRank = Permissions[Utils.capitalizeFirstLetter(args[1])];
       else permissionRank = parseInt(args[1]);
       // Check if permission is valid
-      if (!Object.values(Permissions).includes(permissionRank)) {
+      if (!Object.values(Permissions).includes(permissionRank))
         return bot.reply(sender, `Invalid permission rank: ${args[1]}.`);
-      }
+      if (
+        permissionRank >=
+        bot.utils.getPermissionsByUser({ name: sender.username })
+      )
+        return bot.reply(
+          sender,
+          `Your permission rank is too low to perform this operation.`,
+        );
       if (bot.utils.getUserObject({ name: data.name })) {
         // Update permission rank if user exists
         bot.utils.setPermissionRank({
