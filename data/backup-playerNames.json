@@ -19,7 +19,8 @@
             "accounts": [
                 {
                     "name": "indigo_polecat",
-                    "uuid": "e6ae8489ca504c72a48133b3bcb262d2"
+                    "uuid": "e6ae8489ca504c72a48133b3bcb262d2",
+                    "hypixelRank": "[MVP+]"
                 },
                 {
                     "name": "Indigo_Poledog",
@@ -27,7 +28,8 @@
                 }
             ],
             "permissionRank": 4,
-            "preferredAccount": "e6ae8489ca504c72a48133b3bcb262d2"
+            "preferredAccount": "e6ae8489ca504c72a48133b3bcb262d2",
+            "discord": "700900371480051732"
         },
         {
             "accounts": [
@@ -55,7 +57,8 @@
             "accounts": [
                 {
                     "name": "p0iS",
-                    "uuid": "d36c28e4157f407394c385123d8b42cf"
+                    "uuid": "d36c28e4157f407394c385123d8b42cf",
+                    "hypixelRank": "[MVP+]"
                 },
                 {
                     "name": "p0i5",
@@ -378,7 +381,8 @@
             "accounts": [
                 {
                     "name": "KiLLz_StRoMzY",
-                    "uuid": "6a0f06afede24fbaa409d11e37a1e72d"
+                    "uuid": "6a0f06afede24fbaa409d11e37a1e72d",
+                    "hypixelRank": "[MVP+]"
                 },
                 {
                     "name": "StRoMzzY",
@@ -811,7 +815,8 @@
             "accounts": [
                 {
                     "name": "Dxtty",
-                    "uuid": "f7701a468d01475fa4c758180aaa3b6b"
+                    "uuid": "f7701a468d01475fa4c758180aaa3b6b",
+                    "hypixelRank": "[MVP+]"
                 }
             ],
             "permissionRank": 2,
@@ -1050,6 +1055,15 @@
             ],
             "permissionRank": 2,
             "preferredAccount": "cb8281d2c6b44f2d954eda6647d4b505"
+        },
+        {
+            "accounts": [
+                {
+                    "name": "I_Like_Number_69",
+                    "uuid": "64809f53c9c84bc9b5a583427f165ed1"
+                }
+            ],
+            "permissionRank": 2
         }
     ]
 }

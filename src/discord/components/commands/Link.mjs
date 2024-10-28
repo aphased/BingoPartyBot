@@ -28,7 +28,7 @@ export default {
           })
           .setTitle("Link your account")
           .setDescription(
-            `To link your account to the bot, use the following code in the game: \`${code}\``,
+            `To link your account to the bot, /message BingoParty on Hypixel the following: !p link \`${code}\``,
           )
           .setColor("Green")
           .setTimestamp()
