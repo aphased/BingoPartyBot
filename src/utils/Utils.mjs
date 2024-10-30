@@ -484,7 +484,7 @@ class Utils {
   /* const */
   generateRandomString = (length) => {
     const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      "0123456789ABCDEFabcdef";
     let result = "";
 
     for (let i = 0; i < length; i++) {
