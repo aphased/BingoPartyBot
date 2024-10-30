@@ -33,7 +33,7 @@ export default {
         return bot.reply(sender, `${data.name} is already in the database!`);
       const mainUser = args[1];
       if (
-        bot.utils.isHigherRanked(sender.username, mainUser)
+        !bot.utils.isHigherRanked(sender.username, mainUser)
       )
         return bot.reply(
           sender,
