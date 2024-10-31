@@ -879,7 +879,7 @@ const publicMessageRegex = /^(\[.+\] )?\w+: /;
 
 // seperate join/leave regex for future #status party member tracking
 const partyMemberEventRegex =
-  /^(?:\[.+\] )?(\w+) (?:has disconnected, they have 5 minutes to rejoin before they are removed from the party\.)$/;
+  /^(?:\[.+\] )?(\w+) (?:has disconnected, they have 5 minutes to rejoin before they are removed from the party\.|has rejoined\.)$/;
 const partyMemberJoinedRegex = /^(?:\[.+\] )?(\w+) (?:joined the party\.)$/;
 const partyMemberLeftRegex =
   /^(?:(?:\[.+\] )?(\w+)|Kicked (.+)) (?:has left the party\.|was removed from your party because they disconnected\.|has been removed from the party\.|because they were offline\.)$/;
