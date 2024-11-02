@@ -12,12 +12,10 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    // Code here
-    bot.chat(`/pc Offline players were purged by ${sender.preferredName}.`);
     setTimeout(() => {
       bot.chat("/p kickoffline");
       bot.utils.webhookLogger.addMessage(
-        `Offline players were purged (from the party) by \`${sender.preferredName}\`.`,
+        `Offline players were purged from the party by \`${sender.preferredName}\`.`,
         WebhookMessageType.ActionLog,
         true,
       );
