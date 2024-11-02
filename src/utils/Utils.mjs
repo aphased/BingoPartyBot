@@ -227,10 +227,10 @@ class Utils {
    * @returns {Object|null}
    */
   getPermissionsByUser(options = {}) {
-    if (!options || (!options.uuid && !options.name)) return null;
+    if (!options || (!options.uuid && !options.name)) return -1;
 
     let userObj = this.getUserObject(options);
-    if (!userObj) return null;
+    if (!userObj) return -1;
     return userObj.permissionRank;
   }
 
@@ -654,8 +654,7 @@ class Utils {
       ?.clickEvent?.value?.slice(14);
     if (
       inviteIGN &&
-      (this.getPermissionsByUser({ name: inviteIGN }) ??
-        Permissions.ExSplasher) >= Permissions.Splasher
+      this.getPermissionsByUser({ name: inviteIGN }) >= Permissions.Splasher
     ) {
       return inviteIGN;
     } else {

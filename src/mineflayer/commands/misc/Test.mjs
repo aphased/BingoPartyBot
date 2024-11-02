@@ -24,7 +24,7 @@ export default {
       permissionRank = bot.utils.getPermissionsByUser({
         name: sender.username,
       });
-    if (!permissionRank)
+    if (permissionRank < 0)
       return;
     const permission = Object.keys(Permissions).find(
       (perm) => Permissions[perm] === permissionRank,

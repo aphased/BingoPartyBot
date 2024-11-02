@@ -38,7 +38,7 @@ export default {
     const permissionRank = bot.utils.getPermissionsByUser({
       name: bot.username,
     });
-    if (!permissionRank) {
+    if (permissionRank < 0) {
       bot.utils.addUser({
         name: bot.username,
         uuid: await bot.utils.getUUID(bot.username),
