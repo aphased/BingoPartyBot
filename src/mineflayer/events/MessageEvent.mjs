@@ -116,7 +116,7 @@ export default {
         discordReplyId: discordReplyId,
       };
       if (
-        !command.permission ||
+        isNaN(command.permission) ||
         command.permission <=
           bot.utils.getPermissionsByUser({ name: sender.username })
       ) {
