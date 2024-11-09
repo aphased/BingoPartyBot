@@ -6,7 +6,7 @@ export default {
   description: "Repeat Command", // Description of the command
   permission: Permissions.Staff, // Permission level required to execute
   // Command allows arbitrary chat output!
-  
+
   /**
    *
    * @param {import("../../../Bot.mjs").default} bot
@@ -30,14 +30,17 @@ export default {
     if (repetitions > 7) repetitions = 7;
 
     if (args.length < 1 + startIndex)
-      return bot.reply(sender, "Invalid command usage! Use: !p customrepeat <repetitions> <duration> <message>");
+      return bot.reply(
+        sender,
+        "Invalid command usage! Use: !p customrepeat <repetitions> <duration> <message>",
+      );
 
     for (let i = 0; i < repetitions; i++) {
       setTimeout(
         () => {
-          bot.chat(
-            `/pc ${sender.preferredName}: ${args.slice(startIndex).join(" ")}`,
-          );
+          bot.utils
+            .getCommandByAlias(bot, "say")
+            .execute(bot, sender, args.slice(startIndex));
         },
         i * (duration * 1000),
       );

@@ -6,7 +6,7 @@ export default {
   description: "Say Command", // Description of the command
   permission: Permissions.Staff, // Permission level required to execute
   // Command allows arbitrary chat output!
-  
+
   /**
    *
    * @param {import("../../../Bot.mjs").default} bot
@@ -18,6 +18,8 @@ export default {
       bot.reply(sender, "Please provide a message to send.");
       return;
     }
-    bot.chat(`/pc ${sender.preferredName}: ${args.join(" ")}`);
+    bot.chat(
+      `/pc ${sender?.preferredName ? `${sender.preferredName}: ` : ""}${args.join(" ")}`,
+    );
   },
 };
