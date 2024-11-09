@@ -1,6 +1,4 @@
 import { Permissions } from "../../../utils/Interfaces.mjs";
-import Utils from "../../../utils/Utils.mjs";
-import loadPartyCommands from "../../handlers/PartyCommandHandler.mjs";
 
 export default {
   name: ["getuser", "query"],
@@ -18,10 +16,7 @@ export default {
   execute: async function (bot, sender, args) {
     let user = args[0];
     if (!user) {
-      return bot.reply(
-        sender,
-        "Please provide a user to query/get permissions for.",
-      );
+      return bot.reply(sender, "Usage: !p query <username> [alts]");
     }
     let userObj = bot.utils.getUserObject({ name: user });
     if (!userObj)
@@ -33,10 +28,20 @@ export default {
       (perm) => Permissions[perm] === userObj.permissionRank,
     );
     // Get name with correct capitalisation
-    const name = userObj.accounts.find((acc) => acc.name.toLowerCase() === user.toLowerCase()).name;
+    const username = userObj.accounts.find(
+      (acc) => acc.name.toLowerCase() === user.toLowerCase(),
+    ).name;
+    // Get user's other accounts
+    const alts = userObj.accounts
+      .map((acc) => acc.name)
+      .filter((name) => name !== username);
+    const altlist =
+      alts.length < 1
+        ? "No alts for this user."
+        : `Alts: ${alts.join(", ")}`;
     bot.reply(
       sender,
-      `User: ${name} Rank: ${rank} (Level: ${userObj.permissionRank})`,
+      `User: ${username} Rank: ${rank} (Level: ${userObj.permissionRank}) ${altlist}`,
     );
   },
 };

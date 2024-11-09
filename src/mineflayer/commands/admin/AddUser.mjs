@@ -32,9 +32,7 @@ export default {
       if (bot.utils.getUserObject({ name: user }))
         return bot.reply(sender, `${data.name} is already in the database!`);
       const mainUser = args[1];
-      if (
-        !bot.utils.isHigherRanked(sender.username, mainUser)
-      )
+      if (!bot.utils.isHigherRanked(sender.username, mainUser))
         return bot.reply(
           sender,
           `Your permission rank is too low to perform this operation.`,
@@ -49,7 +47,12 @@ export default {
       // Add entirely new player entry or update `permissionRank`
       let permissionRank;
       if (isNaN(args[1]))
-        permissionRank = Permissions[Utils.capitalizeFirstLetter(args[1])];
+        permissionRank =
+          Permissions[
+            Object.keys(Permissions).find(
+              (key) => key.toLowerCase() === args[1].toLowerCase(),
+            )
+          ];
       else permissionRank = parseInt(args[1]);
       // Check if permission is valid
       if (!Object.values(Permissions).includes(permissionRank))
