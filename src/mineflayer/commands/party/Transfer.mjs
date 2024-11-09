@@ -12,13 +12,18 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    let player = args[0];
-    if (!player)
+    let player;
+    if (args[0]) {
+      player = await bot.utils.getUUID(args[0], true)?.name;
+      if (!player) return bot.reply(sender, "Player not found.");
+    } else
       return bot.reply(
         sender,
         "Please provide a username to transfer the party to.",
       );
-    bot.chat(`/pc The party was transferred to ${player} by ${sender.preferredName}.`);
+    bot.chat(
+      `/pc The party was transferred to ${player} by ${sender.preferredName}.`,
+    );
     setTimeout(() => {
       bot.chat(`/p transfer ${args[0]}`);
       bot.utils.webhookLogger.addMessage(

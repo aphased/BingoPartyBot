@@ -12,8 +12,11 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    let player = args[0] || sender.username;
-    // Code here
+    let player;
+    if (args[0]) {
+      player = await bot.utils.getUUID(args[0], true)?.name;
+      if (!player) return bot.reply(sender, "Player not found.");
+    } else player = sender.username;
     bot.chat(`/pc ${player} was promoted by ${sender.preferredName}`);
     setTimeout(() => {
       bot.chat(`/p promote ${player}`);

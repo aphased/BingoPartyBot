@@ -12,9 +12,11 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    let player = args[0];
-    if (!player)
-      return bot.reply(sender, "Please provide a player to unban.");
+    let player;
+    if (args[0]) {
+      player = await bot.utils.getUUID(args[0], true)?.name;
+      if (!player) return bot.reply(sender, "Player not found.");
+    } else return bot.reply(sender, "Please provide a player to unban.");
     bot.reply(sender, `Trying to unban ${player}...`);
     setTimeout(() => {
       bot.chat(`/lobby`);

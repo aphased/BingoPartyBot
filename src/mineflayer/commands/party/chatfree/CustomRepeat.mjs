@@ -1,16 +1,15 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions } from "../../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["customrep", "customrepeat", "crep", "crepeat"], // This command will be triggered by either command1 or command2
+  name: ["customrepeat", "customrep", "crep", "crepeat"], // This command will be triggered by either command1 or command2
   ignore: false, // Whether to ignore this file or not
   description: "Repeat Command", // Description of the command
-  permission: Permissions.Trusted, // Permission level required to execute
-
-  // this command is VERY broken and i dont know why, ive tried during duration * 1000 but that doesnt work
-
+  permission: Permissions.Staff, // Permission level required to execute
+  // Command allows arbitrary chat output!
+  
   /**
    *
-   * @param {import("../../Bot.mjs").default} bot
+   * @param {import("../../../Bot.mjs").default} bot
    * @param {String} sender
    * @param {Array<String>} args
    */
@@ -30,19 +29,8 @@ export default {
     }
     if (repetitions > 7) repetitions = 7;
 
-    if (args.length < 1 + startIndex) {
-      bot.reply(sender, "Invalid command usage!");
-      setTimeout(() => {
-        bot.reply(
-          sender,
-          "To use this command, use: !p customrepeat <repetitions> <duration> <message>",
-        );
-        setTimeout(() => {
-          bot.reply(sender, "For example: !p rep 5 1 Hello world!");
-        }, bot.utils.minMsgDelay);
-      }, 550);
-      return;
-    }
+    if (args.length < 1 + startIndex)
+      return bot.reply(sender, "Invalid command usage! Use: !p customrepeat <repetitions> <duration> <message>");
 
     for (let i = 0; i < repetitions; i++) {
       setTimeout(

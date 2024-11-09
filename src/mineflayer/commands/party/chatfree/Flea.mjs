@@ -1,13 +1,15 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions } from "../../../../utils/Interfaces.mjs";
 
 export default {
   name: ["flea", "bossflea", "bf"], // This command will be triggered by either command1 or command2
   ignore: false, // Whether to ignore this file or not
   description: "Special flavor of/extra alias for a custom repeat command", // Description of the command
-  permission: Permissions.Trusted, // Permission level required to execute
+  permission: Permissions.Staff, // Permission level required to execute
+  // Command allows arbitrary chat output!
+  
   /**
    *
-   * @param {import("../../Bot.mjs").default} bot
+   * @param {import("../../../Bot.mjs").default} bot
    * @param {String} sender
    * @param {Array<String>} args
    */
@@ -16,14 +18,12 @@ export default {
     // 4 repetitions à 4 seconds apart, then a pause of 20 seconds, then a
     // final fifth one
 
-    bot.partyCommands
-      .find((value, key) => key.includes("customrepeat"))
+    bot.utils
+      .getCommandByAlias(bot, "customrepeat")
       .execute(bot, sender, `4 4 ${args.join(" ")}`.split(" "));
 
     setTimeout(() => {
-      bot.partyCommands
-        .find((value, key) => key.includes("say"))
-        .execute(bot, sender, args);
+      bot.utils.getCommandByAlias(bot, "say").execute(bot, sender, args);
     }, 12_000 + 20_000);
   },
 };
