@@ -88,10 +88,7 @@ class Bot {
           true,
         ),
       );
-      this.utils.discordReply
-        .getReply(sender.discordReplyId)
-        .editReply(message);
-      this.utils.discordReply.removeReply(sender.discordReplyId);
+      this.utils.discordReply.sendReply(sender.discordReplyId, message);
     } else if (sender.type === SenderType.Console) {
       // log message reply (like with a hypixel dm reply)
       this.onMessage(
