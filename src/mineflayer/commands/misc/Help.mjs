@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["help"], // This command will be triggered by either command1 or command2
@@ -15,6 +15,7 @@ export default {
     bot.reply(
       sender,
       "Read the documentation on Github: aphased/BingoPartyCommands",
+      VerbosityLevel.Minimal,
     );
   },
 };

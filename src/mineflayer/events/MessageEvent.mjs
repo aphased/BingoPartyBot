@@ -1,5 +1,5 @@
 import Utils from "../../utils/Utils.mjs";
-import { SenderType } from "../../utils/Interfaces.mjs";
+import { SenderType, VerbosityLevel } from "../../utils/Interfaces.mjs";
 
 export default {
   name: "MessageEvent",
@@ -64,6 +64,7 @@ export default {
         return bot.reply(
           "",
           "Read the documentation on GitHub: aphased/BingoPartyCommands",
+          VerbosityLevel.Minimal,
         );
 
       if (args.length < 2) return;
@@ -121,13 +122,14 @@ export default {
           bot.utils.getPermissionsByUser({ name: sender.username })
       ) {
         if (command.disabled)
-          return bot.reply(sender, "This command is currently disabled!");
+          return bot.reply(sender, "This command is currently disabled!", VerbosityLevel.Minimal);
         command.execute(bot, sender, commandArgs);
       } else if (bot.utils.getUserObject({ name: sender.username }))
         // don't reply if user is not in the db
         return bot.reply(
           sender,
           "You don't have permission to execute this command!",
+          VerbosityLevel.Minimal,
         );
     }
   },

@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["enable"], // This command will be triggered by either command1 or command2
@@ -22,12 +22,17 @@ export default {
         value.disabled = false;
       });
       // TODO: also console log here
-      bot.reply(sender, "All commands have been enabled!");
+      bot.reply(
+        sender,
+        "All commands have been enabled!",
+        VerbosityLevel.Reduced,
+      );
     } else {
       if (!args[0])
         return bot.reply(
           sender,
           "Please specify one or more command(s) to enable.",
+          VerbosityLevel.Reduced,
         );
       let commands = [];
       args.forEach((arg) => {
@@ -38,16 +43,21 @@ export default {
       });
 
       if (commands.length !== args.length)
-        return bot.reply(sender, "One or more command(s) not found.");
+        return bot.reply(
+          sender,
+          "One or more command(s) not found.",
+          VerbosityLevel.Reduced,
+        );
       if (commands.some((cmd) => cmd.alwaysEnabled))
         return bot.reply(
           sender,
           "One or more commands are always enabled!",
+          VerbosityLevel.Reduced,
         );
       commands.forEach((cmd) => {
         cmd.disabled = false;
       });
-      bot.reply(sender, "Command(s) enabled!");
+      bot.reply(sender, "Command(s) enabled!", VerbosityLevel.Reduced);
     }
   },
 };

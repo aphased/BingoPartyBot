@@ -1,4 +1,8 @@
-import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
+import {
+  Permissions,
+  VerbosityLevel,
+  WebhookMessageType,
+} from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["ban", "block"], // This command will be triggered by either command1 or command2
@@ -13,7 +17,12 @@ export default {
    */
   execute: async function (bot, sender, args) {
     let player = args[0];
-    if (!player) return bot.reply(sender, "Please provide a player to ban.");
+    if (!player)
+      return bot.reply(
+        sender,
+        "Please provide a player to ban.",
+        VerbosityLevel.Reduced,
+      );
     let reason = args.slice(1).join(" ") || "No reason given.";
     if (!bot.utils.isHigherRanked(sender.username, player)) {
       return;

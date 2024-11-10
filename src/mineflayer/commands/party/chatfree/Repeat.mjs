@@ -1,4 +1,4 @@
-import { Permissions } from "../../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../../utils/Interfaces.mjs";
 
 export default {
   name: ["repeat", "rep"], // This command will be triggered by either command1 or command2
@@ -27,6 +27,7 @@ export default {
       return bot.reply(
         sender,
         "Invalid command usage! Use: !p repeat <repetitions> <message>",
+        VerbosityLevel.Reduced,
       );
     }
 

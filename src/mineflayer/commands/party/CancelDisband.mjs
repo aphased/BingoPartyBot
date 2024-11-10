@@ -1,4 +1,4 @@
-import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["canceldisband", "cdisband", "disbandcancel"], // This command will be triggered by either command1 or command2
@@ -14,7 +14,11 @@ export default {
    */
   execute: async function (bot, sender, args) {
     if (!bot.utils.activeDisband)
-      return bot.reply(sender, "There is no active party disband to cancel!");
+      return bot.reply(
+        sender,
+        "There is no active party disband to cancel!",
+        VerbosityLevel.Reduced,
+      );
     clearTimeout(bot.utils.activeDisband);
     bot.utils.activeDisband = null;
     bot.chat(`/pc Party disband was aborted by ${sender.preferredName}.`);

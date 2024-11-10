@@ -1,4 +1,4 @@
-import { Permissions } from "../../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../../utils/Interfaces.mjs";
 
 export default {
   name: ["say", "speak"], // This command will be triggered by either command1 or command2
@@ -15,11 +15,16 @@ export default {
    */
   execute: async function (bot, sender, args) {
     if (args.length < 1) {
-      bot.reply(sender, "Please provide a message to send.");
+      bot.reply(
+        sender,
+        "Please provide a message to send.",
+        VerbosityLevel.Reduced,
+      );
       return;
     }
     bot.chat(
       `/pc ${sender?.preferredName ? `${sender.preferredName}: ` : ""}${args.join(" ")}`,
+      VerbosityLevel.Minimal,
     );
   },
 };

@@ -1,4 +1,4 @@
-import { WebhookMessageType } from "./src/utils/Interfaces.mjs";
+import { VerbosityLevel, WebhookMessageType } from "./src/utils/Interfaces.mjs";
 
 export default {
   partyCommandPrefix: "!p",
@@ -25,6 +25,7 @@ export default {
   },
   guideLink: "", // I advise you to keep this empty, and just use discord commands to set the guide link or the guide channel.
   showMcChat: true,
+  verbosityMc: VerbosityLevel.Full, // verbosity level for minecraft chat messages
   usernameRefreshInterval: 2 * 60 * 60 * 1000, // in milliseconds, default is 2h (2 * 60 * 60 * 1000ms)
   debug: {
     // IF YOU DONT KNOW WHAT YOU ARE DOING DO NOT TOUCH THIS. THIS IS MADE FOR DEVELOPERS TO DEBUG THE BOT ONLY

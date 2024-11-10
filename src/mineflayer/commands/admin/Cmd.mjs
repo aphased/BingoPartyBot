@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["exec", "execute", "cmd"], // This command will be triggered by either command1 or command2
@@ -15,7 +15,11 @@ export default {
   execute: async function (bot, sender, args) {
     bot.chat("/" + args.join(" "));
     setTimeout(() => {
-      bot.reply(sender, `Executed command: ${args.join(" ")}`);
+      bot.reply(
+        sender,
+        `Executed command: ${args.join(" ")}`,
+        VerbosityLevel.Reduced,
+      );
     }, bot.utils.minMsgDelay);
   },
 };

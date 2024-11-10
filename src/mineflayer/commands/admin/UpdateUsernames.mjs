@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["updatenames", "refreshnames"],
@@ -24,9 +24,10 @@ export default {
       return bot.reply(
         sender,
         `The last refresh happened ${sinceLast} minute(s) ago. The next one will happen in ${toNext} minute(s). If you want to manually trigger one, run \"!p updatenames confirm\".`,
+        VerbosityLevel.Reduced,
       );
     }
-    bot.reply(sender, "Started username refresh!");
+    bot.reply(sender, "Started username refresh!", VerbosityLevel.Reduced);
     // cancel previously scheduled refresh
     clearTimeout(bot.utils.scheduledUsernameRefresh);
     // initiate manual refresh
@@ -44,11 +45,13 @@ export default {
       bot.reply(
         sender,
         `Successfully updated all stored username in ${results.timeTaken}s! Next automatic refresh scheduled in ${intervalInMin} minutes.`,
+        VerbosityLevel.Reduced,
       );
     else
       bot.reply(
         sender,
         `Failed to update ${results.failed} usernames! Check logs for details. Next automatic refresh scheduled in ${intervalInMin} minutes.`,
+        VerbosityLevel.Reduced,
       );
   },
 };

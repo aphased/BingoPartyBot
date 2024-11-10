@@ -1,4 +1,4 @@
-import { Permissions } from "../../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../../utils/Interfaces.mjs";
 
 export default {
   name: ["rawpoll", "rpoll"], // This command will be triggered by either command1 or command2
@@ -25,7 +25,9 @@ export default {
     // (questions part can be longer, so we shift() the array once to
     // discard it from this test)
     let portions = poll.split("/").slice(1);
-    let answerLengthsValid = portions.every(portion => portion.length <= 20 && portion.length >= 1);
+    let answerLengthsValid = portions.every(
+      (portion) => portion.length <= 20 && portion.length >= 1,
+    );
 
     // TODO: this is the boolean to update in case of adding new checks on poll
     // message validity, if it is to be made more sophisticated (e.g. maximum
@@ -37,6 +39,7 @@ export default {
       bot.reply(
         sender,
         `Invalid poll! Correct format: Question?/Answer1/Answer2/Optional/Optional/Optional`,
+        VerbosityLevel.Reduced,
       );
     } else {
       bot.chat(`/p poll ${sender.preferredName}: ${poll}`);

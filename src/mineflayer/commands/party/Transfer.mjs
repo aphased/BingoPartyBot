@@ -1,4 +1,8 @@
-import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
+import {
+  Permissions,
+  VerbosityLevel,
+  WebhookMessageType,
+} from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["transfer"], // This command will be triggered by either command1 or command2
@@ -15,11 +19,13 @@ export default {
     let player;
     if (args[0]) {
       player = await bot.utils.getUUID(args[0], true)?.name;
-      if (!player) return bot.reply(sender, "Player not found.");
+      if (!player)
+        return bot.reply(sender, "Player not found.", VerbosityLevel.Reduced);
     } else
       return bot.reply(
         sender,
         "Please provide a username to transfer the party to.",
+        VerbosityLevel.Reduced,
       );
     bot.chat(
       `/pc The party was transferred to ${player} by ${sender.preferredName}.`,

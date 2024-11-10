@@ -1,4 +1,4 @@
-import { Permissions } from "../../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../../utils/Interfaces.mjs";
 
 export default {
   name: ["poll"], // This command will be triggered by either command1 or command2
@@ -34,6 +34,7 @@ export default {
       return bot.reply(
         sender,
         "Invalid poll option! Usage: !p poll <option>. Choose one of the following options: 'spellbingo', 'goalscompleted', 'playtime'",
+        VerbosityLevel.Reduced,
       );
 
     bot.chat(`/p poll ${poll}`);

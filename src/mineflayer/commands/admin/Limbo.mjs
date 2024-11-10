@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["limbo", "sendLimbo"], // This command will be triggered by either command1 or command2
@@ -16,7 +16,7 @@ export default {
     setTimeout(() => {
       bot.chat("/limbo");
       setTimeout(() => {
-        bot.reply(sender, `Limboed!`);
+        bot.reply(sender, `Limboed!`, VerbosityLevel.Reduced);
       }, bot.utils.minMsgDelay);
     }, bot.utils.minMsgDelay);
   },

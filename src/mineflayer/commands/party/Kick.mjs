@@ -1,4 +1,8 @@
-import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
+import {
+  Permissions,
+  VerbosityLevel,
+  WebhookMessageType,
+} from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["kick", "remove"], // This command will be triggered by either command1 or command2
@@ -15,8 +19,14 @@ export default {
     let player;
     if (args[0]) {
       player = await bot.utils.getUUID(args[0], true)?.name;
-      if (!player) return bot.reply(sender, "Player not found.");
-    } else return bot.reply(sender, "Please provide a player to kick.");
+      if (!player)
+        return bot.reply(sender, "Player not found.", VerbosityLevel.Reduced);
+    } else
+      return bot.reply(
+        sender,
+        "Please provide a player to kick.",
+        VerbosityLevel.Reduced,
+      );
     let reason = args.slice(1).join(" ") || "No reason given.";
     if (!bot.utils.isHigherRanked(sender.username, player)) {
       return;

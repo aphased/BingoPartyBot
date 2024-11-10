@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["getuser", "query"],
@@ -16,13 +16,18 @@ export default {
   execute: async function (bot, sender, args) {
     let user = args[0];
     if (!user) {
-      return bot.reply(sender, "Usage: !p query <username> [alts]");
+      return bot.reply(
+        sender,
+        "Usage: !p query <username> [alts]",
+        VerbosityLevel.Reduced,
+      );
     }
     let userObj = bot.utils.getUserObject({ name: user });
     if (!userObj)
       return bot.reply(
         sender,
         "That person does not have any party permissions.",
+        VerbosityLevel.Minimal,
       );
     const rank = Object.keys(Permissions).find(
       (perm) => Permissions[perm] === userObj.permissionRank,
@@ -36,12 +41,11 @@ export default {
       .map((acc) => acc.name)
       .filter((name) => name !== username);
     const altlist =
-      alts.length < 1
-        ? "No alts for this user."
-        : `Alts: ${alts.join(", ")}`;
+      alts.length < 1 ? "No alts for this user." : `Alts: ${alts.join(", ")}`;
     bot.reply(
       sender,
       `User: ${username} Rank: ${rank} (Level: ${userObj.permissionRank}) ${altlist}`,
+      VerbosityLevel.Minimal,
     );
   },
 };

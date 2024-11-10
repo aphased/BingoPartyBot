@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["invite", "inv"], // This command will be triggered by either command1 or command2
@@ -15,7 +15,8 @@ export default {
     let player;
     if (args[0]) {
       player = await bot.utils.getUUID(args[0], true)?.name;
-      if (!player) return bot.reply(sender, "Player not found.");
+      if (!player)
+        return bot.reply(sender, "Player not found.", VerbosityLevel.Reduced);
     } else player = sender.username;
     bot.chat(`/p invite ${player}`);
     setTimeout(() => {

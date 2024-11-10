@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 /** Timestamp of the last guide message sent */
 let lastGuideSentTime = 0;
@@ -33,6 +33,7 @@ export default {
         bot.reply(
           sender,
           `Guide command is on cooldown!`,
+          VerbosityLevel.Reduced,
         );
       }
       return;
@@ -68,11 +69,12 @@ export default {
           sender,
           // equivalent to e.g. "contact aphased"
           `No guide available - contact ${botAccountOwner}`,
+          VerbosityLevel.Reduced,
         );
       }
       return;
     }
 
-    bot.chat(`/pc Guide: ${guide.link}`);
+    bot.chat(`/pc Guide: ${guide.link}`, VerbosityLevel.Minimal);
   },
 };

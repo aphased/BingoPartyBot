@@ -1,4 +1,4 @@
-import { Permissions } from "../../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../../utils/Interfaces.mjs";
 
 export default {
   name: ["customrepeat", "customrep", "crep", "crepeat"], // This command will be triggered by either command1 or command2
@@ -33,6 +33,7 @@ export default {
       return bot.reply(
         sender,
         "Invalid command usage! Use: !p customrepeat <repetitions> <duration> <message>",
+        VerbosityLevel.Reduced,
       );
 
     for (let i = 0; i < repetitions; i++) {

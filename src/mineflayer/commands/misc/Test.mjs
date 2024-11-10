@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["test", "testpermissions", "testperms", "testcommand", "boopme"],
@@ -32,6 +32,7 @@ export default {
     bot.reply(
       sender,
       `You have permissions! Your permissions are ${permission} (Level: ${permissionRank})`,
+      VerbosityLevel.Minimal,
     );
   },
 };

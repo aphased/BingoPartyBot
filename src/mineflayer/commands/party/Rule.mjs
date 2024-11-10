@@ -1,4 +1,4 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 /** Timestamp of the last rule message sent */
 let lastRuleSentTime = 0;
@@ -19,10 +19,7 @@ export default {
     const currentTime = Date.now();
 
     if (currentTime - lastRuleSentTime < COOLDOWN_DURATION) {
-      bot.reply(
-        sender,
-        `Rule command is on cooldown!`,
-      );
+      bot.reply(sender, `Rule command is on cooldown!`, VerbosityLevel.Reduced);
       return;
     }
 
@@ -31,14 +28,14 @@ export default {
     let ruleNum = args[0] || "1";
     let rule = bot.utils.rulesList[ruleNum];
     if (!rule) {
-      bot.reply(sender, "Rule not found.");
+      bot.reply(sender, "Rule not found.", VerbosityLevel.Reduced);
       return;
     }
     // TODO: update rules (both data & usage system/mechanism)
     // bot.chat("/pc --- Bingo Brewers Rules (Outdated)---");
-    bot.chat("/pc --- Bingo Brewers Rules ---");
+    bot.chat("/pc --- Bingo Brewers Rules ---", VerbosityLevel.Minimal);
     setTimeout(() => {
-      bot.chat(`/pc Rule ${ruleNum}: ${rule}`);
+      bot.chat(`/pc Rule ${ruleNum}: ${rule}`, VerbosityLevel.Minimal);
     }, bot.utils.minMsgDelay);
   },
 };

@@ -1,4 +1,4 @@
-import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["canceldrain", "cdrain", "draincancel"], // This command will be triggered by either command1 or command2
@@ -14,7 +14,11 @@ export default {
    */
   execute: async function (bot, sender, args) {
     if (!bot.utils.activeDrain)
-      return bot.reply(sender, "There is no active party drain to cancel!");
+      return bot.reply(
+        sender,
+        "There is no active party drain to cancel!",
+        VerbosityLevel.Reduced,
+      );
     clearTimeout(bot.utils.activeDrain);
     bot.utils.activeDrain = null;
     bot.chat(`/pc Party drain was aborted by ${sender.preferredName}.`);

@@ -1,4 +1,4 @@
-import { Permissions } from "../../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../../utils/Interfaces.mjs";
 
 export default {
   name: ["announcesplash", "splash", "announce"], // This command will be triggered by either command1 or command2
@@ -18,7 +18,7 @@ export default {
     if (!isNaN(args[0])) {
       const hubNumber = parseInt(args[0]);
       if (hubNumber < 1 || hubNumber > 28)
-        return bot.reply(sender, "Invalid hub number!");
+        return bot.reply(sender, "Invalid hub number!", VerbosityLevel.Reduced);
       const match = args[1]?.match(/^(mega|mini|M|m)\d{1,4}[A-Z]{1,2}$/);
       let hubID;
       // convert `M`/`m` to `mega`/`mini`
@@ -28,22 +28,28 @@ export default {
       message = `${sender.preferredName} is splashing in Hub ${hubNumber}${hubID ? ` (${hubID})` : ""} soon!`;
     } else if (/^\/p join \w{3,16}/.test(args.join(" "))) {
       const pjoinUsername = await bot.utils.getUUID(args[2], true)?.name;
-      if (!pjoinUsername) return bot.reply(sender, "Username not found.");
+      if (!pjoinUsername)
+        return bot.reply(sender, "Username not found.", VerbosityLevel.Reduced);
       message = `${sender.preferredName} is splashing soon! Run '/p join ${pjoinUsername}' to get warped!`;
-    } else if (args[1] === "switch" && !isNaN(args[2])) {
-      const hubNumber = parseInt(args[0]);
+    } else if (args[0] === "switch" && !isNaN(args[1])) {
+      const hubNumber = parseInt(args[1]);
       if (hubNumber < 1 || hubNumber > 28)
-        return bot.reply(sender, "Invalid hub number!");
+        return bot.reply(sender, "Invalid hub number!", VerbosityLevel.Reduced);
       dontRepeat = true;
       message = `The hub number changed to ${hubNumber}! Make sure to check the hub ID!`;
     } else
       return bot.reply(
         sender,
         "Invalid arguments! Usage: '!p splash <hub number> [hub id]' or '!p splash /p join <username>' or '!p splash switch <new hub number>'",
+        VerbosityLevel.Reduced,
       );
     if (dontRepeat)
-      bot.utils.getCommandByAlias(bot, "say").execute(bot, null, message.split(" "));
+      bot.utils
+        .getCommandByAlias(bot, "say")
+        .execute(bot, null, message.split(" "));
     else
-      bot.utils.getCommandByAlias(bot, "flea").execute(bot, null, message.split(" "));
+      bot.utils
+        .getCommandByAlias(bot, "flea")
+        .execute(bot, null, message.split(" "));
   },
 };
