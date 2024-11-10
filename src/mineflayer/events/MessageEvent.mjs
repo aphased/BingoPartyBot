@@ -54,18 +54,6 @@ export default {
         return bot.chat(
           `/p invite ${Utils.extractUsername(message.toString())}`,
         );
-      if (command.toLowerCase().includes("help"))
-        // TODO: execute "normal" help command here so logic isn't duplicated
-        // and doesn't have to be kept in sync manually?
-
-        // also TODO: we do not have the username here, yet! Either move some
-        // lines of code around so we do have it, or ignore for the time being
-        // since we /r anyways currently
-        return bot.reply(
-          "",
-          "Read the documentation on GitHub: aphased/BingoPartyCommands",
-          VerbosityLevel.Minimal,
-        );
 
       if (args.length < 2) return;
       if (
