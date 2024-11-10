@@ -2,9 +2,10 @@ import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["preferredname", "pn", "name"],
-  ignore: false,
-  description: "Sets your preferred name so the bot knows what to call you",
+  description: "Set your preferred name so the bot knows what to call you",
+  usage: "!p preferredname [alt username]",
   permission: Permissions.Splasher,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot

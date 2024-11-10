@@ -2,9 +2,10 @@ import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["updatenames", "refreshnames"],
-  ignore: false,
-  description: "Manually triggers a username refresh from UUIDs",
+  description: "Manually trigger a database username refresh from UUIDs",
+  usage: "!p updatenames [confirm]",
   permission: Permissions.Owner,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -23,7 +24,7 @@ export default {
       if (toNext < 0) toNext = "<1";
       return bot.reply(
         sender,
-        `The last refresh happened ${sinceLast} minute(s) ago. The next one will happen in ${toNext} minute(s). If you want to manually trigger one, run \"!p updatenames confirm\".`,
+        `The last refresh happened ${sinceLast} minute(s) ago. The next one will happen in ${toNext} minute(s). If you want to manually trigger one, run '!p updatenames confirm'.`,
         VerbosityLevel.Reduced,
       );
     }

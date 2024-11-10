@@ -1,10 +1,10 @@
 import { Permissions, VerbosityLevel } from "../../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["poll"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "Send a predefined poll in party chat", // Description of the command
-  permission: Permissions.Trusted, // Permission level required to execute
+  name: ["poll"],
+  description: "Send one of several predefined polls in party chat",
+  usage: "!p poll <spellbingo|goalscompleted|playtime>",
+  permission: Permissions.Trusted,
 
   /**
    *
@@ -33,7 +33,7 @@ export default {
     } else
       return bot.reply(
         sender,
-        "Invalid poll option! Usage: !p poll <option>. Choose one of the following options: 'spellbingo', 'goalscompleted', 'playtime'",
+        `Invalid usage! Use: ${this.usage}`,
         VerbosityLevel.Reduced,
       );
 

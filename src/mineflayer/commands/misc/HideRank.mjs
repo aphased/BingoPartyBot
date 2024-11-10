@@ -2,10 +2,11 @@ import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["hiderank", "hr", "togglerank"],
-  ignore: false,
   description:
-    "Toggle between hiding and showing your rank in output of party commands (e.g. !p say)",
+    "Toggle between hiding and showing your rank in party command output",
+  usage: "!p hiderank [true|false]",
   permission: Permissions.Splasher,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot

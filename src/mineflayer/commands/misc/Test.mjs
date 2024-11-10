@@ -2,9 +2,9 @@ import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["test", "testpermissions", "testperms", "testcommand", "boopme"],
-  ignore: false,
   description:
-    "Test command. See if you are on the permission list, and what permissions you have",
+    "See whether you are on the permission list, and what permissions you have",
+  usage: "!p test",
   // command can't have a permission requirement, otherwise any uuid fetching here is pointless as db permission checks would prevent it from executing in the first place
   // there still isn't any output without being in the db
 
@@ -24,8 +24,7 @@ export default {
       permissionRank = bot.utils.getPermissionsByUser({
         name: sender.username,
       });
-    if (permissionRank < 0)
-      return;
+    if (permissionRank < 0) return;
     const permission = Object.keys(Permissions).find(
       (perm) => Permissions[perm] === permissionRank,
     );

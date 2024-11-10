@@ -1,11 +1,11 @@
 import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["close", "private"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description:
-    "Closes the party", // Description of the command
-  permission: Permissions.Staff, // Permission level required to execute this command
+  name: ["close", "private"],
+  description: "Close the party to the public",
+  usage: "!p close [reason]",
+  permission: Permissions.Staff,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot

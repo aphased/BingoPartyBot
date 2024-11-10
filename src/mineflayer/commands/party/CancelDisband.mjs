@@ -1,10 +1,10 @@
 import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["canceldisband", "cdisband", "disbandcancel"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "Aborts a party disband during the 10 second delay", // Description of the command
-  permission: Permissions.Admin, // Permission level required to execute this command
+  name: ["canceldisband", "cdisband", "disbandcancel"],
+  description: "Abort a party disband during the 10 second delay",
+  usage: "!p canceldisband",
+  permission: Permissions.Admin,
 
   /**
    *

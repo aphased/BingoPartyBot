@@ -1,10 +1,10 @@
 import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["drain", "empty"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "Empties the party after a 10 second delay", // Description of the command
-  permission: Permissions.Admin, // Permission level required to execute this command
+  name: ["drain", "empty"],
+  description: "Empty the party after a 10 second delay",
+  usage: "!p drain [reason]",
+  permission: Permissions.Admin,
 
   /**
    *

@@ -5,10 +5,11 @@ import {
 } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["ban", "block"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "Ban Command", // Description of the command
-  permission: Permissions.Trusted, // Permission level required to execute this command
+  name: ["ban", "block"],
+  description: "Ban a player from joining the party",
+  usage: "!p ban <username> [reason]",
+  permission: Permissions.Trusted,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -20,7 +21,7 @@ export default {
     if (!player)
       return bot.reply(
         sender,
-        "Please provide a player to ban.",
+        `Invalid usage! Use: ${this.usage}`,
         VerbosityLevel.Reduced,
       );
     let reason = args.slice(1).join(" ") || "No reason given.";

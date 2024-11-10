@@ -2,9 +2,10 @@ import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["removeuser"],
-  ignore: false,
-  description: "Removes a user from the permission list",
+  description: "Remove a user or alt from the permission list",
+  usage: "!p removeuser <username> [only]",
   permission: Permissions.Staff,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -13,11 +14,11 @@ export default {
    */
   execute: async function (bot, sender, args) {
     let user = args[0];
-    let only = args[1]?.toLowerCase?.() === "only";
+    let only = args[1]?.toLowerCase() === "only";
     if (!user)
       return bot.reply(
         sender,
-        'Please supply a username to remove! You can choose to keep the person\'s other accounts by appending "only".',
+        `Invalid usage! Use: ${this.usage}`,
         VerbosityLevel.Reduced,
       );
     if (!bot.utils.getUserObject({ name: user }))

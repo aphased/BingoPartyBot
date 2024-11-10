@@ -5,10 +5,10 @@ import {
 } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["setverbosity", "verbosity"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "Set the bot's verbosity level for in-game message output", // Description of the command
-  permission: Permissions.Admin, // Permission level required to execute this command
+  name: ["setverbosity", "verbosity"],
+  description: "Set the bot's verbosity level for in-game message output",
+  usage: "!p setverbosity <verbosity level> [confirm]",
+  permission: Permissions.Admin,
 
   /**
    *

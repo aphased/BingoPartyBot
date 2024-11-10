@@ -1,11 +1,11 @@
 import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
-import loadPartyCommands from "../../handlers/PartyCommandHandler.mjs";
 
 export default {
-  name: ["reload", "load"],
-  ignore: false,
-  description: "Reloads all modifications to commands",
+  name: ["reload", "reloadcommands", "load"],
+  description: "Reload all commands from file",
+  usage: "!p reload",
   permission: Permissions.Owner,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot

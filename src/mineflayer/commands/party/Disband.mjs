@@ -1,10 +1,10 @@
 import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["disband"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "Disbands the party after a 10 second delay", // Description of the command
-  permission: Permissions.Admin, // Permission level required to execute this command
+  name: ["disband"],
+  description: "Disband the party after a 10 second delay",
+  usage: "!p disband [reason]",
+  permission: Permissions.Admin,
 
   /**
    *

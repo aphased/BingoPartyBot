@@ -1,10 +1,10 @@
 import { Permissions, VerbosityLevel } from "../../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["rawpoll", "rpoll"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "Raw Poll Command", // Description of the command
-  permission: Permissions.Staff, // Permission level required to execute
+  name: ["rawpoll", "rpoll"],
+  description: "Initiate a party poll with custom options",
+  usage: "!p rawpoll <Question/Answer1/Answer2/Optional/Optional/Optional>",
+  permission: Permissions.Staff,
   // Command allows arbitrary chat output!
 
   /**
@@ -38,7 +38,7 @@ export default {
     if (!isValidPoll) {
       bot.reply(
         sender,
-        `Invalid poll! Correct format: Question?/Answer1/Answer2/Optional/Optional/Optional`,
+        `Invalid poll! Usage: ${this.usage}`,
         VerbosityLevel.Reduced,
       );
     } else {

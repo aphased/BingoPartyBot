@@ -1,10 +1,11 @@
 import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["allinvite", "allinv", "ai"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "All Invite Command", // Description of the command
-  permission: Permissions.Trusted, // Permission level required to execute this command
+  name: ["allinvite", "allinv", "ai"],
+  description: "Toggle the allinvite party setting",
+  usage: "!p allinvite",
+  permission: Permissions.Trusted,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot

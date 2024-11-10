@@ -1,14 +1,15 @@
 import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
-/** Timestamp of the last rule message sent */
+/* Timestamp of the last rule message sent */
 let lastRuleSentTime = 0;
 const COOLDOWN_DURATION = 5_000;
 
 export default {
-  name: ["rule"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "Rule Command", // Description of the command
-  permission: Permissions.ExSplasher, // Permission level required to execute
+  name: ["rule"],
+  description: "Send a BingoBrewers rule in party chat",
+  usage: "!p rule [number]",
+  permission: Permissions.ExSplasher,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -25,12 +26,8 @@ export default {
 
     lastRuleSentTime = currentTime;
 
-    let ruleNum = args[0] || "1";
-    let rule = bot.utils.rulesList[ruleNum];
-    if (!rule) {
-      bot.reply(sender, "Rule not found.", VerbosityLevel.Reduced);
-      return;
-    }
+    let rule = bot.utils.rulesList[args[0]] ?? bot.utils.rulesList["1"];
+
     // TODO: update rules (both data & usage system/mechanism)
     // bot.chat("/pc --- Bingo Brewers Rules (Outdated)---");
     bot.chat("/pc --- Bingo Brewers Rules ---", VerbosityLevel.Minimal);

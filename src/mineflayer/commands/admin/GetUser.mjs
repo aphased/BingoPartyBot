@@ -1,12 +1,13 @@
 import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["getuser", "query"],
-  ignore: false,
+  name: ["query", "getuser"],
   description:
-    "See if a user is on the permission list, and what permissions they have",
-  // TODO: One day this will also have ban info? maybe?
+    "See whether a user is on the permission list, and what permissions they have",
+  usage: "!p query <username>",
   permission: Permissions.Trusted,
+  // TODO: One day this will also have ban info? maybe?
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -18,7 +19,7 @@ export default {
     if (!user) {
       return bot.reply(
         sender,
-        "Usage: !p query <username> [alts]",
+        `Invalid usage! Use: ${this.usage}`,
         VerbosityLevel.Reduced,
       );
     }

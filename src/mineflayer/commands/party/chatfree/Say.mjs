@@ -1,10 +1,10 @@
 import { Permissions, VerbosityLevel } from "../../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["say", "speak"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "Say Command", // Description of the command
-  permission: Permissions.Staff, // Permission level required to execute
+  name: ["say", "speak"],
+  description: "Send a message in party chat",
+  usage: "!p say <message>",
+  permission: Permissions.Staff,
   // Command allows arbitrary chat output!
 
   /**
@@ -17,7 +17,7 @@ export default {
     if (args.length < 1) {
       bot.reply(
         sender,
-        "Please provide a message to send.",
+        `Invalid command usage! Use: ${this.usage}`,
         VerbosityLevel.Reduced,
       );
       return;

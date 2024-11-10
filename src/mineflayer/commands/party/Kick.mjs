@@ -5,10 +5,11 @@ import {
 } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["kick", "remove"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "Kick Command", // Description of the command
-  permission: Permissions.Trusted, // Permission level required to execute this command
+  name: ["kick", "remove"],
+  description: "Kick someone from the party",
+  usage: "!p kick <username>",
+  permission: Permissions.Trusted,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -24,7 +25,7 @@ export default {
     } else
       return bot.reply(
         sender,
-        "Please provide a player to kick.",
+        `Invalid usage! Use: ${this.usage}`,
         VerbosityLevel.Reduced,
       );
     let reason = args.slice(1).join(" ") || "No reason given.";

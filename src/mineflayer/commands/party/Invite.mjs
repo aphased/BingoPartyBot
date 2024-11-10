@@ -1,10 +1,11 @@
 import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["invite", "inv"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "Invite Command", // Description of the command
+  name: ["invite", "inv"],
+  description: "Invite someone else or yourself to the party",
+  usage: "!p invite [username]",
   permission: Permissions.HoB,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot

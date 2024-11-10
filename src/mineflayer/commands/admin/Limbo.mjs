@@ -1,10 +1,11 @@
 import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["limbo", "sendLimbo"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "Sends the bot to Limbo", // Description of the command
-  permission: Permissions.Trusted, // Permission level required to execute this command
+  name: ["limbo", "sendLimbo"],
+  description: "Manually send the bot to Limbo",
+  usage: "!p limbo",
+  permission: Permissions.Staff,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot

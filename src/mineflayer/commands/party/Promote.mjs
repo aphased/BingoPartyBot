@@ -5,10 +5,11 @@ import {
 } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["promote", "promo", "prom", "pro"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "Promote Command", // Description of the command
-  permission: Permissions.Trusted, // Permission level required to execute this command
+  name: ["promote", "promo", "prom", "pro"],
+  description: "Promote someone else or yourself to party moderator",
+  usage: "!p promote [username]",
+  permission: Permissions.Trusted,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot

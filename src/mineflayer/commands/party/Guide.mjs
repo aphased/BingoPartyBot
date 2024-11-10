@@ -1,14 +1,15 @@
 import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
-/** Timestamp of the last guide message sent */
+/* Timestamp of the last guide message sent */
 let lastGuideSentTime = 0;
 const COOLDOWN_DURATION = 30_000;
 
 export default {
-  name: ["guide", "gd", "g"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "Guide Command", // Description of the command
+  name: ["guide", "gd", "g"],
+  description: "Send this month's bingo guide link in party chat",
+  usage: "!p guide",
   permission: Permissions.Trusted,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -53,7 +54,7 @@ export default {
 
     if (!guide.link) {
       // Prevent _ever_ outputting empty "Party > [MVP++] BingoParty: Guide: "
-      console.log("Absolutely no guide available!");
+      bot.utils.log("Absolutely no guide available!", "Warn");
       if (!isPublicCommand) {
         // `Permissions.BotAccount === Permissions.Owner`, so the bot has to be filtered out first
         // Then take the first remaining user, as only one owner is expected

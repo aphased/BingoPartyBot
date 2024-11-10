@@ -1,12 +1,11 @@
 import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
-import Utils from "../../../utils/Utils.mjs";
 
 export default {
   name: ["adduser", "user"],
-  ignore: false,
-  description: "Adds users to the permission list or changes their permission",
+  description: "Add users to the permission list or change their permission level",
+  usage: "!p adduser <user> <(updated)permission> | !p adduser <new alt> <existing main>",
   permission: Permissions.Staff,
-  // Eventually a sudo command
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -17,7 +16,7 @@ export default {
     if (args.length < 2)
       return bot.reply(
         sender,
-        "Usage: !p adduser <user> <(updated)permission> or !p adduser <newAlt> <existingMain>",
+        `Invalid usage! Use: ${this.usage}`,
         VerbosityLevel.Reduced,
       );
     const user = args[0];

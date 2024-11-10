@@ -1,11 +1,11 @@
 import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["help"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "Get info about available commands", // Description of the command
+  name: ["help"],
+  description: "Get info about available commands",
   usage: "!p help list | !p help <command>",
   permission: Permissions.HoB,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -43,12 +43,13 @@ export default {
       if (!command)
         return bot.reply(
           sender,
-          "Use '!p help list', '!p help <command>' or read the documentation on Github: aphased/BingoPartyCommands",
+          `Use ${this.usage} or read the documentation on Github: aphased/BingoPartyCommands`,
           VerbosityLevel.Minimal,
         );
+      const permission = Object.keys(Permissions).find((perm) => Permissions[perm] === command.permission)
       bot.reply(
         sender,
-        `'${command.name[0]}': ${command.description}; Usage: ${command.usage}; Aliases: '${command.name.slice(1).join("', '")}'`,
+        `'${command.name[0]}': ${command.description}; Usage: ${command.usage}; Required Permission: ${permission ?? "none"} (level ${command.permission ?? "-1"}); Aliases: '${command.name.slice(1).join("', '")}'`,
         VerbosityLevel.Minimal,
       );
     }
