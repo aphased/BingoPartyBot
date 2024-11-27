@@ -43,7 +43,7 @@ class Bot {
   chat(message, requiredVerbosity = VerbosityLevel.Full) {
     if (
       this.verbosityLevel < requiredVerbosity &&
-      ["/pc ", "/r "].some((cmd) => message.startsWith(cmd))
+      ["/pc ", "/r ", "/msg ", "/w "].some((cmd) => message.startsWith(cmd))
     )
       return;
     message = this.utils.replaceColorlessEmotes(message);
