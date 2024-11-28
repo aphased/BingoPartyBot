@@ -27,6 +27,9 @@ export default {
     lastRuleSentTime = currentTime;
 
     let rule = bot.utils.rulesList[args[0]] ?? bot.utils.rulesList["1"];
+    let ruleNum = Object.keys(bot.utils.rulesList).find(
+      (key) => bot.utils.rulesList[key] === rule,
+    );
 
     // TODO: update rules (both data & usage system/mechanism)
     // bot.chat("/pc --- Bingo Brewers Rules (Outdated)---");
