@@ -8,7 +8,7 @@ export default {
   name: ["setverbosity", "verbosity"],
   description: "Set the bot's verbosity level for in-game message output",
   usage: "!p setverbosity <verbosity level> [confirm]",
-  permission: Permissions.Admin,
+  permission: Permissions.Owner,
 
   /**
    *
