@@ -1,6 +1,6 @@
 import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
-/* Timestamp of the last rule message sent */
+/** Timestamp of the last rule message sent */
 let lastRuleSentTime = 0;
 const COOLDOWN_DURATION = 5_000;
 

@@ -1,6 +1,6 @@
 import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
-/* Timestamp of the last guide message sent */
+/** Timestamp of the last guide message sent */
 let lastGuideSentTime = 0;
 const COOLDOWN_DURATION = 30_000;
 
