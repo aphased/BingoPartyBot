@@ -15,9 +15,11 @@ export default {
   execute: async function (bot, sender, args) {
     let player;
     if (args[0]) {
-      player = (await bot.utils.getUUID(args[0], true))?.name;
-      if (!player)
+      player = await bot.utils.getUUID(args[0], true);
+      if (player === false)
         return bot.reply(sender, "Player not found.", VerbosityLevel.Reduced);
+      // proceed with raw provided name if api request failed for any reason (uncertain validity)
+      player = player ? player.name : args[0];
     } else player = sender.username;
     bot.chat(`/p invite ${player}`);
     setTimeout(() => {

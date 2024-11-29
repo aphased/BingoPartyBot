@@ -29,9 +29,11 @@ export default {
       message = `${sender.preferredName} is splashing in Hub ${hubNumber}${hubID ? ` (${hubID})` : ""} soon!`;
     } else if (/^\/p join \w{3,16}/.test(args.join(" "))) {
       // validate username for /p join
-      const pjoinUsername = (await bot.utils.getUUID(args[2], true))?.name;
-      if (!pjoinUsername)
+      let pjoinUsername = await bot.utils.getUUID(args[2], true);
+      if (pjoinUsername === false)
         return bot.reply(sender, "Username not found.", VerbosityLevel.Reduced);
+      // proceed with raw provided name if api request failed for any reason (uncertain validity)
+      pjoinUsername = pjoinUsername ? pjoinUsername.name : args[2];
       message = `${sender.preferredName} is splashing soon! Run '/p join ${pjoinUsername}' to get warped!`;
     } else if (args[0] === "switch" && !isNaN(args[1])) {
       // announce hub has shifted

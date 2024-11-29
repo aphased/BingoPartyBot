@@ -144,29 +144,49 @@ class Utils {
 
   /** Get Minecraft player uuid from username */
   async getUUID(username, returnName = false) {
+    // axios throws on any status that isn't within the 200-299 range
     try {
       let response = await axios.get(
         `https://api.mojang.com/users/profiles/minecraft/${username}`,
       );
-      if (response.data.errorMessage) return null;
       // useful if, in addition to fetching the uuid, you also want to validate username capitalisation
       if (returnName)
         return { uuid: response.data.id, name: response.data.name };
       return response.data.id;
     } catch (e) {
-      return null;
+      switch (e?.status) {
+        case 404:
+          // provided username is invalid
+          return false;
+        default:
+          // request itself failed
+          return null;
+      }
     }
   }
 
   /** Get Minecraft player username from uuid */
   async getUsername(uuid) {
+    // axios throws on any status that isn't within the 200-299 range
     try {
       let data = await axios.get(
         `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`,
       );
-      if (data.data.errorMessage) return null;
+      // provided UUID is invalid (correct length, invalid)
+      if (data.status === 204) return false;
       return data.data.name;
     } catch (e) {
+      switch (e?.status) {
+        case 400:
+          // provided UUID is invalid (incorrect length)
+          return false;
+        case 404:
+          // provided UUID is invalid (contains slash)
+          return false;
+        default:
+          // request itself failed
+          return null;
+      }
       return null;
     }
   }
