@@ -29,7 +29,7 @@ export default {
       message = `${sender.preferredName} is splashing in Hub ${hubNumber}${hubID ? ` (${hubID})` : ""} soon!`;
     } else if (/^\/p join \w{3,16}/.test(args.join(" "))) {
       // validate username for /p join
-      const pjoinUsername = await bot.utils.getUUID(args[2], true)?.name;
+      const pjoinUsername = (await bot.utils.getUUID(args[2], true))?.name;
       if (!pjoinUsername)
         return bot.reply(sender, "Username not found.", VerbosityLevel.Reduced);
       message = `${sender.preferredName} is splashing soon! Run '/p join ${pjoinUsername}' to get warped!`;

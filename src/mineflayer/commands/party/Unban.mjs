@@ -19,7 +19,7 @@ export default {
   execute: async function (bot, sender, args) {
     let player;
     if (args[0]) {
-      player = await bot.utils.getUUID(args[0], true)?.name;
+      player = (await bot.utils.getUUID(args[0], true))?.name;
       if (!player)
         return bot.reply(sender, "Player not found.", VerbosityLevel.Reduced);
     } else
