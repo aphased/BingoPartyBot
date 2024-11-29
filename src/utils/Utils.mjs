@@ -172,13 +172,11 @@ class Utils {
       let data = await axios.get(
         `https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`,
       );
-      // provided UUID is invalid (correct length, invalid)
-      if (data.status === 204) return false;
       return data.data.name;
     } catch (e) {
       switch (e?.status) {
         case 400:
-          // provided UUID is invalid (incorrect length)
+          // provided UUID is invalid
           return false;
         case 404:
           // provided UUID is invalid (contains slash)
