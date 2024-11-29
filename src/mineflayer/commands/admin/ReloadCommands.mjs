@@ -1,11 +1,11 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
-import loadPartyCommands from "../../handlers/PartyCommandHandler.mjs";
+import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["reload", "load"],
-  ignore: false,
-  description: "Reloads all modifications to commands",
+  name: ["reload", "reloadcommands", "load"],
+  description: "Reload all commands from file",
+  usage: "!p reload",
   permission: Permissions.Owner,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -14,7 +14,7 @@ export default {
    */
   execute: async function (bot, sender, args) {
     await bot.reloadPartyCommands().then((x) => {
-      bot.reply(sender, "Reloaded commands!");
+      bot.reply(sender, "Reloaded commands!", VerbosityLevel.Reduced);
     });
   },
 };

@@ -1,10 +1,11 @@
 import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["kickoffline", "kickafk", "ko", "ka"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "Kick Offline Command", // Description of the command
-  permission: Permissions.HoB, // Permission level required to execute this command
+  name: ["kickoffline", "kickafk", "ko", "ka"],
+  description: "Kick offline players from the party",
+  usage: "!p kickoffline",
+  permission: Permissions.HoB,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot

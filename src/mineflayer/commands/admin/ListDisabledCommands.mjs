@@ -1,17 +1,16 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["listdisabled", "disabled"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "Lists disabled commands", // Description of the command
-  permission: Permissions.Admin, // Permission level required to execute this command
+  name: ["listdisabled", "disabled"],
+  description: "List currently disabled commands",
+  usage: "!p listdisabled",
+  permission: Permissions.Admin,
   alwaysEnabled: true,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
    * @param {Object} sender
-   * @param {String} [sender.username] - Username of the sender
-   * @param {String} [sender.preferredName] - Preferred name of the sender
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
@@ -24,11 +23,16 @@ export default {
     });
 
     if (disabledCommands.length < 1)
-      return bot.reply(sender, "All commands are enabled!");
+      return bot.reply(
+        sender,
+        "All commands are enabled!",
+        VerbosityLevel.Minimal,
+      );
     if (enabledCommands.length < 1)
       return bot.reply(
         sender,
         "All commands are disabled (except ones that can't be disabled)",
+        VerbosityLevel.Minimal,
       );
     // if there are more disabled commands than enabled ones, list only the enabled ones to avoid hitting the chat limit
     // this will probably only be a handful of commands in the majority of cases (e.g. "!p test" and "!p link" outside of bingo)
@@ -36,11 +40,13 @@ export default {
       bot.reply(
         sender,
         `All commands are currently disabled, except: ${enabledCommands.join(", ")}`,
+        VerbosityLevel.Minimal,
       );
     else
       bot.reply(
         sender,
         `Currently disabled commands: ${disabledCommands.join(", ")}`,
+        VerbosityLevel.Minimal,
       );
   },
 };

@@ -1,7 +1,5 @@
 // Utils.mjs
 
-import { Guild } from "discord.js";
-
 export class DebugOptions {
   constructor({
     printAll = false,
@@ -62,4 +60,11 @@ export const SenderType = Object.freeze({
   Minecraft: 0,
   Discord: 1,
   Console: 2,
+});
+
+export const VerbosityLevel = Object.freeze({
+  Off: 0, // no messages
+  Minimal: 1, // only messages that are essential to the command's function
+  Reduced: 2, // reduce optional messages (remove most party messages, keep most dm command feedback for better ux)
+  Full: 3, // all messages
 });
