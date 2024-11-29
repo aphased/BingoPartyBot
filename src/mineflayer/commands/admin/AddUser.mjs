@@ -1,12 +1,11 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
-import Utils from "../../../utils/Utils.mjs";
+import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["adduser", "user"],
-  ignore: false,
-  description: "Adds users to the permission list or changes their permission",
+  description: "Add users to the permission list or change their permission level",
+  usage: "!p adduser <user> <(updated)permission> | !p adduser <new alt> <existing main>",
   permission: Permissions.Staff,
-  // Eventually a sudo command
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -17,7 +16,8 @@ export default {
     if (args.length < 2)
       return bot.reply(
         sender,
-        "Usage: !p adduser <user> <(updated)permission> or !p adduser <newAlt> <existingMain>",
+        `Invalid usage! Use: ${this.usage}`,
+        VerbosityLevel.Reduced,
       );
     const user = args[0];
     // get correct username capitalisation from uuid request response
@@ -26,34 +26,51 @@ export default {
       return bot.reply(
         sender,
         `Something went wrong while fetching ${user}'s UUID! Invalid username or Mojang API issue`,
+        VerbosityLevel.Reduced,
       );
     if (bot.utils.getUserObject({ name: args[1] })) {
       // add alt account to existing player entry ("!p adduser <altName> <mainName>")
       if (bot.utils.getUserObject({ name: user }))
-        return bot.reply(sender, `${data.name} is already in the database!`);
+        return bot.reply(
+          sender,
+          `${data.name} is already in the database!`,
+          VerbosityLevel.Reduced,
+        );
       const mainUser = args[1];
-      if (
-        !bot.utils.isHigherRanked(sender.username, mainUser)
-      )
+      if (!bot.utils.isHigherRanked(sender.username, mainUser))
         return bot.reply(
           sender,
           `Your permission rank is too low to perform this operation.`,
+          VerbosityLevel.Reduced,
         );
       bot.utils.addUser({
         name: data.name,
         uuid: data.uuid,
         mainAccount: mainUser,
       });
-      bot.reply(sender, `Added ${data.name} as ${mainUser}'s alt.`);
+      bot.reply(
+        sender,
+        `Added ${data.name} as ${mainUser}'s alt.`,
+        VerbosityLevel.Reduced,
+      );
     } else {
       // Add entirely new player entry or update `permissionRank`
       let permissionRank;
       if (isNaN(args[1]))
-        permissionRank = Permissions[Utils.capitalizeFirstLetter(args[1])];
+        permissionRank =
+          Permissions[
+            Object.keys(Permissions).find(
+              (key) => key.toLowerCase() === args[1].toLowerCase(),
+            )
+          ];
       else permissionRank = parseInt(args[1]);
       // Check if permission is valid
       if (!Object.values(Permissions).includes(permissionRank))
-        return bot.reply(sender, `Invalid permission rank: ${args[1]}.`);
+        return bot.reply(
+          sender,
+          `Invalid permission rank: ${args[1]}.`,
+          VerbosityLevel.Reduced,
+        );
       if (
         permissionRank >=
         bot.utils.getPermissionsByUser({ name: sender.username })
@@ -61,6 +78,7 @@ export default {
         return bot.reply(
           sender,
           `Your permission rank is too low to perform this operation.`,
+          VerbosityLevel.Reduced,
         );
       if (bot.utils.getUserObject({ name: data.name })) {
         // Update permission rank if user exists
@@ -74,6 +92,7 @@ export default {
         return bot.reply(
           sender,
           `Updated ${data.name}'s permission to ${permission} (level: ${permissionRank})`,
+          VerbosityLevel.Reduced,
         );
       }
       bot.utils.addUser({
@@ -87,6 +106,7 @@ export default {
       return bot.reply(
         sender,
         `Added ${data.name} as new account with permission ${permission} (level: ${permissionRank})`,
+        VerbosityLevel.Reduced,
       );
     }
   },

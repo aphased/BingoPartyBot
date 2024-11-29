@@ -1,10 +1,11 @@
 import { Permissions } from "../../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["!guide", "!gd"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "Public Guide Command", // Description of the command
+  name: ["!guide", "!gd"],
+  description: "Send this month's bingo guide link in party chat (public command)",
+  usage: "!guide",
   isPartyChatCommand: true,
+
   /**
    *
    * @param {import("../../../Bot.mjs").default} bot

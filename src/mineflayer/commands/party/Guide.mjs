@@ -1,14 +1,15 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 /** Timestamp of the last guide message sent */
 let lastGuideSentTime = 0;
 const COOLDOWN_DURATION = 30_000;
 
 export default {
-  name: ["guide", "gd", "g"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description: "Guide Command", // Description of the command
+  name: ["guide", "gd", "g"],
+  description: "Send this month's bingo guide link in party chat",
+  usage: "!p guide",
   permission: Permissions.Trusted,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -33,6 +34,7 @@ export default {
         bot.reply(
           sender,
           `Guide command is on cooldown!`,
+          VerbosityLevel.Reduced,
         );
       }
       return;
@@ -52,7 +54,7 @@ export default {
 
     if (!guide.link) {
       // Prevent _ever_ outputting empty "Party > [MVP++] BingoParty: Guide: "
-      console.log("Absolutely no guide available!");
+      bot.utils.log("Absolutely no guide available!", "Warn");
       if (!isPublicCommand) {
         // `Permissions.BotAccount === Permissions.Owner`, so the bot has to be filtered out first
         // Then take the first remaining user, as only one owner is expected
@@ -68,11 +70,12 @@ export default {
           sender,
           // equivalent to e.g. "contact aphased"
           `No guide available - contact ${botAccountOwner}`,
+          VerbosityLevel.Reduced,
         );
       }
       return;
     }
 
-    bot.chat(`/pc Guide: ${guide.link}`);
+    bot.chat(`/pc Guide: ${guide.link}`, VerbosityLevel.Minimal);
   },
 };

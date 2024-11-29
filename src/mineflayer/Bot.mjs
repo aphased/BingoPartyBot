@@ -1,12 +1,13 @@
 import mineflayer from "mineflayer";
 import * as config from "../../Config.mjs";
 import loadPartyCommands from "./handlers/PartyCommandHandler.mjs";
-import { SenderType } from "../utils/Interfaces.mjs";
+import { SenderType, VerbosityLevel } from "../utils/Interfaces.mjs";
 import Utils from "../utils/Utils.mjs";
 
 class Bot {
   constructor() {
     this.config = config.default;
+    this.verbosityLevel = this.config.verbosityMc;
     /**
      * The Mineflayer bot on Hypixel.
      */
@@ -37,8 +38,14 @@ class Bot {
    * safety checks are performed (see below within function implementation for
    * details).
    * @param {String} message
+   * @param {Number} requiredVerbosity necessary verbosity setting to send message, defaults to `VerbosityLevel.Full`
    */
-  chat(message) {
+  chat(message, requiredVerbosity = VerbosityLevel.Full) {
+    if (
+      this.verbosityLevel < requiredVerbosity &&
+      ["/pc ", "/r ", "/msg ", "/w "].some((cmd) => message.startsWith(cmd))
+    )
+      return;
     message = this.utils.replaceColorlessEmotes(message);
     // Check message length limit, if it is too long, only perform a cut off
     // – ideally the caller ensures this property already so that it can be
@@ -73,14 +80,15 @@ class Bot {
    * @param {String} [sender.discordReplyId]
    * but try to supply this value).
    * @param {String} message  Message to send.
+   * @param {Number} requiredVerbosity necessary verbosity setting to send message (only applies to minecraft replies)
    */
-  reply(sender, message) {
+  reply(sender, message, requiredVerbosity) {
     if (this.utils.debug)
       console.log(`Replying to ${sender.username} with message: ${message}`);
     // alternative (currently unused):
     // this.chat(`w ${recipient} ${this.utils.addRandomString(message)}`);
     if (sender.type === SenderType.Minecraft)
-      this.chat(`/r ${this.utils.addRandomString(message)}`);
+      this.chat(`/r ${this.utils.addRandomString(message)}`, requiredVerbosity);
     else if (sender.type === SenderType.Discord) {
       // log message reply (like with a hypixel dm reply)
       this.onMessage(
@@ -89,10 +97,7 @@ class Bot {
           true,
         ),
       );
-      this.utils.discordReply
-        .getReply(sender.discordReplyId)
-        .editReply(message);
-      this.utils.discordReply.removeReply(sender.discordReplyId);
+      this.utils.discordReply.sendReply(sender.discordReplyId, message);
     } else if (sender.type === SenderType.Console) {
       // log message reply (like with a hypixel dm reply)
       this.onMessage(

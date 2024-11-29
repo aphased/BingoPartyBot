@@ -1,9 +1,9 @@
 import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["disband"],
-  description: "Disband the party after a 10 second delay",
-  usage: "!p disband [reason]",
+  name: ["drain", "empty"],
+  description: "Empty the party after a 10 second delay",
+  usage: "!p drain [reason]",
   permission: Permissions.Admin,
 
   /**
@@ -15,13 +15,13 @@ export default {
   execute: async function (bot, sender, args) {
     let reason = args.slice(0).join(" ") || "No reason given.";
     bot.chat(
-      `/pc Party disband was triggered by ${sender.preferredName}. 10 seconds remaining until the party is disbanded!`,
+      `/pc Party drain was triggered by ${sender.preferredName}. 10 seconds remaining until the party is emptied!`,
     );
-    bot.utils.activeDisband = setTimeout(() => {
-      bot.utils.activeDisband = null;
-      bot.chat("/p disband");
+    bot.utils.activeDrain = setTimeout(() => {
+      bot.utils.activeDrain = null;
+      bot.chat("/streamgui settings empty");
       bot.utils.webhookLogger.addMessage(
-        `The party was disbanded by \`${sender.preferredName}\`. Reason: \`${reason}\``,
+        `The party was emptied by \`${sender.preferredName}\` Reason: \`${reason}\``,
         WebhookMessageType.ActionLog,
         true,
       );

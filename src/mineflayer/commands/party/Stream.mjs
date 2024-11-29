@@ -1,11 +1,11 @@
 import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["stream", "public", "open"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description:
-    "Opens the party to the public, or reopens it if an incompetant person transfers to themself without MVP++", // Description of the command
-  permission: Permissions.Trusted, // Permission level required to execute this command
+  name: ["open", "public", "stream"],
+  description: "(Re-)Opens the party to the public",
+  usage: "!p open [size]",
+  permission: Permissions.Trusted,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot

@@ -1,11 +1,11 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
+import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["exec", "execute", "cmd"], // This command will be triggered by either command1 or command2
-  ignore: false, // Whether to ignore this file or not
-  description:
-    "Admin-only, full execution of arguments as a chat command on the bot account (minus leading slash)", // Description of the command
-  permission: Permissions.Owner, // Permission level required to execute this command
+  name: ["cmd", "execute", "exec"],
+  description: "Execute any command as the bot",
+  usage: "!p cmd <command>",
+  permission: Permissions.Owner,
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -15,7 +15,11 @@ export default {
   execute: async function (bot, sender, args) {
     bot.chat("/" + args.join(" "));
     setTimeout(() => {
-      bot.reply(sender, `Executed command: ${args.join(" ")}`);
+      bot.reply(
+        sender,
+        `Executed command: /${args.join(" ")}`,
+        VerbosityLevel.Reduced,
+      );
     }, bot.utils.minMsgDelay);
   },
 };

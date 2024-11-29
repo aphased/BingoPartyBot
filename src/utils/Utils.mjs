@@ -425,6 +425,7 @@ class Utils {
     if (!userObj) return null;
     // if preferredAccount is not defined, set it to the user's first account
     if (!userObj.preferredAccount) {
+      userObj.preferredAccount = userObj.accounts[0].uuid;
       this.setPreferredAccount({
         name: options.name,
         uuid: options.uuid,
@@ -483,8 +484,7 @@ class Utils {
    */
   /* const */
   generateRandomString = (length) => {
-    const characters =
-      "0123456789ABCDEFabcdef";
+    const characters = "0123456789ABCDEFabcdef";
     let result = "";
 
     for (let i = 0; i < length; i++) {
@@ -794,12 +794,11 @@ class DiscordReply {
     this.collection = new Collection();
   }
 
-  addReply(id) {
-    let code = utils.generateRandomString(6);
-    this.collection.set(code, {
-      id: id,
-      verified: false,
-    });
+  addReply(data) {
+    let code = utils.generateRandomString(12);
+    this.collection.set(code, data);
+    // schedule the interaction for deletion (discord interaction tokens are valid for 15min)
+    setTimeout(() => this.collection.delete(code), 15 * 60_000);
     return code;
   }
 
@@ -811,8 +810,11 @@ class DiscordReply {
     return this.collection.get(code);
   }
 
-  setReply(code, data) {
-    this.collection.set(code, data);
+  async sendReply(code, message) {
+    const interaction = this.getReply(code);
+    if (!interaction) return;
+    const existing = await interaction.fetchReply().content;
+    interaction.editReply((existing ? existing + "\n" : "") + message);
   }
 }
 

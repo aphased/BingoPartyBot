@@ -1,14 +1,13 @@
-import { Permissions } from "../../../utils/Interfaces.mjs";
-import Utils from "../../../utils/Utils.mjs";
-import loadPartyCommands from "../../handlers/PartyCommandHandler.mjs";
+import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["getuser", "query"],
-  ignore: false,
+  name: ["query", "getuser"],
   description:
-    "See if a user is on the permission list, and what permissions they have",
-  // TODO: One day this will also have ban info? maybe?
+    "See whether a user is on the permission list, and what permissions they have",
+  usage: "!p query <username>",
   permission: Permissions.Trusted,
+  // TODO: One day this will also have ban info? maybe?
+
   /**
    *
    * @param {import("../../Bot.mjs").default} bot
@@ -20,7 +19,8 @@ export default {
     if (!user) {
       return bot.reply(
         sender,
-        "Please provide a user to query/get permissions for.",
+        `Invalid usage! Use: ${this.usage}`,
+        VerbosityLevel.Reduced,
       );
     }
     let userObj = bot.utils.getUserObject({ name: user });
@@ -28,15 +28,25 @@ export default {
       return bot.reply(
         sender,
         "That person does not have any party permissions.",
+        VerbosityLevel.Minimal,
       );
     const rank = Object.keys(Permissions).find(
       (perm) => Permissions[perm] === userObj.permissionRank,
     );
     // Get name with correct capitalisation
-    const name = userObj.accounts.find((acc) => acc.name.toLowerCase() === user.toLowerCase()).name;
+    const username = userObj.accounts.find(
+      (acc) => acc.name.toLowerCase() === user.toLowerCase(),
+    ).name;
+    // Get user's other accounts
+    const alts = userObj.accounts
+      .map((acc) => acc.name)
+      .filter((name) => name !== username);
+    const altlist =
+      alts.length < 1 ? "No alts for this user." : `Alts: ${alts.join(", ")}`;
     bot.reply(
       sender,
-      `User: ${name} Rank: ${rank} (Level: ${userObj.permissionRank})`,
+      `User: ${username} Rank: ${rank} (Level: ${userObj.permissionRank}) ${altlist}`,
+      VerbosityLevel.Minimal,
     );
   },
 };
