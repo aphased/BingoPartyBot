@@ -36,7 +36,7 @@ export default {
     bot.utils.setMonthGuide({
       link: link,
       overwrite: true,
-      date: interaction.options.getString("date"),
+      time: interaction.options.getString("date"),
     });
     await interaction.reply({
       content: "Guide link has been set!",

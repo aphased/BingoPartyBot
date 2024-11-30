@@ -585,6 +585,7 @@ class Utils {
    *
    * @param {Object} options
    * @param {string} [options.link]
+   * @param {boolean} [options.overwrite]
    * @param {string} [options.time]
    */
   setMonthGuide(options = {}) {
@@ -597,7 +598,7 @@ class Utils {
       options.link
     )
       return;
-    if (data[options.time] && data[options.time].overwrite) return;
+    if (data[options.time]?.overwrite && !options.overwrite) return;
     data[options.time] = {
       overwrite: options.overwrite || false,
       link: options.link,
