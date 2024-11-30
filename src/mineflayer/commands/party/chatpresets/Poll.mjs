@@ -18,7 +18,7 @@ export default {
       poll = "Spell 'Bingo'!/B/I/N/G/O";
     else if (["goals", "goalscompleted"].includes(args[0]))
       poll = "How many goals have you completed so far?/<5/5-10/11-15/16-19/20";
-    else if (["playtime"].includes(args[0])) {
+    else if (["pt", "playtime"].includes(args[0])) {
       // dynamic values depending on the day of month (slightly skewed due to timezones, unimportant though)
       const dayOfMonth = new Date().getDate();
       if (dayOfMonth <= 2)

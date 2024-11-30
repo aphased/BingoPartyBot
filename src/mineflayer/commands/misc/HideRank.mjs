@@ -3,7 +3,7 @@ import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 export default {
   name: ["hiderank", "hr", "togglerank"],
   description:
-    "Toggle between hiding and showing your rank in party command output",
+    "Toggle between hiding and showing your (Hypixel) rank in party command output",
   usage: "!p hiderank [true|false]",
   permission: Permissions.Splasher,
 

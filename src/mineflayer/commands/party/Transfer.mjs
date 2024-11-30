@@ -24,6 +24,8 @@ export default {
         return bot.reply(sender, "Player not found.", VerbosityLevel.Reduced);
       // proceed with raw provided name if api request failed for any reason (uncertain validity)
       player = player ? player.name : args[0];
+      /* TODO: a check could (potentially) be added here if the transferred-to
+      player has the MVP++ rank (but bypassable by `confirm`ing the command)… */
     } else
       return bot.reply(
         sender,

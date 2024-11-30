@@ -1,7 +1,7 @@
 import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["query", "getuser"],
+  name: ["query", "getuser", "queryuser"],
   description:
     "See whether a user is on the permission list, and what permissions they have",
   usage: "!p query <username>",
