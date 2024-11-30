@@ -46,7 +46,9 @@ export default {
           `Use ${this.usage} or read the documentation on Github: aphased/BingoPartyCommands`,
           VerbosityLevel.Minimal,
         );
-      const permission = Object.keys(Permissions).find((perm) => Permissions[perm] === command.permission)
+      const permission = Object.keys(Permissions).find(
+        (perm) => Permissions[perm] === command.permission,
+      );
       bot.reply(
         sender,
         `'${command.name[0]}': ${command.description}; Usage: ${command.usage}; Required Permission: ${permission ?? "none"} (level ${command.permission ?? "-1"}); Aliases: '${command.name.slice(1).join("', '")}'`,

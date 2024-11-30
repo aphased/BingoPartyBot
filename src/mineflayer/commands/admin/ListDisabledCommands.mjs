@@ -1,7 +1,7 @@
 import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["listdisabled", "disabled"],
+  name: ["listdisabled", "disabled", "lsdisabled", "lsoff"],
   description: "List currently disabled commands",
   usage: "!p listdisabled",
   permission: Permissions.Admin,

@@ -57,20 +57,21 @@ class Bot {
 
   /**
    * Use this function anytime you want to send a message via Hypixel's `/r`.
-   * Currently, the recipient is unused anyway, so if they're unknown, pass an
-   * empty string (`""`).
+   *
    * The `reply` function will add on a randomizing part at the end of the
    * message string in order to enable repeated output/sending of the same
    * direct message (womp womp Hypixel).
    *
    * Due to direct message privacy settings, this implementation currently
    * exclusively uses the `/reply` mechanism in favor of `/msg` (=`/whisper`).
-   * Advantage is being able to reply to anybody, at the cost of potentially
+   * The advantage is being able to reply to anybody, at the cost of potentially
    * answering the wrong message to an incorrect recipient with quick
    * back-to-back commands/messages received.
-
-   * Thus, this use may change in the future, at which point including the
-   * recipient's info (i.e. IGN) will be necessary.
+   *
+   * If configured, it will also log the reply to a command sent via Discord,
+   * also sending the reply out to Discord as one would expect (as opposed to
+   * always in-game). Same procedure for commands sent from the bot console.
+   *
    * @param {Object} sender  IGN to send a message to (currently not needed,
    * @param {String} [sender.username]
    * @param {String} [sender.preferredName]

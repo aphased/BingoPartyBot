@@ -12,14 +12,21 @@ online continuously.
 ## Features (overview)
 
 - All of [BingoPartyTools](https://github.com/aphased/BingoPartyTools?tab=readme-ov-file#all-available-commands)’
-  functionality on the user-facing side (see [this separate **Commands Documentation on how to use**](https://github.com/aphased/BingoPartyCommands)
+  functionality on the user-facing side (see
+  [this separate **Commands Documentation on how to use**](https://github.com/aphased/BingoPartyCommands)
   if you are a splasher/have party moderation permissions), including commands
   which are only accessible to and only work for a predefined group of users
+- Mostly self-explanatory usage of the commands, supported by a strong
+  "`!p help`" command for documentation directly accessible in-game (and
+  optionally Discord)
 - WIP/TODO: Persistent ban system with support for temporary time-based blocking
 - Hot reloading of player (allowed permissions/TODO: banned) data and code
   modules/specific party commands, too
-- Minecraft UUID and IGN based commands allowlist with support for multiple ("alt") accounts for each player
-- Admin-only “special access“ commands & usage, e.g. for adding new users with their permission level to the allowlist so they can execute party commands, all available using custom in-game commands
+- Minecraft UUID and IGN based commands allowlist with support for multiple
+  ("alt") accounts for each player
+- Admin-only “special access“ commands & usage, e.g. for adding new users with
+  their permission level to the allowlist so they can execute party commands,
+  all available using custom in-game commands
 - Auto-restart upon program crashes
 - Discord integration for:
   - Reading the party chat in channels, writing to it (WIP), and monitoring

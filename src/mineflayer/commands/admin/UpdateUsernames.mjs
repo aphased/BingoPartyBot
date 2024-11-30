@@ -24,7 +24,7 @@ export default {
       if (toNext < 0) toNext = "<1";
       return bot.reply(
         sender,
-        `The last refresh happened ${sinceLast} minute(s) ago. The next one will happen in ${toNext} minute(s). If you want to manually trigger one, run '!p updatenames confirm'.`,
+        `The last refresh happened ${sinceLast} minute(s) ago. The next one will happen in ${toNext} minute(s). If you want to manually trigger one, run '!p ${this.name[0]} confirm'.`,
         VerbosityLevel.Reduced,
       );
     }
@@ -45,7 +45,7 @@ export default {
     if (results.failed === 0)
       bot.reply(
         sender,
-        `Successfully updated all stored username in ${results.timeTaken}s! Next automatic refresh scheduled in ${intervalInMin} minutes.`,
+        `Successfully updated all stored usernames in ${results.timeTaken}s! Next automatic refresh scheduled in ${intervalInMin} minutes.`,
         VerbosityLevel.Reduced,
       );
     else
