@@ -13,7 +13,8 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    bot.chat("/" + args.join(" "));
+    // bypass verbosity setting for `!p cmd`
+    bot.chat("/" + args.join(" "), VerbosityLevel.Off);
     await bot.utils.delay(bot.utils.minMsgDelay);
     bot.reply(
       sender,
