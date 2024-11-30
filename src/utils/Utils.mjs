@@ -190,6 +190,21 @@ class Utils {
   }
 
   /**
+   * @param {string} username
+   * @param {boolean} strict
+   * @returns {Promise<string|false>}
+   */
+  async usernameExists(username, strict = false) {
+    const playerData = await this.getUUID(username, true);
+    // name is valid, return correct capitalisation
+    if (playerData?.name) return playerData.name;
+    // api request failed and strict is false, return unvalidated input name
+    if (playerData === null && !strict) return username;
+    // name is invalid or request failed with strict === true, return `false`
+    return false;
+  }
+
+  /**
    * @param {import("../mineflayer/Bot.mjs").default} bot
    * @param {string} commandAlias
    * @returns {Object|null}

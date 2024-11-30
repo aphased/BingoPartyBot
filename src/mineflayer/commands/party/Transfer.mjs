@@ -19,11 +19,9 @@ export default {
   execute: async function (bot, sender, args) {
     let player;
     if (args[0]) {
-      player = await bot.utils.getUUID(args[0], true);
+      player = await bot.utils.usernameExists(args[0]);
       if (player === false)
         return bot.reply(sender, "Player not found.", VerbosityLevel.Reduced);
-      // proceed with raw provided name if api request failed for any reason (uncertain validity)
-      player = player ? player.name : args[0];
       /* TODO: a check could (potentially) be added here if the transferred-to
       player has the MVP++ rank (but bypassable by `confirm`ing the command)… */
     } else
