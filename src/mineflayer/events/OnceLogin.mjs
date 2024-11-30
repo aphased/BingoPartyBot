@@ -26,14 +26,13 @@ export default {
         uuid: "YOUR UUID",
         permissionRank: Permissions.Owner,
       });
-      setTimeout(() => {
-        bot.utils.log("Added Bot account to database", "Info");
-        bot.utils.log(
-          "Please turn off bot and add your own account to the database",
-          "Error",
-        );
-        process.exit(1);
-      }, 1000);
+      bot.utils.log("Added Bot account to database", "Info");
+      bot.utils.log(
+        "Please turn off bot and add your own account to the database",
+        "Error",
+      );
+      await bot.utils.delay(1000);
+      process.exit(1);
     }
     const permissionRank = bot.utils.getPermissionsByUser({
       name: bot.username,

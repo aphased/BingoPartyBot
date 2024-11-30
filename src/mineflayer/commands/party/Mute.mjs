@@ -15,13 +15,12 @@ export default {
   execute: async function (bot, sender, args) {
     let reason = args.join(" ") || "No reason given.";
     bot.chat("/p mute");
-    setTimeout(() => {
-      bot.chat(`/pc Party mute was toggled by ${sender.preferredName}.`);
-      bot.utils.webhookLogger.addMessage(
-        `Party mute was toggled by \`${sender.preferredName}\`. Reason: \`${reason}\``,
-        WebhookMessageType.ActionLog,
-        true,
-      );
-    }, bot.utils.minMsgDelay);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.chat(`/pc Party mute was toggled by ${sender.preferredName}.`);
+    bot.utils.webhookLogger.addMessage(
+      `Party mute was toggled by \`${sender.preferredName}\`. Reason: \`${reason}\``,
+      WebhookMessageType.ActionLog,
+      true,
+    );
   },
 };

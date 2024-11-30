@@ -162,9 +162,7 @@ class Bot {
   }
 
   async onSpawn() {
-    await new Promise((resolve) =>
-      setTimeout(resolve, this.utils.minMsgDelay * 3),
-    );
+    await this.utils.delay(this.utils.minMsgDelay * 3);
     this.bot.chat("/locraw");
   }
 }

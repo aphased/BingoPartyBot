@@ -24,13 +24,12 @@ export default {
         return bot.reply(sender, "Player not found.", VerbosityLevel.Reduced);
     } else player = sender.username;
     bot.chat(`/pc ${player} was promoted by ${sender.preferredName}`);
-    setTimeout(() => {
-      bot.chat(`/p promote ${player}`);
-      bot.utils.webhookLogger.addMessage(
-        `\`${player}\` was party promoted by \`${sender.preferredName}\``,
-        WebhookMessageType.ActionLog,
-        true,
-      );
-    }, bot.utils.minMsgDelay);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.chat(`/p promote ${player}`);
+    bot.utils.webhookLogger.addMessage(
+      `\`${player}\` was party promoted by \`${sender.preferredName}\``,
+      WebhookMessageType.ActionLog,
+      true,
+    );
   },
 };

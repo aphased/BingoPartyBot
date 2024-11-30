@@ -31,13 +31,12 @@ export default {
     );
 
     bot.chat(`/pc Party size was set to ${amount} by ${sender.preferredName}.`);
-    setTimeout(() => {
-      bot.chat(`/stream open ${amount}`);
-      bot.utils.webhookLogger.addMessage(
-        `Party size was set to \`${amount}\` by \`${sender.preferredName}\`.`,
-        WebhookMessageType.ActionLog,
-        true,
-      );
-    }, bot.utils.minMsgDelay);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.chat(`/stream open ${amount}`);
+    bot.utils.webhookLogger.addMessage(
+      `Party size was set to \`${amount}\` by \`${sender.preferredName}\`.`,
+      WebhookMessageType.ActionLog,
+      true,
+    );
   },
 };

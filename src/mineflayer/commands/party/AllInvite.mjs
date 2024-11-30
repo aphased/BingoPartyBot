@@ -14,13 +14,12 @@ export default {
    */
   execute: async function (bot, sender, args) {
     bot.chat(`/pc ${sender.preferredName} toggled the All Invite setting.`);
-    setTimeout(() => {
-      bot.chat("/p settings allinvite");
-      bot.utils.webhookLogger.addMessage(
-        `\`${sender.preferredName}\` toggled the All Invite party setting.`,
-        WebhookMessageType.ActionLog,
-        true,
-      );
-    }, bot.utils.minMsgDelay);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.chat("/p settings allinvite");
+    bot.utils.webhookLogger.addMessage(
+      `\`${sender.preferredName}\` toggled the All Invite party setting.`,
+      WebhookMessageType.ActionLog,
+      true,
+    );
   },
 };

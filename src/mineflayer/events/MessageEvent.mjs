@@ -32,9 +32,8 @@ export default {
     }
     const partyInvite = bot.utils.findValidPartyInvite(message);
     if (partyInvite && !bot.utils.getCommandByAlias(bot, "invite").disabled) {
-      setTimeout(() => {
-        bot.chat(`/p accept ${partyInvite}`);
-      }, bot.utils.minMsgDelay);
+      await bot.utils.delay(bot.utils.minMsgDelay);
+      bot.chat(`/p accept ${partyInvite}`);
     }
     if (message.self === true) {
       msgType = SenderType.Console;
@@ -110,7 +109,11 @@ export default {
           bot.utils.getPermissionsByUser({ name: sender.username })
       ) {
         if (command.disabled)
-          return bot.reply(sender, "This command is currently disabled!", VerbosityLevel.Minimal);
+          return bot.reply(
+            sender,
+            "This command is currently disabled!",
+            VerbosityLevel.Minimal,
+          );
         command.execute(bot, sender, commandArgs);
       } else if (bot.utils.getUserObject({ name: sender.username }))
         // don't reply if user is not in the db

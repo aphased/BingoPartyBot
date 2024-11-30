@@ -34,8 +34,7 @@ export default {
     // TODO: update rules (both data & usage system/mechanism)
     // bot.chat("/pc --- Bingo Brewers Rules (Outdated)---");
     bot.chat("/pc --- Bingo Brewers Rules ---", VerbosityLevel.Minimal);
-    setTimeout(() => {
-      bot.chat(`/pc Rule ${ruleNum}: ${rule}`, VerbosityLevel.Minimal);
-    }, bot.utils.minMsgDelay);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.chat(`/pc Rule ${ruleNum}: ${rule}`, VerbosityLevel.Minimal);
   },
 };

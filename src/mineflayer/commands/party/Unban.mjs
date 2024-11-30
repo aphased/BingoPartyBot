@@ -29,19 +29,16 @@ export default {
         VerbosityLevel.Reduced,
       );
     bot.reply(sender, `Trying to unban ${player}...`, VerbosityLevel.Reduced);
-    setTimeout(() => {
-      bot.chat(`/lobby`);
-      setTimeout(() => {
-        bot.chat(`/block remove ${player}`);
-        setTimeout(() => {
-          bot.reply(sender, `Unbanned ${player}.`, VerbosityLevel.Reduced);
-          bot.utils.webhookLogger.addMessage(
-            `\`${player}\` was unbanned from the party by \`${sender.preferredName}\`.`,
-            WebhookMessageType.ActionLog,
-            true,
-          );
-        }, bot.utils.minMsgDelay);
-      }, bot.utils.minMsgDelay);
-    }, bot.utils.minMsgDelay);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.chat(`/lobby`);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.chat(`/block remove ${player}`);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.reply(sender, `Unbanned ${player}.`, VerbosityLevel.Reduced);
+    bot.utils.webhookLogger.addMessage(
+      `\`${player}\` was unbanned from the party by \`${sender.preferredName}\`.`,
+      WebhookMessageType.ActionLog,
+      true,
+    );
   },
 };

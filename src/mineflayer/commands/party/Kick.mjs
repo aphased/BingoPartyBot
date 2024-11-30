@@ -35,13 +35,12 @@ export default {
     bot.chat(
       `/pc ${player} was kicked from the party by ${sender.preferredName}.`,
     );
-    setTimeout(() => {
-      bot.chat(`/p kick ${player}`);
-      bot.utils.webhookLogger.addMessage(
-        `\`${player}\` was kicked from the party by \`${sender.preferredName}\`. Reason: \`${reason}\``,
-        WebhookMessageType.ActionLog,
-        true,
-      );
-    }, bot.utils.minMsgDelay);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.chat(`/p kick ${player}`);
+    bot.utils.webhookLogger.addMessage(
+      `\`${player}\` was kicked from the party by \`${sender.preferredName}\`. Reason: \`${reason}\``,
+      WebhookMessageType.ActionLog,
+      true,
+    );
   },
 };

@@ -14,12 +14,11 @@ export default {
    */
   execute: async function (bot, sender, args) {
     bot.chat("/" + args.join(" "));
-    setTimeout(() => {
-      bot.reply(
-        sender,
-        `Executed command: /${args.join(" ")}`,
-        VerbosityLevel.Reduced,
-      );
-    }, bot.utils.minMsgDelay);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.reply(
+      sender,
+      `Executed command: /${args.join(" ")}`,
+      VerbosityLevel.Reduced,
+    );
   },
 };

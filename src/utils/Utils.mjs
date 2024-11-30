@@ -53,6 +53,15 @@ class Utils {
     logger[type.toLowerCase()](message);
   }
 
+  /**
+   *
+   * @param {Number} ms
+   * @returns {Promise<void>} resolves after the given delay
+   */
+  delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   async getRulesList() {
     if (this.rulesList.length === 0)
       this.rulesList = await import(
@@ -398,7 +407,7 @@ class Utils {
         else acc.name = username;
         userObj.accounts[userObj.accounts.indexOf(acc)];
         // this delay isn't necessary for any rate limit, but probably makes sense anyway
-        await new Promise((resolve) => setTimeout(resolve, 100));
+        await this.delay(100);
       }
       db[db.indexOf(userObj)] = userObj;
     }

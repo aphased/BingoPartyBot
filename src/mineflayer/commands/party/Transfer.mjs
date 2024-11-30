@@ -33,13 +33,12 @@ export default {
     bot.chat(
       `/pc The party was transferred to ${player} by ${sender.preferredName}.`,
     );
-    setTimeout(() => {
-      bot.chat(`/p transfer ${args[0]}`);
-      bot.utils.webhookLogger.addMessage(
-        `The party was transferred to \`${player}\` by \`${sender.preferredName}\`.`,
-        WebhookMessageType.ActionLog,
-        true,
-      );
-    }, bot.utils.minMsgDelay);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.chat(`/p transfer ${args[0]}`);
+    bot.utils.webhookLogger.addMessage(
+      `The party was transferred to \`${player}\` by \`${sender.preferredName}\`.`,
+      WebhookMessageType.ActionLog,
+      true,
+    );
   },
 };

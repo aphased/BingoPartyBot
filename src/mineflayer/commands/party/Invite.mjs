@@ -20,8 +20,7 @@ export default {
         return bot.reply(sender, "Player not found.", VerbosityLevel.Reduced);
     } else player = sender.username;
     bot.chat(`/p invite ${player}`);
-    setTimeout(() => {
-      bot.chat(`/pc ${sender.preferredName} invited ${player} to the party.`);
-    }, bot.utils.minMsgDelay);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.chat(`/pc ${sender.preferredName} invited ${player} to the party.`);
   },
 };

@@ -31,19 +31,16 @@ export default {
     bot.chat(
       `/pc ${player} was removed from the party and blocked from rejoining by ${sender.preferredName}.`,
     );
-    setTimeout(() => {
-      bot.chat(`/lobby`);
-      setTimeout(() => {
-        bot.chat(`/p kick ${player}`);
-        setTimeout(() => {
-          bot.chat(`/block add ${player}`);
-          bot.utils.webhookLogger.addMessage(
-            `\`${player}\` was banned from the party by \`${sender.preferredName}\`. Reason: \`${reason}\``,
-            WebhookMessageType.ActionLog,
-            true,
-          );
-        }, bot.utils.minMsgDelay);
-      }, bot.utils.minMsgDelay);
-    }, bot.utils.minMsgDelay);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.chat(`/lobby`);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.chat(`/p kick ${player}`);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.chat(`/block add ${player}`);
+    bot.utils.webhookLogger.addMessage(
+      `\`${player}\` was banned from the party by \`${sender.preferredName}\`. Reason: \`${reason}\``,
+      WebhookMessageType.ActionLog,
+      true,
+    );
   },
 };

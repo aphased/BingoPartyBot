@@ -205,7 +205,6 @@ than directly going to their underlying implementations:
 
 - If you want to issue multiple commands to Hypixel via Minecraft chat back to
   back:
-  - TODO: Note: This is currently not yet implemented and live/ready to use!
   ```js
   await bot.utils.delay(bot.utils.minMsgDelay);
   bot.chat(`/someCommand`);

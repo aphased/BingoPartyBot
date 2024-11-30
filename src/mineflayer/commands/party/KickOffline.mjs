@@ -13,13 +13,12 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    setTimeout(() => {
-      bot.chat("/p kickoffline");
-      bot.utils.webhookLogger.addMessage(
-        `Offline players were purged from the party by \`${sender.preferredName}\`.`,
-        WebhookMessageType.ActionLog,
-        true,
-      );
-    }, bot.utils.minMsgDelay);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.chat("/p kickoffline");
+    bot.utils.webhookLogger.addMessage(
+      `Offline players were purged from the party by \`${sender.preferredName}\`.`,
+      WebhookMessageType.ActionLog,
+      true,
+    );
   },
 };
