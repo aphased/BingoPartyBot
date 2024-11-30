@@ -702,6 +702,22 @@ class Utils {
     // clear message queue after sending
     this.webhookLogger.messageQueue = [];
   }
+
+  /**
+   * @param {import("../mineflayer/Bot.mjs").default} bot
+   * @param {string}
+   * @returns {Object} An object containing key-value pairs (dict) where
+   *                   the keys are command names and the values are their
+   *                   (longer) descriptions.
+   */
+  extractAllDescriptions(bot) {
+    // TODO
+    return {
+      name1: "longer description for name1",
+      name2: "longer description for name2",
+      name3: "longer description for name3",
+    };
+  }
 }
 
 const logger = createLogger({
