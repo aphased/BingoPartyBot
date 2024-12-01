@@ -38,14 +38,10 @@ export default {
       );
 
     for (let i = 0; i < repetitions; i++) {
-      setTimeout(
-        () => {
-          bot.utils
-            .getCommandByAlias(bot, "say")
-            .execute(bot, sender, args.slice(startIndex));
-        },
-        i * (duration * 1000),
-      );
+      bot.utils
+        .getCommandByAlias(bot, "say")
+        .execute(bot, sender, args.slice(startIndex));
+      await bot.utils.delay(duration * 1000);
     }
   },
 };

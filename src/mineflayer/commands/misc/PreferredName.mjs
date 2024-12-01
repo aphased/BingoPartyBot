@@ -33,15 +33,8 @@ export default {
       if (message.length > 252) {
         const splitIndex = message.slice(0, 253).lastIndexOf(" ");
         bot.reply(sender, message.slice(0, splitIndex), VerbosityLevel.Minimal);
-        setTimeout(
-          () =>
-            bot.reply(
-              sender,
-              message.slice(splitIndex),
-              VerbosityLevel.Minimal,
-            ),
-          bot.utils.minMsgDelay,
-        );
+        await bot.utils.delay(bot.utils.minMsgDelay);
+        bot.reply(sender, message.slice(splitIndex), VerbosityLevel.Minimal);
         return;
       }
       return bot.reply(sender, message, VerbosityLevel.Minimal);

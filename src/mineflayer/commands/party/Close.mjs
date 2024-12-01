@@ -15,13 +15,12 @@ export default {
   execute: async function (bot, sender, args) {
     let reason = args.slice(0).join(" ") || "No reason given.";
     bot.chat(`/pc The party was closed by ${sender.preferredName}.`);
-    setTimeout(() => {
-      bot.chat(`/stream close`);
-      bot.utils.webhookLogger.addMessage(
-        `The party was closed by \`${sender.preferredName}\`. Reason: \`${reason}\``,
-        WebhookMessageType.ActionLog,
-        true,
-      );
-    }, bot.utils.minMsgDelay);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.chat(`/stream close`);
+    bot.utils.webhookLogger.addMessage(
+      `The party was closed by \`${sender.preferredName}\`. Reason: \`${reason}\``,
+      WebhookMessageType.ActionLog,
+      true,
+    );
   },
 };

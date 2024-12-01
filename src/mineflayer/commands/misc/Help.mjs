@@ -22,7 +22,6 @@ export default {
       let message = `Available commands: ${bot.partyCommands.map((value, key) => key[0]).join(", ")}`;
       // split message as many times as necessary if it's too long
       if (message.length > 252) {
-        let i = 1;
         while (message.length) {
           let splitIndex =
             message.length <= 252
@@ -30,12 +29,9 @@ export default {
               : message.slice(0, 252).lastIndexOf(" ");
           if (splitIndex === -1) splitIndex = 252;
           const toSend = message.slice(0, splitIndex);
-          setTimeout(
-            () => bot.reply(sender, toSend, VerbosityLevel.Minimal),
-            i * bot.utils.minMsgDelay,
-          );
+          bot.reply(sender, toSend, VerbosityLevel.Minimal);
+          await bot.utils.delay(bot.utils.minMsgDelay);
           message = message.slice(splitIndex + 1);
-          i++;
         }
       } else bot.reply(sender, message, VerbosityLevel.Minimal);
     } else {

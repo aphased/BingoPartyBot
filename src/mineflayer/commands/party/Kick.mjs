@@ -19,11 +19,9 @@ export default {
   execute: async function (bot, sender, args) {
     let player;
     if (args[0]) {
-      player = await bot.utils.getUUID(args[0], true);
+      player = await bot.utils.usernameExists(args[0]);
       if (player === false)
         return bot.reply(sender, "Player not found.", VerbosityLevel.Reduced);
-      // proceed with raw provided name if api request failed for any reason (uncertain validity)
-      player = player ? player.name : args[0];
     } else
       return bot.reply(
         sender,
@@ -37,13 +35,12 @@ export default {
     bot.chat(
       `/pc ${player} was kicked from the party by ${sender.preferredName}.`,
     );
-    setTimeout(() => {
-      bot.chat(`/p kick ${player}`);
-      bot.utils.webhookLogger.addMessage(
-        `\`${player}\` was kicked from the party by \`${sender.preferredName}\`. Reason: \`${reason}\``,
-        WebhookMessageType.ActionLog,
-        true,
-      );
-    }, bot.utils.minMsgDelay);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.chat(`/p kick ${player}`);
+    bot.utils.webhookLogger.addMessage(
+      `\`${player}\` was kicked from the party by \`${sender.preferredName}\`. Reason: \`${reason}\``,
+      WebhookMessageType.ActionLog,
+      true,
+    );
   },
 };

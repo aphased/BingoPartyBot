@@ -19,11 +19,9 @@ export default {
   execute: async function (bot, sender, args) {
     let player;
     if (args[0]) {
-      player = await bot.utils.getUUID(args[0], true);
+      player = await bot.utils.usernameExists(args[0]);
       if (player === false)
         return bot.reply(sender, "Player not found.", VerbosityLevel.Reduced);
-      // proceed with raw provided name if api request failed for any reason (uncertain validity)
-      player = player ? player.name : args[0];
     } else
       return bot.reply(
         sender,
@@ -31,19 +29,16 @@ export default {
         VerbosityLevel.Reduced,
       );
     bot.reply(sender, `Trying to unban ${player}...`, VerbosityLevel.Reduced);
-    setTimeout(() => {
-      bot.chat(`/lobby`);
-      setTimeout(() => {
-        bot.chat(`/block remove ${player}`);
-        setTimeout(() => {
-          bot.reply(sender, `Unbanned ${player}.`, VerbosityLevel.Reduced);
-          bot.utils.webhookLogger.addMessage(
-            `\`${player}\` was unbanned from the party by \`${sender.preferredName}\`.`,
-            WebhookMessageType.ActionLog,
-            true,
-          );
-        }, bot.utils.minMsgDelay);
-      }, bot.utils.minMsgDelay);
-    }, bot.utils.minMsgDelay);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.chat(`/lobby`);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.chat(`/block remove ${player}`);
+    await bot.utils.delay(bot.utils.minMsgDelay);
+    bot.reply(sender, `Unbanned ${player}.`, VerbosityLevel.Reduced);
+    bot.utils.webhookLogger.addMessage(
+      `\`${player}\` was unbanned from the party by \`${sender.preferredName}\`.`,
+      WebhookMessageType.ActionLog,
+      true,
+    );
   },
 };

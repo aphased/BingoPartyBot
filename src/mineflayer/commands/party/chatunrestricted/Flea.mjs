@@ -30,8 +30,7 @@ export default {
       .getCommandByAlias(bot, "repeat")
       .execute(bot, sender, `4 4 ${args.join(" ")}`.split(" "));
 
-    setTimeout(() => {
-      bot.utils.getCommandByAlias(bot, "say").execute(bot, sender, args);
-    }, 12_000 + 20_000);
+    await bot.utils.delay(12_000 + 20_000);
+    bot.utils.getCommandByAlias(bot, "say").execute(bot, sender, args);
   },
 };

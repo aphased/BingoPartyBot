@@ -53,6 +53,15 @@ class Utils {
     logger[type.toLowerCase()](message);
   }
 
+  /**
+   *
+   * @param {Number} ms
+   * @returns {Promise<void>} resolves after the given delay
+   */
+  delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   async getRulesList() {
     if (this.rulesList.length === 0)
       this.rulesList = await import(
@@ -187,6 +196,21 @@ class Utils {
       }
       return null;
     }
+  }
+
+  /**
+   * @param {string} username
+   * @param {boolean} strict
+   * @returns {Promise<string|false>}
+   */
+  async usernameExists(username, strict = false) {
+    const playerData = await this.getUUID(username, true);
+    // name is valid, return correct capitalisation
+    if (playerData?.name) return playerData.name;
+    // api request failed and strict is false, return unvalidated input name
+    if (playerData === null && !strict) return username;
+    // name is invalid or request failed with strict === true, return `false`
+    return false;
   }
 
   /**
@@ -383,7 +407,7 @@ class Utils {
         else acc.name = username;
         userObj.accounts[userObj.accounts.indexOf(acc)];
         // this delay isn't necessary for any rate limit, but probably makes sense anyway
-        await new Promise((resolve) => setTimeout(resolve, 100));
+        await this.delay(100);
       }
       db[db.indexOf(userObj)] = userObj;
     }
@@ -561,6 +585,7 @@ class Utils {
    *
    * @param {Object} options
    * @param {string} [options.link]
+   * @param {boolean} [options.overwrite]
    * @param {string} [options.time]
    */
   setMonthGuide(options = {}) {
@@ -573,7 +598,7 @@ class Utils {
       options.link
     )
       return;
-    if (data[options.time] && data[options.time].overwrite) return;
+    if (data[options.time]?.overwrite && !options.overwrite) return;
     data[options.time] = {
       overwrite: options.overwrite || false,
       link: options.link,
