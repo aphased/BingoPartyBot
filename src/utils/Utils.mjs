@@ -685,6 +685,30 @@ class Utils {
   }
 
   /**
+   * Splits the provided string into substrings of a defined max length, preferrably splitting at provided separator string
+   *
+   * @param {string} message
+   * @param {number} lengthPerMessage
+   * @param {string} separator
+   * @returns {Array<string>}
+   */
+  splitMessage(message, lengthPerMessage, separator = " ") {
+    if (message.length > lengthPerMessage) {
+      let subMessages = [];
+      while (message.length) {
+        let splitIndex =
+          message.length <= lengthPerMessage
+            ? message.length
+            : message.slice(0, lengthPerMessage).lastIndexOf(" ");
+        if (splitIndex === -1) splitIndex = lengthPerMessage;
+        subMessages.push(message.slice(0, splitIndex));
+        message = message.slice(splitIndex + 1);
+      }
+      return subMessages;
+    } else return message;
+  }
+
+  /**
    * Returns IGN of the inviting player, or null if no invite was found.
    *
    * @param {ChatMessage} message

@@ -20,20 +20,10 @@ export default {
         VerbosityLevel.Minimal,
       );
       let message = `Available commands: ${bot.partyCommands.map((value, key) => key[0]).join(", ")}`;
-      // split message as many times as necessary if it's too long
-      if (message.length > 252) {
-        while (message.length) {
-          let splitIndex =
-            message.length <= 252
-              ? message.length
-              : message.slice(0, 252).lastIndexOf(" ");
-          if (splitIndex === -1) splitIndex = 252;
-          const toSend = message.slice(0, splitIndex);
-          bot.reply(sender, toSend, VerbosityLevel.Minimal);
-          await bot.utils.delay(bot.utils.minMsgDelay);
-          message = message.slice(splitIndex + 1);
-        }
-      } else bot.reply(sender, message, VerbosityLevel.Minimal);
+      for (let subMessage of bot.utils.splitMessage(message, 192)) {
+        bot.reply(sender, subMessage, VerbosityLevel.Minimal);
+        await bot.utils.delay(bot.utils.minMsgDelay);
+      }
     } else {
       const command = bot.utils.getCommandByAlias(bot, args[0]);
       if (!command)
@@ -45,11 +35,11 @@ export default {
       const permission = Object.keys(Permissions).find(
         (perm) => Permissions[perm] === command.permission,
       );
-      bot.reply(
-        sender,
-        `'${command.name[0]}': ${command.description}; Usage: ${command.usage}; Required Permission: ${permission ?? "none"} (level ${command.permission ?? "-1"}); Aliases: '${command.name.slice(1).join("', '")}'`,
-        VerbosityLevel.Minimal,
-      );
+      let message = `'${command.name[0]}': ${command.description}; Usage: ${command.usage}; Required Permission: ${permission ?? "none"} (level ${command.permission ?? "-1"}); Aliases: '${command.name.slice(1).join("', '")}'`;
+      for (let subMessage of bot.utils.splitMessage(message, 192)) {
+        bot.reply(sender, subMessage, VerbosityLevel.Minimal);
+        await bot.utils.delay(bot.utils.minMsgDelay);
+      }
     }
   },
 };
