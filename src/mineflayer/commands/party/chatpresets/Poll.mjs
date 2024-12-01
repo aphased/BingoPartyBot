@@ -3,7 +3,7 @@ import { Permissions, VerbosityLevel } from "../../../../utils/Interfaces.mjs";
 export default {
   name: ["poll"],
   description: "Send one of several predefined polls in party chat",
-  usage: "!p poll <spellbingo|goalscompleted|playtime>",
+  usage: "!p poll <spellbingo|goalscompleted|playtime|splashwhen>",
   permission: Permissions.Trusted,
 
   /**
