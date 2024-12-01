@@ -705,7 +705,7 @@ class Utils {
         message = message.slice(splitIndex + 1);
       }
       return subMessages;
-    } else return message;
+    } else return [message];
   }
 
   /**
