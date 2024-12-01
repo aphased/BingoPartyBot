@@ -21,8 +21,8 @@ export default {
       );
       let message = `Available commands: ${bot.partyCommands.map((value, key) => key[0]).join(", ")}`;
       for (let subMessage of bot.utils.splitMessage(message, 192)) {
-        bot.reply(sender, subMessage, VerbosityLevel.Minimal);
         await bot.utils.delay(bot.utils.minMsgDelay);
+        bot.reply(sender, subMessage, VerbosityLevel.Minimal);
       }
     } else {
       const command = bot.utils.getCommandByAlias(bot, args[0]);
