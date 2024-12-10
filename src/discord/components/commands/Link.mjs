@@ -1,4 +1,5 @@
 import { ApplicationCommandOptionType, Client, EmbedBuilder } from "discord.js";
+import myBot from "../../../mineflayer/Bot.mjs";
 
 export default {
   name: "link",
@@ -26,7 +27,7 @@ export default {
             })
             .setTitle("Link your account")
             .setDescription(
-              `To link your account to the bot, /message BingoParty on Hypixel the following: !p link \`${code}\``,
+              `To link your account to the bot, /message ${myBot.getUsername()} on Hypixel the following: !p link \`${code}\``,
             )
             .setColor("Green")
             .setTimestamp()

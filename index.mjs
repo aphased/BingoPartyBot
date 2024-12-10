@@ -68,7 +68,7 @@ function dataInput(data) {
   else if (data.startsWith(myBot.config.partyCommandPrefix))
     myBot.onMessage(
       new Utils.CustomMessage(
-        `[35mFrom [31m[CONSOLE] ${myBot.username}[37m: ${data}[0m`,
+        `[35mFrom [31m[CONSOLE] ${myBot.getUsername()}[37m: ${data}[0m`,
       ),
     );
   else if (data.startsWith("!dc")) return; // Add Discord bot stuff
