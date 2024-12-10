@@ -10,53 +10,54 @@ export default {
    * @param {import("discord.js").Interaction} interaction
    */
   execute: async function (bot, interaction) {
-    // code
     await interaction.deferReply({
       ephemeral: true,
     });
 
-    // console.log(bot)
-
     let code = bot.utils.link.addCode(interaction.user.id);
 
-    await interaction.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setAuthor({
-            name: interaction.user.username,
-            iconURL: interaction.user.avatarURL(),
-          })
-          .setTitle("Link your account")
-          .setDescription(
-            `To link your account to the bot, /message BingoParty on Hypixel the following: !p link \`${code}\``,
-          )
-          .setColor("Green")
-          .setTimestamp()
-          .setFooter({
-            text: "You have 5 minutes to link your account",
-          }),
-      ],
-    }).catch(e => {});
+    await interaction
+      .editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setAuthor({
+              name: interaction.user.username,
+              iconURL: interaction.user.avatarURL(),
+            })
+            .setTitle("Link your account")
+            .setDescription(
+              `To link your account to the bot, /message BingoParty on Hypixel the following: !p link \`${code}\``,
+            )
+            .setColor("Green")
+            .setTimestamp()
+            .setFooter({
+              text: "You have 5 minutes to link your account",
+            }),
+        ],
+      })
+      .catch((e) => {});
 
     let repetitions = 0;
     setInterval(async () => {
       if (repetitions >= 30) {
         clearInterval();
-        await interaction.editReply({
-          embeds: [
-            new EmbedBuilder()
-              .setAuthor({
-                name: interaction.user.username,
-                iconURL: interaction.user.avatarURL(),
-              })
-              .setTitle("Link your account")
-              .setDescription(
-                "You have exceeded the maximum time to link your account",
-              )
-              .setColor("Red")
-              .setTimestamp(),
-          ],
-        }).catch(e => {});
+        await interaction
+          .editReply({
+            embeds: [
+              new EmbedBuilder()
+                .setAuthor({
+                  name: interaction.user.username,
+                  iconURL: interaction.user.avatarURL(),
+                })
+                .setTitle("Link your account")
+                .setDescription(
+                  "You have exceeded the maximum time to link your account",
+                )
+                .setColor("Red")
+                .setTimestamp(),
+            ],
+          })
+          .catch((e) => {});
         bot.utils.link.removeCode(code);
         return;
       }
@@ -64,23 +65,25 @@ export default {
       if (!status) return clearInterval();
       if (status.verified) {
         clearInterval();
-        await interaction.editReply({
-          embeds: [
-            new EmbedBuilder()
-              .setAuthor({
-                name: interaction.user.username,
-                iconURL: interaction.user.avatarURL(),
-              })
-              .setTitle("Link your account")
-              .setDescription(
-                "Your account has been linked successfully to `" +
-                  status.username +
-                  "`",
-              )
-              .setColor("Green")
-              .setTimestamp(),
-          ],
-        }).catch(e => {});
+        await interaction
+          .editReply({
+            embeds: [
+              new EmbedBuilder()
+                .setAuthor({
+                  name: interaction.user.username,
+                  iconURL: interaction.user.avatarURL(),
+                })
+                .setTitle("Link your account")
+                .setDescription(
+                  "Your account has been linked successfully to `" +
+                    status.username +
+                    "`",
+                )
+                .setColor("Green")
+                .setTimestamp(),
+            ],
+          })
+          .catch((e) => {});
         bot.utils.link.removeCode(code);
         bot.utils.setDiscord({
           name: status.username,

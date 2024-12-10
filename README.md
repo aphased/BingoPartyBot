@@ -69,7 +69,8 @@ Thanks to ooffyy, BossFlea, p0iS, Calva, jbaNate and all splashers of
 [Bingo Brewers](https://discord.gg/bingobrewers) for suggestions and/or code
 contributions for new and improved features & all the bug-hunting.
 
-Thanks to Conutik for giving this project a much-needed thorough rewrite and overhaul!
+Thanks to Conutik for giving this project a much-needed thorough rewrite and
+overhaul, making the code _so_ much more accessible and extendible!
 
 ## License
 

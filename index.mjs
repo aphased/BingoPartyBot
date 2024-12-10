@@ -6,7 +6,7 @@ import Utils, { utils } from "./src/utils/Utils.mjs";
 import * as config from "./Config.mjs";
 import JSONdb from "simple-json-db";
 import path from "path";
-import { fileURLToPath, pathToFileURL } from "url";
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
