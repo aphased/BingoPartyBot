@@ -44,7 +44,6 @@ list of files:
 ├── Config.example.mjs
 ├── Config.mjs
 ├── README.md
-├── convert-data-util.mjs
 ├── data
 │   ├── autoKickWords.json
 │   ├── backup-playerNames.json
@@ -53,6 +52,10 @@ list of files:
 │   ├── generalDatabase.json
 │   ├── playerNames.json
 ├── index.mjs
+├── one-time-scripts
+│   ├── convert-data-util_old.mjs
+│   ├── exportCommandData.mjs
+│   └── updatedb-preferredAccount.mjs
 ├── package-lock.json
 ├── package.json
 ├── run-bot
@@ -62,9 +65,8 @@ list of files:
     │   ├── components
     │   │   └── commands
     │   │       └── (all Discord slash commands)
-    │   ├── handlers
-    │   │   └── CommandHandler.mjs
-    │   └── old.mjs
+│   │   └── handlers
+│   │       └── CommandHandler.mjs
     ├── mineflayer
     │   ├── Bot.mjs
     │   ├── commands
@@ -73,10 +75,8 @@ list of files:
     │   │   │   └── (in-game commands for admin activities)
     │   │   ├── misc
     │   │   │   └── (in-game commands for users and their data)
-    │   │   ├── party
-    │   │   │   └── (in-game commands mimicking Hypixel commands for parties)
-    │   │   └── sudo
-    │   │       └── (in-game commands for rarely used/critical actions)
+    │   │   └── party
+    │   │       └── (in-game commands mimicking Hypixel commands for parties)
     │   ├── events
     │   │   ├── MessageEvent.mjs
     │   │   ├── OnKick.mjs
