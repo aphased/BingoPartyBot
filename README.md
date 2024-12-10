@@ -22,6 +22,7 @@ online continuously.
 - WIP/TODO: Persistent ban system with support for temporary time-based blocking
 - Hot reloading of player (allowed permissions/TODO: banned) data and code
   modules/specific party commands, too
+  - Dis- and reenabling of individual (or all) commands by admins on the fly
 - Minecraft UUID and IGN based commands allowlist with support for multiple
   ("alt") accounts for each player
 - Admin-only “special access“ commands & usage, e.g. for adding new users with
