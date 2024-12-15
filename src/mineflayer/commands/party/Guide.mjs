@@ -62,7 +62,8 @@ export default {
           name: bot.utils
             .getUsersByPermissionRank(Permissions.Owner)
             .find(
-              (obj) => !obj.accounts.some((acc) => acc.name === bot.username),
+              (obj) =>
+                !obj.accounts.some((acc) => acc.name === bot.getUsername()),
             )?.accounts?.[0]?.name,
         });
 

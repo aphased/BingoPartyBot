@@ -33,6 +33,30 @@ class Bot {
   }
 
   /**
+   * This is the bot account's Minecraft IGN. It is initialized in the
+   * OnceLogin.mjs mineflayer event handling using the setter function below.
+   */
+  #username = "";
+
+  /**
+   * This function sets the bot account's Minecraft IGN while making sure it is
+   * always defined (falls back to the value "BingoParty").
+   *
+   * @param {string} ign - The Minecraft IGN to set for the bot account.
+   */
+  setUsername(ign) {
+    this.#username = ign || "BingoParty";
+  }
+
+  /**
+   * Retrieves the bot accounts's Minecraft IGN.
+   * @returns {string} The in-game username.
+   */
+  getUsername() {
+    return this.#username;
+  }
+
+  /**
    * This central function is directly or indirectly called whenever anything
    * is output to Minecraft chat. Before outputting the message, some security/
    * safety checks are performed (see below within function implementation for
@@ -72,13 +96,12 @@ class Bot {
    * also sending the reply out to Discord as one would expect (as opposed to
    * always in-game). Same procedure for commands sent from the bot console.
    *
-   * @param {Object} sender  IGN to send a message to (currently not needed,
+   * @param {Object} sender  IGN to send a message to
    * @param {String} [sender.username]
    * @param {String} [sender.preferredName]
    * @param {String} [sender.commandName]
    * @param {String} [sender.type]
    * @param {String} [sender.discordReplyId]
-   * but try to supply this value).
    * @param {String} message  Message to send.
    * @param {Number} requiredVerbosity necessary verbosity setting to send message (only applies to minecraft replies)
    */
@@ -102,7 +125,7 @@ class Bot {
       // log message reply (like with a hypixel dm reply)
       this.onMessage(
         new Utils.CustomMessage(
-          `[35mTo [31m[CONSOLE] ${this.username}[37m: ${message}[0m`,
+          `[35mTo [31m[CONSOLE] ${this.getUsername()}[37m: ${message}[0m`,
         ),
       );
       this.utils.log(message, "Info");

@@ -8,8 +8,8 @@ export default {
    * @param {import("../Bot.mjs").default} bot
    */
   execute: async function (bot) {
-    bot.username = bot.bot.username;
-    bot.utils.log("Logged in! `(" + bot.username + ")`", "Info");
+    bot.setUsername(bot.bot.username);
+    bot.utils.log("Logged in! `(" + bot.getUsername() + ")`", "Info");
     if (!bot.utils.playerNamesDatabase.get("data")) {
       bot.utils.log(
         "Player names database is empty! Generating default data...",
@@ -17,8 +17,8 @@ export default {
       );
       bot.utils.playerNamesDatabase.set("data", []);
       bot.utils.addUser({
-        name: bot.username,
-        uuid: await bot.utils.getUUID(bot.username),
+        name: bot.getUsername(),
+        uuid: await bot.utils.getUUID(bot.getUsername()),
         permissionRank: Permissions.BotAccount,
       });
       bot.utils.addUser({
@@ -35,24 +35,24 @@ export default {
       process.exit(1);
     }
     const permissionRank = bot.utils.getPermissionsByUser({
-      name: bot.username,
+      name: bot.getUsername(),
     });
     if (permissionRank < 0) {
       bot.utils.addUser({
-        name: bot.username,
-        uuid: await bot.utils.getUUID(bot.username),
+        name: bot.getUsername(),
+        uuid: await bot.utils.getUUID(bot.getUsername()),
         permissionRank: Permissions.BotAccount,
       });
       bot.utils.log("Bot account added to database", "Info");
     } else if (permissionRank < Permissions.BotAccount) {
       bot.utils.setPermissionRank({
-        name: bot.username,
+        name: bot.getUsername(),
         permissionRank: Permissions.BotAccount,
       });
       bot.utils.log("Bot account permission updated", "Info");
     }
     bot.utils.webhookLogger.addMessage(
-      `Logged in! \`(${bot.username})\``,
+      `Logged in! \`(${bot.getUsername()})\``,
       WebhookMessageType.ActionLog,
       true,
     );

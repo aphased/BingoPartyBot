@@ -558,10 +558,12 @@
             "accounts": [
                 {
                     "name": "End_Game_Player",
-                    "uuid": "c12b01480c294a86b5271bc5299d4702"
+                    "uuid": "c12b01480c294a86b5271bc5299d4702",
+                    "hypixelRank": "[MVP+]"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "preferredAccount": "c12b01480c294a86b5271bc5299d4702"
         },
         {
             "accounts": [
@@ -626,11 +628,13 @@
             "accounts": [
                 {
                     "name": "ZerosTulip",
-                    "uuid": "dcf0437f120e45c799f8b6137d556d8b"
+                    "uuid": "dcf0437f120e45c799f8b6137d556d8b",
+                    "hypixelRank": "[VIP+]"
                 },
                 {
                     "name": "DousedCharizard",
-                    "uuid": "85f1efe9c56441378c55dd7dceb4b403"
+                    "uuid": "85f1efe9c56441378c55dd7dceb4b403",
+                    "hypixelRank": "[VIP]"
                 }
             ],
             "permissionRank": 2,
@@ -901,7 +905,7 @@
         {
             "accounts": [
                 {
-                    "name": "SAHIL02",
+                    "name": "ShadowOfNecron",
                     "uuid": "bc661e1aa33541b4b0cd8b23d004f703",
                     "hypixelRank": "[MVP+]"
                 }
@@ -1006,10 +1010,12 @@
             "accounts": [
                 {
                     "name": "TryhardingMode",
-                    "uuid": "749a26efb6bc47c18ec7ed4edf1fe130"
+                    "uuid": "749a26efb6bc47c18ec7ed4edf1fe130",
+                    "hypixelRank": "[VIP]"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "preferredAccount": "749a26efb6bc47c18ec7ed4edf1fe130"
         },
         {
             "accounts": [
@@ -1058,7 +1064,8 @@
             "accounts": [
                 {
                     "name": "1a2b3g4e",
-                    "uuid": "909924ef3e7641fa810f9c9688ad2c6b"
+                    "uuid": "909924ef3e7641fa810f9c9688ad2c6b",
+                    "hypixelRank": "[MVP+]"
                 },
                 {
                     "name": "tgfrv",
@@ -1112,7 +1119,8 @@
                 },
                 {
                     "name": "1Tapped",
-                    "uuid": "d1570f14b63f487e8195dc17f6843df3"
+                    "uuid": "d1570f14b63f487e8195dc17f6843df3",
+                    "hypixelRank": "[MVP++]"
                 },
                 {
                     "name": "snothuy",
@@ -1127,10 +1135,12 @@
             "accounts": [
                 {
                     "name": "EveQ",
-                    "uuid": "e7b85c0dead64238ba24c5685f1c6892"
+                    "uuid": "e7b85c0dead64238ba24c5685f1c6892",
+                    "hypixelRank": "[MVP+]"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "preferredAccount": "e7b85c0dead64238ba24c5685f1c6892"
         },
         {
             "accounts": [
@@ -1157,6 +1167,48 @@
             ],
             "permissionRank": 2,
             "preferredAccount": "600f87f8664f46ae928183e886ab0884"
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Jeffisbob",
+                    "uuid": "a8a74d1e812d4142a3ae06075729b36f",
+                    "hypixelRank": "[VIP+]"
+                }
+            ],
+            "permissionRank": 2,
+            "preferredAccount": "a8a74d1e812d4142a3ae06075729b36f"
+        },
+        {
+            "accounts": [
+                {
+                    "name": "CatGirlChloee",
+                    "uuid": "4aadfbb3d2ad479f87fcb3e34293d976"
+                },
+                {
+                    "name": "2BadAtGame",
+                    "uuid": "d81e7a9d22744226977908b02f1ecdab"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "Tiramisu1th",
+                    "uuid": "f13f943fd91b49efac2f929cc9b914e3"
+                }
+            ],
+            "permissionRank": 2
+        },
+        {
+            "accounts": [
+                {
+                    "name": "NekedCsakNorris",
+                    "uuid": "fad150a8283d465390e1d3eded557762"
+                }
+            ],
+            "permissionRank": 2
         }
     ]
 }
