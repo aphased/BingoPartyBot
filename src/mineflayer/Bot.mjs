@@ -45,7 +45,7 @@ class Bot {
    * @param {string} ign - The Minecraft IGN to set for the bot account.
    */
   setUsername(ign) {
-    this.#username = ign || "BingoParty";
+    this.#username = ign || this.#username || "BingoParty";
   }
 
   /**
