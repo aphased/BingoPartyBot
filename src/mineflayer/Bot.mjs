@@ -133,9 +133,11 @@ class Bot {
   }
 
   async loadCommands() {
-    this.partyCommands = this.utils.loadStoredCommandStates(
-      await loadPartyCommands(),
-    );
+    this.partyCommands = await loadPartyCommands();
+    if (this.config.persistentDisabledCommands)
+      this.partyCommands = this.utils.loadStoredCommandStates(
+        this.partyCommands,
+      );
   }
 
   /**

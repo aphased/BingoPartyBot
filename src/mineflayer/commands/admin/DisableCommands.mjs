@@ -25,7 +25,8 @@ export default {
         commands.push(value.name[0]);
         value.disabled = true;
       });
-      bot.utils.updateStoredCommandStates(true, commands);
+      if (bot.config.persistentDisabledCommands)
+        bot.utils.updateStoredCommandStates(true, commands);
       // TODO: also console log here
       bot.reply(sender, "All commands disabled!", VerbosityLevel.Reduced);
     } else if (args[0]?.toLowerCase() === "most") {
@@ -35,7 +36,8 @@ export default {
         commands.push(value.name[0]);
         value.disabled = true;
       });
-      bot.utils.updateStoredCommandStates(true, commands);
+      if (bot.config.persistentDisabledCommands)
+        bot.utils.updateStoredCommandStates(true, commands);
       bot.reply(sender, "Most commands disabled!", VerbosityLevel.Reduced);
     } else {
       if (!args[0])
@@ -71,10 +73,11 @@ export default {
       commands.forEach((cmd) => {
         cmd.disabled = true;
       });
-      bot.utils.updateStoredCommandStates(
-        true,
-        commands.map((cmd) => cmd.name[0]),
-      );
+      if (bot.config.persistentDisabledCommands)
+        bot.utils.updateStoredCommandStates(
+          true,
+          commands.map((cmd) => cmd.name[0]),
+        );
       bot.reply(sender, "Command(s) disabled!", VerbosityLevel.Reduced);
     }
   },

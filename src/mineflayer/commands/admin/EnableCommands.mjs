@@ -24,7 +24,8 @@ export default {
         value.disabled = false;
         commands.push(value.name[0]);
       });
-      bot.utils.updateStoredCommandStates(false, commands);
+      if (bot.config.persistentDisabledCommands)
+        bot.utils.updateStoredCommandStates(false, commands);
       // TODO: also console log here
       bot.reply(
         sender,
@@ -39,7 +40,8 @@ export default {
           commands.push(value.name[0]);
         }
       });
-      bot.utils.updateStoredCommandStates(false, commands);
+      if (bot.config.persistentDisabledCommands)
+        bot.utils.updateStoredCommandStates(false, commands);
       bot.reply(
         sender,
         "Some commands have been enabled!",
@@ -79,10 +81,11 @@ export default {
       commands.forEach((cmd) => {
         cmd.disabled = false;
       });
-      bot.utils.updateStoredCommandStates(
-        false,
-        commands.map((cmd) => cmd.name[0]),
-      );
+      if (bot.config.persistentDisabledCommands)
+        bot.utils.updateStoredCommandStates(
+          false,
+          commands.map((cmd) => cmd.name[0]),
+        );
       bot.reply(sender, "Command(s) enabled!", VerbosityLevel.Reduced);
     }
   },
