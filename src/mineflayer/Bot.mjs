@@ -18,11 +18,6 @@ class Bot {
       auth: this.config.mineflayerInfo.authType,
     });
 
-    (async () => {
-      /** @type {Collection} */
-      this.partyCommands = await loadPartyCommands();
-    })();
-
     this.bot.once("login", this.onceLogin.bind(this));
 
     this.bot.addListener("kicked", this.onKicked.bind(this));
@@ -135,6 +130,12 @@ class Bot {
   async reloadPartyCommands() {
     this.partyCommands = await loadPartyCommands();
     return true;
+  }
+
+  async loadCommands() {
+    this.partyCommands = this.utils.loadStoredCommandStates(
+      await loadPartyCommands(),
+    );
   }
 
   /**

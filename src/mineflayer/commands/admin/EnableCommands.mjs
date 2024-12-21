@@ -19,9 +19,12 @@ export default {
    */
   execute: async function (bot, sender, args) {
     if (args[0]?.toLowerCase() === "all") {
+      let commands = [];
       bot.partyCommands.forEach((value) => {
         value.disabled = false;
+        commands.push(value.name[0]);
       });
+      bot.utils.updateStoredCommandStates(false, commands);
       // TODO: also console log here
       bot.reply(
         sender,
@@ -29,10 +32,14 @@ export default {
         VerbosityLevel.Reduced,
       );
     } else if (args[0]?.toLowerCase() === "some") {
+      let commands = [];
       bot.partyCommands.forEach((value) => {
-        if (value.disableCommand > DisableCommand.Normal)
+        if (value.disableCommand > DisableCommand.Normal) {
           value.disabled = false;
+          commands.push(value.name[0]);
+        }
       });
+      bot.utils.updateStoredCommandStates(false, commands);
       bot.reply(
         sender,
         "Some commands have been enabled!",
@@ -72,6 +79,10 @@ export default {
       commands.forEach((cmd) => {
         cmd.disabled = false;
       });
+      bot.utils.updateStoredCommandStates(
+        false,
+        commands.map((cmd) => cmd.name[0]),
+      );
       bot.reply(sender, "Command(s) enabled!", VerbosityLevel.Reduced);
     }
   },
