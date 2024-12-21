@@ -14,7 +14,7 @@ export default {
    * @param {String} sender
    * @param {Array<String>} args
    */
-  execute: async function (bot, sender, args) {
+  execute: async function (bot, sender, args, callerCommand = null) {
     let repetitions = parseInt(args[0]);
     let duration = parseFloat(args[1]);
     let startIndex = 2;
@@ -33,14 +33,14 @@ export default {
     if (args.length < 1 + startIndex)
       return bot.reply(
         sender,
-        `Invalid command usage! Use: ${this.usage}`,
+        `Invalid command usage! Use: ${callerCommand ? callerCommand.usage : this.usage}`,
         VerbosityLevel.Reduced,
       );
 
     for (let i = 0; i < repetitions; i++) {
       bot.utils
         .getCommandByAlias(bot, "say")
-        .execute(bot, sender, args.slice(startIndex));
+        .execute(bot, sender, args.slice(startIndex), callerCommand ?? this);
       await bot.utils.delay(duration * 1000);
     }
   },

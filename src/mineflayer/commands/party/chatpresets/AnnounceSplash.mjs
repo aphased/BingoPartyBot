@@ -49,10 +49,10 @@ export default {
     if (dontRepeat)
       bot.utils
         .getCommandByAlias(bot, "say")
-        .execute(bot, null, message.split(" "));
+        .execute(bot, sender, message.split(" "), this);
     else
       bot.utils
         .getCommandByAlias(bot, "flea")
-        .execute(bot, null, message.split(" "));
+        .execute(bot, sender, message.split(" "), this);
   },
 };
