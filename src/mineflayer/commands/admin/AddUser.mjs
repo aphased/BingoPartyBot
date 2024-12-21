@@ -1,10 +1,17 @@
-import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
+import {
+  DisableCommand,
+  Permissions,
+  VerbosityLevel,
+} from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["adduser", "user"],
-  description: "Add users to the permission list or change their permission level",
-  usage: "!p adduser <user> <(updated)permission> | !p adduser <new alt> <existing main>",
+  description:
+    "Add users to the permission list or change their permission level",
+  usage:
+    "!p adduser <user> <(updated)permission> | !p adduser <new alt> <existing main>",
   permission: Permissions.Staff,
+  disableCommand: DisableCommand.UsuallyKeepEnabled,
 
   /**
    *

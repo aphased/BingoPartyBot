@@ -1,10 +1,15 @@
-import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
+import {
+  DisableCommand,
+  Permissions,
+  VerbosityLevel,
+} from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["cmd", "execute", "exec"],
   description: "Execute any command as the bot",
   usage: "!p cmd <command>",
   permission: Permissions.Owner,
+  disableCommand: DisableCommand.UsuallyKeepEnabled,
 
   /**
    *

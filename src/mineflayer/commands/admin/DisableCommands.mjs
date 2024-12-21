@@ -1,11 +1,15 @@
-import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
+import {
+  DisableCommand,
+  Permissions,
+  VerbosityLevel,
+} from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["disable"],
   description: "Temporarily disable commands",
-  usage: "!p disable <command1> [command2]... | !p disable all",
+  usage: "!p disable <command1> [command2]... | !p disable <all|most>",
   permission: Permissions.Admin,
-  alwaysEnabled: true,
+  disableCommand: DisableCommand.ForceEnabled,
 
   /**
    *
@@ -14,13 +18,19 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    if (args[0] && args[0].toLowerCase() === "all") {
+    if (args[0]?.toLowerCase() === "all") {
       bot.partyCommands.forEach((value) => {
-        if (value.alwaysEnabled) return;
+        if (value.disableCommand >= DisableCommand.ForceEnabled) return;
         value.disabled = true;
       });
       // TODO: also console log here
       bot.reply(sender, "All commands disabled!", VerbosityLevel.Reduced);
+    } else if (args[0]?.toLowerCase() === "most") {
+      bot.partyCommands.forEach((value) => {
+        if (value.disableCommand > DisableCommand.Normal) return;
+        value.disabled = true;
+      });
+      bot.reply(sender, "Most commands disabled!", VerbosityLevel.Reduced);
     } else {
       if (!args[0])
         return bot.reply(
@@ -42,7 +52,11 @@ export default {
           "One or more command(s) not found.",
           VerbosityLevel.Reduced,
         );
-      if (commands.some((cmd) => cmd.alwaysEnabled))
+      if (
+        commands.some(
+          (cmd) => cmd.disableCommand >= DisableCommand.ForceEnabled,
+        )
+      )
         return bot.reply(
           sender,
           "One or more commands can't be disabled!",
