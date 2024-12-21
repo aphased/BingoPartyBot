@@ -116,6 +116,39 @@ class Utils {
     }, 10000);
   }
 
+  /**
+   *
+   * @param {Collection} partyCommands
+   * @returns {Collection}
+   */
+  loadStoredCommandStates(partyCommands) {
+    const disabledCommands = this.generalDatabase.get("disabledCommands") ?? [];
+    partyCommands.forEach((command, key) => {
+      command.disabled = disabledCommands.includes(command.name[0]);
+      partyCommands.set(key, command);
+    });
+    return partyCommands;
+  }
+
+  /**
+   *
+   * @param {Boolean} newDisabled
+   * @param {Array<String>} commandNames
+   */
+  updateStoredCommandStates(newDisabled, commandNames) {
+    const disabledCommands = this.generalDatabase.get("disabledCommands") ?? [];
+    if (newDisabled)
+      for (const command of commandNames) {
+        if (!disabledCommands.includes(command)) disabledCommands.push(command);
+      }
+    else
+      for (const command of commandNames) {
+        if (disabledCommands.includes(command))
+          disabledCommands.splice(disabledCommands.indexOf(command), 1);
+      }
+    this.generalDatabase.set("disabledCommands", disabledCommands);
+  }
+
   async updateAllFromUUID(bot) {
     const startTimestamp = Date.now();
     this.log("Started refreshing all stored usernames from UUID...", "Info");
@@ -459,7 +492,7 @@ class Utils {
    * @param {String} [options.uuid]
    * @param {String} [options.name]
    * @param {String} [options.discord]
-   * @param {String} [options.forceHideRank]
+   * @param {Boolean} [options.forceHideRank]
    * @returns {String|null}
    */
   getPreferredUsername(options = {}) {

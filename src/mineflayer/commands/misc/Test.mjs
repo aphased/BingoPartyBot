@@ -1,10 +1,15 @@
-import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
+import {
+  DisableCommand,
+  Permissions,
+  VerbosityLevel,
+} from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["test", "testpermissions", "testperms", "testcommand", "boopme"],
   description:
     "See whether you are on the permission list, and what permissions you have",
   usage: "!p test",
+  disableCommand: DisableCommand.UsuallyKeepEnabled,
   // command can't have a permission requirement, otherwise any uuid fetching here is pointless as db permission checks would prevent it from executing in the first place
   // there still isn't any output without being in the db
 

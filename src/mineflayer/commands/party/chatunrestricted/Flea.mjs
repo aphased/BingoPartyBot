@@ -14,7 +14,7 @@ export default {
    * @param {String} sender
    * @param {Array<String>} args
    */
-  execute: async function (bot, sender, args) {
+  execute: async function (bot, sender, args, callerCommand = null) {
     // This commands produces a splash message to party chat, "BossFlea style":
     // 4 repetitions à 4 seconds apart, then a pause of 20 seconds, then a
     // final fifth one
@@ -22,15 +22,22 @@ export default {
     if (args.length < 1)
       return bot.reply(
         sender,
-        `Invalid usage! Use: ${this.usage}`,
+        `Invalid usage! Use: ${callerCommand ? callerCommand.usage : this.usage}`,
         VerbosityLevel.Reduced,
       );
 
     bot.utils
       .getCommandByAlias(bot, "repeat")
-      .execute(bot, sender, `4 4 ${args.join(" ")}`.split(" "));
+      .execute(
+        bot,
+        sender,
+        `4 4 ${args.join(" ")}`.split(" "),
+        callerCommand ?? this,
+      );
 
     await bot.utils.delay(12_000 + 20_000);
-    bot.utils.getCommandByAlias(bot, "say").execute(bot, sender, args);
+    bot.utils
+      .getCommandByAlias(bot, "say")
+      .execute(bot, sender, args, callerCommand ?? this);
   },
 };

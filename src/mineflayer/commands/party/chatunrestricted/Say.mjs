@@ -13,11 +13,11 @@ export default {
    * @param {String} sender
    * @param {Array<String>} args
    */
-  execute: async function (bot, sender, args) {
+  execute: async function (bot, sender, args, callerCommand = null) {
     if (args.length < 1) {
       bot.reply(
         sender,
-        `Invalid command usage! Use: ${this.usage}`,
+        `Invalid command usage! Use: ${callerCommand ? callerCommand.usage : this.usage}`,
         VerbosityLevel.Reduced,
       );
       return;

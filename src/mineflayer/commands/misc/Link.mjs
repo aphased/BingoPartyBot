@@ -1,4 +1,8 @@
-import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
+import {
+  DisableCommand,
+  Permissions,
+  VerbosityLevel,
+} from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["link"],
@@ -6,6 +10,7 @@ export default {
     "Link your accounts by entering a discord code obtained from '/link'",
   usage: "!p link <discord code>",
   permission: Permissions.Trusted,
+  disableCommand: DisableCommand.UsuallyKeepEnabled,
 
   /**
    *

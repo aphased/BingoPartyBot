@@ -29,6 +29,7 @@ if (config.default.debug.disableMinecraft) {
   myBot = await import("./src/mineflayer/Bot.mjs");
   myBot = myBot.default;
   myBot.setUtilClass(utils);
+  await myBot.loadCommands();
   myBot.setConfig(config.default);
 }
 
