@@ -21,6 +21,20 @@ export default {
       });
       // TODO: also console log here
       bot.reply(sender, "All commands disabled!", VerbosityLevel.Reduced);
+    } else if (args[0] && args[0].toLowerCase() === "most") {
+      // TODO: make these a config or general database value or something –
+      // and/or implement persistent disabled commands (remember values across
+      // relaunches)
+      const keepEnabled = ["cmd", "adduser", "test", "link", "help"];
+      bot.partyCommands.forEach((value) => {
+        if (value.alwaysEnabled) return;
+        if (!keepEnabled.includes(value.name[0])) value.disabled = true;
+      });
+      bot.reply(
+        sender,
+        "All but a select few commands disabled!",
+        VerbosityLevel.Reduced,
+      );
     } else {
       if (!args[0])
         return bot.reply(
