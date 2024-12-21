@@ -18,7 +18,7 @@ export default {
     let dontRepeat = false;
 
     // first arg (hub number)
-    if (!isNaN(args[0])) {
+    if (args[0] && !isNaN(args[0])) {
       const hubNumber = parseInt(args[0]);
       if (hubNumber < 1 || hubNumber > 28)
         return bot.reply(sender, "Invalid hub number!", VerbosityLevel.Reduced);
