@@ -459,7 +459,7 @@ class Utils {
    * @param {String} [options.uuid]
    * @param {String} [options.name]
    * @param {String} [options.discord]
-   * @param {String} [options.forceHideRank]
+   * @param {Boolean} [options.forceHideRank]
    * @returns {String|null}
    */
   getPreferredUsername(options = {}) {
