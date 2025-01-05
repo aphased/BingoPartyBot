@@ -394,16 +394,17 @@ class Utils {
     if (!userObj) return null;
     let db = this.playerNamesDatabase.get("data");
     if (options.onlyThis) {
+      // reset preferredAccount if it's the removed account
+      if (
+        userObj.accounts.find(
+	  (acc) => acc.name.toLowerCase() === options.name.toLowerCase(),
+	).uuid === userObj.preferredAccount
+      )
+        delete userObj.preferredAccount;
       // Only remove this account, leave other alts intact
       userObj.accounts = userObj.accounts.filter(
         (acc) => acc.name.toLowerCase() !== options.name.toLowerCase(),
       );
-      // reset preferredAccount if it's the removed account
-      if (
-        userObj.accounts.find((acc) => acc.name === options.name).uuid ===
-        userObj.preferredAccount
-      )
-        delete userObj.preferredAccount;
       db[db.indexOf(userObj)] = userObj;
     }
     // Remove the entire user
