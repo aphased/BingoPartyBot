@@ -50,6 +50,9 @@
       "!aura",
       "!rng",
       "!math",
-      "!fps"
+      "!fps",
+      "!since",
+      "!playtime",
+      "!version"
     ]
   }
