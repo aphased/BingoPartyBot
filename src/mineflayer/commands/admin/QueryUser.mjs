@@ -33,10 +33,11 @@ export default {
     const rank = Object.keys(Permissions).find(
       (perm) => Permissions[perm] === userObj.permissionRank,
     );
-    // Get name with correct capitalisation
-    const username = userObj.accounts.find(
-      (acc) => acc.name.toLowerCase() === user.toLowerCase(),
-    ).name;
+    // Get main account
+    const username = bot.utils.getPreferredUsername({
+      name: user,
+      forceHideRank: true,
+    });
     // Get user's other accounts
     const alts = userObj.accounts
       .map((acc) => acc.name)

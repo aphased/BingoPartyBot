@@ -1,4 +1,8 @@
-import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
+import {
+  Permissions,
+  VerbosityLevel,
+  WebhookMessageType,
+} from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["removeuser"],
@@ -34,12 +38,23 @@ export default {
         VerbosityLevel.Reduced,
       );
     bot.utils.removeUser({ name: user, onlyThis: only });
-    if (only)
+    if (only) {
+      bot.utils.webhookLogger.addMessage(
+        `\`${user}\` was removed from the database (without impacting their other accounts) by \`${sender.username}\`.`,
+        WebhookMessageType.ActionLog,
+        true,
+      );
       return bot.reply(
         sender,
         `Removed account ${user}, but kept other alts.`,
         VerbosityLevel.Reduced,
       );
+    }
+    bot.utils.webhookLogger.addMessage(
+      `\`${user}\` and all their other accounts were removed from the database by \`${sender.username}\`.`,
+      WebhookMessageType.ActionLog,
+      true,
+    );
     bot.reply(
       sender,
       `Removed user ${user} and all their other accounts.`,

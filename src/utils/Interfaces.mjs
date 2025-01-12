@@ -68,3 +68,9 @@ export const VerbosityLevel = Object.freeze({
   Reduced: 2, // reduce optional messages (remove most party messages, keep most dm command feedback for better ux)
   Full: 3, // all messages
 });
+
+export const DisableCommand = Object.freeze({
+  Normal: 0, // Disable command normally and using `!p disable most`
+  UsuallyKeepEnabled: 1, // Disable command only using `!p disable all`, ignore `most`
+  ForceEnabled: 2, // Never disable command (even manually)
+});

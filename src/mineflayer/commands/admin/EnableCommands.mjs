@@ -1,11 +1,15 @@
-import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
+import {
+  DisableCommand,
+  Permissions,
+  VerbosityLevel,
+} from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["enable"],
   description: "Re-enable disabled commands",
-  usage: "!p enable <command1> [command2]... | !p enable all",
+  usage: "!p enable <command1> [command2]... | !p enable <all|some>",
   permission: Permissions.Admin,
-  alwaysEnabled: true,
+  disableCommand: DisableCommand.ForceEnabled,
 
   /**
    *
@@ -14,15 +18,33 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    if (args[0] && args[0].toLowerCase() === "all") {
+    if (args[0]?.toLowerCase() === "all") {
+      let commands = [];
       bot.partyCommands.forEach((value) => {
-        if (value.alwaysEnabled) return;
         value.disabled = false;
+        commands.push(value.name[0]);
       });
+      if (bot.config.persistentDisabledCommands)
+        bot.utils.updateStoredCommandStates(false, commands);
       // TODO: also console log here
       bot.reply(
         sender,
         "All commands have been enabled!",
+        VerbosityLevel.Reduced,
+      );
+    } else if (args[0]?.toLowerCase() === "some") {
+      let commands = [];
+      bot.partyCommands.forEach((value) => {
+        if (value.disableCommand > DisableCommand.Normal) {
+          value.disabled = false;
+          commands.push(value.name[0]);
+        }
+      });
+      if (bot.config.persistentDisabledCommands)
+        bot.utils.updateStoredCommandStates(false, commands);
+      bot.reply(
+        sender,
+        "Some commands have been enabled!",
         VerbosityLevel.Reduced,
       );
     } else {
@@ -46,7 +68,11 @@ export default {
           "One or more command(s) not found.",
           VerbosityLevel.Reduced,
         );
-      if (commands.some((cmd) => cmd.alwaysEnabled))
+      if (
+        commands.some(
+          (cmd) => cmd.disableCommand >= DisableCommand.ForceEnabled,
+        )
+      )
         return bot.reply(
           sender,
           "One or more commands are always enabled!",
@@ -55,6 +81,11 @@ export default {
       commands.forEach((cmd) => {
         cmd.disabled = false;
       });
+      if (bot.config.persistentDisabledCommands)
+        bot.utils.updateStoredCommandStates(
+          false,
+          commands.map((cmd) => cmd.name[0]),
+        );
       bot.reply(sender, "Command(s) enabled!", VerbosityLevel.Reduced);
     }
   },
