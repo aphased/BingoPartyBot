@@ -116,6 +116,39 @@ class Utils {
     }, 10000);
   }
 
+  /**
+   *
+   * @param {Collection} partyCommands
+   * @returns {Collection}
+   */
+  loadStoredCommandStates(partyCommands) {
+    const disabledCommands = this.generalDatabase.get("disabledCommands") ?? [];
+    partyCommands.forEach((command, key) => {
+      command.disabled = disabledCommands.includes(command.name[0]);
+      partyCommands.set(key, command);
+    });
+    return partyCommands;
+  }
+
+  /**
+   *
+   * @param {Boolean} newDisabled
+   * @param {Array<String>} commandNames
+   */
+  updateStoredCommandStates(newDisabled, commandNames) {
+    const disabledCommands = this.generalDatabase.get("disabledCommands") ?? [];
+    if (newDisabled)
+      for (const command of commandNames) {
+        if (!disabledCommands.includes(command)) disabledCommands.push(command);
+      }
+    else
+      for (const command of commandNames) {
+        if (disabledCommands.includes(command))
+          disabledCommands.splice(disabledCommands.indexOf(command), 1);
+      }
+    this.generalDatabase.set("disabledCommands", disabledCommands);
+  }
+
   async updateAllFromUUID(bot) {
     const startTimestamp = Date.now();
     this.log("Started refreshing all stored usernames from UUID...", "Info");
@@ -361,16 +394,17 @@ class Utils {
     if (!userObj) return null;
     let db = this.playerNamesDatabase.get("data");
     if (options.onlyThis) {
+      // reset preferredAccount if it's the removed account
+      if (
+        userObj.accounts.find(
+	  (acc) => acc.name.toLowerCase() === options.name.toLowerCase(),
+	).uuid === userObj.preferredAccount
+      )
+        delete userObj.preferredAccount;
       // Only remove this account, leave other alts intact
       userObj.accounts = userObj.accounts.filter(
         (acc) => acc.name.toLowerCase() !== options.name.toLowerCase(),
       );
-      // reset preferredAccount if it's the removed account
-      if (
-        userObj.accounts.find((acc) => acc.name === options.name).uuid ===
-        userObj.preferredAccount
-      )
-        delete userObj.preferredAccount;
       db[db.indexOf(userObj)] = userObj;
     }
     // Remove the entire user
@@ -459,7 +493,7 @@ class Utils {
    * @param {String} [options.uuid]
    * @param {String} [options.name]
    * @param {String} [options.discord]
-   * @param {String} [options.forceHideRank]
+   * @param {Boolean} [options.forceHideRank]
    * @returns {String|null}
    */
   getPreferredUsername(options = {}) {

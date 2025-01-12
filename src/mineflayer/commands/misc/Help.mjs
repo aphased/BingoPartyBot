@@ -1,10 +1,15 @@
-import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
+import {
+  DisableCommand,
+  Permissions,
+  VerbosityLevel,
+} from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["help"],
   description: "Get info about available commands",
   usage: "!p help list | !p help <command>",
   permission: Permissions.HoB,
+  disableCommand: DisableCommand.UsuallyKeepEnabled,
 
   /**
    *

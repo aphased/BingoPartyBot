@@ -29,7 +29,7 @@ const options = {
     usage: true,
     permission: true,
     isPartyChatCommand: false,
-    alwaysEnabled: false,
+    disableCommand: false,
   },
 };
 

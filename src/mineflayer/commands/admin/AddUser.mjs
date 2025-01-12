@@ -1,10 +1,18 @@
-import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
+import {
+  DisableCommand,
+  Permissions,
+  VerbosityLevel,
+  WebhookMessageType,
+} from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["adduser", "user"],
-  description: "Add users to the permission list or change their permission level",
-  usage: "!p adduser <user> <(updated)permission> | !p adduser <new alt> <existing main>",
+  description:
+    "Add users to the permission list or change their permission level",
+  usage:
+    "!p adduser <user> <(updated)permission> | !p adduser <new alt> <existing main>",
   permission: Permissions.Staff,
+  disableCommand: DisableCommand.UsuallyKeepEnabled,
 
   /**
    *
@@ -48,6 +56,11 @@ export default {
         uuid: data.uuid,
         mainAccount: mainUser,
       });
+      bot.utils.webhookLogger.addMessage(
+        `\`${data.name}\` was added to the database as \`${mainUser}\`'s alt account by \`${sender.username}\`.`,
+        WebhookMessageType.ActionLog,
+        true,
+      );
       bot.reply(
         sender,
         `Added ${data.name} as ${mainUser}'s alt.`,
@@ -89,6 +102,11 @@ export default {
         const permission = Object.keys(Permissions).find(
           (perm) => Permissions[perm] === permissionRank,
         );
+        bot.utils.webhookLogger.addMessage(
+          `\`${data.name}\`'s permission rank was updated to \`${permission}\` (level: \`${permissionRank}\`) by \`${sender.username}\`.`,
+          WebhookMessageType.ActionLog,
+          true,
+        );
         return bot.reply(
           sender,
           `Updated ${data.name}'s permission to ${permission} (level: ${permissionRank})`,
@@ -102,6 +120,11 @@ export default {
       });
       const permission = Object.keys(Permissions).find(
         (perm) => Permissions[perm] === permissionRank,
+      );
+      bot.utils.webhookLogger.addMessage(
+        `\`${data.name}\` was added to the database with permission rank \`${permission}\` (level: \`${permissionRank}\`) by \`${sender.username}\`.`,
+        WebhookMessageType.ActionLog,
+        true,
       );
       return bot.reply(
         sender,

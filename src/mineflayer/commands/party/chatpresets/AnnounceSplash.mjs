@@ -16,22 +16,30 @@ export default {
   execute: async function (bot, sender, args) {
     let message;
     let dontRepeat = false;
-    if (!isNaN(args[0])) {
+
+    // first arg (hub number)
+    if (args[0] && !isNaN(args[0])) {
       const hubNumber = parseInt(args[0]);
       if (hubNumber < 1 || hubNumber > 28)
         return bot.reply(sender, "Invalid hub number!", VerbosityLevel.Reduced);
-      const match = args[1]?.match(/^(mega|mini|M|m)\d{1,4}[A-Z]{1,2}$/);
+
+      // check for and extract hub ID
+      const match = args[1]?.match(
+        /^\(?(mega|mini|M|m)(\d{1,4}[A-Za-z]{1,2})\)?$/,
+      );
       let hubID;
       // convert `M`/`m` to `mega`/`mini`
-      if (match?.[1] === "M") hubID = "mega" + match[0].slice(1);
-      else if (match?.[1] === "m") hubID = "mini" + match[0].slice(1);
-      else hubID = match?.[0];
+      if (match?.[1] === "M") hubID = "mega" + match[2].toUpperCase();
+      else if (match?.[1] === "m") hubID = "mini" + match[2].toUpperCase();
+      else if (match) hubID = match[1] + match[2].toUpperCase();
+
       message = `${sender.preferredName} is splashing in Hub ${hubNumber}${hubID ? ` (${hubID})` : ""} soon!`;
     } else if (/^\/p join \w{3,16}/.test(args.join(" "))) {
       // validate username for /p join
       let pjoinUsername = await bot.utils.usernameExists(args[2]);
       if (pjoinUsername === false)
         return bot.reply(sender, "Username not found.", VerbosityLevel.Reduced);
+
       message = `${sender.preferredName} is splashing soon! Run '/p join ${pjoinUsername}' to get warped!`;
     } else if (args[0] === "switch" && !isNaN(args[1])) {
       // announce hub has shifted
@@ -46,13 +54,14 @@ export default {
         `Invalid usage! Use: ${this.usage}`,
         VerbosityLevel.Reduced,
       );
+
     if (dontRepeat)
       bot.utils
         .getCommandByAlias(bot, "say")
-        .execute(bot, null, message.split(" "));
+        .execute(bot, sender, message.split(" "), this);
     else
       bot.utils
         .getCommandByAlias(bot, "flea")
-        .execute(bot, null, message.split(" "));
+        .execute(bot, sender, message.split(" "), this);
   },
 };
