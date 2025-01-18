@@ -6,7 +6,8 @@ import {
 
 export default {
   name: ["removeuser"],
-  description: "Remove a user or alt from the permission list",
+  description:
+    "Remove a user or a single account from the permission database.",
   usage: "!p removeuser <username> [only]",
   permission: Permissions.Staff,
 

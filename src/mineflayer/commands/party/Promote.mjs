@@ -6,7 +6,7 @@ import {
 
 export default {
   name: ["promote", "promo", "prom", "pro"],
-  description: "Promote someone else or yourself to party moderator",
+  description: "Promote a player to party moderator. Defaults to yourself.",
   usage: "!p promote [username]",
   permission: Permissions.Trusted,
 

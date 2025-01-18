@@ -6,7 +6,8 @@ import {
 
 export default {
   name: ["disable"],
-  description: "Temporarily disable commands",
+  description:
+    "Disable bot commands from being used. Note that certain commands can't be disabled.",
   usage: "!p disable <command1> [command2]... | !p disable <all|most>",
   permission: Permissions.Admin,
   disableCommand: DisableCommand.ForceEnabled,

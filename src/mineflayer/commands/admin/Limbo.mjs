@@ -1,8 +1,9 @@
 import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["limbo", "sendLimbo"],
-  description: "Manually send the bot to Limbo",
+  name: ["limbo", "sendlimbo"],
+  description:
+    "Manually send the bot to limbo. This shouldn't ever be necessary anymore.",
   usage: "!p limbo",
   permission: Permissions.Staff,
 

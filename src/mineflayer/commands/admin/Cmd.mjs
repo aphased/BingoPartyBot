@@ -6,7 +6,7 @@ import {
 
 export default {
   name: ["cmd", "execute", "exec"],
-  description: "Execute any command as the bot",
+  description: "Execute any command as the bot account.",
   usage: "!p cmd <command>",
   permission: Permissions.Owner,
   disableCommand: DisableCommand.UsuallyKeepEnabled,
