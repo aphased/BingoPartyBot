@@ -49,7 +49,7 @@ class Discord {
     console.log(`Discord bot ready! Logged in as ${bot.user.tag}`);
     this.commands = await loadDiscordCommands();
     await registerCommands(bot, Config.discordBotInfo.token, this.commands);
-    if (!this.config.debug.disableDiscordDocsUpdate)
+    if (this.config.enableDiscordDocsUpdate)
       this.updateDocChannel(
         this.config.discordBotInfo.commandDocsChannel,
         this.config.discordBotInfo.discordDocsPathRelative,

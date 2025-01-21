@@ -34,6 +34,7 @@ export default {
   verbosityMc: VerbosityLevel.Full, // verbosity level for minecraft chat messages
   usernameRefreshInterval: 2 * 60 * 60 * 1000, // in milliseconds, default is 2h (2 * 60 * 60 * 1000ms)
   persistentDisabledCommands: true, // store disabled commands in `generalDatabase.json`, persistent across restarts
+  enableDiscordDocsUpdate: true, // whether to automatically update the discord documentation channel on bot startup
   debug: {
     // IF YOU DONT KNOW WHAT YOU ARE DOING DO NOT TOUCH THIS. THIS IS MADE FOR DEVELOPERS TO DEBUG THE BOT ONLY
     general: true,
@@ -41,6 +42,5 @@ export default {
     disableDiscord: false,
     disableAutoLimbo: false,
     disableUsernameRefresh: false,
-    disableDiscordDocsUpdate: false,
   },
 };
