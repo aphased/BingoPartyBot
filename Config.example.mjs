@@ -23,11 +23,11 @@ export default {
   discordBotInfo: {
     token: "", // Add discord bot token here (or leave empty for operation without bot)
     guideChannel: "", // ID for the channel which has bingo guide links
-    commandDocsChannel: "", // ID of the documentation channel
+    commandDocumentationChannels: [], // array of documentation channel IDs
     discordDocsPathRelative: path.join(
       import.meta.dirname,
       "./scripts/commandDocumentation/COMMANDS-DISCORD.md",
-    ), // Local path where the bot should look for new discord documentation to upload
+    ), // Local path where the bot should look for new discord documentation to post
   },
   guideLink: "", // I advise you to keep this empty, and just use discord commands to set the guide link or the guide channel.
   showMcChat: true,

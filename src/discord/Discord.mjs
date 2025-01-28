@@ -50,10 +50,13 @@ class Discord {
     this.commands = await loadDiscordCommands();
     await registerCommands(bot, Config.discordBotInfo.token, this.commands);
     if (this.config.enableDiscordDocsUpdate)
-      this.updateDocChannel(
-        this.config.discordBotInfo.commandDocsChannel,
-        this.config.discordBotInfo.discordDocsPathRelative,
-      );
+      for (const channelID of this.config.discordBotInfo
+        .commandDocumentationChannels) {
+        await this.updateDocChannel(
+          channelID,
+          this.config.discordBotInfo.discordDocsPathRelative,
+        );
+      }
   }
 
   async interactionCreate(interaction) {
@@ -116,7 +119,7 @@ class Discord {
   }
 
   async updateDocChannel(channelId, newDocsPath) {
-    if (!channelId) return 1;
+    if (!/^\d+$/.test(channelId)) return 1;
     const channel = await this.bot.channels.fetch(channelId);
     if (!channel || !channel.isTextBased()) return 1;
     if (!newDocsPath) return 2;
@@ -125,7 +128,7 @@ class Discord {
       newDocs = (await fs.readFile(newDocsPath, "utf-8")).trim();
     } catch (err) {
       console.warn(
-        "Unable to load discord documentation file from specified path.",
+        `\`${channelId}\`: Unable to load discord documentation file from specified path.`,
       );
       console.log(err);
       return 3;
@@ -134,7 +137,7 @@ class Discord {
     // warn about high number of messages
     if (messages.size === 10) {
       console.warn(
-        "Discord documentation channel contains >=10 messages, make sure it is the correct channel!",
+        `\`${channelId}\`: Discord documentation channel contains >=10 messages, make sure it is the correct channel!`,
       );
       return 4;
     }
@@ -145,14 +148,18 @@ class Discord {
       .join("\n");
     // no update needed
     if (currentMessagesContent === newDocs) {
-      console.log("Discord documentation is already up-to-date.");
+      console.log(
+        `\`${channelId}\`: Discord documentation is already up-to-date.`,
+      );
       return -1;
     }
     await channel.bulkDelete(messages);
     // split into multiple messages if necessary, preferrably splitting at new line
     const messageChunks = this.utils.splitMessage(newDocs, 2000, "\n");
     for (const chunk of messageChunks) await channel.send(chunk);
-    console.log("Successfully updated discord documentation.");
+    console.log(
+      `\`${channelId}\`: Successfully updated discord documentation.`,
+    );
     return 0;
   }
 }

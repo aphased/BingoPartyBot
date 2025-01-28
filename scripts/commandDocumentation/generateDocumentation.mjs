@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 
 async function generateDocumentation(
   options,
@@ -20,7 +20,7 @@ async function generateDocumentation(
   );
   if (Object.keys(markerIndices).length < 1) {
     console.error(
-      "No marker comments were found in the current README.md file! Please add them and re-run this script.",
+      "No marker comments were found in the current documentation file! Please add them and re-run this script.",
     );
     return;
   }
@@ -73,7 +73,7 @@ async function fetchTemplate(currentReadme) {
   if (currentReadme.isURL)
     try {
       // fetch file using an HTTP request
-      const axios = await import("axios");
+      const axios = (await import("axios")).default;
       return (await axios.get(currentReadme.value)).data.split("\n");
     } catch (err) {
       if (err.code === "ERR_MODULE_NOT_FOUND")
@@ -91,7 +91,7 @@ async function fetchTemplate(currentReadme) {
           path.join(import.meta.dirname, currentReadme.value),
           "utf-8",
         )
-      ).split("\n");
+      ).split(/\r?\n/);
     } catch (err) {
       if (err.code === "ENOENT")
         console.error("Template file doesn't exist at specified path.");
@@ -170,7 +170,7 @@ async function traverseDirectoryRecursive(dirPath) {
       let fileData;
       try {
         // import command file
-        fileData = (await import(fullPath)).default;
+        fileData = (await import(pathToFileURL(fullPath))).default;
       } catch {
         console.warn(
           `Something went wrong while importing a command file: '${fullPath}'. Skipping...`,
@@ -350,6 +350,7 @@ async function formatMarkdown(mdDocument) {
 }
 
 async function saveFile(data, filePath) {
+  if (!data) return;
   if (!filePath)
     return console.error(
       "Output path not defined! Please configure a path and re-run.",
