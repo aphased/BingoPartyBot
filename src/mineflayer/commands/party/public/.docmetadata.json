@@ -1,0 +1,4 @@
+{
+    "title": "Public commands",
+    "description": "These commands are publicly usable by sending them directly into the party chat. Use them by running `/pc <command>`."
+}

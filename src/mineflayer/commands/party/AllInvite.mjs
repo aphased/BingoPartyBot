@@ -2,7 +2,7 @@ import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["allinvite", "allinv", "ai"],
-  description: "Toggle the allinvite party setting",
+  description: "Toggle the ability for anyone to invite people.",
   usage: "!p allinvite",
   permission: Permissions.Trusted,
 

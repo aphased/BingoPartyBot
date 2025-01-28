@@ -2,7 +2,8 @@ import { Permissions, VerbosityLevel } from "../../../../utils/Interfaces.mjs";
 
 export default {
   name: ["splash", "hub", "announcesplash", "announce"],
-  description: "Announce a splash in party chat",
+  description:
+    "Announce a splash in party chat. The bot will send the announcement several times.",
   usage:
     "!p splash <hub number> [hub id] | !p splash /p join <username> | !p splash switch <new hub>",
   permission: Permissions.Trusted,

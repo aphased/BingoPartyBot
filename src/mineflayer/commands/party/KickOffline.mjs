@@ -1,8 +1,8 @@
 import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
-  name: ["kickoffline", "kickafk", "ko", "ka"],
-  description: "Kick offline players from the party",
+  name: ["kickoffline", "ko", "kickafk", "ka"],
+  description: "Kick all offline players from the party.",
   usage: "!p kickoffline",
   permission: Permissions.HoB,
 

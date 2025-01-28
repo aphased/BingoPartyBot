@@ -6,7 +6,7 @@ import {
 
 export default {
   name: ["kick", "remove"],
-  description: "Kick someone from the party",
+  description: "Kick a player from the party.",
   usage: "!p kick <username>",
   permission: Permissions.Trusted,
 

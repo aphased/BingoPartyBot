@@ -6,7 +6,7 @@ import {
 
 export default {
   name: ["unban", "unblock"],
-  description: "Unban a player from the party",
+  description: "Unblock a player (`/block remove`).",
   usage: "!p unban <username>",
   permission: Permissions.Trusted,
 

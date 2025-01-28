@@ -6,7 +6,7 @@ import {
 
 export default {
   name: ["listdisabled", "disabled", "lsdisabled", "lsoff"],
-  description: "List currently disabled commands",
+  description: "List all currently disabled commands.",
   usage: "!p listdisabled",
   permission: Permissions.Admin,
   disableCommand: DisableCommand.ForceEnabled,

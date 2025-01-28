@@ -2,7 +2,7 @@ import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["disband"],
-  description: "Disband the party after a 10 second delay",
+  description: "Disband the party after a 10 second delay. Avoid using this.",
   usage: "!p disband [reason]",
   permission: Permissions.Admin,
 

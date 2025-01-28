@@ -6,7 +6,8 @@ import {
 
 export default {
   name: ["setverbosity", "verbosity"],
-  description: "Set the bot's verbosity level for in-game message output",
+  description:
+    "Set the verbosity setting, which can reduce unnecessary chat output.",
   usage: "!p setverbosity <verbosity level> [confirm]",
   permission: Permissions.Owner,
 

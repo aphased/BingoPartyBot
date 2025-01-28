@@ -2,7 +2,7 @@ import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["open", "public", "stream"],
-  description: "(Re-)Opens the party to the public",
+  description: "(Re-)Open the party up to the public (`/stream open`).",
   usage: "!p open [size]",
   permission: Permissions.Trusted,
 

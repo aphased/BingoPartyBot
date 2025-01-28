@@ -11,6 +11,10 @@ data/playerNames.json
 # However, explicitly do not ignore "canonical" allowlist database:
 !data/backup-PlayerNames.json
 
+# Ignore documentation script output
+scripts/commandDocumentation/COMMANDS-README.md
+scripts/commandDocumentation/COMMANDS-DISCORD.md
+
 # Ignore legacy stuff & OS files
 old/*
 data/playerNamesUpdated*.json

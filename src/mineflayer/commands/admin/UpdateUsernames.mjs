@@ -2,7 +2,8 @@ import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["updatenames", "refreshnames"],
-  description: "Manually trigger a database username refresh from UUIDs",
+  description:
+    "Manually trigger a refresh of all usernames from their UUID using Mojang's API. This is scheduled automatically.",
   usage: "!p updatenames [confirm]",
   permission: Permissions.Owner,
 

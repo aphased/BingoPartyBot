@@ -2,8 +2,7 @@ import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["query", "getuser", "queryuser"],
-  description:
-    "See whether a user is on the permission list, and what permissions they have",
+  description: "Check another person's permission rank.",
   usage: "!p query <username>",
   permission: Permissions.Trusted,
   // TODO: One day this will also have ban info? maybe?

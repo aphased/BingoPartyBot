@@ -3,7 +3,7 @@ import { Permissions, VerbosityLevel } from "../../../../utils/Interfaces.mjs";
 export default {
   name: ["flea", "bossflea", "bf"],
   description:
-    "Automatically repeat your chat message in party chat with alternative default values",
+    "Repeat any message in party chat with predefined parameters. Restricted due to allowing arbitrary messages.",
   usage: "!p flea <message>",
   permission: Permissions.Staff,
   // Command allows arbitrary chat output!

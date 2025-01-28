@@ -2,7 +2,7 @@ import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["reload", "reloadcommands", "load"],
-  description: "Reload all commands from file",
+  description: "Reload all commands from their file.",
   usage: "!p reload",
   permission: Permissions.Owner,
 

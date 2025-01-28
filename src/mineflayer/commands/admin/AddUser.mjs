@@ -8,7 +8,7 @@ import {
 export default {
   name: ["adduser", "user"],
   description:
-    "Add users to the permission list or change their permission level",
+    "Add a new user or alt account to the permission database or modify an existing user's permission level.",
   usage:
     "!p adduser <user> <(updated)permission> | !p adduser <new alt> <existing main>",
   permission: Permissions.Staff,
