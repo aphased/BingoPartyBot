@@ -53,6 +53,9 @@
       "!fps",
       "!since",
       "!playtime",
-      "!version"
+      "!version",
+      "!time",
+      "?time",
+      ".cata"
     ]
   }
