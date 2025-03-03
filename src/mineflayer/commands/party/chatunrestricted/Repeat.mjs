@@ -14,7 +14,13 @@ export default {
    * @param {String} sender
    * @param {Array<String>} args
    */
-  execute: async function (bot, sender, args, callerCommand = null) {
+  execute: async function (
+    bot,
+    sender,
+    args,
+    callerCommand = null,
+    includePrefix = true,
+  ) {
     let repetitions = parseInt(args[0]);
     let duration = parseFloat(args[1]);
     let startIndex = 2;
@@ -40,7 +46,13 @@ export default {
     for (let i = 0; i < repetitions; i++) {
       bot.utils
         .getCommandByAlias(bot, "say")
-        .execute(bot, sender, args.slice(startIndex), callerCommand ?? this);
+        .execute(
+          bot,
+          sender,
+          args.slice(startIndex),
+          callerCommand ?? this,
+          includePrefix,
+        );
       await bot.utils.delay(duration * 1000);
     }
   },

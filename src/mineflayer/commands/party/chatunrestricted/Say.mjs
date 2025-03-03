@@ -13,7 +13,13 @@ export default {
    * @param {String} sender
    * @param {Array<String>} args
    */
-  execute: async function (bot, sender, args, callerCommand = null) {
+  execute: async function (
+    bot,
+    sender,
+    args,
+    callerCommand = null,
+    includePrefix = true,
+  ) {
     if (args.length < 1) {
       bot.reply(
         sender,
@@ -23,7 +29,7 @@ export default {
       return;
     }
     bot.chat(
-      `/pc ${sender?.preferredName ? `${sender.preferredName}: ` : ""}${args.join(" ")}`,
+      `/pc ${sender?.preferredName && includePrefix ? `${sender.preferredName}: ` : ""}${args.join(" ")}`,
       VerbosityLevel.Minimal,
     );
   },
