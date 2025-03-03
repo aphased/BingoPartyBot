@@ -20,7 +20,7 @@ export default {
     bot,
     sender,
     args,
-    internalOptions = { callerCommand: null, includePrefix: true },
+    internalOptions = { callerCommand: this, includePrefix: true },
   ) {
     let repetitions = parseInt(args[0]);
     let duration = parseFloat(args[1]);
@@ -40,7 +40,7 @@ export default {
     if (args.length < 1 + startIndex)
       return bot.reply(
         sender,
-        `Invalid command usage! Use: ${internalOptions?.callerCommand?.usage ?? this.usage}`,
+        `Invalid command usage! Use: ${internalOptions?.callerCommand?.usage}`,
         VerbosityLevel.Reduced,
       );
 

@@ -19,12 +19,12 @@ export default {
     bot,
     sender,
     args,
-    internalOptions = { callerCommand: null, includePrefix: true },
+    internalOptions = { callerCommand: this, includePrefix: true },
   ) {
     if (args.length < 1) {
       bot.reply(
         sender,
-        `Invalid command usage! Use: ${internalOptions?.callerCommand?.usage ?? this.usage}`,
+        `Invalid command usage! Use: ${internalOptions?.callerCommand?.usage}`,
         VerbosityLevel.Reduced,
       );
       return;
