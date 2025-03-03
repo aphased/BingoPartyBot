@@ -20,7 +20,7 @@ export default {
     bot,
     sender,
     args,
-    internalOptions = { callerCommand: null, includePrefix: true },
+    internalOptions = { callerCommand: this, includePrefix: true },
   ) {
     // This commands produces a splash message to party chat, "BossFlea style":
     // 4 repetitions à 4 seconds apart, then a pause of 20 seconds, then a
@@ -29,7 +29,7 @@ export default {
     if (args.length < 1)
       return bot.reply(
         sender,
-        `Invalid command usage! Use: ${internalOptions?.callerCommand?.usage ?? this.usage}`,
+        `Invalid command usage! Use: ${internalOptions?.callerCommand?.usage}`,
         VerbosityLevel.Reduced,
       );
 
