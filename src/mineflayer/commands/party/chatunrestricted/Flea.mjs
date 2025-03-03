@@ -13,13 +13,14 @@ export default {
    * @param {import("../../../Bot.mjs").default} bot
    * @param {String} sender
    * @param {Array<String>} args
+   * @param {import("../../EXAMPLECOMMAND.mjs").default} internalOptions.callerCommand
+   * @param {Boolean} internalOptions.includePrefix
    */
   execute: async function (
     bot,
     sender,
     args,
-    callerCommand = null,
-    includePrefix = true,
+    internalOptions = { callerCommand: null, includePrefix: true },
   ) {
     // This commands produces a splash message to party chat, "BossFlea style":
     // 4 repetitions à 4 seconds apart, then a pause of 20 seconds, then a
@@ -28,7 +29,7 @@ export default {
     if (args.length < 1)
       return bot.reply(
         sender,
-        `Invalid usage! Use: ${callerCommand ? callerCommand.usage : this.usage}`,
+        `Invalid command usage! Use: ${internalOptions?.callerCommand?.usage ?? this.usage}`,
         VerbosityLevel.Reduced,
       );
 
@@ -38,13 +39,12 @@ export default {
         bot,
         sender,
         `4 4 ${args.join(" ")}`.split(" "),
-        callerCommand ?? this,
-        includePrefix,
+        internalOptions,
       );
 
     await bot.utils.delay(12_000 + 20_000);
     bot.utils
       .getCommandByAlias(bot, "say")
-      .execute(bot, sender, args, callerCommand ?? this, includePrefix);
+      .execute(bot, sender, args, internalOptions);
   },
 };

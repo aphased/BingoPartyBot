@@ -15,8 +15,14 @@ export default {
    * @param {import("../../Bot.mjs").default} bot
    * @param {String} sender
    * @param {Array<String>} args
+   * @param {Boolean} internalOptions.isPublicCommand
    */
-  execute: async function (bot, sender, args, isPublicCommand = false) {
+  execute: async function (
+    bot,
+    sender,
+    args,
+    internalOptions = { isPublicCommand: false },
+  ) {
     const currentTime = Date.now();
 
     if (currentTime - lastGuideSentTime < COOLDOWN_DURATION) {
@@ -30,7 +36,7 @@ export default {
         "Not posting guide again. (<30s passed since last share message)",
         "Info",
       );
-      if (!isPublicCommand) {
+      if (!internalOptions.isPublicCommand) {
         bot.reply(
           sender,
           `Guide command is on cooldown!`,
@@ -55,7 +61,7 @@ export default {
     if (!guide.link) {
       // Prevent _ever_ outputting empty "Party > [MVP++] BingoParty: Guide: "
       bot.utils.log("Absolutely no guide available!", "Warn");
-      if (!isPublicCommand) {
+      if (!internalOptions.isPublicCommand) {
         // `Permissions.BotAccount === Permissions.Owner`, so the bot has to be filtered out first
         // Then take the first remaining user, as only one owner is expected
         const botAccountOwner = bot.utils.getPreferredUsername({
