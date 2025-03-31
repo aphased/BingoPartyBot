@@ -12,18 +12,25 @@ export default {
    * @param {import("../../../Bot.mjs").default} bot
    * @param {String} sender
    * @param {Array<String>} args
+   * @param {import("../../EXAMPLECOMMAND.mjs").default} internalOptions.callerCommand
+   * @param {Boolean} internalOptions.includePrefix
    */
-  execute: async function (bot, sender, args, callerCommand = null) {
+  execute: async function (
+    bot,
+    sender,
+    args,
+    internalOptions = { callerCommand: this, includePrefix: true },
+  ) {
     if (args.length < 1) {
       bot.reply(
         sender,
-        `Invalid command usage! Use: ${callerCommand ? callerCommand.usage : this.usage}`,
+        `Invalid command usage! Use: ${internalOptions?.callerCommand?.usage}`,
         VerbosityLevel.Reduced,
       );
       return;
     }
     bot.chat(
-      `/pc ${sender?.preferredName ? `${sender.preferredName}: ` : ""}${args.join(" ")}`,
+      `/pc ${sender?.preferredName && internalOptions.includePrefix ? `${sender.preferredName}: ` : ""}${args.join(" ")}`,
       VerbosityLevel.Minimal,
     );
   },

@@ -2,7 +2,8 @@ import { Permissions } from "../../../../utils/Interfaces.mjs";
 
 export default {
   name: ["!guide", "!gd"],
-  description: "Send this month's bingo guide link in party chat (public command)",
+  description:
+    "Send this month's bingo guide link in party chat (public command)",
   usage: "!guide",
   isPartyChatCommand: true,
 
@@ -13,6 +14,8 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    bot.utils.getCommandByAlias(bot, "guide").execute(bot, sender, args, true);
+    bot.utils
+      .getCommandByAlias(bot, "guide")
+      .execute(bot, sender, args, { isPublicCommand: true });
   },
 };
