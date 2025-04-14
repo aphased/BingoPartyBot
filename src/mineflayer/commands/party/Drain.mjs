@@ -2,7 +2,7 @@ import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["drain", "empty"],
-  description: "Empty the party after a 10 second delay",
+  description: "Drain the party after a 10 second delay. Avoid using this.",
   usage: "!p drain [reason]",
   permission: Permissions.Admin,
 

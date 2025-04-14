@@ -3,7 +3,7 @@ import { Permissions, VerbosityLevel } from "../../../../utils/Interfaces.mjs";
 export default {
   name: ["repeat", "rep", "customrepeat", "crep", "customrep"],
   description:
-    "Automatically repeat your chat message in party chat with optional custom values",
+    "Repeat any message in party chat multiple times. Restricted due to allowing arbitrary messages.",
   usage: "!p repeat [repetitions] [delay] <message>",
   permission: Permissions.Staff,
   // Command allows arbitrary chat output!

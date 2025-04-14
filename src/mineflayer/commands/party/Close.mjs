@@ -2,7 +2,7 @@ import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["close", "private"],
-  description: "Close the party to the public",
+  description: "Close the party to the public (`/stream close`).",
   usage: "!p close [reason]",
   permission: Permissions.Staff,
 

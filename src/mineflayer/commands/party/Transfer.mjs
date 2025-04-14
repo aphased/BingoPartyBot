@@ -6,7 +6,7 @@ import {
 
 export default {
   name: ["transfer"],
-  description: "Transfer the party to someone else",
+  description: "Transfer the party to someone else. Avoid using this.",
   usage: "!p transfer <username>",
   permission: Permissions.Trusted,
 
