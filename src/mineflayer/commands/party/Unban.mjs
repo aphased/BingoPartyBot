@@ -51,8 +51,18 @@ export default {
         );
       }
     }
-    
+
     bot.reply(sender, `Trying to unban ${player}...`, VerbosityLevel.Reduced);
+    
+    if (!registry.isBanned(username)) {
+      return bot.reply(sender, `${username} is not currently banned.`, VerbosityLevel.Reduced);
+    } else {
+      const remaining = getRemainingDuration(registry, player);
+      if (remaining && remaining !== "ban has expired") {
+        registry.removeBan(username);
+        return bot.reply(sender, `${username}'s ban has been reduced from ${remaining} to unbanned.`, VerbosityLevel.Reduced);
+      }
+    }
     
     await bot.utils.delay(bot.utils.minMsgDelay);
     bot.chat(`/lobby`);
