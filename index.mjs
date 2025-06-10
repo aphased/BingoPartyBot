@@ -42,7 +42,9 @@ if (config.default.debug.disableDiscord) {
   discordBot.setUtils(utils);
   discordBot.setConfig(config.default);
 }
+
 refreshConfig();
+refreshBanRegistry();
 
 // Used to refresh allowList every 10 seconds
 function refreshConfig() {
@@ -59,6 +61,23 @@ function refreshConfig() {
       console.error("Error updating allowlist:", error);
     }
   }, 10000);
+}
+
+// Used to refresh banRegistry every 60 seconds
+function refreshBanRegistry() {
+  setInterval(async () => {
+    try {
+      const now = Date.now();
+      for (const [username, banData] of Object.entries(registry.bans)) {
+        if (banData.banEnd !== Infinity && banData.banEnd.getTime() <= now) {
+          delete registry.bans[username];
+          console.log(`Ban for ${username} has expired and was removed.`);
+        }
+      }
+    } catch (error) {
+      console.error("Error refreshing ban registry:", error);
+    }
+  }, 60000);
 }
 
 process.stdin.on("data", dataInput);
