@@ -4,10 +4,14 @@ import {
   WebhookMessageType,
 } from "../../../utils/Interfaces.mjs";
 
+import { BanRegistry } from "../../../utils/Utils.mjs";
+
+const registry = new BanRegistry();
+
 export default {
   name: ["ban", "block"],
-  description: "Ban a player from joining the party",
-  usage: "!p ban <username> [reason]",
+  description: "Ban a player from joining the party, permanently or temporarily (durations in m, d, h, min)",
+  usage: "!p ban <username> [duration] [reason]",
   permission: Permissions.Trusted,
 
   /**
@@ -25,7 +29,18 @@ export default {
     if (playerExists === false) {
       return bot.reply(sender, `Player ${player} not found`, VerbosityLevel.Reduced);
     }
-    const reason = args.slice(1).join(" ") || "No reason given.";
+    
+    let duration, reason;
+    if (args.length > 2) {
+      duration = args[1];
+      reason = args.slice(2).join(" ");
+    } else if (args.length === 2) {
+      duration = 2592000000;
+      reason = args[1];
+    } else {
+      duration = 2590002000;
+      reason = "No reason given.";
+    }
       
     if (!bot.utils.isHigherRanked(sender.username, player)) {
       const senderPermsRank = bot.utils.getPermissionsByUser({ name: sender.username });
@@ -51,8 +66,24 @@ export default {
         );
       }
     }
-    
+
     bot.reply(sender, `Trying to ban ${player}...`, VerbosityLevel.Reduced);
+    
+    const remaining = getRemainingBanDuration(registry, player);
+    if (remaining && remaining !== "ban has expired") {
+      return bot.reply(sender, `This player is already banned, unban in ${remaining}.`, VerbosityLevel.Reduced);
+    } else if (remaining === "permanent ban") {
+      return bot.reply(sender, `This player is already banned permanently.`, VerbosityLevel.Reduced);
+    }
+
+    const durationMillis = duration === 2592000000 ? 2592000000 : parseDuration(duration);
+    
+    if (durationMillis === null) {
+      return bot.reply(sender, `Could not parse the duration (${durationInput}). Please try again or use \`!p ban help\` for help.`, VerbosityLevel.Reduced);
+    }
+
+    const banEndTimestamp = new Date(Date.now() + durationMillis);
+    registry.addBan(player, banEndTimestamp);
     
     await bot.utils.delay(bot.utils.minMsgDelay);
     bot.chat(`/lobby`);
