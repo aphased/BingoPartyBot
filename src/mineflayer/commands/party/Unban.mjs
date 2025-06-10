@@ -36,11 +36,20 @@ export default {
       const playerPerms = Object.keys(Permissions).find(
         (perm) => Permissions[perm] === playerPermsRank,
       );
-      return bot.reply(
-        sender,
-        `You cannot unban a player of a higher permission level than yourself (your rank: ${senderPerms} (level: ${senderPermsRank}), their rank: ${playerPerms} (level: ${playerPerms}).`,
-        VerbosityLevel.Reduced,
-      );
+      if (senderPerms === undefined) return;
+      else if (senderPermsRank === playerPermsRank) {
+        return bot.reply(
+          sender,
+          `You cannot unban a player of the same permission level (both: ${senderPerms}).`,
+          VerbosityLevel.Reduced,
+        );
+      } else {
+        return bot.reply(
+          sender,
+          `You cannot unban a player of a higher permission level than yourself (your rank: ${senderPerms} (level: ${senderPermsRank}), their rank: ${playerPerms} (level: ${playerPermsRank})).`,
+          VerbosityLevel.Reduced,
+        );
+      }
     }
     
     bot.reply(sender, `Trying to unban ${player}...`, VerbosityLevel.Reduced);
