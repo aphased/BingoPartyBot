@@ -16,6 +16,7 @@ class Utils {
     this.refreshKickList(); // Turn on kickList refreshing
     this.rulesList = rulesList; // Set rulesList
     this.refreshRulesList(); // Turn on rulesList refreshing
+    this.banRegistry(); // Set banRegistry
     this.link = new Link(); // Set Link class
     this.discordReply = new DiscordReply(); // Set DiscordReply class
     this.webhookLogger = new WebhookLogger(); // Set WebhookLogger class
@@ -860,6 +861,83 @@ class Debug {
     if (this.debug) {
       logger.debug(message);
     }
+  }
+}
+
+class BanRegistry {
+  constructor() {
+    this.bans = {};
+  }
+
+  /**
+   * Adds or updates a ban entry for a user.
+   * @param {string} username - The user's name.
+   * @param {Date|number} banEnd - The ban end as a Date object or timestamp (ms).
+   */
+  addBan(username, banEnd) {
+    this.bans[username] = {
+      banStart: new Date(),
+      banEnd: banEnd instanceof Date ? banEnd : new Date(banEnd),
+    };
+  }
+
+  removeBan(username) {
+    delete this.bans[username];
+  }
+
+  isBanned(username) {
+    return !!this.bans[username];
+  }
+
+  parseDuration(input) {
+    if (typeof input !== "string") return null;
+
+    const regex = /^(?:(\d+)\s*m(?!.*m))?(?:(\d+)\s*d(?!.*d))?(?:(\d+)\s*h(?!.*h))?(?:(\d+)\s*min(?!.*min))?$/gi;
+    let match;
+    let totalMillis = 0;
+
+    while ((match = regex.exec(input)) !== null) {
+      const value = parseInt(match[1]);
+      const unit = match[2].toLowerCase();
+  
+      switch (unit) {
+        case "d":
+          totalMs += value * 24 * 60 * 60 * 1000;
+          break;
+        case "h":
+          totalMs += value * 60 * 60 * 1000;
+          break;
+        case "m":
+        case "min":
+          totalMs += value * 60 * 1000;
+          break;
+      }
+    }
+    return totalMs || null;
+  }
+  
+  getRemainingBanDuration(registry, username) {
+    const banData = registry.bans[username];
+    if (!banData) return null;
+  
+    if (banData.banEnd === Infinity) return "permanent ban";
+  
+    const now = Date.now();
+    const diffMillis = banData.banEnd.getTime() - now;
+    if (diffMillis <= 0) return "ban has expired";
+  
+    const seconds = Math.floor(diffMillis / 1000) % 60;
+    const minutes = Math.floor(diffMillis / (1000 * 60)) % 60;
+    const hours = Math.floor(diffMillis / (1000 * 60 * 60)) % 24;
+    const days = Math.floor(diffMillis / (1000 * 60 * 60 * 24));
+  
+    let parts = [];
+    if (days) parts.push(`${days} day${days !== 1 ? "s" : ""}`);
+    if (hours) parts.push(`${hours} hour${hours !== 1 ? "s" : ""}`);
+    if (minutes) parts.push(`${minutes} minute${minutes !== 1 ? "s" : ""}`);
+    if (seconds) parts.push(`${seconds} second${seconds !== 1 ? "s" : ""}`);
+  
+    return parts.length ? parts.join(", ") : "less than a second";
   }
 }
 
