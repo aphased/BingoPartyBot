@@ -58,10 +58,16 @@ export default {
     if (dontRepeat)
       bot.utils
         .getCommandByAlias(bot, "say")
-        .execute(bot, sender, message.split(" "), this);
+        .execute(bot, sender, message.split(" "), {
+          callerCommand: this,
+          includePrefix: false,
+        });
     else
       bot.utils
         .getCommandByAlias(bot, "flea")
-        .execute(bot, sender, message.split(" "), this);
+        .execute(bot, sender, message.split(" "), {
+          callerCommand: this,
+          includePrefix: false,
+        });
   },
 };

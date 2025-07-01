@@ -13,8 +13,15 @@ export default {
    * @param {import("../../../Bot.mjs").default} bot
    * @param {String} sender
    * @param {Array<String>} args
+   * @param {import("../../EXAMPLECOMMAND.mjs").default} internalOptions.callerCommand
+   * @param {Boolean} internalOptions.includePrefix
    */
-  execute: async function (bot, sender, args, callerCommand = null) {
+  execute: async function (
+    bot,
+    sender,
+    args,
+    internalOptions = { callerCommand: this, includePrefix: true },
+  ) {
     let repetitions = parseInt(args[0]);
     let duration = parseFloat(args[1]);
     let startIndex = 2;
@@ -33,14 +40,14 @@ export default {
     if (args.length < 1 + startIndex)
       return bot.reply(
         sender,
-        `Invalid command usage! Use: ${callerCommand ? callerCommand.usage : this.usage}`,
+        `Invalid command usage! Use: ${internalOptions?.callerCommand?.usage}`,
         VerbosityLevel.Reduced,
       );
 
     for (let i = 0; i < repetitions; i++) {
       bot.utils
         .getCommandByAlias(bot, "say")
-        .execute(bot, sender, args.slice(startIndex), callerCommand ?? this);
+        .execute(bot, sender, args.slice(startIndex), internalOptions);
       await bot.utils.delay(duration * 1000);
     }
   },
