@@ -3,7 +3,7 @@ import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 export default {
   name: ["hiderank", "hr", "togglerank"],
   description:
-    "Toggle whether the bot should include your hypixel rank in message output.",
+    "Toggle whether the bot should include your Hypixel rank in message output.",
   usage: "!p hiderank [true|false]",
   permission: Permissions.Splasher,
 
