@@ -14,6 +14,8 @@ export default {
    * @param {Array<String>} args
    */
   execute: async function (bot, sender, args) {
-    bot.utils.getCommandByAlias(bot, "guide").execute(bot, sender, args, true);
+    bot.utils
+      .getCommandByAlias(bot, "guide")
+      .execute(bot, sender, args, { isPublicCommand: true });
   },
 };
