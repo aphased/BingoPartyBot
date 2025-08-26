@@ -6,7 +6,7 @@ const COOLDOWN_DURATION = 5_000;
 
 export default {
   name: ["rule"],
-  description: "Send a BingoBrewers rule in party chat",
+  description: "Send a BingoBrewers rule in party chat.",
   usage: "!p rule [number]",
   permission: Permissions.ExSplasher,
 

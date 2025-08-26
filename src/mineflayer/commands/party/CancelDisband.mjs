@@ -2,7 +2,7 @@ import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["canceldisband", "cdisband", "disbandcancel"],
-  description: "Abort a party disband during the 10 second delay",
+  description: "Abort a party disband within the 10 second grace period.",
   usage: "!p canceldisband",
   permission: Permissions.Admin,
 

@@ -2,7 +2,7 @@ import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["invite", "inv"],
-  description: "Invite someone else or yourself to the party",
+  description: "Invite someone to the party. Defaults to yourself.",
   usage: "!p invite [username]",
   permission: Permissions.HoB,
 

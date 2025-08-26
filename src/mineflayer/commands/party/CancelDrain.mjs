@@ -2,7 +2,7 @@ import { Permissions, VerbosityLevel } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["canceldrain", "cdrain", "draincancel"],
-  description: "Abort a party drain during the 10 second delay",
+  description: "Abort a party drain within the 10 second grace period.",
   usage: "!p canceldrain",
   permission: Permissions.Admin,
 

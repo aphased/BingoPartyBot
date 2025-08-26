@@ -6,7 +6,7 @@ import {
 
 export default {
   name: ["enable"],
-  description: "Re-enable disabled commands",
+  description: "Re-enable previously disabled commands.",
   usage: "!p enable <command1> [command2]... | !p enable <all|some>",
   permission: Permissions.Admin,
   disableCommand: DisableCommand.ForceEnabled,

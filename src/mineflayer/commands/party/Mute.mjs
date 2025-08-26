@@ -2,7 +2,7 @@ import { Permissions, WebhookMessageType } from "../../../utils/Interfaces.mjs";
 
 export default {
   name: ["mute", "unmute"],
-  description: "Mute/Unmute the party",
+  description: "Mute/Unmute the party.",
   usage: "!p mute",
   permission: Permissions.Trusted,
 

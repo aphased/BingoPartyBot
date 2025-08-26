@@ -6,7 +6,8 @@ import {
 
 export default {
   name: ["help"],
-  description: "Get info about available commands",
+  description:
+    "Get information about a specific command, including description, usage and aliases.",
   usage: "!p help list | !p help <command>",
   permission: Permissions.HoB,
   disableCommand: DisableCommand.UsuallyKeepEnabled,

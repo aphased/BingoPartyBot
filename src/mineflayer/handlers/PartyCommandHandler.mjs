@@ -20,7 +20,7 @@ async function readDirectoryRecursive(dir) {
     const filePath = path.resolve(dir, file.name);
     if (file.isDirectory()) {
       results = results.concat(await readDirectoryRecursive(filePath));
-    } else {
+    } else if (/^\.[m|c]?js$/.test(path.extname(filePath))) {
       results.push(filePath);
     }
   }

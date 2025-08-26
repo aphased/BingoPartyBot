@@ -6,7 +6,7 @@ import {
 
 export default {
   name: ["ban", "block"],
-  description: "Ban a player from joining the party",
+  description: "Kick and `/block add` a player to prevent them from rejoining.",
   usage: "!p ban <username> [reason]",
   permission: Permissions.Trusted,
 

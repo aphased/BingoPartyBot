@@ -2,7 +2,8 @@ import { Permissions, VerbosityLevel } from "../../../../utils/Interfaces.mjs";
 
 export default {
   name: ["say", "speak"],
-  description: "Send a message in party chat",
+  description:
+    "Send any message in party chat through the bot. Restricted due to allowing arbitrary messages.",
   usage: "!p say <message>",
   permission: Permissions.Staff,
   // Command allows arbitrary chat output!

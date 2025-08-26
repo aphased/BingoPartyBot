@@ -7,7 +7,7 @@ import {
 export default {
   name: ["setguide"],
   description:
-    "Sets/overwrites the current or a specific month's bingo guide link",
+    "Manually set this month's bingo guide link. Usage is discouraged, configure a discord guide channel in the bot config instead.",
   usage: "!p setguide <link> [MM/YYYY]",
   permission: Permissions.Admin,
 

@@ -2,7 +2,8 @@ import { Permissions, VerbosityLevel } from "../../../../utils/Interfaces.mjs";
 
 export default {
   name: ["rawpoll", "rpoll"],
-  description: "Initiate a party poll with custom options",
+  description:
+    "Start a custom poll in party chat. Restricted due to allowing arbitrary messages.",
   usage: "!p rawpoll <Question/Answer1/Answer2/Optional/Optional/Optional>",
   permission: Permissions.Staff,
   // Command allows arbitrary chat output!

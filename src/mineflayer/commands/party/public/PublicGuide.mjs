@@ -3,7 +3,7 @@ import { Permissions } from "../../../../utils/Interfaces.mjs";
 export default {
   name: ["!guide", "!gd"],
   description:
-    "Send this month's bingo guide link in party chat (public command)",
+    "Send a link to this month's bingo guide in party chat. (public command)",
   usage: "!guide",
   isPartyChatCommand: true,
 

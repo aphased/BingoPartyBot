@@ -7,7 +7,7 @@ import {
 export default {
   name: ["link"],
   description:
-    "Link your accounts by entering a discord code obtained from '/link'",
+    "Link your Discord and Minecraft accounts. See tips in the online documentation for more info.",
   usage: "!p link <discord code>",
   permission: Permissions.Trusted,
   disableCommand: DisableCommand.UsuallyKeepEnabled,

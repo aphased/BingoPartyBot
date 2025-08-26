@@ -6,7 +6,7 @@ const COOLDOWN_DURATION = 30_000;
 
 export default {
   name: ["guide", "gd", "g"],
-  description: "Send this month's bingo guide link in party chat",
+  description: "Send a link to this month's bingo guide in party chat.",
   usage: "!p guide",
   permission: Permissions.Trusted,
 
