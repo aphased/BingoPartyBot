@@ -4,6 +4,8 @@ import loadPartyCommands from "./handlers/PartyCommandHandler.mjs";
 import { SenderType, VerbosityLevel } from "../utils/Interfaces.mjs";
 import Utils from "../utils/Utils.mjs";
 
+export const MC_VERSION = "1.21.8";
+
 class Bot {
   constructor() {
     this.config = config.default;
@@ -14,7 +16,7 @@ class Bot {
     this.bot = mineflayer.createBot({
       host: "mc.hypixel.net",
       username: this.config.mineflayerInfo.email,
-      version: "1.20.1",
+      version: MC_VERSION,
       auth: this.config.mineflayerInfo.authType,
     });
 
