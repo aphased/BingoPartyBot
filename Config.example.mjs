@@ -35,6 +35,12 @@ export default {
   usernameRefreshInterval: 2 * 60 * 60 * 1000, // in milliseconds, default is 2h (2 * 60 * 60 * 1000ms)
   persistentDisabledCommands: true, // store disabled commands in `generalDatabase.json`, persistent across restarts
   enableDiscordDocsUpdate: true, // whether to automatically update the discord documentation channel on bot startup
+  bingoSchedule: {
+    enabled: false, // enable automatic Minecraft login/logout around Bingo event times
+    autoConnectBeforeMinutes: 5, // connect this many minutes before Bingo starts
+    autoDisconnectAfterMinutes: 10, // stay connected this many minutes after Bingo ends
+    pollIntervalMinutes: 5, // how often to refresh Bingo event times from the Hypixel API
+  },
   debug: {
     // IF YOU DONT KNOW WHAT YOU ARE DOING DO NOT TOUCH THIS. THIS IS MADE FOR DEVELOPERS TO DEBUG THE BOT ONLY
     general: true,

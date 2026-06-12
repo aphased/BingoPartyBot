@@ -1,5 +1,6 @@
 import mineflayer from "mineflayer";
 import * as config from "../../Config.mjs";
+import BingoSchedule from "./BingoSchedule.mjs";
 import loadPartyCommands from "./handlers/PartyCommandHandler.mjs";
 import { SenderType, VerbosityLevel } from "../utils/Interfaces.mjs";
 import Utils from "../utils/Utils.mjs";
@@ -15,6 +16,7 @@ class Bot {
     this.isReconnecting = false;
     this.intentionalDisconnect = false;
     this.reconnectTimeout = null;
+    this.bingoSchedule = new BingoSchedule({ logger: this });
   }
 
   log(message, type = "Info") {
@@ -179,7 +181,16 @@ class Bot {
     if (this.config.guideLink)
       this.utils.setMonthGuide({ link: this.config.guideLink });
     this.utils.webhookLogger.setWebhooks(this.config.webhooks);
-    this.connect({ immediate: true, reason: "Minecraft bot startup" });
+
+    if (this.config.bingoSchedule?.enabled) {
+      this.bingoSchedule.setBot(this);
+      this.bingoSchedule.configure(this.config.bingoSchedule);
+      if (this.bingoSchedule.isRunning()) this.bingoSchedule.manageConnection();
+      else this.bingoSchedule.start();
+    } else {
+      this.bingoSchedule.stop();
+      this.connect({ immediate: true, reason: "Bingo schedule disabled" });
+    }
   }
 
   /*
