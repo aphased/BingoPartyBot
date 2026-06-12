@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, Client } from "discord.js";
+import { ApplicationCommandOptionType } from "../../DiscordJs.mjs";
 
 export default {
   name: "example",

@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, Client, EmbedBuilder } from "discord.js";
+import { EmbedBuilder } from "../../DiscordJs.mjs";
 import myBot from "../../../mineflayer/Bot.mjs";
 
 export default {

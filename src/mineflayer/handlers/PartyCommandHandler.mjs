@@ -1,4 +1,4 @@
-import { Collection } from "discord.js";
+import { Collection } from "../../discord/DiscordJs.mjs";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath, pathToFileURL } from "url";
