@@ -36,7 +36,6 @@ export default async function loadDiscordCommands() {
     const files = await readDirectoryRecursive(commandsPath);
 
     const importPromises = files.map(async (file) => {
-      console.log("Found file:", file);
       const command = await import(
         pathToFileURL(file).href + `?cacheBust=${Date.now()}`
       );
