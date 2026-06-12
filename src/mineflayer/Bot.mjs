@@ -10,6 +10,19 @@ class Bot {
   constructor() {
     this.config = config.default;
     this.verbosityLevel = this.config.verbosityMc;
+    this.bot = null;
+    this.isConnecting = false;
+    this.isReconnecting = false;
+    this.intentionalDisconnect = false;
+    this.reconnectTimeout = null;
+  }
+
+  log(message, type = "Info") {
+    if (this.utils) this.utils.log(message, type);
+    else console.log(`[${type}] ${message}`);
+  }
+
+  createMineflayerBot() {
     /**
      * The Mineflayer bot on Hypixel.
      */
@@ -20,13 +33,16 @@ class Bot {
       auth: this.config.mineflayerInfo.authType,
     });
 
-    this.bot.once("login", this.onceLogin.bind(this));
+    this.attachListeners();
+  }
 
+  attachListeners() {
+    this.bot.once("login", this.onceLogin.bind(this));
     this.bot.addListener("kicked", this.onKicked.bind(this));
     this.bot.addListener("spawn", this.onSpawn.bind(this));
-    // this.bot.addListener("end", this.onEnd.bind(this));
-    // this.bot.addListener("chat", this.onChat.bind(this));
+    this.bot.addListener("end", this.onEnd.bind(this));
     this.bot.addListener("message", this.onMessage.bind(this));
+    this.bot.addListener("error", this.onError.bind(this));
   }
 
   /**
@@ -62,6 +78,13 @@ class Bot {
    * @param {Number} requiredVerbosity necessary verbosity setting to send message, defaults to `VerbosityLevel.Full`
    */
   chat(message, requiredVerbosity = VerbosityLevel.Full) {
+    if (!this.bot) {
+      this.log(
+        `Unable to send chat while Minecraft bot is disconnected: ${message}`,
+        "Warn",
+      );
+      return;
+    }
     if (
       this.verbosityLevel < requiredVerbosity &&
       ["/pc ", "/r ", "/msg ", "/w "].some((cmd) => message.startsWith(cmd))
@@ -152,9 +175,11 @@ class Bot {
 
   setConfig(config) {
     this.config = config;
+    this.verbosityLevel = this.config.verbosityMc;
     if (this.config.guideLink)
       this.utils.setMonthGuide({ link: this.config.guideLink });
     this.utils.webhookLogger.setWebhooks(this.config.webhooks);
+    this.connect({ immediate: true, reason: "Minecraft bot startup" });
   }
 
   /*
@@ -169,6 +194,7 @@ class Bot {
 */
 
   async onceLogin() {
+    this.isConnecting = false;
     const configModule = await import(
       `./events/OnceLogin.mjs?cacheBust=${Date.now()}`
     );
@@ -192,6 +218,115 @@ class Bot {
   async onSpawn() {
     await this.utils.delay(this.utils.minMsgDelay * 3);
     this.bot.chat("/locraw");
+  }
+
+  connect({ immediate = false, reason = "Connect requested" } = {}) {
+    if (this.isConnected() || this.isConnecting) return;
+    if (this.reconnectTimeout) {
+      clearTimeout(this.reconnectTimeout);
+      this.reconnectTimeout = null;
+    }
+
+    this.intentionalDisconnect = false;
+    if (immediate) {
+      this.log(reason, "Info");
+      this.reconnectNow();
+      return;
+    }
+
+    this.scheduleReconnect(reason);
+  }
+
+  disconnect(reason = "Disconnect requested") {
+    this.intentionalDisconnect = true;
+    this.cancelReconnect(reason);
+
+    if (!this.bot) return;
+    this.log(reason, "Info");
+    this.bot.quit(reason);
+  }
+
+  cancelReconnect(reason = "Reconnect cancelled") {
+    if (this.reconnectTimeout) {
+      clearTimeout(this.reconnectTimeout);
+      this.reconnectTimeout = null;
+      this.log(reason, "Info");
+    }
+    this.isReconnecting = false;
+  }
+
+  isConnected() {
+    if (!this.bot?._client) return false;
+    const socketState = this.bot._client.socket?.readyState;
+    if (!socketState) return false;
+    return socketState !== "closed" && socketState !== "closing";
+  }
+
+  scheduleReconnect(reason = "Reconnect requested") {
+    if (this.isReconnecting || this.intentionalDisconnect) return;
+    this.isReconnecting = true;
+
+    const delay = 35_000 + Math.random() * 10_000;
+    const delaySeconds = Math.round(delay / 1000);
+    this.log(`${reason}. Reconnecting in ${delaySeconds}s`, "Warn");
+
+    this.reconnectTimeout = setTimeout(() => {
+      this.reconnectTimeout = null;
+      this.reconnectNow();
+    }, delay);
+  }
+
+  reconnectNow() {
+    this.cleanupBot();
+    this.isConnecting = true;
+    this.isReconnecting = false;
+    this.createMineflayerBot();
+  }
+
+  cleanupBot() {
+    if (!this.bot) return;
+    this.bot.removeAllListeners();
+    this.bot._client?.removeAllListeners();
+    this.bot._client?.socket?.destroy();
+    this.bot = null;
+  }
+
+  onEnd(reason) {
+    this.isConnecting = false;
+    const message = reason?.toString?.() ?? "";
+
+    if (this.intentionalDisconnect) {
+      this.log(`Minecraft bot disconnected intentionally: ${message}`, "Info");
+      this.cleanupBot();
+      return;
+    }
+
+    this.cleanupBot();
+    if (this.isTransientDisconnect(message)) {
+      this.scheduleReconnect(
+        `Minecraft bot disconnected: ${message || "unknown reason"}`,
+      );
+      return;
+    }
+
+    this.log(`Minecraft bot ended: ${message || "unknown reason"}`, "Error");
+    process.exit(1);
+  }
+
+  onError(error) {
+    const message = error?.message ?? error?.toString?.() ?? "Unknown error";
+    this.log(`Minecraft bot error: ${message}`, "Error");
+  }
+
+  isTransientDisconnect(reason) {
+    const normalized = reason.toLowerCase();
+    return (
+      !reason ||
+      normalized.includes("econnreset") ||
+      normalized.includes("socket closed") ||
+      normalized.includes("timed out") ||
+      normalized.includes("timeout")
+    );
   }
 }
 
