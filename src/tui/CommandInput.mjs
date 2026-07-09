@@ -48,7 +48,7 @@ export default function CommandInput({
         return;
       }
 
-      if (!input || key.meta) return;
+      if (!input || key.meta || /[\r\n]/.test(input)) return;
       onChange?.(value + input);
     },
     { isActive: focus },

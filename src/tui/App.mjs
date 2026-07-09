@@ -23,7 +23,7 @@ const MODE_LABELS = Object.freeze({
 });
 
 const MODE_HINTS = Object.freeze({
-  "bot-command": "Command without prefix is accepted",
+  "bot-command": "Command is accepted without prefix (!p)",
   "minecraft-command": "Starts with /",
   "party-chat": "Sends /pc <text>",
   "system-action": "reconnect | disconnect | reload-commands | filter <name>",
@@ -156,16 +156,19 @@ export default function App({ runtime }) {
         return;
       }
 
+      if (input === "\n") {
+        setScrollOffset((current) => Math.max(0, current - 1));
+        return;
+      }
+
       if (input === "\u001b[Z") {
-        setModeIndex((current) =>
-          (current - 1 + OPERATOR_MODES.length) % OPERATOR_MODES.length,
-        );
+        return;
       }
     };
 
-    stdin.on("data", handleRawInput);
+    stdin.prependListener("data", handleRawInput);
     return () => {
-      stdin.off("data", handleRawInput);
+      stdin.removeListener("data", handleRawInput);
     };
   }, [stdin]);
 
@@ -335,7 +338,7 @@ export default function App({ runtime }) {
         { color: confirmExit ? "yellow" : "gray" },
         confirmExit
           ? "Press Ctrl+C again to quit, or Esc to cancel."
-          : "Tab/Shift+Tab mode  Left/Right or Ctrl+H/L filter  Scroll: Ctrl+K/P up, Ctrl+J/N down, Ctrl+U/D jump  Ctrl+C quit",
+          : "Cycle modes: Tab   Filter chats: Left/Right arrow keys or Ctrl+H/L\nScroll: Ctrl+K/P up, Ctrl+J/N down; Ctrl+U/D jump   Ctrl+C to quit",
       ),
     ),
   );

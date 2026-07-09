@@ -177,7 +177,7 @@ At this point, you may finally:
   Minecraft. It emits fake chat lines continuously so you can verify that the
   input box stays intact while typing.
 - See [docs/TUI.md](./docs/TUI.md) for a brief operator guide covering modes,
-  filters, scrolling, and the `System` + `filter ...` shortcut for jumping top
+  filters, scrolling, and the `System` + `filter …` shortcut for jumping top
   tabs directly.
 - Add something for (re)starting with more convenience and only needing to
 remember a single command to to your .{shell}rc config file, for example

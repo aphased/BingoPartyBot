@@ -23,6 +23,7 @@ process.once("SIGTERM", () => {
 if (uiMode === "tui") {
   const tui = renderTui(runtime);
   await tui.waitUntilExit();
+  await shutdownAndExit("TUI exited", 0);
 } else {
   process.stdin.on("data", async (data) => {
     await runtime.commands.submitLegacyConsoleInput(data.toString());
