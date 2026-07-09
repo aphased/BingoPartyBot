@@ -1,11 +1,30 @@
 import path from "path";
+import { fileURLToPath } from "url";
 import { VerbosityLevel, WebhookMessageType } from "./src/utils/Interfaces.mjs";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default {
   partyCommandPrefix: "!p",
   mineflayerInfo: {
     authType: "microsoft",
     email: "EMAIL OF ACCOUNT HERE",
+    prismTokenImport: {
+      // Optional. If empty, scripts check common Prism Launcher locations:
+      // macOS: ~/Library/Application Support/PrismLauncher/accounts.json
+      // Linux: $XDG_DATA_HOME/PrismLauncher/accounts.json, ~/.local/share/PrismLauncher/accounts.json, or the Flatpak data path
+      // Windows: %APPDATA%/PrismLauncher/accounts.json
+      accountsFile: "",
+      accountName: "MINECRAFT IGN OR UUID HERE",
+      cacheUsername: "EMAIL OF ACCOUNT HERE",
+    },
+    microsoftAuth: {
+      profilesFolder: path.join(__dirname, ".auth-cache"),
+      flow: "sisu",
+      authTitle: "00000000402b5328", // Minecraft Java client ID
+      deviceType: "Win32",
+      forceRefresh: false, // set true once if you need to discard cached tokens
+    },
   },
   webhooks: [
     {
@@ -25,7 +44,7 @@ export default {
     guideChannel: "", // ID for the channel which has bingo guide links
     commandDocumentationChannels: [], // array of documentation channel IDs
     discordDocsPathRelative: path.join(
-      import.meta.dirname,
+      __dirname,
       "./scripts/commandDocumentation/COMMANDS-DISCORD.md",
     ), // Local path where the bot should look for new discord documentation to post
   },

@@ -1,11 +1,20 @@
 import mineflayer from "mineflayer";
+import path from "path";
+import { fileURLToPath } from "url";
 import * as config from "../../Config.mjs";
 import BingoSchedule from "./BingoSchedule.mjs";
 import loadPartyCommands from "./handlers/PartyCommandHandler.mjs";
 import { SenderType, VerbosityLevel } from "../utils/Interfaces.mjs";
 import Utils from "../utils/Utils.mjs";
 
-export const MC_VERSION = "1.21.8";
+export const MC_VERSION = "1.21.11";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const DEFAULT_AUTH_CACHE_FOLDER = path.resolve(__dirname, "../../.auth-cache");
+const DEFAULT_MICROSOFT_AUTH_OPTIONS = {
+  flow: "sisu",
+  authTitle: "00000000402b5328",
+  deviceType: "Win32",
+};
 
 class Bot {
   constructor() {
@@ -30,21 +39,59 @@ class Bot {
      */
     this.bot = mineflayer.createBot({
       host: "mc.hypixel.net",
-      username: this.config.mineflayerInfo.email,
       version: MC_VERSION,
-      auth: this.config.mineflayerInfo.authType,
+      ...this.getAccountAuthOptions(),
     });
 
     this.attachListeners();
   }
 
+  getAccountAuthOptions() {
+    const options = {
+      username: this.config.mineflayerInfo.email,
+      auth: this.config.mineflayerInfo.authType,
+    };
+
+    if (this.config.mineflayerInfo.authType !== "microsoft") return options;
+
+    return {
+      ...options,
+      profilesFolder: DEFAULT_AUTH_CACHE_FOLDER,
+      ...DEFAULT_MICROSOFT_AUTH_OPTIONS,
+      ...this.config.mineflayerInfo.microsoftAuth,
+    };
+  }
+
   attachListeners() {
     this.bot.once("login", this.onceLogin.bind(this));
+    this.bot._client.once(
+      "success",
+      this.sendInitialConfigurationSettings.bind(this),
+    );
     this.bot.addListener("kicked", this.onKicked.bind(this));
     this.bot.addListener("spawn", this.onSpawn.bind(this));
     this.bot.addListener("end", this.onEnd.bind(this));
     this.bot.addListener("message", this.onMessage.bind(this));
     this.bot.addListener("error", this.onError.bind(this));
+  }
+
+  sendInitialConfigurationSettings() {
+    setTimeout(() => {
+      const client = this.bot?._client;
+      if (!client || client.state !== "configuration") return;
+
+      client.write("settings", {
+        locale: "en_US",
+        viewDistance: 12,
+        chatFlags: 0,
+        chatColors: true,
+        skinParts: 0x7f,
+        mainHand: 1,
+        enableTextFiltering: false,
+        enableServerListing: true,
+        particleStatus: "all",
+      });
+    }, 10);
   }
 
   /**
@@ -333,6 +380,7 @@ class Bot {
     const normalized = reason.toLowerCase();
     return (
       !reason ||
+      normalized.includes("socketclosed") ||
       normalized.includes("econnreset") ||
       normalized.includes("socket closed") ||
       normalized.includes("timed out") ||
