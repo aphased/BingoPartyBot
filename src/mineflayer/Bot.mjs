@@ -40,6 +40,8 @@ class Bot {
     this.bot = mineflayer.createBot({
       host: "mc.hypixel.net",
       version: MC_VERSION,
+      hideErrors: true,
+      logErrors: false,
       ...this.getAccountAuthOptions(),
     });
 
@@ -320,13 +322,13 @@ class Bot {
     return socketState !== "closed" && socketState !== "closing";
   }
 
-  scheduleReconnect(reason = "Reconnect requested") {
+  scheduleReconnect(reason = "Reconnect requested", logLevel = "Warn") {
     if (this.isReconnecting || this.intentionalDisconnect) return;
     this.isReconnecting = true;
 
     const delay = 35_000 + Math.random() * 10_000;
     const delaySeconds = Math.round(delay / 1000);
-    this.log(`${reason}. Reconnecting in ${delaySeconds}s`, "Warn");
+    this.log(`${reason}. Reconnecting in ${delaySeconds}s`, logLevel);
 
     this.reconnectTimeout = setTimeout(() => {
       this.reconnectTimeout = null;
@@ -363,6 +365,7 @@ class Bot {
     if (this.isTransientDisconnect(message)) {
       this.scheduleReconnect(
         `Minecraft bot disconnected: ${message || "unknown reason"}`,
+        this.shouldQuietlyReconnect(message) ? "Info" : "Warn",
       );
       return;
     }
@@ -386,6 +389,11 @@ class Bot {
       normalized.includes("timed out") ||
       normalized.includes("timeout")
     );
+  }
+
+  shouldQuietlyReconnect(reason) {
+    const normalized = reason.toLowerCase();
+    return !reason || normalized.includes("socketclosed");
   }
 }
 
