@@ -1,4 +1,4 @@
-import { Collection, REST, Routes } from "discord.js";
+import { Collection, REST, Routes } from "../DiscordJs.mjs";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath, pathToFileURL } from "url";
@@ -36,7 +36,6 @@ export default async function loadDiscordCommands() {
     const files = await readDirectoryRecursive(commandsPath);
 
     const importPromises = files.map(async (file) => {
-      console.log("Found file:", file);
       const command = await import(
         pathToFileURL(file).href + `?cacheBust=${Date.now()}`
       );
@@ -54,6 +53,11 @@ export default async function loadDiscordCommands() {
 }
 
 export async function registerCommands(client, token, commands) {
+  if (!REST || !Routes) {
+    await client.application.commands.set(commands);
+    return;
+  }
+
   const rest = new REST({ version: "10" }).setToken(token);
   try {
     await rest.put(Routes.applicationCommands(client.application.id), {

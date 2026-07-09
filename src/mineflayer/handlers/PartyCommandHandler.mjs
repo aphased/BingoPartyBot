@@ -1,4 +1,4 @@
-import { Collection } from "discord.js";
+import { Collection } from "../../discord/DiscordJs.mjs";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath, pathToFileURL } from "url";
@@ -58,7 +58,6 @@ export default async function loadPartyCommands() {
     const files = await readDirectoryRecursive(commandsPath);
 
     const importPromises = files.map(async (file) => {
-      console.log("Found file:", file);
       const command = await import(
         pathToFileURL(file).href + `?cacheBust=${Date.now()}`
       );

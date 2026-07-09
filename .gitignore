@@ -25,3 +25,5 @@ data/playerNamesOld*.json
 data/generalDatabase.json
 
 logs/
+
+.auth-cache/

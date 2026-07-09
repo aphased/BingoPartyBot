@@ -1,4 +1,3 @@
-import { ApplicationCommandOptionType, Client } from "discord.js";
 import { Permissions } from "../../../utils/Interfaces.mjs";
 
 export default {

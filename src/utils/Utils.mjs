@@ -7,7 +7,7 @@ import {
 } from "./Interfaces.mjs";
 import { createLogger, format, transports } from "winston";
 import JSONdb from "simple-json-db";
-import { Collection, WebhookClient } from "discord.js";
+import { Collection, WebhookClient } from "../discord/DiscordJs.mjs";
 
 class Utils {
   constructor(debug = false, allowList = [], kickList = [], rulesList = []) {

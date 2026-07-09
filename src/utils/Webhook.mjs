@@ -1,4 +1,4 @@
-import { WebhookClient } from "discord.js";
+import { WebhookClient } from "../discord/DiscordJs.mjs";
 
 export default class Webhook {
   constructor(url) {

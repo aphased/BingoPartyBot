@@ -29,6 +29,8 @@ online continuously.
   their permission level to the allowlist so they can execute party commands,
   all available using custom in-game commands
 - Auto-restart upon program crashes
+- Optional automatic Minecraft login/logout around the Hypixel SkyBlock Bingo
+  event window
 - Discord integration for:
   - Reading the party chat in channels, writing to it (WIP), and monitoring
     who joins/leaves/is kicked from the party or goes offline as well as slash
@@ -46,17 +48,13 @@ online continuously.
 
 Please see [`CONTRIBUTING.md`](./CONTRIBUTING.md).
 
-
 ## Roadmap
 
 The project is fairly feature-complete and (mostly) bug-free by now.
 I do want to add though, at minimum:
 
-- Fix re-launching on crash, i.e. de-coupling of node process running vs. the
-  Minecraft bot account being logged in on hypixel.net
 - Automated git commits & pushes for changes to the data
   (`playerNames.json`, `banned.json`)
-- Automated boot & shutdown on-server at Bingo event start & end dates
 - _Probably_ a ban system with Discord integration, or at the very minimum,
   time-based **temporary bans** with optionally given ban reasons (DONE) &
   expirations stored across relaunches.

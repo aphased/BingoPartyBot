@@ -1,5 +1,5 @@
 import fs from "fs/promises";
-import { Client, GatewayIntentBits } from "discord.js";
+import { Client, ClientReadyEvent, GatewayIntentBits } from "./DiscordJs.mjs";
 import Config from "../../Config.mjs";
 import loadDiscordCommands, {
   registerCommands,
@@ -14,12 +14,12 @@ class Discord {
           GatewayIntentBits.Guilds,
           GatewayIntentBits.GuildMessages,
           GatewayIntentBits.MessageContent,
-        ],
+        ].filter(Boolean),
       });
       this.bot.login(this.config.discordBotInfo.token);
       this.clientReady = this.clientReady.bind(this);
       this.interactionCreate = this.interactionCreate.bind(this);
-      this.bot.once("ready", this.clientReady);
+      this.bot.once(ClientReadyEvent, this.clientReady);
       this.bot.on("interactionCreate", this.interactionCreate);
       if (this.config?.discordBotInfo?.guideChannel) {
         setInterval(

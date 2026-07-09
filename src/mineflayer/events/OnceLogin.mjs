@@ -1,4 +1,5 @@
 import { Permissions, WebhookMessageType } from "../../utils/Interfaces.mjs";
+import { MC_VERSION } from "../Bot.mjs";
 
 export default {
   name: "Login Event",
@@ -9,7 +10,10 @@ export default {
    */
   execute: async function (bot) {
     bot.setUsername(bot.bot.username);
-    bot.utils.log("Logged in! `(" + bot.getUsername() + ")`", "Info");
+    bot.utils.log(
+      "Logged in! `(" + bot.getUsername() + ", " + MC_VERSION + ")`",
+      "Info",
+    );
     if (!bot.utils.playerNamesDatabase.get("data")) {
       bot.utils.log(
         "Player names database is empty! Generating default data...",
@@ -52,7 +56,7 @@ export default {
       bot.utils.log("Bot account permission updated", "Info");
     }
     bot.utils.webhookLogger.addMessage(
-      `Logged in! \`(${bot.getUsername()})\``,
+      `Logged in! \`(${bot.getUsername()}, ${MC_VERSION})\``,
       WebhookMessageType.ActionLog,
       true,
     );

@@ -2,7 +2,7 @@
 
 Thanks for wanting to improve the BingoParty bot! This document describes some
 important things you should know regarding the project setup and code.
-For a general introduction, go through the [Readme file](./README.md).  
+For a general introduction, go through the [Readme file](./README.md).
 
 **Please keep in mind that this file's contents are currently undergoing a
 rewrite** (and hopefully won't remain as unstructured).
@@ -10,6 +10,14 @@ At the current point in time, this document may feature potentially incorrect, a
 almost certainly incomplete info, too.
 
 ## Getting set up & related topics
+
+Recommended Minecraft versions on Hypixel move over time now, starting early 2026.
+This bot keeps the Mineflayer protocol version centralized in
+`src/mineflayer/Bot.mjs` as `MC_VERSION`; update that constant and verify
+Mineflayer support when Hypixel changes its accepted versions.
+So far, 1.8.9 still works outside of Skyblock
+(for example, while the bot is typically staying in `/limbo`),
+but it's not known for how much longer.
 
 ### Code & module structure
 
@@ -33,56 +41,58 @@ in-game via the console stdin
 `bingoBrewersRules.json`, and `autokickWords.json` (WIP on `banned.json`)
 - `manageData.mjs` to interact with said data (also partially WIP) -->
 
-- TODO: update this section with some explanations. For now, a handy overview
-list of files:
-
-<!-- (generated from !`tree -I node_modules` then auto-inserted in Helix) -->
+- TODO: update this section with some explanations.
+  For now, a "handy" overview list of files in this repo:
 
 ```tree
 .
 ├── CONTRIBUTING.md
 ├── Config.example.mjs
 ├── Config.mjs
+├── PLAN-temp.md
 ├── README.md
 ├── data
-│   ├── autoKickWords.json
-│   ├── backup-playerNames.json
-│   ├── banned.json
-│   ├── bingoBrewersRules.json
-│   ├── generalDatabase.json
-│   ├── playerNames.json
+│   ├── autoKickWords.json
+│   ├── backup-playerNames.json
+│   ├── banned.json
+│   ├── bingoBrewersRules.json
+│   ├── generalDatabase.json
+│   └── playerNames.json
 ├── index.mjs
-├── one-time-scripts
-│   ├── convert-data-util_old.mjs
-│   ├── exportCommandData.mjs
-│   └── updatedb-preferredAccount.mjs
 ├── package-lock.json
 ├── package.json
 ├── run-bot
+    (Main entry point if you want to run the bot in a loop on a Unix machine)
+├── scripts
+│   ├── commandDocumentation
+│   │   └── (Utility to automatically generate user-facing documentation)
+│   └── …
 └── src
     ├── discord
-    │   ├── Discord.mjs
-    │   ├── components
-    │   │   └── commands
-    │   │       └── (all Discord slash commands)
-│   │   └── handlers
-│   │       └── CommandHandler.mjs
+    │   ├── Discord.mjs
+    │   ├── DiscordJs.mjs
+    │   ├── components
+    │   │   └── commands
+    │   │       └── (all Discord slash commands)
+    │   └── handlers
+    │       └── CommandHandler.mjs
     ├── mineflayer
-    │   ├── Bot.mjs
-    │   ├── commands
-    │   │   ├── EXAMPLECOMMAND.mjs
-    │   │   ├── admin
-    │   │   │   └── (in-game commands for admin activities)
-    │   │   ├── misc
-    │   │   │   └── (in-game commands for users and their data)
-    │   │   └── party
-    │   │       └── (in-game commands mimicking Hypixel commands for parties)
-    │   ├── events
-    │   │   ├── MessageEvent.mjs
-    │   │   ├── OnKick.mjs
-    │   │   └── OnceLogin.mjs
-    │   └── handlers
-    │       └── PartyCommandHandler.mjs
+    │   ├── BingoSchedule.mjs
+    │   ├── Bot.mjs
+    │   ├── commands
+    │   │   ├── EXAMPLECOMMAND.mjs
+    │   │   ├── admin
+    │   │   │   └── (in-game commands for admin activities)
+    │   │   ├── misc
+    │   │   │   └── (in-game commands for users and their data)
+    │   │   └── party
+    │   │       └── (in-game commands mimicking Hypixel commands for parties)
+    │   ├── events
+    │   │   ├── MessageEvent.mjs
+    │   │   ├── OnKick.mjs
+    │   │   └── OnceLogin.mjs
+    │   └── handlers
+    │       └── PartyCommandHandler.mjs
     └── utils
         ├── Interfaces.mjs
         ├── Utils.mjs
@@ -99,7 +109,7 @@ on how to use.
 If you want to **run** this system yourself, or would like to experiment with
 the code, you can:
 
-- Install [NodeJS](https://nodejs.org/en/download/prebuilt-installer/current),
+- Install [Node.js](https://nodejs.org/en/download/prebuilt-installer/current),
   which is the runtime used for the bot
 - (optionally) Install the [Prettier](https://prettier.io/docs/en/install#set-up-your-editor)
   formatter if you're going to modify the code and plan on merging the changes
@@ -109,15 +119,19 @@ the code, you can:
 - Duplicate the file `Config.example.mjs` and rename it to `Config.mjs`. Then,
   fill out the values for your bot Minecraft account's Microsoft email, and
   optionally the values needed for Discord integration.
+- Optional: enable `bingoSchedule` in `Config.mjs` to have the Minecraft bot
+  connect shortly before the Hypixel SkyBlock Bingo event starts and disconnect
+  after the configured post-event grace period.
 
 Regarding the database:
+
 - On the first launch, the bot will promptly exit if it doesn't find the player
   allowlist file at `data/playerNames.json` populated, leaving a new/empty
   template file there for you to fill out with your potential main account's IGN
   as the bot owner.
 - Alternatively, copy the `data/backup-playerNames.json` list into the file and
   work with the "canonical" allowed player database right away, in which case
-  you *will* grant other people with permissions chat access to your designated
+  you _will_ grant other people with permissions chat access to your designated
   bot Minecraft account!
 
 <!-- TODO: make sure this is all covered somewhere in the above explanation, then delete -->
@@ -148,9 +162,10 @@ Regarding the database:
   ``` -->
 
 At this point, you may finally:
+
 - Run `./BingoPartyBot/run-bot` for Unix (Linux/macOS/…), on Windows you can
-execute the `run-bot.bat` file (which will however _not_ restart the bot upon crashes)
-– or just `node .`, which will also not restart on crash, but works everywhere
+  execute the `run-bot.bat` file (which will however _not_ restart the bot upon crashes)
+  – or just `node .`, which will also not restart on crash, but works everywhere
 - Add something for (re)starting with more convenience and only needing to
 remember a single command to to your .{shell}rc config file, for example
 using `screen`: `alias restartbpb="screen -d -RR bpb $HOME/BingoPartyBot/run-bot"`
@@ -161,14 +176,11 @@ using `screen`: `alias restartbpb="screen -d -RR bpb $HOME/BingoPartyBot/run-bot
     - While viewing running session, make it scrollable with `ctrl-A [`
     - View last session's output: `screen -r -d` -->
 
-
-
 ## Writing new functionality
 
 When adding new party commands, make sure to verify if it needs an entry in the [documentation](https://github.com/aphased/BingoPartyCommands).
 
 Rule of thumb: If it's using `!p`, it should be added to the documentation repo, especially so if all splashers can use it (but also new commands only for staff-and-up)
-
 
 ### Custom functions/use of aliases
 
@@ -178,9 +190,11 @@ Either way, for consistency, always **use the following abstractions** rather
 than directly going to their underlying implementations:
 
 - If a command has a response/status-like message to return:
+
   ```js
   bot.reply(sender, message);
   ```
+
   - (with the full `sender` object)
   - This does several things: reply to the correct person, not reply when the
     sender was using Discord (TODO) or the admin console to send the command
@@ -189,9 +203,11 @@ than directly going to their underlying implementations:
 
 - If you want to send a message to party chat about the commands action (like
   `Party mute was toggled by Name` for example), use `sender.preferredName`:
+
   ```js
   bot.chat(`/pc Party mute was toggled by ${sender.preferredName}.`);
   ```
+
   - This ensures the name that is preferred and/or chosen by users is actually
     taken when producing output which all party members can see.
   - A preferred name is one of the IGN from any of the existing account(s) on
@@ -199,12 +215,14 @@ than directly going to their underlying implementations:
 
 - If you want to access a command's functionality outside of just defining it in
   the `commands/` directory:
+
   ```js
   bot.utils.getCommandByAlias(bot, name).execute() …
   ```
 
 - If you want to issue multiple commands to Hypixel via Minecraft chat back to
   back:
+
   ```js
   await bot.utils.delay(bot.utils.minMsgDelay);
   bot.chat(`/someCommand`);
@@ -212,7 +230,6 @@ than directly going to their underlying implementations:
   await bot.utils.delay(bot.utils.minMsgDelay);
   bot.chat(`/p doSomething ${player}`);
   ```
+
   - This is necessary as Hypixel demands a pause/wait of at least certain time
     in between messages sent.
-  
-

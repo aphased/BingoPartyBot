@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, Client, Message } from "discord.js";
+import { ApplicationCommandOptionType } from "../../DiscordJs.mjs";
 import Utils, { utils } from "../../../utils/Utils.mjs";
 import myBot from "../../../mineflayer/Bot.mjs";
 
