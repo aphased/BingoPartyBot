@@ -16,6 +16,41 @@ test("normalizeKickReason handles protocol chat-component objects", () => {
   );
 });
 
+test("normalizeKickReason handles typed NBT-style reason objects", () => {
+  const normalized = normalizeKickReason({
+    type: "compound",
+    value: {
+      extra: {
+        type: "list",
+        value: {
+          type: "compound",
+          value: [
+            {
+              color: {
+                type: "string",
+                value: "red",
+              },
+              text: {
+                type: "string",
+                value: "Mojang's session servers are currently offline. Try again later.",
+              },
+            },
+          ],
+        },
+      },
+      text: {
+        type: "string",
+        value: "",
+      },
+    },
+  });
+
+  assert.equal(
+    normalized.text,
+    "Mojang's session servers are currently offline. Try again later.",
+  );
+});
+
 test("normalizeKickReason handles JSON strings and plain strings", () => {
   assert.equal(
     normalizeKickReason('{"extra":[{"text":"Disconnected"}]}').text,
@@ -23,6 +58,7 @@ test("normalizeKickReason handles JSON strings and plain strings", () => {
   );
   assert.equal(normalizeKickReason("Disconnected").text, "Disconnected");
 });
+
 
 test("OnKick logs without throwing for object reasons", async () => {
   const messages = [];

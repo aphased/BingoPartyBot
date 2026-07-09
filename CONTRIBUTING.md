@@ -170,6 +170,9 @@ At this point, you may finally:
   attached to a TTY. Use `node . --no-tui` or `BPB_TUI=0 node .` to force the
   legacy headless console mode, and `node . --tui` or `BPB_TUI=1 node .` to
   force the TUI.
+- Run `npm test` to execute the current Node test suite. This covers the TUI
+  runtime plumbing, operator command routing, console bridge behavior, kick
+  reason parsing, and a reconnect/spawn race regression.
 - Use `node scripts/tui-demo.mjs` to open the TUI without connecting to
   Minecraft. It emits fake chat lines continuously so you can verify that the
   input box stays intact while typing.

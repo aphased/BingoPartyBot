@@ -78,8 +78,11 @@ class Bot {
   }
 
   sendInitialConfigurationSettings() {
+    const bot = this.bot;
     setTimeout(() => {
-      const client = this.bot?._client;
+      if (!bot || this.bot !== bot) return;
+
+      const client = bot._client;
       if (!client || client.state !== "configuration") return;
 
       client.write("settings", {
@@ -299,8 +302,10 @@ class Bot {
   }
 
   async onSpawn() {
+    const bot = this.bot;
     await this.utils.delay(this.utils.minMsgDelay * 3);
-    this.bot.chat("/locraw");
+    if (!bot || this.bot !== bot) return;
+    bot.chat("/locraw");
   }
 
   connect({ immediate = false, reason = "Connect requested" } = {}) {

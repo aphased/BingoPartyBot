@@ -12,17 +12,30 @@ function safeSerializeReason(reason) {
 function extractChatText(node) {
   if (!node) return "";
   if (typeof node === "string") return node;
-  if (Array.isArray(node)) return node.map((entry) => extractChatText(entry)).join("");
+  if (Array.isArray(node))
+    return node.map((entry) => extractChatText(entry)).join("");
   if (typeof node !== "object") return String(node);
+
+  if ("type" in node && "value" in node) {
+    if (node.type === "string") return String(node.value ?? "");
+    return extractChatText(node.value);
+  }
 
   const textParts = [];
 
   if (typeof node.text === "string") textParts.push(node.text);
-  if (Array.isArray(node.extra)) textParts.push(extractChatText(node.extra));
+  else if (node.text) textParts.push(extractChatText(node.text));
+
+  if (node.extra) textParts.push(extractChatText(node.extra));
   if (Array.isArray(node.with) && !textParts.length)
     textParts.push(node.with.map((entry) => extractChatText(entry)).join(" "));
 
-  return textParts.join("").trim();
+  if (textParts.length) return textParts.join("").trim();
+
+  return Object.values(node)
+    .map((value) => extractChatText(value))
+    .join("")
+    .trim();
 }
 
 export function normalizeKickReason(reason) {
@@ -64,13 +77,9 @@ export default {
   execute: async function (bot, reason, loggedIn) {
     const normalizedReason = normalizeKickReason(reason);
     const duringLogin = loggedIn ? "" : "during login ";
-    const suffix =
-      normalizedReason.raw && normalizedReason.raw !== normalizedReason.text
-        ? ` (${normalizedReason.raw})`
-        : "";
 
     bot.utils.log(
-      `Kicked from server ${duringLogin}for reason: ${normalizedReason.text}${suffix}`,
+      `Kicked from server ${duringLogin}for reason: ${normalizedReason.text}`,
       "Error",
     );
     bot.utils.webhookLogger.addMessage(
