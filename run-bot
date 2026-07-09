@@ -29,12 +29,13 @@ main() {
     done
 }
 
-err() {
+die() {
     echo "[$(date +'%Y-%m-%d %H:%M:%S') ERR]: $*" >&2
+    exit 1
 }
 
-# adapt as needed if project isn't started or located in home/current directory
-cd BingoPartyBot || err "Bot directory not found"
+script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd) ||
+    die "Unable to resolve bot directory"
+cd "$script_dir" || die "Bot directory not found: $script_dir"
 
 main "$@"
-
