@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Box, Text, useApp, useInput, useWindowSize } from "ink";
-import TextInput from "ink-text-input";
-import { FILTER_PRESETS } from "../runtime/RuntimeEvents.mjs";
+import React, { useEffect, useRef, useState } from "react";
+import { Box, Text, useApp, useInput, useStdin, useWindowSize } from "ink";
 import { OPERATOR_MODES } from "../runtime/OperatorCommands.mjs";
+import CommandInput from "./CommandInput.mjs";
 
 const h = React.createElement;
 
@@ -55,6 +54,13 @@ function normalizeFilter(filter) {
   return FILTER_OPTIONS.includes(filter) ? filter : "all";
 }
 
+function cycleFilter(current, step) {
+  const index = FILTER_OPTIONS.indexOf(normalizeFilter(current));
+  return FILTER_OPTIONS[
+    (index + step + FILTER_OPTIONS.length) % FILTER_OPTIONS.length
+  ];
+}
+
 function renderBadge(text, { selected = false, color = "gray", key } = {}) {
   return h(
     Box,
@@ -88,6 +94,7 @@ function renderEventLine(event, showTimestamps) {
 
 export default function App({ runtime }) {
   const { exit } = useApp();
+  const { stdin } = useStdin();
   const { rows: terminalRows = 24 } = useWindowSize();
   const [snapshot, setSnapshot] = useState(runtime.getSnapshot());
   const [inputValue, setInputValue] = useState("");
@@ -96,6 +103,7 @@ export default function App({ runtime }) {
   const [scrollOffset, setScrollOffset] = useState(0);
   const [confirmExit, setConfirmExit] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const suppressNextBackspaceRef = useRef(false);
 
   const activeMode = OPERATOR_MODES[modeIndex] ?? OPERATOR_MODES[0];
   const normalizedFilter = normalizeFilter(filter);
@@ -133,6 +141,34 @@ export default function App({ runtime }) {
     };
   }, [runtime]);
 
+  useEffect(() => {
+    const handleRawInput = (chunk) => {
+      const input = Buffer.isBuffer(chunk) ? chunk.toString("utf8") : String(chunk);
+
+      if (input === "\u0008") {
+        suppressNextBackspaceRef.current = true;
+        setFilter((current) => cycleFilter(current, -1));
+        return;
+      }
+
+      if (input === "\u000c") {
+        setFilter((current) => cycleFilter(current, 1));
+        return;
+      }
+
+      if (input === "\u001b[Z") {
+        setModeIndex((current) =>
+          (current - 1 + OPERATOR_MODES.length) % OPERATOR_MODES.length,
+        );
+      }
+    };
+
+    stdin.on("data", handleRawInput);
+    return () => {
+      stdin.off("data", handleRawInput);
+    };
+  }, [stdin]);
+
   useInput((input, key) => {
     if (submitting) return;
 
@@ -155,14 +191,14 @@ export default function App({ runtime }) {
       return;
     }
 
-    if (key.ctrl && input === "p") {
+    if (key.ctrl && (input === "p" || input === "k")) {
       setScrollOffset((current) =>
         Math.min(filteredEvents.length, current + 1),
       );
       return;
     }
 
-    if (key.ctrl && input === "n") {
+    if (key.ctrl && (input === "n" || input === "j")) {
       setScrollOffset((current) => Math.max(0, current - 1));
       return;
     }
@@ -179,21 +215,13 @@ export default function App({ runtime }) {
       return;
     }
 
-    if (key.ctrl && key.leftArrow) {
-      setFilter((current) => {
-        const index = FILTER_OPTIONS.indexOf(current);
-        return FILTER_OPTIONS[
-          (index - 1 + FILTER_OPTIONS.length) % FILTER_OPTIONS.length
-        ];
-      });
+    if (key.leftArrow) {
+      setFilter((current) => cycleFilter(current, -1));
       return;
     }
 
-    if (key.ctrl && key.rightArrow) {
-      setFilter((current) => {
-        const index = FILTER_OPTIONS.indexOf(current);
-        return FILTER_OPTIONS[(index + 1) % FILTER_OPTIONS.length];
-      });
+    if (key.rightArrow) {
+      setFilter((current) => cycleFilter(current, 1));
     }
   });
 
@@ -287,8 +315,13 @@ export default function App({ runtime }) {
       Box,
       { marginTop: 1, borderStyle: "round", paddingX: 1 },
       h(Text, { color: "gray" }, `${MODE_HINTS[activeMode]}  `),
-      h(TextInput, {
+      h(CommandInput, {
         value: inputValue,
+        consumeSuppressedBackspace() {
+          if (!suppressNextBackspaceRef.current) return false;
+          suppressNextBackspaceRef.current = false;
+          return true;
+        },
         onChange: setInputValue,
         onSubmit: handleSubmit,
         placeholder: "Type command and press Enter",
@@ -302,7 +335,7 @@ export default function App({ runtime }) {
         { color: confirmExit ? "yellow" : "gray" },
         confirmExit
           ? "Press Ctrl+C again to quit, or Esc to cancel."
-          : "Tab mode  Ctrl+Left/Right filter  Ctrl+P/N scroll  Ctrl+U/D jump  Ctrl+C quit",
+          : "Tab/Shift+Tab mode  Left/Right or Ctrl+H/L filter  Scroll: Ctrl+K/P up, Ctrl+J/N down, Ctrl+U/D jump  Ctrl+C quit",
       ),
     ),
   );
