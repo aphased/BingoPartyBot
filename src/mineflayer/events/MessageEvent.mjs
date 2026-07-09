@@ -10,11 +10,10 @@ export default {
    * @param {import("../Bot.mjs").default} bot
    */
   execute: async function (message, bot) {
-    if (message.toString() === bot.utils.chatSeparator) return;
+    const messageText = message.toString();
+    if (messageText === bot.utils.chatSeparator) return;
     // Attempt to extract locraw's "server" entry from message and check for limbo
-    const locrawServer = message
-      .toString()
-      .match(/^{"server":"(\w+)"(,"\w+":"[\w ]+")*}$/)?.[1];
+    const locrawServer = messageText.match(/^{"server":"(\w+)"(,"\w+":"[\w ]+")*}$/)?.[1];
     if (locrawServer) {
       if (locrawServer !== "limbo" && !bot.config.debug.disableAutoLimbo) {
         bot.chat("/limbo");
@@ -23,18 +22,6 @@ export default {
     }
     let msgType = SenderType.Minecraft;
     let discordReplyId;
-    if (bot.config.showMcChat) {
-      console.log(message.toAnsi());
-      bot.utils.webhookLogger.addMessage(
-        message.toAnsi(undefined, bot.utils.discordAnsiCodes),
-        bot.utils.classifyMessage(message.toString()),
-      );
-    }
-    const partyInvite = bot.utils.findValidPartyInvite(message);
-    if (partyInvite && !bot.utils.getCommandByAlias(bot, "invite").disabled) {
-      await bot.utils.delay(bot.utils.minMsgDelay);
-      bot.chat(`/p accept ${partyInvite}`);
-    }
     if (message.self === true) {
       msgType = SenderType.Console;
       if (message.isDiscord) {
@@ -42,17 +29,43 @@ export default {
         discordReplyId = message.discordReplyId;
       }
     }
-    const command = message.toString().split(": ").slice(1).join(": ");
+    if (bot.config.showMcChat) {
+      const source =
+        msgType === SenderType.Discord
+          ? "discord"
+          : msgType === SenderType.Console
+            ? "operator"
+            : "minecraft";
+      bot.utils.emitRuntimeEvent({
+        source,
+        kind: "chat",
+        level: "info",
+        text: messageText,
+        ansiText: message.toAnsi?.(),
+        metadata: {
+          direction: msgType === SenderType.Minecraft ? "inbound" : "outbound",
+          discordReplyId,
+        },
+      });
+      bot.utils.webhookLogger.addMessage(
+        message.toAnsi(undefined, bot.utils.discordAnsiCodes),
+        bot.utils.classifyMessage(messageText),
+      );
+    }
+    const partyInvite = bot.utils.findValidPartyInvite(message);
+    if (partyInvite && !bot.utils.getCommandByAlias(bot, "invite").disabled) {
+      await bot.utils.delay(bot.utils.minMsgDelay);
+      bot.chat(`/p accept ${partyInvite}`);
+    }
+    const command = messageText.split(": ").slice(1).join(": ");
     const args = command.split(" ");
     let commandFound;
-    if (RegExp(/^From /g).test(message.toString())) {
+    if (RegExp(/^From /g).test(messageText)) {
       if (
         command.toLowerCase().startsWith("boop!") &&
         !bot.utils.getCommandByAlias(bot, "invite").disabled
       )
-        return bot.chat(
-          `/p invite ${Utils.extractUsername(message.toString())}`,
-        );
+        return bot.chat(`/p invite ${Utils.extractUsername(messageText)}`);
 
       if (args.length < 2) return;
       if (
@@ -70,11 +83,11 @@ export default {
             key.includes(args[1].toLowerCase()) && !value.customPrefix,
         );
       }
-    } else if (RegExp(/^Party > /g).test(message.toString())) {
+    } else if (RegExp(/^Party > /g).test(messageText)) {
       // Check if the message is blacklisted and kick if so
       let kickList = await bot.utils.getKickList();
       if (kickList.some((e) => args[0].startsWith(e))) {
-        return bot.chat(`/p kick ${Utils.extractUsername(message.toString())}`);
+        return bot.chat(`/p kick ${Utils.extractUsername(messageText)}`);
       }
       commandFound = bot.partyCommands.find(
         (value, key) =>
@@ -85,10 +98,10 @@ export default {
       const command = commandFound;
       const commandName = args[1];
       const commandArgs = args.slice(2);
-      let sender = Utils.extractUsername(message.toString());
+      let sender = Utils.extractUsername(messageText);
       if (msgType === SenderType.Minecraft) {
         // Get Hypixel rank from the message
-        const rank = Utils.extractHypixelRank(message.toString());
+        const rank = Utils.extractHypixelRank(messageText);
         // Update the sender account's hypixel rank if necessary (will fail safely if user is not in db)
         if (bot.utils.getHypixelRank({ name: sender }) !== rank)
           bot.utils.setHypixelRank({

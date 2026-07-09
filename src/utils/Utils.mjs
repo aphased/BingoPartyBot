@@ -6,6 +6,7 @@ import {
   WebhookMessageType,
 } from "./Interfaces.mjs";
 import { createLogger, format, transports } from "winston";
+import Transport from "winston-transport";
 import JSONdb from "simple-json-db";
 import { Collection, WebhookClient } from "../discord/DiscordJs.mjs";
 
@@ -24,9 +25,10 @@ class Utils {
       "-----------------------------------------------------";
     this.minMsgDelay = 550;
     (async () => {
-      setInterval(() => {
+      const interval = setInterval(() => {
         this.sendWebhookMessages();
       }, 5000);
+      interval.unref?.();
     })();
   }
 
@@ -42,6 +44,14 @@ class Utils {
   setGeneralDatabase(database) {
     /** @type {JSONdb}  */
     this.generalDatabase = database;
+  }
+
+  setRuntimeEvents(runtimeEvents) {
+    this.runtimeEvents = runtimeEvents;
+  }
+
+  emitRuntimeEvent(event) {
+    return this.runtimeEvents?.emit(event);
   }
 
   /**
@@ -73,7 +83,7 @@ class Utils {
   }
 
   refreshRulesList() {
-    setInterval(async () => {
+    const interval = setInterval(async () => {
       try {
         const configModule = await import(
           `../../data/bingoBrewersRules.json?cacheBust=${Date.now()}`,
@@ -82,11 +92,14 @@ class Utils {
           }
         );
         this.rulesList = configModule.default; // Access the default export of the JSON module
-        // DEBUG: console.log("Allowlist updated:", allowlist);
       } catch (error) {
-        console.error("Error updating allowlist:", error);
+        this.log(
+          `Error updating rules list: ${error?.stack ?? error?.message ?? error}`,
+          "Error",
+        );
       }
     }, 10000);
+    interval.unref?.();
   }
 
   async getKickList() {
@@ -101,7 +114,7 @@ class Utils {
   }
 
   refreshKickList() {
-    setInterval(async () => {
+    const interval = setInterval(async () => {
       try {
         const configModule = await import(
           `../../data/autoKickWords.json?cacheBust=${Date.now()}`,
@@ -111,9 +124,13 @@ class Utils {
         );
         this.kickList = configModule.default.autoKickWords; // Access the default export of the JSON module
       } catch (error) {
-        console.error("Error updating kickList:", error);
+        this.log(
+          `Error updating kick list: ${error?.stack ?? error?.message ?? error}`,
+          "Error",
+        );
       }
     }, 10000);
+    interval.unref?.();
   }
 
   /**
@@ -787,16 +804,54 @@ class Utils {
   }
 }
 
+class RuntimeEventTransport extends Transport {
+  constructor({ runtimeEvents }) {
+    super();
+    this.runtimeEvents = runtimeEvents;
+  }
+
+  log(info, callback) {
+    setImmediate(() => this.emit("logged", info));
+    this.runtimeEvents?.emit({
+      source: "system",
+      kind:
+        info.level === "error"
+          ? "error"
+          : info.level === "debug"
+            ? "debug"
+            : "status",
+      level: info.level,
+      text: info.stack ?? info.message,
+      metadata: {
+        origin: "winston",
+      },
+    });
+    callback();
+  }
+}
+
+function createConsoleTransport() {
+  return new transports.Console({
+    format: format.combine(format.colorize(), format.simple()),
+    stderrLevels: ["error"],
+  });
+}
+
 const logger = createLogger({
   level: "debug",
-  format: format.combine(format.timestamp(), format.json()),
-  transports: [
-    new transports.Console({
-      format: format.combine(format.colorize(), format.simple()),
-      stderrLevels: ["error"],
-    }),
-  ],
+  format: format.combine(format.errors({ stack: true })),
+  transports: [createConsoleTransport()],
 });
+
+function configureRuntimeLogger({ runtimeEvents = null } = {}) {
+  logger.configure({
+    level: "debug",
+    format: format.combine(format.errors({ stack: true })),
+    transports: runtimeEvents
+      ? [new RuntimeEventTransport({ runtimeEvents })]
+      : [createConsoleTransport()],
+  });
+}
 
 class Debug {
   constructor(debug = false) {
@@ -1117,3 +1172,4 @@ let utils = new Utils(
 );
 
 export { utils };
+export { configureRuntimeLogger };

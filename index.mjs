@@ -1,76 +1,31 @@
 "use strict";
-import dotenv from "dotenv";
-dotenv.config();
 
-import Utils, { utils } from "./src/utils/Utils.mjs";
-import * as config from "./Config.mjs";
-import JSONdb from "simple-json-db";
-import path from "path";
-import { fileURLToPath } from "url";
+import createRuntime from "./src/runtime/createRuntime.mjs";
+import resolveUiMode from "./src/runtime/resolveUiMode.mjs";
+import renderTui from "./src/tui/renderTui.mjs";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-/** @type {JSONdb} */
-const playerNamesDatabase = new JSONdb(
-  path.resolve(__dirname, "./data/playerNames.json"),
-);
-/** @type {JSONdb} */
-const generalDatabase = new JSONdb(
-  path.resolve(__dirname, "./data/generalDatabase.json"),
-);
-utils.setPlayerNameDatabase(playerNamesDatabase);
-utils.setGeneralDatabase(generalDatabase);
-utils.setDebug(config.default.debug.general);
+const uiMode = resolveUiMode();
+const runtime = await createRuntime({ uiMode });
 
-let myBot;
-if (config.default.debug.disableMinecraft) {
-  console.log("Minecraft bot disabled");
+async function shutdownAndExit(reason = "Shutdown requested", code = 0) {
+  await runtime.shutdown(reason);
+  process.exit(code);
+}
+
+process.once("SIGINT", () => {
+  void shutdownAndExit("Received SIGINT", 0);
+});
+
+process.once("SIGTERM", () => {
+  void shutdownAndExit("Received SIGTERM", 0);
+});
+
+if (uiMode === "tui") {
+  const tui = renderTui(runtime);
+  await tui.waitUntilExit();
 } else {
-  myBot = await import("./src/mineflayer/Bot.mjs");
-  myBot = myBot.default;
-  myBot.setUtilClass(utils);
-  await myBot.loadCommands();
-  myBot.setConfig(config.default);
-}
-
-let discordBot;
-if (config.default.debug.disableDiscord) {
-  console.log("Discord bot disabled");
-} else {
-  discordBot = await import("./src/discord/Discord.mjs");
-  discordBot = discordBot.default;
-  discordBot.setUtils(utils);
-  discordBot.setConfig(config.default);
-}
-refreshConfig();
-
-// Used to refresh allowList every 10 seconds
-function refreshConfig() {
-  setInterval(async () => {
-    try {
-      const configModule = await import(`./Config.mjs?cacheBust=${Date.now()}`);
-      // config = configModule.default; // Access the default export of the JSON module
-      if (!config.default.debug.disableMinecraft)
-        myBot.setConfig(configModule.default);
-      if (!config.default.debug.disableDiscord)
-        discordBot.setConfig(configModule.default);
-      // DEBUG: console.log("Allowlist updated:", allowlist);
-    } catch (error) {
-      console.error("Error updating allowlist:", error);
-    }
-  }, 10000);
-}
-
-process.stdin.on("data", dataInput);
-
-function dataInput(data) {
-  data = data.toString().trim();
-  if (data.startsWith("/")) myBot.chat(data);
-  else if (data.startsWith(myBot.config.partyCommandPrefix))
-    myBot.onMessage(
-      new Utils.CustomMessage(
-        `[35mFrom [31m[CONSOLE] ${myBot.getUsername()}[37m: ${data}[0m`,
-      ),
-    );
-  else if (data.startsWith("!dc")) return; // Add Discord bot stuff
+  process.stdin.on("data", async (data) => {
+    await runtime.commands.submitLegacyConsoleInput(data.toString());
+  });
+  process.stdin.resume();
 }
