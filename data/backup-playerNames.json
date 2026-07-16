@@ -1293,11 +1293,11 @@
         {
             "accounts": [
                 {
-                    "name": "7lattoWatt",
+                    "name": "Skin5e",
                     "uuid": "e39e400d4f82486fa6894b53c5f0f7ba"
                 },
                 {
-                    "name": "7modh5",
+                    "name": "skin5",
                     "uuid": "833101ee44e44b22851f5d3f35ed4a94"
                 }
             ],
@@ -1355,7 +1355,7 @@
         {
             "accounts": [
                 {
-                    "name": "Bliixx",
+                    "name": "Bliihh",
                     "uuid": "c8cac309a2374ae884ef34eb85e66d8c",
                     "hypixelRank": "[MVP+]"
                 }
@@ -1506,10 +1506,12 @@
             "accounts": [
                 {
                     "name": "voidlingkitty",
-                    "uuid": "420a9ad77e7d4718886cf85a4a822f29"
+                    "uuid": "420a9ad77e7d4718886cf85a4a822f29",
+                    "hypixelRank": "[MVP+]"
                 }
             ],
-            "permissionRank": 2
+            "permissionRank": 2,
+            "preferredAccount": "420a9ad77e7d4718886cf85a4a822f29"
         },
         {
             "accounts": [
