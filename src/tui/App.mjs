@@ -122,9 +122,6 @@ export default function App({ runtime }) {
     const unsubscribe = runtime.events.subscribe(() => {
       setSnapshot(runtime.getSnapshot());
     });
-    const interval = setInterval(() => {
-      setSnapshot(runtime.getSnapshot());
-    }, 1000);
     runtime.commands.setActionHandlers({
       setFilter(nextFilter) {
         if (!FILTER_OPTIONS.includes(nextFilter)) return false;
@@ -133,7 +130,6 @@ export default function App({ runtime }) {
       },
     });
     return () => {
-      clearInterval(interval);
       unsubscribe();
       runtime.commands.setActionHandlers({
         setFilter: undefined,

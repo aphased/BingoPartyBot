@@ -5,5 +5,6 @@ import App from "./App.mjs";
 export default function renderTui(runtime) {
   return render(React.createElement(App, { runtime }), {
     exitOnCtrlC: false,
+    incrementalRendering: true,
   });
 }
