@@ -166,6 +166,19 @@ At this point, you may finally:
 - Run `./BingoPartyBot/run-bot` for Unix (Linux/macOS/…), on Windows you can
   execute the `run-bot.bat` file (which will however _not_ restart the bot upon crashes)
   – or just `node .`, which will also not restart on crash, but works everywhere
+- `node .` now starts the Ink TUI automatically when both stdin and stdout are
+  attached to a TTY. Use `node . --no-tui` or `BPB_TUI=0 node .` to force the
+  legacy headless console mode, and `node . --tui` or `BPB_TUI=1 node .` to
+  force the TUI.
+- Run `npm test` to execute the current Node test suite. This covers the TUI
+  runtime plumbing, operator command routing, console bridge behavior, kick
+  reason parsing, and a reconnect/spawn race regression.
+- Use `node scripts/tui-demo.mjs` to open the TUI without connecting to
+  Minecraft. It emits fake chat lines continuously so you can verify that the
+  input box stays intact while typing.
+- See [docs/TUI.md](./docs/TUI.md) for a brief operator guide covering modes,
+  filters, scrolling, and the `System` + `filter …` shortcut for jumping top
+  tabs directly.
 - Add something for (re)starting with more convenience and only needing to
 remember a single command to to your .{shell}rc config file, for example
 using `screen`: `alias restartbpb="screen -d -RR bpb $HOME/BingoPartyBot/run-bot"`

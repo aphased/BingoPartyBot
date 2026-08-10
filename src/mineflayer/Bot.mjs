@@ -78,8 +78,11 @@ class Bot {
   }
 
   sendInitialConfigurationSettings() {
+    const bot = this.bot;
     setTimeout(() => {
-      const client = this.bot?._client;
+      if (!bot || this.bot !== bot) return;
+
+      const client = bot._client;
       if (!client || client.state !== "configuration") return;
 
       client.write("settings", {
@@ -148,6 +151,16 @@ class Bot {
     // message.
     message = message.substring(0, 255);
     this.bot.chat(message);
+    this.utils?.emitRuntimeEvent({
+      source: "minecraft",
+      kind: "command",
+      level: "info",
+      text: message,
+      metadata: {
+        direction: "outbound",
+        transport: "minecraft-chat",
+      },
+    });
   }
 
   /**
@@ -177,8 +190,16 @@ class Bot {
    * @param {Number} requiredVerbosity necessary verbosity setting to send message (only applies to minecraft replies)
    */
   reply(sender, message, requiredVerbosity) {
-    if (this.utils.debug)
-      console.log(`Replying to ${sender.username} with message: ${message}`);
+    if (this.utils?.debug?.debug)
+      this.utils.emitRuntimeEvent({
+        source: "system",
+        kind: "debug",
+        level: "debug",
+        text: `Replying to ${sender.username} with message: ${message}`,
+        metadata: {
+          sender,
+        },
+      });
     // alternative (currently unused):
     // this.chat(`w ${recipient} ${this.utils.addRandomString(message)}`);
     if (sender.type === SenderType.Minecraft)
@@ -222,6 +243,11 @@ class Bot {
    */
   setUtilClass(util) {
     this.utils = util;
+  }
+
+  setRuntimeEvents(runtimeEvents) {
+    this.runtimeEvents = runtimeEvents;
+    this.bingoSchedule.logger = this;
   }
 
   setConfig(config) {
@@ -276,8 +302,10 @@ class Bot {
   }
 
   async onSpawn() {
+    const bot = this.bot;
     await this.utils.delay(this.utils.minMsgDelay * 3);
-    this.bot.chat("/locraw");
+    if (!bot || this.bot !== bot) return;
+    bot.chat("/locraw");
   }
 
   connect({ immediate = false, reason = "Connect requested" } = {}) {
@@ -394,6 +422,17 @@ class Bot {
   shouldQuietlyReconnect(reason) {
     const normalized = reason.toLowerCase();
     return !reason || normalized.includes("socketclosed");
+  }
+
+  getStatusSnapshot() {
+    return {
+      enabled: !this.config?.debug?.disableMinecraft,
+      connected: this.isConnected(),
+      connecting: this.isConnecting,
+      reconnecting: this.isReconnecting,
+      username: this.getUsername(),
+      verbosityLevel: this.verbosityLevel,
+    };
   }
 }
 

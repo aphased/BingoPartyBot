@@ -8,6 +8,8 @@ import loadDiscordCommands, {
 class Discord {
   constructor() {
     this.config = Config;
+    this.disabled = false;
+    this.ready = false;
     if (this.config.discordBotInfo.token) {
       this.bot = new Client({
         intents: [
@@ -22,14 +24,22 @@ class Discord {
       this.bot.once(ClientReadyEvent, this.clientReady);
       this.bot.on("interactionCreate", this.interactionCreate);
       if (this.config?.discordBotInfo?.guideChannel) {
-        setInterval(
+        const interval = setInterval(
           () => this.checkBingoMessage(this.config.discordBotInfo.guideChannel),
           10000,
         );
+        interval.unref?.();
       }
     } else {
-      this.disabled = true; // Disable the bot if no token is provided (idk whe n this will be needed but why not)
+      this.disabled = true;
     }
+  }
+
+  log(message, type = "Info") {
+    if (this.utils?.log) this.utils.log(message, type);
+    else if (type === "Error") console.error(message);
+    else if (type === "Warn") console.warn(message);
+    else console.log(message);
   }
 
   /**
@@ -46,7 +56,8 @@ class Discord {
   }
 
   async clientReady(bot) {
-    console.log(`Discord bot ready! Logged in as ${bot.user.tag}`);
+    this.ready = true;
+    this.log(`Discord bot ready! Logged in as ${bot.user.tag}`, "Info");
     this.commands = await loadDiscordCommands();
     await registerCommands(bot, Config.discordBotInfo.token, this.commands);
     if (this.config.enableDiscordDocsUpdate)
@@ -83,7 +94,7 @@ class Discord {
     try {
       await command.execute(this, interaction);
     } catch (error) {
-      console.error(error);
+      this.log(error?.stack ?? error?.message ?? error, "Error");
       await interaction.reply({
         content: "There was an error while executing this command!",
         ephemeral: true,
@@ -127,17 +138,19 @@ class Discord {
     try {
       newDocs = (await fs.readFile(newDocsPath, "utf-8")).trim();
     } catch (err) {
-      console.warn(
+      this.log(
         `\`${channelId}\`: Unable to load discord documentation file from specified path.`,
+        "Warn",
       );
-      console.log(err);
+      this.log(err?.stack ?? err?.message ?? err, "Error");
       return 3;
     }
     let messages = await channel.messages.fetch({ limit: 10 });
     // warn about high number of messages
     if (messages.size === 10) {
-      console.warn(
+      this.log(
         `\`${channelId}\`: Discord documentation channel contains >=10 messages, make sure it is the correct channel!`,
+        "Warn",
       );
       return 4;
     }
@@ -148,8 +161,9 @@ class Discord {
       .join("\n");
     // no update needed
     if (currentMessagesContent === newDocs) {
-      console.log(
+      this.log(
         `\`${channelId}\`: Discord documentation is already up-to-date.`,
+        "Info",
       );
       return -1;
     }
@@ -157,10 +171,24 @@ class Discord {
     // split into multiple messages if necessary, preferrably splitting at new line
     const messageChunks = this.utils.splitMessage(newDocs, 2000, "\n");
     for (const chunk of messageChunks) await channel.send(chunk);
-    console.log(
+    this.log(
       `\`${channelId}\`: Successfully updated discord documentation.`,
+      "Info",
     );
     return 0;
+  }
+
+  getStatusSnapshot() {
+    return {
+      enabled: !this.disabled,
+      ready: this.ready,
+      disabled: this.disabled,
+    };
+  }
+
+  async shutdown() {
+    if (this.bot) await this.bot.destroy();
+    this.ready = false;
   }
 }
 const discordBot = new Discord();

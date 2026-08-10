@@ -50,6 +50,11 @@ export default {
   },
   guideLink: "", // I advise you to keep this empty, and just use discord commands to set the guide link or the guide channel.
   showMcChat: true,
+  tui: {
+    enabled: "auto",
+    scrollback: 1000,
+    showTimestamps: true,
+  },
   verbosityMc: VerbosityLevel.Full, // verbosity level for minecraft chat messages
   usernameRefreshInterval: 2 * 60 * 60 * 1000, // in milliseconds, default is 2h (2 * 60 * 60 * 1000ms)
   persistentDisabledCommands: true, // store disabled commands in `generalDatabase.json`, persistent across restarts
